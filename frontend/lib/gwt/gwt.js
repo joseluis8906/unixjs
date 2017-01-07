@@ -2341,6 +2341,11 @@ Gwt.Gui.Image.prototype.SetImage = function (Image)
     this.GetHtml ().src = Image;
 }
 
+Gwt.Gui.Image.prototype.GetSrc = function ()
+{
+    return this.GetHtml ().src;
+}
+
 Gwt.Gui.Image.prototype.SetRounded = function ()
 {
     this.SetBorderRadius (this.GetWidth () / 2);
@@ -2400,6 +2405,15 @@ Gwt.Gui.Avatar.prototype.SetImage = function (Image)
 Gwt.Gui.Avatar.prototype.ChangeImageEvent = function (Callback)
 {
     this.Image.AddEvent (Gwt.Gui.Event.Window.Load, Callback);
+}
+
+Gwt.Gui.Avatar.prototype.GetDefault = function ()
+{
+    if (this.Image.GetSrc().search ("appbar.camera.switch.svg") !== -1)
+    {
+        return true;
+    }
+    return false;
 }
 //Ends Gwt::Gui::Avatar
 //##################################################################################################

@@ -52,5 +52,14 @@ Gwt.Gui.Avatar.prototype.ChangeImageEvent = function (Callback)
 {
     this.Image.AddEvent (Gwt.Gui.Event.Window.Load, Callback);
 }
+
+Gwt.Gui.Avatar.prototype.GetDefault = function ()
+{
+    if (this.Image.GetSrc().search ("appbar.camera.switch.svg") !== -1)
+    {
+        return true;
+    }
+    return false;
+}
 //Ends Gwt::Gui::Avatar
 //##################################################################################################

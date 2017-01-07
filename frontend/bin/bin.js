@@ -387,9 +387,12 @@ gusers.prototype.Eliminar = function ()
 
 gusers.prototype.ShowCroppie = function ()
 {
-    this.croppie.SetImage (this.avatar.Image.GetHtml().src);
-    this.Add (this.croppie);
-    this.croppie.Show ();
+    if (!this.avatar.GetDefault())
+    {
+        this.croppie.SetImage (this.avatar.Image.GetHtml().src);
+        this.Add (this.croppie);
+        this.croppie.Show ();
+    }
 }
 
 return new function ()

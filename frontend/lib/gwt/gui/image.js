@@ -31,6 +31,11 @@ Gwt.Gui.Image.prototype.SetImage = function (Image)
     this.GetHtml ().src = Image;
 }
 
+Gwt.Gui.Image.prototype.GetSrc = function ()
+{
+    return this.GetHtml ().src;
+}
+
 Gwt.Gui.Image.prototype.SetRounded = function ()
 {
     this.SetBorderRadius (this.GetWidth () / 2);
