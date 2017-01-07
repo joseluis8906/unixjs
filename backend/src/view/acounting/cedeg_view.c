@@ -55,16 +55,16 @@ int accounting_cedeg_view_pdf (struct http_request *req)
     HPDF_SetInfoAttr (pdf, HPDF_INFO_TITLE, "0532");
     HPDF_SetCompressionMode (pdf, HPDF_COMP_ALL);
     
-    comic_regular = HPDF_LoadTTFontFromFile (pdf, "./unix/usr/share/fonts/comic.ttf", HPDF_TRUE);
-    comic_bold = HPDF_LoadTTFontFromFile (pdf, "./unix/usr/share/fonts/comicbd.ttf", HPDF_TRUE);
-    calibri = HPDF_LoadTTFontFromFile (pdf, "./unix/usr/share/calibri.ttf", HPDF_TRUE);
-    calibri_bold = HPDF_LoadTTFontFromFile (pdf, "./unix/usr/share/fonts/calibribd.ttf", HPDF_TRUE);
-    times_bold = HPDF_LoadTTFontFromFile (pdf, "./unix/usr/share/fonts/timesbd.ttf", HPDF_TRUE);
+    comic_regular = HPDF_LoadTTFontFromFile (pdf, "../share/fonts/comic.ttf", HPDF_TRUE);
+    comic_bold = HPDF_LoadTTFontFromFile (pdf, "../share/fonts/comicbd.ttf", HPDF_TRUE);
+    calibri = HPDF_LoadTTFontFromFile (pdf, "../share/calibri.ttf", HPDF_TRUE);
+    calibri_bold = HPDF_LoadTTFontFromFile (pdf, "../share/fonts/calibribd.ttf", HPDF_TRUE);
+    times_bold = HPDF_LoadTTFontFromFile (pdf, "../share/fonts/timesbd.ttf", HPDF_TRUE);
 
     page = HPDF_AddPage (pdf);
     HPDF_Page_SetSize (page, HPDF_PAGE_SIZE_LETTER, HPDF_PAGE_PORTRAIT);
     
-    logo = HPDF_LoadPngImageFromFile (pdf, "./unix/usr/share/images/logoCdi.png");
+    logo = HPDF_LoadPngImageFromFile (pdf, "../share/images/logoCdi.png");
     HPDF_Page_DrawImage (page, logo, mm_to_px (6.0f), mm_to_px (height - 39.9f), mm_to_px (33.9), mm_to_px (33.9));
     
     font = HPDF_GetFont (pdf, calibri, "UTF-8");

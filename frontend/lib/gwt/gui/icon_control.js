@@ -24,7 +24,7 @@ Gwt.Gui.IconControl.prototype.InitIconControl = function (Icon, Control)
 {
     this.SetClassName ("Gwt_Gui_Icon_Control");
     
-    this.Icon = new Gwt.Gui.Image(Icon || Gwt.Core.Contrib.Frontend+Gwt.Core.Contrib.Images+"appbar.notification.star.svg");
+    this.Icon = new Gwt.Gui.Image(Icon || Gwt.Core.Contrib.Images+"appbar.notification.star.svg");
     this.Icon.SetSize(22, 22);
     this.Icon.SetDisplay (Gwt.Gui.Contrib.Display.InlineBlock);
     this.Icon.SetMarginRight (5);

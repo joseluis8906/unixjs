@@ -84,7 +84,7 @@ int upload_file (struct http_request *req)
     char *videos_ext[] = {"mpeg", "vob", "3gp", "mov", "mp4", "webm", "flv", "mkv", "avi", "ogm"};
     size_t length_videos_ext = sizeof (videos_ext) / sizeof (videos_ext[0]);
     
-    strcpy (path, "./unix/usr/share/"); 
+    strcpy (path, "../share/"); 
 	
     for (i = 0; i < length_documents_ext; i++)
     {
