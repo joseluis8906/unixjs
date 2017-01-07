@@ -2386,6 +2386,7 @@ Gwt.Gui.Croppie.prototype.InitCroppie = function ()
     this.SetBackgroundColor (new Gwt.Gui.Contrib.Color (50, 50, 50, 0.9));
     this.SetPositionType (Gwt.Gui.Contrib.PositionType.Absolute);
     this.SetPosition (0, 0);
+    this.Disable ();
     
     this.Image = Image;
             
