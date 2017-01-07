@@ -70,6 +70,8 @@ Gwt.Gui.Croppie.prototype.Upload = function ()
     this.Vanilla.result('blob').then(function(blob) {
         console.log (blob);
     });
+    
+    this.SetDisplay (Gwt.Gui.Contrib.Display.None);
 }
 //Ends Gwt::Gui::Croppie
 //##################################################################################################
