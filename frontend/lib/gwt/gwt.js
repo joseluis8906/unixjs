@@ -3951,7 +3951,8 @@ Gwt.Gui.Croppie.prototype.InitCroppie = function (Image)
     
     this.Image = Image;
     
-    this.Vanilla = new Croppie (this.GetHtml()); 
+    this.Vanilla = new Croppie (this.GetHtml());
+    console.log (this.Vanilla);
             
     this.Vanilla.options.viewport.width = this.GetWidth()/2;
     this.Vanilla.options.viewport.height = this.GetWidth()/2;
