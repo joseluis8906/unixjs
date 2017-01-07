@@ -1829,12 +1829,13 @@ Gwt.Gui.File.prototype.FinalizeFile = function ()
 
 Gwt.Gui.File.prototype.InitFile = function ()
 {
+    this.Input = new Gwt.Gui.Frame();
+    
     this.SetSize (24, 24);
     this.SetClassName ("Gwt_Gui_File");
     this.SetBackgroundImage (Gwt.Core.Contrib.Images+"appbar.paperclip.rotated.svg");
     this.SetBackgroundSize (24, 24);
     
-    this.Input = new Gwt.Gui.Frame();
     this.Input.SetHtml ("input");
     this.Input.Html.setAttribute ("type", "file");
     this.Input.Html.removeAttribute ("multiple");
