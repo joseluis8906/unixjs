@@ -2245,7 +2245,7 @@ Gwt.Gui.Avatar.prototype.FinalizeAvatar = function ()
 Gwt.Gui.Avatar.prototype.InitAvatar = function (Image)
 {
     this.SetClassName ("Gwt_Gui_Avatar");
-    this.SetImage (Image || Gwt.Core.Contrib.Frontend+Gwt.Core.Contrib.Images+"appbar.camera.switch.svg");
+    this.SetImage (Image || Gwt.Core.Contrib.Images+"appbar.camera.switch.svg");
     this.SetSize (96, 96);
     this.SetRounded ();
 }
