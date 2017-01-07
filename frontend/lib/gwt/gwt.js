@@ -1840,6 +1840,7 @@ Gwt.Gui.File.prototype.InitFile = function ()
     this.Input.Html.setAttribute ("type", "file");
     this.Input.Html.removeAttribute ("multiple");
     this.Input.SetOpacity (0);
+    this.Input.SetZIndex (1000);
     this.Add (this.Input);
 	
     this.Input.AddEvent (Gwt.Gui.Event.Form.Change, this.UpdateInfo.bind (this));
