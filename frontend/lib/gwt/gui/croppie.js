@@ -32,22 +32,16 @@ Gwt.Gui.Croppie.prototype.InitCroppie = function (Image)
     
     this.Image = Image;
     
-    this.Vanilla = new Croppie (
-        
-        this.GetHtml(), 
-        
-        {
-            viewport: { width: this.GetWidth()/2, height: this.GetWidth()/2},
-            boundary: { width: this.GetWidth(), height: (this.GetHeight() - 86)},
-            showZoomer: true,
-            enableOrientation: false
-        }
-    );
+    this.Vanilla = new Croppie (this.GetHtml()); 
+            
+    this.Vanilla.options.viewport.width = this.GetWidth()/2;
+    this.Vanilla.options.viewport.height = this.GetWidth()/2;
+    this.Vanilla.options.boundary.width = this.GetWidth();
+    this.Vanilla.options.boundary.height = (this.GetHeight() - 86);
+    this.Vanilla.options.showZoomer = true;
+    this.Vanilla.options.enableOrientation = false;
     
-    this.Vanilla.bind({
-        url: this.Image,
-        //orientation: 4
-    });
+    this.Vanilla.bind({url: this.Image});
     
     this.BtnFinish = new Gwt.Gui.Button(Gwt.Core.Contrib.Images + "appbar.cabinet.out.svg", "Subir");
     this.BtnFinish.SetWidth (72);
@@ -60,6 +54,7 @@ Gwt.Gui.Croppie.prototype.InitCroppie = function (Image)
 Gwt.Gui.Croppie.prototype.SetImage = function (Image)
 {
     this.Image = Image;
+    this.Vanilla.bind({url: this.Image});
 }
 
 Gwt.Gui.Croppie.prototype.SetSize = function (Width, Height)
@@ -81,8 +76,8 @@ Gwt.Gui.Croppie.prototype.SetWidth = function (Width)
     this.SetMinWidth (this.Width);
     this.GetHtml ().style.width = this.Width+"px";
     
-    this.Vanilla.boundary.width = this.GetWidth ();
-    this.Vanilla.viewport.width = this.GetWidth()/2;
+    this.Vanilla.options.boundary.width = this.GetWidth ();
+    this.Vanilla.options.viewport.width = this.GetWidth()/2;
 }
 
 Gwt.Gui.Croppie.prototype.SetHeight = function (Height)
@@ -92,8 +87,8 @@ Gwt.Gui.Croppie.prototype.SetHeight = function (Height)
     this.SetMinHeight (this.Height);
     this.GetHtml ().style.height = this.Height+"px";
     
-    this.Vanilla.boundary.height = this.GetHeight ();
-    this.Vanilla.viewport.height = this.GetWidth()/2;
+    this.Vanilla.options.boundary.height = (this.GetHeight() - 86);
+    this.Vanilla.options.viewport.height = this.GetWidth()/2;
 }
 
 Gwt.Gui.Croppie.prototype.Upload = function ()
