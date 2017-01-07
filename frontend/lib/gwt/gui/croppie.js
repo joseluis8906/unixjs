@@ -6,7 +6,7 @@ Gwt.Gui.Croppie = function ()
     this.Vanilla = null;
     this.BtnFinish = null;
     this.Image = null;
-    this.InitCroppie (Image);
+    this.InitCroppie ();
 }
 
 Gwt.Gui.Croppie.prototype = new Gwt.Gui.Frame ();
@@ -41,7 +41,6 @@ Gwt.Gui.Croppie.prototype.InitCroppie = function ()
     this.Vanilla.options.boundary.height = (this.GetHeight() - 86);
     this.Vanilla.options.showZoomer = true;
     this.Vanilla.options.enableOrientation = false;
-    this.Vanilla.bind({url: this.Image});
     
     this.BtnFinish.SetWidth (72);
     this.BtnFinish.SetMarginLeft (12);
