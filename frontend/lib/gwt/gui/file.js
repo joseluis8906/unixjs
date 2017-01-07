@@ -46,7 +46,7 @@ Gwt.Gui.File.prototype.InitFile = function ()
     this.SetWidth (24);
     this.SetHeight (24);
     this.SetClassName ("Gwt_Gui_File");
-    this.SetBackgroundImage (Gwt.Core.Contrib.Frontend+Gwt.Core.Contrib.Images+"appbar.paperclip.rotated.svg");
+    this.SetBackgroundImage (Gwt.Core.Contrib.Images+"appbar.paperclip.rotated.svg");
     this.SetBackgroundSize (24, 24);
     this.Add (this.Input);
 	
