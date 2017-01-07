@@ -41,12 +41,13 @@ Gwt.Gui.File.prototype.InitFile = function ()
     this.SetClassName ("Gwt_Gui_File");
     this.SetBackgroundImage (Gwt.Core.Contrib.Images+"appbar.paperclip.rotated.svg");
     this.SetBackgroundSize (this.GetWidth(), this.GetHeight());
+    this.SetZIndex (1000);
     
     this.Input.SetHtml ("input");
     this.Input.Html.setAttribute ("type", "file");
     this.Input.Html.removeAttribute ("multiple");
     this.Input.SetOpacity (0);
-    this.Input.SetZIndex (1000);
+    this.Input.SetZIndex (1001);
     this.Add (this.Input);
 	
     this.Input.AddEvent (Gwt.Gui.Event.Form.Change, this.UpdateInfo.bind (this));
