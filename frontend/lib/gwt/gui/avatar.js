@@ -30,7 +30,7 @@ Gwt.Gui.Avatar.prototype.InitAvatar = function (Image)
     this.SetSize (96, 96);
     this.SetRounded ();
     
-    this.Image.SetImage (Image || Gwt.Core.Contrib.Images+"appbar.camera.switch.svg");
+    this.Image = new Gwt.Gui.Image (Gwt.Core.Contrib.Images+"appbar.camera.switch.svg")
     this.Image.SetSize (96, 96);
     this.Add (this.Image);
     
