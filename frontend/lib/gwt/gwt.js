@@ -2360,6 +2360,7 @@ Gwt.Gui.Avatar = function (Image)
     
     this.Image = null;
     this.File = null;
+    this.Editor = null;
     
     this.InitAvatar (Image);
 }
@@ -2370,10 +2371,12 @@ Gwt.Gui.Avatar.prototype.constructor = Gwt.Gui.Avatar;
 Gwt.Gui.Avatar.prototype.FinalizeAvatar = function ()
 {  
     this.Image.FinalizeImage ();
-    this.File.FinalizeFle ();
+    this.File.FinalizeFile ();
+    this.Editor.FinalizeCroppie ()
     
     this.Image = null;
     this.File = null;
+    this.Editor = null;
     
     this.FinalizeFrame ();
 }
@@ -2395,6 +2398,9 @@ Gwt.Gui.Avatar.prototype.InitAvatar = function ()
     this.Image = new Gwt.Gui.Image (Gwt.Core.Contrib.Images+"appbar.camera.switch.svg")
     this.Image.SetSize (96, 96);
     this.Add (this.Image);
+    this.Image.AddEvent (Gwt.Gui.Event.Window.Load, this.ChangedImage.bind(this));
+    
+    this.Editor =  new Gwt.Gui.Croppie ();
 }
 
 Gwt.Gui.Avatar.prototype.SetImage = function (Image)
@@ -2402,18 +2408,23 @@ Gwt.Gui.Avatar.prototype.SetImage = function (Image)
     this.Image.SetImage (Image);
 }
 
-Gwt.Gui.Avatar.prototype.ChangeImageEvent = function (Callback)
-{
-    this.Image.AddEvent (Gwt.Gui.Event.Window.Load, Callback);
-}
-
-Gwt.Gui.Avatar.prototype.GetDefault = function ()
+Gwt.Gui.Avatar.prototype.ChangedImage = function ()
 {
     if (this.Image.GetSrc().search ("appbar.camera.switch.svg") !== -1)
     {
-        return true;
+        this.croppie.SetImage (this.avatar.Image.GetHtml().src);
+        this.croppie.Enable ();
     }
-    return false;
+}   
+        
+Gwt.Gui.Avatar.prototype.SetSizeEditor = function (Width, Height)
+{
+    this.Editor.SetSize (Width, Height);
+}
+
+Gwt.Gui.Avatar.prototype.GetEditor = function ()
+{
+    return this.Editor;
 }
 //Ends Gwt::Gui::Avatar
 //##################################################################################################
@@ -3925,7 +3936,7 @@ Gwt.Gui.Croppie.prototype.FinalizeCroppie = function ()
     this.Vanilla = null;
     this.Image = null;
     
-    this.BtnFinish.Finalize;
+    this.BtnFinish.FinalizeButton();
     this.BtnFinish = null;
     
     this.FinalizeFrame ();
@@ -3940,19 +3951,6 @@ Gwt.Gui.Croppie.prototype.InitCroppie = function (Image)
     
     this.Image = Image;
     
-    this.BtnFinish = new Gwt.Gui.Button(Gwt.Core.Contrib.Images + "appbar.cabinet.out.svg", "Subir");
-    this.BtnFinish.SetWidth (72);
-    this.BtnFinish.SetMarginLeft (12);
-    this.BtnFinish.AddEvent (Gwt.Gui.Event.Mouse.Click, this.Upload.bind(this));
-}
-
-Gwt.Gui.Croppie.prototype.SetImage = function (Image)
-{
-    this.Image = Image;
-}
-
-Gwt.Gui.Croppie.prototype.Show = function ()
-{
     this.Vanilla = new Croppie (
         
         this.GetHtml(), 
@@ -3970,7 +3968,51 @@ Gwt.Gui.Croppie.prototype.Show = function ()
         //orientation: 4
     });
     
+    this.BtnFinish = new Gwt.Gui.Button(Gwt.Core.Contrib.Images + "appbar.cabinet.out.svg", "Subir");
+    this.BtnFinish.SetWidth (72);
+    this.BtnFinish.SetMarginLeft (12);
+    this.BtnFinish.AddEvent (Gwt.Gui.Event.Mouse.Click, this.Upload.bind(this));
+    
     this.Add (this.BtnFinish);
+}
+
+Gwt.Gui.Croppie.prototype.SetImage = function (Image)
+{
+    this.Image = Image;
+}
+
+Gwt.Gui.File.prototype.SetSize = function (Width, Height)
+{
+    this.SetWidth(Width);
+    this.SetHeight(Height);
+    
+    this.Vanilla.boundary.width = this.GetWidth ();
+    this.Vanilla.boundary.height = this.GetHeight ();
+    
+    this.Vanilla.viewport.width = this.GetWidth()/2;
+    this.Vanilla.viewport.height = this.GetWidth()/2;
+}
+
+Gwt.Gui.File.prototype.SetWidth = function (Width)
+{
+    this.Width = Width;
+    this.SetMaxWidth (this.Width);
+    this.SetMinWidth (this.Width);
+    this.GetHtml ().style.width = this.Width+"px";
+    
+    this.Vanilla.boundary.width = this.GetWidth ();
+    this.Vanilla.viewport.width = this.GetWidth()/2;
+}
+
+Gwt.Gui.File.prototype.SetHeight = function (Height)
+{
+    this.Height = Height;
+    this.SetMaxHeight (this.Height);
+    this.SetMinHeight (this.Height);
+    this.GetHtml ().style.height = this.Height+"px";
+    
+    this.Vanilla.boundary.height = this.GetHeight ();
+    this.Vanilla.viewport.height = this.GetWidth()/2;
 }
 
 Gwt.Gui.Croppie.prototype.Upload = function ()
@@ -3979,6 +4021,16 @@ Gwt.Gui.Croppie.prototype.Upload = function ()
         console.log (blob);
     });
     
+    this.Disable();
+}
+
+Gwt.Gui.Croppie.prototype.Enable = function ()
+{
+    this.SetDisplay (Gwt.Gui.Contrib.Display.Block);
+}
+
+Gwt.Gui.Croppie.prototype.Disable = function ()
+{
     this.SetDisplay (Gwt.Gui.Contrib.Display.None);
 }
 //Ends Gwt::Gui::Croppie

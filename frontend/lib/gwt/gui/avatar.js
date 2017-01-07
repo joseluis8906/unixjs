@@ -6,6 +6,7 @@ Gwt.Gui.Avatar = function (Image)
     
     this.Image = null;
     this.File = null;
+    this.Editor = null;
     
     this.InitAvatar (Image);
 }
@@ -16,10 +17,12 @@ Gwt.Gui.Avatar.prototype.constructor = Gwt.Gui.Avatar;
 Gwt.Gui.Avatar.prototype.FinalizeAvatar = function ()
 {  
     this.Image.FinalizeImage ();
-    this.File.FinalizeFle ();
+    this.File.FinalizeFile ();
+    this.Editor.FinalizeCroppie ()
     
     this.Image = null;
     this.File = null;
+    this.Editor = null;
     
     this.FinalizeFrame ();
 }
@@ -41,6 +44,9 @@ Gwt.Gui.Avatar.prototype.InitAvatar = function ()
     this.Image = new Gwt.Gui.Image (Gwt.Core.Contrib.Images+"appbar.camera.switch.svg")
     this.Image.SetSize (96, 96);
     this.Add (this.Image);
+    this.Image.AddEvent (Gwt.Gui.Event.Window.Load, this.ChangedImage.bind(this));
+    
+    this.Editor =  new Gwt.Gui.Croppie ();
 }
 
 Gwt.Gui.Avatar.prototype.SetImage = function (Image)
@@ -48,18 +54,23 @@ Gwt.Gui.Avatar.prototype.SetImage = function (Image)
     this.Image.SetImage (Image);
 }
 
-Gwt.Gui.Avatar.prototype.ChangeImageEvent = function (Callback)
-{
-    this.Image.AddEvent (Gwt.Gui.Event.Window.Load, Callback);
-}
-
-Gwt.Gui.Avatar.prototype.GetDefault = function ()
+Gwt.Gui.Avatar.prototype.ChangedImage = function ()
 {
     if (this.Image.GetSrc().search ("appbar.camera.switch.svg") !== -1)
     {
-        return true;
+        this.croppie.SetImage (this.avatar.Image.GetHtml().src);
+        this.croppie.Enable ();
     }
-    return false;
+}   
+        
+Gwt.Gui.Avatar.prototype.SetSizeEditor = function (Width, Height)
+{
+    this.Editor.SetSize (Width, Height);
+}
+
+Gwt.Gui.Avatar.prototype.GetEditor = function ()
+{
+    return this.Editor;
 }
 //Ends Gwt::Gui::Avatar
 //##################################################################################################

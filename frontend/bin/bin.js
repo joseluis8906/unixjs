@@ -302,8 +302,7 @@ function gusers ()
     this.SetBorderSpacing (12);
 	
     this.avatar = new Gwt.Gui.Avatar ();
-    this.croppie = new Gwt.Gui.Croppie ();
-    this.croppie.SetSize (this.GetWidth(), this.GetHeight()-32);
+    this.avatar.SetSizeEditor (this.GetWidth(), this.GetHeight()-32);
     this.title = new Gwt.Gui.StaticText ("Datos:");
     this.doc_type = new Gwt.Gui.IconSelectBox (Gwt.Core.Contrib.Images+"appbar.notification.star.svg", "Tipo de Documento", [{"text": "Tarjeta de Identidad", "value": "T.I"}, {"text": "Cédula de Ciudadanía", "value": "C.C"}, {"text": "Registro Civil", "value": "R.C"}, {"text": "Cédula Extranjera", "value": "C.E"}, {"text": "Pasaporte", "value": "PS"}, {"text": "Libreta Militar", "value": "L.M"}]);
     this.doc_num = new Gwt.Gui.IconEntry(Gwt.Core.Contrib.Images+"appbar.notification.svg", "Número de Documento");
@@ -323,7 +322,7 @@ function gusers ()
     this.layout.Add (this.email);
     this.layout.Add (this.address);
     
-    this.avatar.ChangeImageEvent(this.ShowCroppie.bind(this));
+    this.Add (this.Avatar.GetEditor ());
 }
 
 gusers.prototype = new Gwt.Gui.Window ();
@@ -383,16 +382,6 @@ gusers.prototype.Actualizar = function ()
 gusers.prototype.Eliminar = function ()
 {
     console.log ("Eliminar");
-}
-
-gusers.prototype.ShowCroppie = function ()
-{
-    if (!this.avatar.GetDefault())
-    {
-        this.croppie.SetImage (this.avatar.Image.GetHtml().src);
-        this.Add (this.croppie);
-        this.croppie.Show ();
-    }
 }
 
 return new function ()
