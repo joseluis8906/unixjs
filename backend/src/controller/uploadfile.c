@@ -119,7 +119,7 @@ int upload_file (struct http_request *req)
             if (strstr (file->filename, strcat (ext, pictures_ext[i])) != NULL)
             {
                 type = pictures_ext [i];
-                subpath = "pictures/";
+                subpath = "images/";
                 break;
             }
             strcpy(ext, ".");

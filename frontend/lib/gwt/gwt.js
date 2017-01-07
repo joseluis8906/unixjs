@@ -141,114 +141,124 @@ AUTO_VALUE: "auto"
 
 Gwt.Gui.Event =
 {
-	Window :
-	{
-		//window events
-		AfterPrint: "afterprint",
-		BeforePrint: "beforeprint",
-		BeforeUnload: "beforeunload",
-		Error: "error",
-		HashChange: "hashchange",
-		Load: "load",
-		Message: "message",
-		Offline: "offline",
-		Online: "online",
-		PageHide: "pagehide",
-		PageShow: "pageshow",
-		PopState: "popstate",
-		Resize: "resize",
-		Storage: "storage",
-		Unload: "unload",
-	},
+    Window :
+    {
+        //window events
+        AfterPrint: "afterprint",
+        BeforePrint: "beforeprint",
+        BeforeUnload: "beforeunload",
+        Error: "error",
+        HashChange: "hashchange",
+        Load: "load",
+        Message: "message",
+        Offline: "offline",
+        Online: "online",
+        PageHide: "pagehide",
+        PageShow: "pageshow",
+        PopState: "popstate",
+        Resize: "resize",
+        Storage: "storage",
+        Unload: "unload"
+    },
 	
-	Form:
-	{
-		//form events
-		Blur: "blur",
-		Change: "change",
-		ContextMenu: "contextmenu",
-		Focus: "focus",
-		Input: "input",
-		Invalid: "invalid",
-		Reset: "reset",
-		Search: "search",
-		Select: "select",
-		Submit: "submit",
-	},
+    Form:
+    {
+        //form events
+        Blur: "blur",
+        Change: "change",
+        ContextMenu: "contextmenu",
+        Focus: "focus",
+        Input: "input",
+        Invalid: "invalid",
+        Reset: "reset",
+        Search: "search",
+        Select: "select",
+        Submit: "submit"
+    },
 	
-	Mouse:
-	{
-		//mouse events
-		Click: "click",
-		DBClick: "dbclick",
-		Drag: "drag",
-		DragEnd: "dragend",
-		DragEnter: "dragenter",
-		DragLeave: "dragleave",
-		DragOver: "dragover",
-		DragStart: "dragstart",
-		Drop: "drop",
-		MouseDown: "mousedown",
-		MouseMove: "mousemove",
-		MouseOut: "mouseout",
-		MouseOver: "mouseover",
-		MouseUp: "mouseup",
-		Scroll: "scroll",
-		Wheel: "wheel",
-	},
+    Mouse:
+    {
+        //mouse events
+        Click: "click",
+        DBClick: "dbclick",
+        Drag: "drag",
+        DragEnd: "dragend",
+        DragEnter: "dragenter",
+        DragLeave: "dragleave",
+        DragOver: "dragover",
+        DragStart: "dragstart",
+        Drop: "drop",
+        MouseDown: "mousedown",
+        MouseMove: "mousemove",
+        MouseOut: "mouseout",
+        MouseOver: "mouseover",
+        MouseUp: "mouseup",
+        Scroll: "scroll",
+        Wheel: "wheel"
+    },
 	
-	Keyboard:
-	{
-		//keyboard events
-		KeyUp: "keyup",
-		KeyPress: "keypress",
-		KeyDown: "keydown",
-		KeyCodes: {Enter: 13, Ctrl: 17, Alt: 18, AtlGr: 225, Shift: 16, Up: 38, Down: 40, Left: 37, Right: 39, Tap: 9, Insert: 45, Home: 36, Del: 46, End: 35, Repag: 33, Avpag: 34, Meta: 91},
-	},
+    Keyboard:
+    {
+        //keyboard events
+        KeyUp: "keyup",
+        KeyPress: "keypress",
+        KeyDown: "keydown",
+        KeyCodes: {Enter: 13, Ctrl: 17, Alt: 18, AtlGr: 225, Shift: 16, Up: 38, Down: 40, Left: 37, Right: 39, Tap: 9, Insert: 45, Home: 36, Del: 46, End: 35, Repag: 33, Avpag: 34, Meta: 91}
+    },
 	
-	Clipboard:
-	{
-		//clipboard events
-		Copy: "copy",
-		Cut: "cut",
-		Paste: "paste",
-	},
+    Clipboard:
+    {
+        //clipboard events
+        Copy: "copy",
+        Cut: "cut",
+        Paste: "paste"
+    },
 	
-	Media:
-	{
-		//media events
-		Abort: "abort",
-		CanPlay: "canplay",
-		CanPlayThtough: "canplaythrough",
-		CueChange: "cuechange",
-		DurationChange: "durationchange",
-		Emptied: "emptied",
-		Ended: "ended",
-		Error: "error",
-		LoadedData: "loadeddata",
-		LoadedMetadata: "loadedmetadata",
-		LoadStart: "loadstart",
-		Pause: "pause",
-		Play: "play",
-		Playing: "playing",
-		Progress: "progress",
-		RateChange: "ratechange",
-		Seeked: "seeked",
-		Seeking: "seeking",
-		Stalled: "stalled",
-		Suspend: "suspend",
-		TimeUpdate: "timeupdate",
-		VolumeChange: "volumechange",
-		Waiting: "waiting",
-	},
+    Media:
+    {
+        //media events
+        Abort: "abort",
+        CanPlay: "canplay",
+        CanPlayThtough: "canplaythrough",
+        CueChange: "cuechange",
+        DurationChange: "durationchange",
+        Emptied: "emptied",
+        Ended: "ended",
+        Error: "error",
+        LoadedData: "loadeddata",
+        LoadedMetadata: "loadedmetadata",
+        LoadStart: "loadstart",
+        Pause: "pause",
+        Play: "play",
+        Playing: "playing",
+        Progress: "progress",
+        RateChange: "ratechange",
+        Seeked: "seeked",
+        Seeking: "seeking",
+        Stalled: "stalled",
+        Suspend: "suspend",
+        TimeUpdate: "timeupdate",
+        VolumeChange: "volumechange",
+        Waiting: "waiting"
+    },
 	
-	Misc:
-	{
-		//misc events
-		Error: "error",
-		Show: "show",
-		Toggle: "toggle",
-	}
+    Misc:
+    {
+        //misc events
+        Error: "error",
+        Show: "show",
+        Toggle: "toggle"
+    },
+        
+    FileReader:
+    {
+        Abort: "abort",
+        Error: "error",
+        Load: "load",
+        LoadStart: "loadstart",
+        LoadEnd: "loadend",
+        Progress: "progress"
+    }
 	
 };
 
@@ -1786,15 +1796,16 @@ Gwt.Gui.Entry.prototype.Reset = function ()
 //Class Gwt::Gui::File
 Gwt.Gui.File  = function (Placeholder)
 {
-	Gwt.Gui.Frame.call (this);
+    Gwt.Gui.Frame.call (this);
 	
-	this.Input = null;
-	this.DataSize = null;
-	this.FileName = null;
-	this.MimeType = null;
-	this.Data = null;
+    this.Input = null;
+    this.Preview = null;
+    this.DataSize = null;
+    this.FileName = null;
+    this.MimeType = null;
+    this.Data = null;
 	
-	this.InitFile ();
+    this.InitFile ();
 }
 
 Gwt.Gui.File.prototype = new Gwt.Gui.Frame ();
@@ -1802,72 +1813,90 @@ Gwt.Gui.File.prototype.constructor = Gwt.Gui.File;
 
 Gwt.Gui.File.prototype.FinalizeFile = function ()
 {
-	this.FinalizeFrame ();
+    this.FinalizeFrame ();
 }
 
 Gwt.Gui.File.prototype.InitFile = function ()
 {
-	this.Input = new Gwt.Gui.Frame();
-	this.Input.SetHtml ("input");
-	this.Input.Html.setAttribute ("type", "file");
-	this.Input.Html.removeAttribute ("multiple");
-	this.Input.SetOpacity (0);
-	this.Input.SetWidth (24);
-	this.Input.SetHeight (24);
+    this.Input = new Gwt.Gui.Frame();
+    this.Input.SetHtml ("input");
+    this.Input.Html.setAttribute ("type", "file");
+    this.Input.Html.removeAttribute ("multiple");
+    this.Input.SetOpacity (0);
+    this.Input.SetWidth (24);
+    this.Input.SetHeight (24);
 	
-	this.SetWidth (24);
-	this.SetHeight (24);
-	this.SetClassName ("Gwt_Gui_File");
-	this.SetBackgroundImage (Gwt.Core.Contrib.Frontend+Gwt.Core.Contrib.Images+"appbar.paperclip.rotated.svg");
-	this.SetBackgroundSize (24, 24);
-	this.Add (this.Input);
+    this.SetWidth (24);
+    this.SetHeight (24);
+    this.SetClassName ("Gwt_Gui_File");
+    this.SetBackgroundImage (Gwt.Core.Contrib.Frontend+Gwt.Core.Contrib.Images+"appbar.paperclip.rotated.svg");
+    this.SetBackgroundSize (24, 24);
+    this.Add (this.Input);
 	
-	this.Input.AddEvent (Gwt.Gui.Event.Form.Change, this.UpdateInfo.bind (this));
+    this.Input.AddEvent (Gwt.Gui.Event.Form.Change, this.UpdateInfo.bind (this));
 }
 
 Gwt.Gui.File.prototype.UpdateInfo = function ()
 {
-	this.Data = this.Input.Html.files[0];
-	this.DataSize = this.Data.size;
-	this.FileName = this.Data.name;
-	this.MimeType = this.Data.type;
+    this.Data = this.Input.Html.files[0];
+    this.DataSize = this.Data.size;
+    this.FileName = this.Data.name;
+    this.MimeType = this.Data.type;
 }
 
 Gwt.Gui.File.prototype.GetData = function ()
 {
-	return this.Data;
+    return this.Data;
 }
 
 Gwt.Gui.File.prototype.GetDataSize = function ()
 {
-	return this.DataSize;
+    return this.DataSize;
 }
 
 Gwt.Gui.File.prototype.GetFileName = function ()
 {
-	return this.FileName;
+    return this.FileName;
 }
 
 Gwt.Gui.File.prototype.GetMimeType = function ()
 {
-	return this.MimeType;
+    return this.MimeType;
 }
 
 Gwt.Gui.File.prototype.Reset = function ()
 {
-	this.Data = null;
-	this.DataSize = null;
-	this.FileName = null;
-	this.MimeType = null;
+    this.Data = null;
+    this.DataSize = null;
+    this.FileName = null;
+    this.MimeType = null;
 }
 
 Gwt.Gui.File.prototype.AddEvent = function (Event, Callback)
 {
-	this.Input.AddEvent (Event, Callback);
+    this.Input.AddEvent (Event, Callback);
 }
 
+Gwt.Gui.File.prototype.PreviewFile = function () 
+{
+    this.preview = document.querySelector('img');
+    var file    = document.querySelector('input[type=file]').files[0];
+    this.Reader  = new FileReader();
+
+    this.Reader.addEventListener(Gwt.Gui.Event.FileReader.Load, this.OnRead.bind (this))
+
+    if (this.Input.GetData ()) 
+    {
+        this.Reader.readAsDataURL(file);
+    }
+}
+
+Gwt.Gui.File.prototype.OnRead = function ()
+{
+    this.preview.src = this.Reader.result;
+}
 //Ends Gwt::Gui::File
-//##################################################################################################
+//###########################################################################################################
 //##############################################################################################
 //Class Gwt::Gui::Text
 Gwt.Gui.Text  = function (Placeholder)

@@ -25,114 +25,124 @@ AUTO_VALUE: "auto"
 
 Gwt.Gui.Event =
 {
-	Window :
-	{
-		//window events
-		AfterPrint: "afterprint",
-		BeforePrint: "beforeprint",
-		BeforeUnload: "beforeunload",
-		Error: "error",
-		HashChange: "hashchange",
-		Load: "load",
-		Message: "message",
-		Offline: "offline",
-		Online: "online",
-		PageHide: "pagehide",
-		PageShow: "pageshow",
-		PopState: "popstate",
-		Resize: "resize",
-		Storage: "storage",
-		Unload: "unload",
-	},
+    Window :
+    {
+        //window events
+        AfterPrint: "afterprint",
+        BeforePrint: "beforeprint",
+        BeforeUnload: "beforeunload",
+        Error: "error",
+        HashChange: "hashchange",
+        Load: "load",
+        Message: "message",
+        Offline: "offline",
+        Online: "online",
+        PageHide: "pagehide",
+        PageShow: "pageshow",
+        PopState: "popstate",
+        Resize: "resize",
+        Storage: "storage",
+        Unload: "unload"
+    },
 	
-	Form:
-	{
-		//form events
-		Blur: "blur",
-		Change: "change",
-		ContextMenu: "contextmenu",
-		Focus: "focus",
-		Input: "input",
-		Invalid: "invalid",
-		Reset: "reset",
-		Search: "search",
-		Select: "select",
-		Submit: "submit",
-	},
+    Form:
+    {
+        //form events
+        Blur: "blur",
+        Change: "change",
+        ContextMenu: "contextmenu",
+        Focus: "focus",
+        Input: "input",
+        Invalid: "invalid",
+        Reset: "reset",
+        Search: "search",
+        Select: "select",
+        Submit: "submit"
+    },
 	
-	Mouse:
-	{
-		//mouse events
-		Click: "click",
-		DBClick: "dbclick",
-		Drag: "drag",
-		DragEnd: "dragend",
-		DragEnter: "dragenter",
-		DragLeave: "dragleave",
-		DragOver: "dragover",
-		DragStart: "dragstart",
-		Drop: "drop",
-		MouseDown: "mousedown",
-		MouseMove: "mousemove",
-		MouseOut: "mouseout",
-		MouseOver: "mouseover",
-		MouseUp: "mouseup",
-		Scroll: "scroll",
-		Wheel: "wheel",
-	},
+    Mouse:
+    {
+        //mouse events
+        Click: "click",
+        DBClick: "dbclick",
+        Drag: "drag",
+        DragEnd: "dragend",
+        DragEnter: "dragenter",
+        DragLeave: "dragleave",
+        DragOver: "dragover",
+        DragStart: "dragstart",
+        Drop: "drop",
+        MouseDown: "mousedown",
+        MouseMove: "mousemove",
+        MouseOut: "mouseout",
+        MouseOver: "mouseover",
+        MouseUp: "mouseup",
+        Scroll: "scroll",
+        Wheel: "wheel"
+    },
 	
-	Keyboard:
-	{
-		//keyboard events
-		KeyUp: "keyup",
-		KeyPress: "keypress",
-		KeyDown: "keydown",
-		KeyCodes: {Enter: 13, Ctrl: 17, Alt: 18, AtlGr: 225, Shift: 16, Up: 38, Down: 40, Left: 37, Right: 39, Tap: 9, Insert: 45, Home: 36, Del: 46, End: 35, Repag: 33, Avpag: 34, Meta: 91},
-	},
+    Keyboard:
+    {
+        //keyboard events
+        KeyUp: "keyup",
+        KeyPress: "keypress",
+        KeyDown: "keydown",
+        KeyCodes: {Enter: 13, Ctrl: 17, Alt: 18, AtlGr: 225, Shift: 16, Up: 38, Down: 40, Left: 37, Right: 39, Tap: 9, Insert: 45, Home: 36, Del: 46, End: 35, Repag: 33, Avpag: 34, Meta: 91}
+    },
 	
-	Clipboard:
-	{
-		//clipboard events
-		Copy: "copy",
-		Cut: "cut",
-		Paste: "paste",
-	},
+    Clipboard:
+    {
+        //clipboard events
+        Copy: "copy",
+        Cut: "cut",
+        Paste: "paste"
+    },
 	
-	Media:
-	{
-		//media events
-		Abort: "abort",
-		CanPlay: "canplay",
-		CanPlayThtough: "canplaythrough",
-		CueChange: "cuechange",
-		DurationChange: "durationchange",
-		Emptied: "emptied",
-		Ended: "ended",
-		Error: "error",
-		LoadedData: "loadeddata",
-		LoadedMetadata: "loadedmetadata",
-		LoadStart: "loadstart",
-		Pause: "pause",
-		Play: "play",
-		Playing: "playing",
-		Progress: "progress",
-		RateChange: "ratechange",
-		Seeked: "seeked",
-		Seeking: "seeking",
-		Stalled: "stalled",
-		Suspend: "suspend",
-		TimeUpdate: "timeupdate",
-		VolumeChange: "volumechange",
-		Waiting: "waiting",
-	},
+    Media:
+    {
+        //media events
+        Abort: "abort",
+        CanPlay: "canplay",
+        CanPlayThtough: "canplaythrough",
+        CueChange: "cuechange",
+        DurationChange: "durationchange",
+        Emptied: "emptied",
+        Ended: "ended",
+        Error: "error",
+        LoadedData: "loadeddata",
+        LoadedMetadata: "loadedmetadata",
+        LoadStart: "loadstart",
+        Pause: "pause",
+        Play: "play",
+        Playing: "playing",
+        Progress: "progress",
+        RateChange: "ratechange",
+        Seeked: "seeked",
+        Seeking: "seeking",
+        Stalled: "stalled",
+        Suspend: "suspend",
+        TimeUpdate: "timeupdate",
+        VolumeChange: "volumechange",
+        Waiting: "waiting"
+    },
 	
-	Misc:
-	{
-		//misc events
-		Error: "error",
-		Show: "show",
-		Toggle: "toggle",
-	}
+    Misc:
+    {
+        //misc events
+        Error: "error",
+        Show: "show",
+        Toggle: "toggle"
+    },
+        
+    FileReader:
+    {
+        Abort: "abort",
+        Error: "error",
+        Load: "load",
+        LoadStart: "loadstart",
+        LoadEnd: "loadend",
+        Progress: "progress"
+    }
 	
 };
 

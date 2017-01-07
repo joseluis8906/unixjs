@@ -62,24 +62,6 @@
       </df>
       <df name="tmp_files">
       </df>
-      <df name="unix">
-        <df name="home">
-          <df name="documents">
-          </df>
-          <df name="music">
-          </df>
-          <df name="pictures">
-          </df>
-          <df name="videos">
-          </df>
-        </df>
-        <df name="share">
-          <df name="fonts">
-          </df>
-          <df name="images">
-          </df>
-        </df>
-      </df>
     </df>
   </logicalFolder>
   <projectmakefile></projectmakefile>
