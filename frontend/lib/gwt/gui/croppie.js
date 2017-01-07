@@ -25,15 +25,15 @@ Gwt.Gui.Croppie.prototype.FinalizeCroppie = function ()
 
 Gwt.Gui.Croppie.prototype.InitCroppie = function (Image)
 {
+    this.Vanilla = new Croppie (this.GetHtml());
+    this.BtnFinish = new Gwt.Gui.Button(Gwt.Core.Contrib.Images + "appbar.cabinet.out.svg", "Subir");
+    
     this.SetSize (512, 512);
     this.SetBackgroundColor (new Gwt.Gui.Contrib.Color (50, 50, 50, 0.9));
     this.SetPositionType (Gwt.Gui.Contrib.PositionType.Absolute);
     this.SetPosition (0, 0);
     
     this.Image = Image;
-    
-    this.Vanilla = new Croppie (this.GetHtml());
-    console.log (this.Vanilla);
             
     this.Vanilla.options.viewport.width = this.GetWidth()/2;
     this.Vanilla.options.viewport.height = this.GetWidth()/2;
@@ -41,10 +41,8 @@ Gwt.Gui.Croppie.prototype.InitCroppie = function (Image)
     this.Vanilla.options.boundary.height = (this.GetHeight() - 86);
     this.Vanilla.options.showZoomer = true;
     this.Vanilla.options.enableOrientation = false;
-    
     this.Vanilla.bind({url: this.Image});
     
-    this.BtnFinish = new Gwt.Gui.Button(Gwt.Core.Contrib.Images + "appbar.cabinet.out.svg", "Subir");
     this.BtnFinish.SetWidth (72);
     this.BtnFinish.SetMarginLeft (12);
     this.BtnFinish.AddEvent (Gwt.Gui.Event.Mouse.Click, this.Upload.bind(this));
