@@ -21,6 +21,7 @@ cat gui/file.js >> gwt.js
 cat gui/text.js >> gwt.js
 cat gui/hbox.js >> gwt.js
 cat gui/image.js >> gwt.js
+cat gui/croppie.js >> gwt.js
 cat gui/avatar.js >> gwt.js
 cat gui/menu.js >> gwt.js
 cat gui/menu_item.js >> gwt.js
@@ -38,7 +39,6 @@ cat gui/icon_desktop.js >> gwt.js
 cat gui/icon_entry.js >> gwt.js
 cat gui/icon_select_box.js >> gwt.js
 cat gui/date.js >> gwt.js
-cat gui/croppie.js >> gwt.js
 
 
 
