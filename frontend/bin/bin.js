@@ -322,7 +322,7 @@ function gusers ()
     this.layout.Add (this.email);
     this.layout.Add (this.address);
     
-    this.Add (this.Avatar.GetEditor ());
+    this.Add (this.avatar.GetEditor ());
 }
 
 gusers.prototype = new Gwt.Gui.Window ();
