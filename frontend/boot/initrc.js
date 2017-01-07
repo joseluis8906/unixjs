@@ -3,8 +3,7 @@ window.addEventListener("load", init);
 function init (event)
 {
 	desktop.open();
-        //gcontrol.open ();
-        gfiles.open();
+        gcontrol.open ();
         //presctrl.open();
 	
 	/*if (typeof(session_env) != "undefined")
