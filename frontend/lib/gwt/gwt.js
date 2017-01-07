@@ -2412,8 +2412,8 @@ Gwt.Gui.Avatar.prototype.ChangedImage = function ()
 {
     if (this.Image.GetSrc().search ("appbar.camera.switch.svg") !== -1)
     {
-        this.croppie.SetImage (this.avatar.Image.GetHtml().src);
-        this.croppie.Enable ();
+        this.Editor.SetImage (this.avatar.Image.GetHtml().src);
+        this.Editor.Enable ();
     }
 }   
         
