@@ -2399,7 +2399,7 @@ Gwt.Gui.Avatar.prototype.SetImage = function (Image)
 
 Gwt.Gui.Avatar.prototype.ChangeImageEvent = function (Callback)
 {
-    this.Image.AddEvent (Gwt.Gui.Event.Form.Change, Callback);
+    this.Image.AddEvent (Gwt.Gui.Event.Window.Load, Callback);
 }
 //Ends Gwt::Gui::Avatar
 //##################################################################################################
