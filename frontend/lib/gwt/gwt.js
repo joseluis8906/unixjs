@@ -2296,17 +2296,16 @@ Gwt.Gui.Avatar.prototype.InitAvatar = function (Image)
     this.SetSize (96, 96);
     this.SetRounded ();
     
-    this.Image = new Gwt.Gui.Image (Gwt.Core.Contrib.Images+"appbar.camera.switch.svg")
-    this.Image.SetSize (96, 96);
-    this.Add (this.Image);
-    
     this.File = new Gwt.Gui.File();
     this.File.SetSize (96, 96);
     this.File.SetPositionType (Gwt.Gui.Contrib.PositionType.Absolute);
     this.File.SetPosition (0, 0);
     this.File.SetOpacity (0);
-    
     this.Add (this.File);
+    
+    this.Image = new Gwt.Gui.Image (Gwt.Core.Contrib.Images+"appbar.camera.switch.svg")
+    this.Image.SetSize (96, 96);
+    this.Add (this.Image);
 }
 //Ends Gwt::Gui::Avatar
 //##################################################################################################
