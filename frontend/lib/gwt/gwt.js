@@ -135,8 +135,12 @@ SCREEN_DEVICE_HEIGHT: window.innerHeight,
 SCREEN_DEVICE_PIXEL_RATIO: window.devicePixelRatio,
 SCREEN_DEVICE_ORIENTATION: window.innerWidth > window.innerHeight ? "landscape" : "portrait",
 SCREEN_DEVICE_ASPECT_RATIO:  (window.innerWidth > window.innerHeight ? window.innerWidth/window.innerHeight : window.innerHeight/window.innerWidth).toString().substring(0,4),
-MENU_QUIT_APP: 1001,
-AUTO_VALUE: "auto"
+MENU_QUIT_APP: 0,
+AUTO_VALUE: "auto",
+READ_ARRAY_BUFFER: 0,
+READ_BINARY_STRING: 1,
+READ_URL: 2,
+READ_TEXT: 3
 };
 
 Gwt.Gui.Event =
@@ -1801,6 +1805,7 @@ Gwt.Gui.File  = function (Placeholder)
     this.Input = null;
     this.Preview = null;
     this.Reader = null;
+    this.ReadType = null;
     this.DataArrayBuffer = null
     this.DataBinayString = null;
     this.DataUrl = null;
@@ -1821,8 +1826,8 @@ Gwt.Gui.File.prototype.FinalizeFile = function ()
     this.Input.FinalizeFrame ();
     this.Input = null;
     
-    this.Preview = null;
     this.Reader = null;
+    this.ReadType = null;
     this.DataArrayBuffer = null
     this.DataBinayString = null;
     this.DataUrl = null;
@@ -1851,6 +1856,8 @@ Gwt.Gui.File.prototype.InitFile = function ()
     this.Input.SetOpacity (0);
     this.Input.SetZIndex (1001);
     this.Add (this.Input);
+    
+    this.SetReadType (Gwt.Gui.READ_ARRAY_BUFFER);
 	
     this.Reader = new FileReader ();
     this.Reader.addEventListener(Gwt.Gui.Event.FileReader.Load, this.Load.bind (this))
@@ -1896,7 +1903,7 @@ Gwt.Gui.File.prototype.UpdateInfo = function ()
     this.FileName = this.Data.name;
     this.MimeType = this.Data.type;
     
-    this.ReadAsUrl();
+    this.Read ();
 }
 
 Gwt.Gui.File.prototype.GetData = function ()
@@ -1925,6 +1932,11 @@ Gwt.Gui.File.prototype.Reset = function ()
     this.DataSize = null;
     this.FileName = null;
     this.MimeType = null;
+    this.DataArrayBuffer = null
+    this.DataBinayString = null;
+    this.DataUrl = null;
+    this.DataText = null;
+    
 }
 
 Gwt.Gui.File.prototype.AddEvent = function (Event, Callback)
@@ -1932,14 +1944,40 @@ Gwt.Gui.File.prototype.AddEvent = function (Event, Callback)
     this.Input.AddEvent (Event, Callback);
 }
 
-Gwt.Gui.File.prototype.ReadAsUrl = function () 
+Gwt.Gui.File.prototype.Read = function () 
 {
-    this.Reader.readAsDataURL(this.GetData());
+    switch (this.ReadType)
+    {
+        case Gwt.Gui.READ_ARRAY_BUFFER:
+            this.Reader.readAsArayBuffer(this.GetData());
+            break;
+        
+        case Gwt.Gui.READ_BINARY_STRING:
+            this.Reader.readAsBinaryString(this.GetData());
+            break;
+            
+        case Gwt.Gui.READ_URL:
+            this.Reader.readAsDataUrl(this.GetData());
+            break;
+            
+        case Gwt.Gui.READ_TEXT:
+            this.Reader.readAsBinaryString(this.GetData());
+            break;
+            
+        default:
+            console.log ("File read type unset");
+            break;
+    }
 }
 
 Gwt.Gui.File.prototype.Load = function ()
 {
     console.log (this.Reader.result);
+}
+
+Gwt.Gui.File.prototype.SetReadType = function (Type)
+{
+    this.ReadType = Type;
 }
 //Ends Gwt::Gui::File
 //###########################################################################################################
