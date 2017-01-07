@@ -11,13 +11,11 @@ Gwt.Core.Contrib = new Object ();
 Gwt.Core.Contrib.Protocol = window.location.protocol;
 Gwt.Core.Contrib.HostName = window.location.hostname;
 Gwt.Core.Contrib.Port = window.location.port;
-Gwt.Core.Contrib.Host = Gwt.Core.Contrib.Protocol+"//"+Gwt.Core.Contrib.HostName+"/";
+Gwt.Core.Contrib.Host = Gwt.Core.Contrib.Protocol+"//"+Gwt.Core.Contrib.HostName+":"+Gwt.Core.Contrib.Port+"/";
 Gwt.Core.Contrib.Backend = Gwt.Core.Contrib.Host+"backend/";
 Gwt.Core.Contrib.Frontend = Gwt.Core.Contrib.Host+"frontend/";
-Gwt.Core.Contrib.Images = "share/images/";
-Gwt.Core.Contrib.Icons = "share/icons/";
-Gwt.Core.Contrib.db = "remote";
-Gwt.Core.Contrib.request_id = 0;
+Gwt.Core.Contrib.Share = Gwt.Core.Contrib.Host+"share/";
+Gwt.Core.Contrib.Images = Gwt.Core.Contrib.Share+"images/";
 
 Gwt.Core.Math = {};
 Gwt.Core.Math.Round = function (value, decimals) 
@@ -2211,7 +2209,7 @@ Gwt.Gui.Image.prototype.InitImage = function (Image)
     this.SetClassName ("Gwt_Gui_Image");
 	
     this.SetCursor (Gwt.Gui.Contrib.Cursor.Default);
-    this.SetImage (Image || Gwt.Core.Contrib.Frontend+Gwt.Core.Contrib.Images+"default_image.svg");
+    this.SetImage (Image || Gwt.Core.Contrib.Images+"default_image.svg");
     this.SetSelectable ("none");
     this.SetValign(Gwt.Gui.Contrib.Valign.Top);
 }
@@ -3448,7 +3446,7 @@ Gwt.Gui.IconControl.prototype.InitIconControl = function (Icon, Control)
 {
     this.SetClassName ("Gwt_Gui_Icon_Control");
     
-    this.Icon = new Gwt.Gui.Image(Icon || Gwt.Core.Contrib.Frontend+Gwt.Core.Contrib.Images+"appbar.notification.star.svg");
+    this.Icon = new Gwt.Gui.Image(Icon || Gwt.Core.Contrib.Images+"appbar.notification.star.svg");
     this.Icon.SetSize(22, 22);
     this.Icon.SetDisplay (Gwt.Gui.Contrib.Display.InlineBlock);
     this.Icon.SetMarginRight (5);
