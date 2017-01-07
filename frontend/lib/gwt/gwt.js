@@ -1829,22 +1829,48 @@ Gwt.Gui.File.prototype.FinalizeFile = function ()
 
 Gwt.Gui.File.prototype.InitFile = function ()
 {
+    this.SetSize (24, 24);
+    this.SetClassName ("Gwt_Gui_File");
+    this.SetBackgroundImage (Gwt.Core.Contrib.Images+"appbar.paperclip.rotated.svg");
+    this.SetBackgroundSize (24, 24);
+    
     this.Input = new Gwt.Gui.Frame();
     this.Input.SetHtml ("input");
     this.Input.Html.setAttribute ("type", "file");
     this.Input.Html.removeAttribute ("multiple");
     this.Input.SetOpacity (0);
-    this.Input.SetWidth (24);
-    this.Input.SetHeight (24);
-	
-    this.SetWidth (24);
-    this.SetHeight (24);
-    this.SetClassName ("Gwt_Gui_File");
-    this.SetBackgroundImage (Gwt.Core.Contrib.Images+"appbar.paperclip.rotated.svg");
-    this.SetBackgroundSize (24, 24);
+    this.Input.SetSize (this.GetWidth(), this.GetHeight);
     this.Add (this.Input);
 	
     this.Input.AddEvent (Gwt.Gui.Event.Form.Change, this.UpdateInfo.bind (this));
+}
+
+Gwt.Gui.File.prototype.SetSize = function (Width, Height)
+{
+    this.SetWidth(Width);
+    this.SetHeight(Height);
+    
+    this.Input.SetSize (this.GetWidth(), this.GetHeight());
+}
+
+Gwt.Gui.File.prototype.SetWidth = function (Width)
+{
+    this.Width = Width;
+    this.SetMaxWidth (this.Width);
+    this.SetMinWidth (this.Width);
+    this.GetHtml ().style.width = this.Width+"px";
+    
+    this.Input.SetWidth (this.GetWidth ());
+}
+
+Gwt.Gui.File.prototype.SetHeight = function (Height)
+{
+    this.Height = Height;
+    this.SetMaxHeight (this.Height);
+    this.SetMinHeight (this.Height);
+    this.GetHtml ().style.height = this.Height+"px";
+    
+    this.Input.SetHeight (this.GetHeight ());
 }
 
 Gwt.Gui.File.prototype.UpdateInfo = function ()
