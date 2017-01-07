@@ -1949,7 +1949,7 @@ Gwt.Gui.File.prototype.Read = function ()
     switch (this.ReadType)
     {
         case Gwt.Gui.READ_ARRAY_BUFFER:
-            this.Reader.readAsArayBuffer(this.GetData());
+            this.Reader.readAsArrayBuffer(this.GetData());
             break;
         
         case Gwt.Gui.READ_BINARY_STRING:
@@ -1961,7 +1961,7 @@ Gwt.Gui.File.prototype.Read = function ()
             break;
             
         case Gwt.Gui.READ_TEXT:
-            this.Reader.readAsBinaryString(this.GetData());
+            this.Reader.readAsText(this.GetData());
             break;
             
         default:
