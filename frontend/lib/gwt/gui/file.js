@@ -163,7 +163,7 @@ Gwt.Gui.File.prototype.Read = function ()
             break;
             
         case Gwt.Gui.READ_URL:
-            this.Reader.readAsDataUrl(this.GetData());
+            this.Reader.readAsDataURL(this.GetData());
             break;
             
         case Gwt.Gui.READ_TEXT:
