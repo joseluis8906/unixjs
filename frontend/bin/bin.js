@@ -302,7 +302,7 @@ function gusers ()
     this.SetBorderSpacing (12);
 	
     this.avatar = new Gwt.Gui.Avatar ();
-    this.croppie = new Gwt.Gui.Croppie (Gwt.Core.Contrib.Images + "morYyo.jpg");
+    this.croppie = new Gwt.Gui.Croppie ();
     this.croppie.SetSize (this.GetWidth(), this.GetHeight()-32);
     this.title = new Gwt.Gui.StaticText ("Datos:");
     this.doc_type = new Gwt.Gui.IconSelectBox (Gwt.Core.Contrib.Images+"appbar.notification.star.svg", "Tipo de Documento", [{"text": "Tarjeta de Identidad", "value": "T.I"}, {"text": "Cédula de Ciudadanía", "value": "C.C"}, {"text": "Registro Civil", "value": "R.C"}, {"text": "Cédula Extranjera", "value": "C.E"}, {"text": "Pasaporte", "value": "PS"}, {"text": "Libreta Militar", "value": "L.M"}]);

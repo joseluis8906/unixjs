@@ -29,7 +29,9 @@ Gwt.Gui.Croppie.prototype.InitCroppie = function (Image)
     this.SetBackgroundColor (new Gwt.Gui.Contrib.Color (50, 50, 50, 0.9));
     this.SetPositionType (Gwt.Gui.Contrib.PositionType.Absolute);
     this.SetPosition (0, 0);
+    
     this.Image = Image;
+    
     this.BtnFinish = new Gwt.Gui.Button(Gwt.Core.Contrib.Images + "appbar.cabinet.out.svg", "Subir");
     this.BtnFinish.SetWidth (72);
     this.BtnFinish.SetMarginLeft (12);

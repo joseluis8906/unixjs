@@ -7,6 +7,10 @@ Gwt.Gui.File  = function (Placeholder)
     this.Input = null;
     this.Preview = null;
     this.Reader = null;
+    this.DataArrayBuffer = null
+    this.DataBinayString = null;
+    this.DataUrl = null;
+    this.DataText = null;
     this.DataSize = null;
     this.FileName = null;
     this.MimeType = null;
@@ -25,6 +29,10 @@ Gwt.Gui.File.prototype.FinalizeFile = function ()
     
     this.Preview = null;
     this.Reader = null;
+    this.DataArrayBuffer = null
+    this.DataBinayString = null;
+    this.DataUrl = null;
+    this.DataText = null;
     this.DataSize = null;
     this.FileName = null;
     this.MimeType = null;
@@ -50,6 +58,9 @@ Gwt.Gui.File.prototype.InitFile = function ()
     this.Input.SetZIndex (1001);
     this.Add (this.Input);
 	
+    this.Reader = new FileReader ();
+    this.Reader.addEventListener(Gwt.Gui.Event.FileReader.Load, this.Load.bind (this))
+    
     this.Input.AddEvent (Gwt.Gui.Event.Form.Change, this.UpdateInfo.bind (this));
 }
 
@@ -90,6 +101,8 @@ Gwt.Gui.File.prototype.UpdateInfo = function ()
     this.DataSize = this.Data.size;
     this.FileName = this.Data.name;
     this.MimeType = this.Data.type;
+    
+    this.ReadAsUrl();
 }
 
 Gwt.Gui.File.prototype.GetData = function ()
@@ -125,22 +138,14 @@ Gwt.Gui.File.prototype.AddEvent = function (Event, Callback)
     this.Input.AddEvent (Event, Callback);
 }
 
-Gwt.Gui.File.prototype.PreviewFile = function (Element) 
+Gwt.Gui.File.prototype.ReadAsUrl = function () 
 {
-    this.Preview = Element;
-    this.Reader  = new FileReader ();
-
-    this.Reader.addEventListener(Gwt.Gui.Event.FileReader.Load, this.Load.bind (this))
-
-    if (this.Input.GetData ()) 
-    {
-        this.Reader.readAsDataURL(this.Input.GetData());
-    }
+    this.Reader.readAsDataURL(this.Input.GetData());
 }
 
 Gwt.Gui.File.prototype.Load = function ()
 {
-    this.Preview.SetImage (this.Reader.result);
+    console.log (this.Reader.result);
 }
 //Ends Gwt::Gui::File
 //###########################################################################################################
