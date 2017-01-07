@@ -40,7 +40,7 @@ Gwt.Gui.File.prototype.InitFile = function ()
     this.SetSize (24, 24);
     this.SetClassName ("Gwt_Gui_File");
     this.SetBackgroundImage (Gwt.Core.Contrib.Images+"appbar.paperclip.rotated.svg");
-    this.SetBackgroundSize (24, 24);
+    this.SetBackgroundSize (this.GetWidth(), this.GetHeight());
     
     this.Input.SetHtml ("input");
     this.Input.Html.setAttribute ("type", "file");
@@ -55,7 +55,8 @@ Gwt.Gui.File.prototype.SetSize = function (Width, Height)
 {
     this.SetWidth(Width);
     this.SetHeight(Height);
-    
+    this.SetBackgroundSize (this.GetWidth(), this.GetHeight());
+  
     this.Input.SetSize (this.GetWidth(), this.GetHeight());
 }
 
@@ -65,6 +66,7 @@ Gwt.Gui.File.prototype.SetWidth = function (Width)
     this.SetMaxWidth (this.Width);
     this.SetMinWidth (this.Width);
     this.GetHtml ().style.width = this.Width+"px";
+    this.SetBackgroundSize (this.GetWidth(), this.GetHeight());
     
     this.Input.SetWidth (this.GetWidth ());
 }
@@ -75,6 +77,7 @@ Gwt.Gui.File.prototype.SetHeight = function (Height)
     this.SetMaxHeight (this.Height);
     this.SetMinHeight (this.Height);
     this.GetHtml ().style.height = this.Height+"px";
+    this.SetBackgroundSize (this.GetWidth(), this.GetHeight());
     
     this.Input.SetHeight (this.GetHeight ());
 }
