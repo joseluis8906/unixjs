@@ -2379,7 +2379,7 @@ Gwt.Gui.Avatar.prototype.InitAvatar = function ()
     this.SetSize (96, 96);
     this.SetRounded ();
     
-    this.File = new Gwt.Gui.File(this.ChangeImage.bind(this));
+    this.File = new Gwt.Gui.File (this.SetImage.bind(this));
     this.File.SetSize (96, 96);
     this.File.SetPositionType (Gwt.Gui.Contrib.PositionType.Absolute);
     this.File.SetPosition (0, 0);
@@ -2392,9 +2392,14 @@ Gwt.Gui.Avatar.prototype.InitAvatar = function ()
     this.Add (this.Image);
 }
 
-Gwt.Gui.Avatar.prototype.ChangeImage = function (Image)
+Gwt.Gui.Avatar.prototype.SetImage = function (Image)
 {
     this.Image.SetImage (Image);
+}
+
+Gwt.Gui.Avatar.prototype.ChangeImageEvent = function (Callback)
+{
+    this.Image.AddEvent (Gwt.Gui.Event.Form.Change, Callback);
 }
 //Ends Gwt::Gui::Avatar
 //##################################################################################################
@@ -3924,6 +3929,12 @@ Gwt.Gui.Croppie.prototype.InitCroppie = function (Image)
     this.BtnFinish = new Gwt.Gui.Button(Gwt.Core.Contrib.Images + "appbar.cabinet.out.svg", "Subir");
     this.BtnFinish.SetWidth (72);
     this.BtnFinish.SetMarginLeft (12);
+    this.BtnFinish.AddEvent (Gwt.Gui.Event.Mouse.Click, this.Upload.bind(this));
+}
+
+Gwt.Gui.Croppie.prototype.SetImage = function (Image)
+{
+    this.Image = Image;
 }
 
 Gwt.Gui.Croppie.prototype.Show = function ()
@@ -3945,12 +3956,14 @@ Gwt.Gui.Croppie.prototype.Show = function ()
         //orientation: 4
     });
     
-    //on button click
+    this.Add (this.BtnFinish);
+}
+
+Gwt.Gui.Croppie.prototype.Upload = function ()
+{
     this.Vanilla.result('blob').then(function(blob) {
         console.log (blob);
     });
-    
-    this.Add (this.BtnFinish);
 }
 //Ends Gwt::Gui::Croppie
 //##################################################################################################

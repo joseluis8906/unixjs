@@ -323,7 +323,7 @@ function gusers ()
     this.layout.Add (this.email);
     this.layout.Add (this.address);
     
-    //this.avatar.AddEvent(Gwt.Gui.Event.Mouse.Click, this.ShowCroppie.bind(this));
+    this.avatar.ChangeImageEvent(this.ShowCroppie.bind(this));
 }
 
 gusers.prototype = new Gwt.Gui.Window ();
@@ -387,6 +387,7 @@ gusers.prototype.Eliminar = function ()
 
 gusers.prototype.ShowCroppie = function ()
 {
+    this.croppie.SetImage (this.avatar.Image.GetHtml().src);
     this.Add (this.croppie);
     this.croppie.Show ();
 }

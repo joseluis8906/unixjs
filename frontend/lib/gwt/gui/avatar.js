@@ -30,7 +30,7 @@ Gwt.Gui.Avatar.prototype.InitAvatar = function ()
     this.SetSize (96, 96);
     this.SetRounded ();
     
-    this.File = new Gwt.Gui.File(this.ChangeImage.bind(this));
+    this.File = new Gwt.Gui.File (this.SetImage.bind(this));
     this.File.SetSize (96, 96);
     this.File.SetPositionType (Gwt.Gui.Contrib.PositionType.Absolute);
     this.File.SetPosition (0, 0);
@@ -43,9 +43,14 @@ Gwt.Gui.Avatar.prototype.InitAvatar = function ()
     this.Add (this.Image);
 }
 
-Gwt.Gui.Avatar.prototype.ChangeImage = function (Image)
+Gwt.Gui.Avatar.prototype.SetImage = function (Image)
 {
     this.Image.SetImage (Image);
+}
+
+Gwt.Gui.Avatar.prototype.ChangeImageEvent = function (Callback)
+{
+    this.Image.AddEvent (Gwt.Gui.Event.Form.Change, Callback);
 }
 //Ends Gwt::Gui::Avatar
 //##################################################################################################
