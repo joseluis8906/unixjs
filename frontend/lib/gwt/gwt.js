@@ -2415,11 +2415,11 @@ Gwt.Gui.Croppie.prototype.SetSize = function (Width, Height)
     this.SetWidth(Width);
     this.SetHeight(Height);
     
-    this.Vanilla.boundary.width = this.GetWidth ();
-    this.Vanilla.boundary.height = this.GetHeight ();
+    this.Vanilla.options.boundary.width = this.GetWidth ();
+    this.Vanilla.options.boundary.height = this.GetHeight ();
     
-    this.Vanilla.viewport.width = this.GetWidth()/2;
-    this.Vanilla.viewport.height = this.GetWidth()/2;
+    this.Vanilla.options.viewport.width = this.GetWidth()/2;
+    this.Vanilla.options.viewport.height = this.GetWidth()/2;
 }
 
 Gwt.Gui.Croppie.prototype.SetWidth = function (Width)
