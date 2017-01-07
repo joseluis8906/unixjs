@@ -140,7 +140,7 @@ Gwt.Gui.File.prototype.AddEvent = function (Event, Callback)
 
 Gwt.Gui.File.prototype.ReadAsUrl = function () 
 {
-    this.Reader.readAsDataURL(this.Input.GetData());
+    this.Reader.readAsDataURL(this.GetData());
 }
 
 Gwt.Gui.File.prototype.Load = function ()
