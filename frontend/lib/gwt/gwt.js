@@ -3981,7 +3981,7 @@ Gwt.Gui.Croppie.prototype.SetImage = function (Image)
     this.Image = Image;
 }
 
-Gwt.Gui.File.prototype.SetSize = function (Width, Height)
+Gwt.Gui.Croppie.prototype.SetSize = function (Width, Height)
 {
     this.SetWidth(Width);
     this.SetHeight(Height);
@@ -3993,7 +3993,7 @@ Gwt.Gui.File.prototype.SetSize = function (Width, Height)
     this.Vanilla.viewport.height = this.GetWidth()/2;
 }
 
-Gwt.Gui.File.prototype.SetWidth = function (Width)
+Gwt.Gui.Croppie.prototype.SetWidth = function (Width)
 {
     this.Width = Width;
     this.SetMaxWidth (this.Width);
@@ -4004,7 +4004,7 @@ Gwt.Gui.File.prototype.SetWidth = function (Width)
     this.Vanilla.viewport.width = this.GetWidth()/2;
 }
 
-Gwt.Gui.File.prototype.SetHeight = function (Height)
+Gwt.Gui.Croppie.prototype.SetHeight = function (Height)
 {
     this.Height = Height;
     this.SetMaxHeight (this.Height);
