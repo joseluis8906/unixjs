@@ -43,7 +43,7 @@ function gusers ()
     this.layout.Add (this.email);
     this.layout.Add (this.address);
     
-    this.avatar.AddEvent(Gwt.Gui.Event.Mouse.Click, this.ShowCroppie.bind(this));
+    //this.avatar.AddEvent(Gwt.Gui.Event.Mouse.Click, this.ShowCroppie.bind(this));
 }
 
 gusers.prototype = new Gwt.Gui.Window ();

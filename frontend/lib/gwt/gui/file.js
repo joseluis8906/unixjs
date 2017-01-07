@@ -6,6 +6,7 @@ Gwt.Gui.File  = function (Placeholder)
 	
     this.Input = null;
     this.Preview = null;
+    this.Reader = null;
     this.DataSize = null;
     this.FileName = null;
     this.MimeType = null;
@@ -19,6 +20,16 @@ Gwt.Gui.File.prototype.constructor = Gwt.Gui.File;
 
 Gwt.Gui.File.prototype.FinalizeFile = function ()
 {
+    this.Input.FinalizeFrame ();
+    this.Input = null;
+    
+    this.Preview = null;
+    this.Reader = null;
+    this.DataSize = null;
+    this.FileName = null;
+    this.MimeType = null;
+    this.Data = null;
+    
     this.FinalizeFrame ();
 }
 
@@ -83,23 +94,22 @@ Gwt.Gui.File.prototype.AddEvent = function (Event, Callback)
     this.Input.AddEvent (Event, Callback);
 }
 
-Gwt.Gui.File.prototype.PreviewFile = function () 
+Gwt.Gui.File.prototype.PreviewFile = function (Element) 
 {
-    this.preview = document.querySelector('img');
-    var file    = document.querySelector('input[type=file]').files[0];
-    this.Reader  = new FileReader();
+    this.Preview = Element;
+    this.Reader  = new FileReader ();
 
-    this.Reader.addEventListener(Gwt.Gui.Event.FileReader.Load, this.OnRead.bind (this))
+    this.Reader.addEventListener(Gwt.Gui.Event.FileReader.Load, this.Load.bind (this))
 
     if (this.Input.GetData ()) 
     {
-        this.Reader.readAsDataURL(file);
+        this.Reader.readAsDataURL(this.Input.GetData());
     }
 }
 
-Gwt.Gui.File.prototype.OnRead = function ()
+Gwt.Gui.File.prototype.Load = function ()
 {
-    this.preview.src = this.Reader.result;
+    this.Preview.SetImage (this.Reader.result);
 }
 //Ends Gwt::Gui::File
 //###########################################################################################################
