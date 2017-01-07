@@ -1798,7 +1798,7 @@ Gwt.Gui.Entry.prototype.Reset = function ()
 //##################################################################################################
 //##############################################################################################
 //Class Gwt::Gui::File
-Gwt.Gui.File  = function (Placeholder)
+Gwt.Gui.File  = function (Callback)
 {
     Gwt.Gui.Frame.call (this);
 	
@@ -1814,8 +1814,9 @@ Gwt.Gui.File  = function (Placeholder)
     this.FileName = null;
     this.MimeType = null;
     this.Data = null;
+    this.CallBack = null;
 	
-    this.InitFile ();
+    this.InitFile (Callback);
 }
 
 Gwt.Gui.File.prototype = new Gwt.Gui.Frame ();
@@ -1836,11 +1837,12 @@ Gwt.Gui.File.prototype.FinalizeFile = function ()
     this.FileName = null;
     this.MimeType = null;
     this.Data = null;
+    this.CallBack = null;
     
     this.FinalizeFrame ();
 }
 
-Gwt.Gui.File.prototype.InitFile = function ()
+Gwt.Gui.File.prototype.InitFile = function (Callback)
 {
     this.Input = new Gwt.Gui.Frame();
     
@@ -1863,6 +1865,8 @@ Gwt.Gui.File.prototype.InitFile = function ()
     this.Reader.addEventListener(Gwt.Gui.Event.FileReader.Load, this.Load.bind (this))
     
     this.Input.AddEvent (Gwt.Gui.Event.Form.Change, this.UpdateInfo.bind (this));
+    
+    this.CallBack = Callback;
 }
 
 Gwt.Gui.File.prototype.SetSize = function (Width, Height)
@@ -1972,12 +1976,17 @@ Gwt.Gui.File.prototype.Read = function ()
 
 Gwt.Gui.File.prototype.Load = function ()
 {
-    console.log (this.Reader.result);
+    this.CallBack (this.Reader.result);
 }
 
 Gwt.Gui.File.prototype.SetReadType = function (Type)
 {
     this.ReadType = Type;
+}
+
+Gwt.Gui.File.prototype.SetCallback = function (Callback)
+{
+    this.CallBack = Callback;
 }
 //Ends Gwt::Gui::File
 //###########################################################################################################
@@ -2364,23 +2373,28 @@ Gwt.Gui.Avatar.prototype.FinalizeAvatar = function ()
     this.FinalizeFrame ();
 }
 
-Gwt.Gui.Avatar.prototype.InitAvatar = function (Image)
+Gwt.Gui.Avatar.prototype.InitAvatar = function ()
 {
     this.SetClassName ("Gwt_Gui_Avatar");
     this.SetSize (96, 96);
     this.SetRounded ();
     
-    this.File = new Gwt.Gui.File();
+    this.File = new Gwt.Gui.File(this.ChangeImage);
     this.File.SetSize (96, 96);
     this.File.SetPositionType (Gwt.Gui.Contrib.PositionType.Absolute);
     this.File.SetPosition (0, 0);
     this.File.SetOpacity (0);
-    this.File.SetReadType (Gwt.Gui.READ_BINARY_STRING);
+    this.File.SetReadType (Gwt.Gui.READ_URL);
     this.Add (this.File);
     
     this.Image = new Gwt.Gui.Image (Gwt.Core.Contrib.Images+"appbar.camera.switch.svg")
     this.Image.SetSize (96, 96);
     this.Add (this.Image);
+}
+
+Gwt.Gui.Avatar.prototype.ChangeImage = function (Image)
+{
+    this.Image.SetImage (Image)
 }
 //Ends Gwt::Gui::Avatar
 //##################################################################################################

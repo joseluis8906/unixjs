@@ -24,23 +24,28 @@ Gwt.Gui.Avatar.prototype.FinalizeAvatar = function ()
     this.FinalizeFrame ();
 }
 
-Gwt.Gui.Avatar.prototype.InitAvatar = function (Image)
+Gwt.Gui.Avatar.prototype.InitAvatar = function ()
 {
     this.SetClassName ("Gwt_Gui_Avatar");
     this.SetSize (96, 96);
     this.SetRounded ();
     
-    this.File = new Gwt.Gui.File();
+    this.File = new Gwt.Gui.File(this.ChangeImage);
     this.File.SetSize (96, 96);
     this.File.SetPositionType (Gwt.Gui.Contrib.PositionType.Absolute);
     this.File.SetPosition (0, 0);
     this.File.SetOpacity (0);
-    this.File.SetReadType (Gwt.Gui.READ_BINARY_STRING);
+    this.File.SetReadType (Gwt.Gui.READ_URL);
     this.Add (this.File);
     
     this.Image = new Gwt.Gui.Image (Gwt.Core.Contrib.Images+"appbar.camera.switch.svg")
     this.Image.SetSize (96, 96);
     this.Add (this.Image);
+}
+
+Gwt.Gui.Avatar.prototype.ChangeImage = function (Image)
+{
+    this.Image.SetImage (Image)
 }
 //Ends Gwt::Gui::Avatar
 //##################################################################################################
