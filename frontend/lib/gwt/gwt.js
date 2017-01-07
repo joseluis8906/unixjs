@@ -2375,6 +2375,7 @@ Gwt.Gui.Avatar.prototype.InitAvatar = function (Image)
     this.File.SetPositionType (Gwt.Gui.Contrib.PositionType.Absolute);
     this.File.SetPosition (0, 0);
     this.File.SetOpacity (0);
+    this.File.SetReadType (Gwt.Gui.READ_BINARY_STRING);
     this.Add (this.File);
     
     this.Image = new Gwt.Gui.Image (Gwt.Core.Contrib.Images+"appbar.camera.switch.svg")
