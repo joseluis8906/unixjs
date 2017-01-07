@@ -1,6 +1,6 @@
 //########################################################################################
 //Class Gwt::Gui::Croppie
-Gwt.Gui.Croppie = function (Image)
+Gwt.Gui.Croppie = function ()
 {
     Gwt.Gui.Frame.call (this);
     this.Vanilla = null;
@@ -23,7 +23,7 @@ Gwt.Gui.Croppie.prototype.FinalizeCroppie = function ()
     this.FinalizeFrame ();
 }
 
-Gwt.Gui.Croppie.prototype.InitCroppie = function (Image)
+Gwt.Gui.Croppie.prototype.InitCroppie = function ()
 {
     this.Vanilla = new Croppie (this.GetHtml());
     this.BtnFinish = new Gwt.Gui.Button(Gwt.Core.Contrib.Images + "appbar.cabinet.out.svg", "Subir");

@@ -2354,7 +2354,7 @@ Gwt.Gui.Image.prototype.SetRounded = function ()
 //##################################################################################################
 //########################################################################################
 //Class Gwt::Gui::Croppie
-Gwt.Gui.Croppie = function (Image)
+Gwt.Gui.Croppie = function ()
 {
     Gwt.Gui.Frame.call (this);
     this.Vanilla = null;
@@ -2377,7 +2377,7 @@ Gwt.Gui.Croppie.prototype.FinalizeCroppie = function ()
     this.FinalizeFrame ();
 }
 
-Gwt.Gui.Croppie.prototype.InitCroppie = function (Image)
+Gwt.Gui.Croppie.prototype.InitCroppie = function ()
 {
     this.Vanilla = new Croppie (this.GetHtml());
     this.BtnFinish = new Gwt.Gui.Button(Gwt.Core.Contrib.Images + "appbar.cabinet.out.svg", "Subir");
@@ -2512,7 +2512,7 @@ Gwt.Gui.Avatar.prototype.InitAvatar = function ()
     this.Add (this.Image);
     this.Image.AddEvent (Gwt.Gui.Event.Window.Load, this.ChangedImage.bind(this));
     
-    this.Editor =  new Gwt.Gui.Croppie (this.Image.GetHtml());
+    this.Editor =  new Gwt.Gui.Croppie ();
 }
 
 Gwt.Gui.Avatar.prototype.SetImage = function (Image)
