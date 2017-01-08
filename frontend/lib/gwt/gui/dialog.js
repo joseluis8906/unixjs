@@ -6,7 +6,6 @@ Gwt.Gui.Dialog = function (Parent)
     //instance props
     this.DialogBox = new Gwt.Gui.Frame ();
     this.IsOpen = false;
-    this.InitDialog (Parent);
     
     //init
     this.SetClassName ("Gwt_Gui_Dialog");
