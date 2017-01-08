@@ -2472,7 +2472,7 @@ Gwt.Gui.Croppie.prototype.SetCallbackResult = function (Callback)
 //##################################################################################################
 //########################################################################################
 //Class Gwt::Gui::Avatar
-Gwt.Gui.Avatar = function (Image)
+Gwt.Gui.Avatar = function (Name)
 {
     Gwt.Gui.Frame.call (this);
     
@@ -2480,7 +2480,8 @@ Gwt.Gui.Avatar = function (Image)
     this.File = new Gwt.Gui.File (this.SetImage.bind(this));
     this.Image = new Gwt.Gui.Image (Gwt.Core.Contrib.Images+"appbar.camera.switch.svg");
     this.Editor =  new Gwt.Gui.Croppie ();
-    this.Name = null;
+    this.Name = Name;
+    this.FileName = null;
     this.Type = null;
     
     //init
@@ -2515,6 +2516,7 @@ Gwt.Gui.Avatar.prototype._Avatar = function ()
     this.File = null;
     this.Editor = null;
     this.Name = null;
+    this.FileName = null;
     this.Type = null;
     
     this._Frame ();
@@ -2527,7 +2529,7 @@ Gwt.Gui.Avatar.prototype.SetImage = function (Image)
 
 Gwt.Gui.Avatar.prototype.ChangeImage = function (FileName, MimeType, FileSize, Image)
 {
-    this.Name = FileName;
+    this.FileName = FileName;
     this.Type = "image/jpeg";
     
     this.Editor.SetImage (Image);
@@ -2546,7 +2548,7 @@ Gwt.Gui.Avatar.prototype.GetEditor = function ()
 
 Gwt.Gui.Avatar.prototype.GetData = function ()
 {
-    return {Name: this.Name, Type: this.Type, Data: this.Image.GetSrc().replace(/^[^,]+,/, '')};
+    return {Name: this.Name, FileName: this.FileName, Type: this.Type, Data: this.Image.GetSrc().replace(/^[^,]+,/, '')};
 }
 //Ends Gwt::Gui::Avatar
 //##################################################################################################
