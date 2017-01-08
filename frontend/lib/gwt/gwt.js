@@ -83,8 +83,9 @@ Gwt.Core.Request.prototype.SendMultipartFormData =  function ()
     {
         Uint8Data[i] = RawData.charCodeAt(i) & 0xff;
     }
-	
-    this.XHR.send (Uint8Data);
+    
+    console.log (this.Multipart);
+    //this.XHR.send (Uint8Data);
 }
 
 Gwt.Core.Request.prototype.SendApplicationXWWWFormUrlEncoded = function ()
@@ -93,7 +94,7 @@ Gwt.Core.Request.prototype.SendApplicationXWWWFormUrlEncoded = function ()
 	
     var RawData = "data="+JSON.stringify(this.Data);
 	
-    this.XHR.send (RawData);
+    //this.XHR.send (RawData);
 }
 
 Gwt.Core.Request.prototype.Ready = function ()
@@ -2535,6 +2536,11 @@ Gwt.Gui.Avatar.prototype.SetSizeEditor = function (Width, Height)
 Gwt.Gui.Avatar.prototype.GetEditor = function ()
 {
     return this.Editor;
+}
+
+Gwt.Gui.Avatar.prototype.GetData = function ()
+{
+    return this.Image.GetSrc();
 }
 //Ends Gwt::Gui::Avatar
 //##################################################################################################

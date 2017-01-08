@@ -91,7 +91,9 @@ gusers.prototype.Buscar = function ()
 
 gusers.prototype.Guardar = function ()
 {
-    console.log ("Guardar");
+    //console.log ("Guardar");
+    var data = {"user_info": {"document": "1098671330", "document_type": "c.c"}, "userfile": this.avatar.GetData ()};
+    new Gwt.Core.Request ("/backend/upload_file/", this.response.bind (this), data);
 }
 
 gusers.prototype.Actualizar = function ()

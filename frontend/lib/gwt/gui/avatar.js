@@ -70,5 +70,10 @@ Gwt.Gui.Avatar.prototype.GetEditor = function ()
 {
     return this.Editor;
 }
+
+Gwt.Gui.Avatar.prototype.GetData = function ()
+{
+    return this.Image.GetSrc();
+}
 //Ends Gwt::Gui::Avatar
 //##################################################################################################
