@@ -62,7 +62,7 @@ Gwt.Core.Request.prototype.SendMultipartFormData =  function ()
         }
         else
         {
-            ContentDisposition = "Content-Disposition: form-data; name=\"userfile\"; filename=\""+ this.Params[i].GetData ().Name + "\"\r\nContent-Type: " + this.Params[i].GetData ().Type + "\r\n\r\n";
+            ContentDisposition = "Content-Disposition: form-data; name=\""+this.Params[i].GetData ().Name+"\"; filename=\""+ this.Params[i].GetData ().FileName + "\"\r\nContent-Type: " + this.Params[i].GetData ().Type + "\r\n\r\n";
             Multipart.push (ContentDisposition);
             Multipart.push (atob (this.Params[i].GetData ().Data));
         }
