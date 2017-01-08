@@ -2521,7 +2521,7 @@ Gwt.Gui.Avatar.prototype.SetImage = function (Image)
 Gwt.Gui.Avatar.prototype.ChangedImage = function ()
 {
     console.log (this.Image.GetSrc().search ("appbar.camera.switch.svg"));
-    if (this.Image.GetSrc().search ("appbar.camera.switch.svg") !== -1)
+    if (this.Image.GetSrc().search ("appbar.camera.switch.svg") === -1)
     {
         this.Editor.SetImage (this.Image.GetHtml().src);
         this.Editor.Enable ();
