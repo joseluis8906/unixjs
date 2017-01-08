@@ -2362,11 +2362,12 @@ Gwt.Gui.Croppie.prototype.constructor = Gwt.Gui.Croppie;
 
 Gwt.Gui.Croppie.prototype.FinalizeCroppie = function ()
 {
-    this.Vanilla = null;
-    this.Image = null;
-    
     this.BtnFinish.FinalizeButton();
     this.BtnFinish = null;
+    
+    this.Vanilla = null;
+    this.Image = null;
+    this.Callback = null
     
     this.FinalizeFrame ();
 }
