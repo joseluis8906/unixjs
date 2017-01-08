@@ -64,15 +64,16 @@ Gwt.Core.Request.prototype.SendMultipartFormData =  function ()
     this.Multipart = [];
 	
     this.Multipart.push ("\r\n--"+this.Boundary+"\r\n");
-    var ContentDispositionDocumentType = "Content-Disposition: form-data; name=\"user_info\"; filename=\"document_type.txt\"\r\nContent-Type: \"txt\"\r\n\r\n";
+    //var ContentDispositionDocumentType = "Content-Disposition: form-data; name=\"user_info\"; filename=\"document_type.txt\"\r\nContent-Type: \"txt\"\r\n\r\n";
+    var ContentDispositionDocumentType = "Content-Disposition: form-data; name=\"data\"\r\n\r\n";
     this.Multipart.push (ContentDispositionDocumentType);
-    this.Multipart.push (JSON.stringify(this.Data.user_info));
+    this.Multipart.push (JSON.stringify(this.Data));
 
-    this.Multipart.push ("\r\n--"+this.Boundary+"\r\n");
-    var ContentDispositionFile = "Content-Disposition: form-data; name=\"userfile\"; filename=\""+ this.Data.userfile.Name + "\"\r\nContent-Type: " + this.Data.userfile.Type + "\r\n\r\n";
-    this.Multipart.push (ContentDispositionFile);
+    //this.Multipart.push ("\r\n--"+this.Boundary+"\r\n");
+    //var ContentDispositionFile = "Content-Disposition: form-data; name=\"userfile\"; filename=\""+ this.Data.userfile.Name + "\"\r\nContent-Type: " + this.Data.userfile.Type + "\r\n\r\n";
+    //this.Multipart.push (ContentDispositionFile);
     
-    this.Multipart.push (atob (this.Data.userfile.Data));
+    //this.Multipart.push (atob (this.Data.userfile.Data));
     this.Multipart.push ("\r\n--"+this.Boundary+"--");
     
     var RawData = this.Multipart.join ("");
@@ -85,8 +86,7 @@ Gwt.Core.Request.prototype.SendMultipartFormData =  function ()
         Uint8Data[i] = RawData.charCodeAt(i) & 0xff;
     }
     
-    //console.log ();
-    this.XHR.send (Uint8Data);
+    //this.XHR.send (Uint8Data);
 }
 
 Gwt.Core.Request.prototype.SendApplicationXWWWFormUrlEncoded = function ()

@@ -372,8 +372,9 @@ gusers.prototype.Buscar = function ()
 gusers.prototype.Guardar = function ()
 {
     
-    var data = {"user_info": {"document": "1098671330", "document_type": "c.c"}, "userfile": this.avatar.GetData ()};
-    new Gwt.Core.Request ("/backend/upload_file/", function(response){console.log(response)}, data);
+    //var data = {"user_info": {"document": "1098671330", "document_type": "c.c"}, "userfile": this.avatar.GetData ()};
+    var data = {"user_info": {"document": "1098671330", "document_type": "c.c"}};
+    //new Gwt.Core.Request ("/backend/test/", function(response){console.log(response)}, data);
 }
 
 gusers.prototype.Actualizar = function ()

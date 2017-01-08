@@ -4,7 +4,11 @@ cd ./frontend/
 ./make_unixjs.sh
 cd ../
 
-git add .
-#git commit -m "$1"
-git commit -m "update"
-git push origin master
+if [ "$1" = "local" ];
+then
+    git add .
+    git commit -m "update"
+elif [ "$1" = "remote" ];
+then
+    git push origin master
+fi
