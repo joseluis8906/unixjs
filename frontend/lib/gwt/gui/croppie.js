@@ -90,7 +90,7 @@ Gwt.Gui.Croppie.prototype.SetHeight = function (Height)
 
 Gwt.Gui.Croppie.prototype.Upload = function ()
 {
-    this.Vanilla.result('blob').then(function(blob) {
+    this.Vanilla.result({type: 'base64', size: {width: 640, height: 640},  format: "jpeg"}).then(function(blob) {
         console.log (blob);
     });
     

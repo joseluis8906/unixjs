@@ -22,13 +22,13 @@ Gwt.Core.Request.prototype.Send = function ()
 {	
     if (this.Data.userfile !== undefined)
     {
-        this.UploadFile ();
+        this.SendMultipartFormData ();
         return;
     }
-    this.SendData ();
+    this.SendApplicationXWWWFormUrlEncoded ();
 }
 
-Gwt.Core.Request.prototype.UploadFile =  function ()
+Gwt.Core.Request.prototype.SendMultipartFormData =  function ()
 {
     this.Boundary = "---------------------------" + Date.now().toString(16);
     this.XHR.setRequestHeader("Content-Type", "multipart\/form-data; boundary=" + this.Boundary);
@@ -46,19 +46,10 @@ Gwt.Core.Request.prototype.UploadFile =  function ()
     var ContentDispositionFile = "Content-Disposition: form-data; name=\"userfile\"; filename=\""+ this.Data.userfile.name + "\"\r\nContent-Type: " + this.Data.userfile.type + "\r\n\r\n";
     this.Multipart.push (ContentDispositionFile);
 	
-    this.FileData = new FileReader ();
-    this.FileData.readAsBinaryString (this.Data.userfile);
-    
-    this.FileData.addEventListener ("load", this.SendFile.bind(this), false);
-}
-
-Gwt.Core.Request.prototype.SendFile = function ()
-{
-    this.Multipart.push (this.FileData.result);	
+    this.Multipart.push (atob (this.Data.userfile));
     this.Multipart.push ("\r\n--"+this.Boundary+"--");
-	
+    
     var RawData = this.Multipart.join ("");
-	
     this.XHR.setRequestHeader("Content-Length", RawData.length);
 	
     var NBytes = RawData.length, Uint8Data = new Uint8Array(NBytes);
@@ -70,7 +61,7 @@ Gwt.Core.Request.prototype.SendFile = function ()
     this.XHR.send (Uint8Data);
 }
 
-Gwt.Core.Request.prototype.SendData = function ()
+Gwt.Core.Request.prototype.SendApplicationXWWWFormUrlEncoded = function ()
 {
     this.XHR.setRequestHeader("Content-Type", "application\/x-www-form-urlencoded");
 	
