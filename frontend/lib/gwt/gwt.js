@@ -2415,12 +2415,11 @@ Gwt.Gui.Croppie.prototype.SetSize = function (Width, Height)
     this.SetWidth(Width);
     this.SetHeight(Height);
     
-    this.Vanilla.options.boundary.width = this.GetWidth ();
-    this.Vanilla.options.boundary.height = (this.GetHeight() - 86);
-    console.log (this.Vanilla.options.boundary);
+    this.Vanilla.elements.boundary.style.width = this.GetWidth ();
+    this.Vanilla.elements.boundary.style.height = (this.GetHeight() - 86);
     
-    this.Vanilla.options.viewport.width = this.GetWidth()/2;
-    this.Vanilla.options.viewport.height = this.GetWidth()/2;
+    this.Vanilla.elements.viewport.style.width = this.GetWidth()/2;
+    this.Vanilla.elements.viewport.style.height = this.GetWidth()/2;
 }
 
 Gwt.Gui.Croppie.prototype.SetWidth = function (Width)
@@ -2430,8 +2429,8 @@ Gwt.Gui.Croppie.prototype.SetWidth = function (Width)
     this.SetMinWidth (this.Width);
     this.GetHtml ().style.width = this.Width+"px";
     
-    this.Vanilla.options.boundary.width = this.GetWidth ();
-    this.Vanilla.options.viewport.width = this.GetWidth()/2;
+    this.Vanilla.elements.boundary.style.width = this.GetWidth ();
+    this.Vanilla.elements.viewport.style.width = this.GetWidth()/2;
 }
 
 Gwt.Gui.Croppie.prototype.SetHeight = function (Height)
@@ -2441,8 +2440,8 @@ Gwt.Gui.Croppie.prototype.SetHeight = function (Height)
     this.SetMinHeight (this.Height);
     this.GetHtml ().style.height = this.Height+"px";
     
-    this.Vanilla.options.boundary.height = (this.GetHeight() - 86);
-    this.Vanilla.options.viewport.height = this.GetWidth()/2;
+    this.Vanilla.elements.boundary.style.height = (this.GetHeight() - 86);
+    this.Vanilla.elements.viewport.style.height = this.GetWidth()/2;
 }
 
 Gwt.Gui.Croppie.prototype.Upload = function ()
