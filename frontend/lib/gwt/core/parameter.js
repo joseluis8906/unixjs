@@ -2,7 +2,7 @@
 //Gwt::Core::Param
 Gwt.Core.Parameter = function (Type, Data)
 {
-    this.Type = Type === Gwt.Core.PARAM_TYPE_JSON? Type : Gwt.Core.PARAM_TYPE_FILE;
+    this.Type = Type === Gwt.Core.PARAM_TYPE_JSON ? Type : Gwt.Core.PARAM_TYPE_FILE;
     this.Data = Data;
 }
 

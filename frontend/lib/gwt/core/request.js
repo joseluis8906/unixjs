@@ -23,11 +23,11 @@ Gwt.Core.Request.prototype._Request = function ()
 Gwt.Core.Request.prototype.Send = function ()
 {
     var option = 0;
-    for (var i=0; i<this.Params.length; i++)
+    for (var i = 0; i < this.Params.length; i++)
     {
         if (this.Params[i].Type === Gwt.Core.PARAM_TYPE_FILE)
         {
-            option=1;
+            option = 1;
             break;
         }
     }
@@ -68,9 +68,9 @@ Gwt.Core.Request.prototype.SendMultipartFormData =  function ()
         }
     }
     
-    this.Multipart.push ("\r\n--"+this.Boundary+"--");
+    Multipart.push ("\r\n--"+Boundary+"--");
     
-    var RawData = this.Multipart.join ("");
+    var RawData = Multipart.join ("");
     console.log (RawData);
     this.XHR.setRequestHeader("Content-Length", RawData.length);
 	
