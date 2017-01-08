@@ -94,7 +94,7 @@ gusers.prototype.Guardar = function ()
     
     //var data = {"user_info": {"document": "1098671330", "document_type": "c.c"}, "userfile": this.avatar.GetData ()};
     var params = [
-        new Gwt.Core.Parameter(Gwt.Core.PARAM_TYPE_JSON, {"Name": "user_info", "Data": {"document": "1098671330", "document_type": "c.c"}}),
+        new Gwt.Core.Parameter(Gwt.Core.PARAM_TYPE_JSON, {"Name": "data", "Data": {"document": "1098671330", "document_type": "c.c"}}),
         new Gwt.Core.Parameter(Gwt.Core.PARAM_TYPE_FILE, this.avatar.GetData ())
     ];
     
