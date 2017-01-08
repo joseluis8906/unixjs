@@ -2444,8 +2444,7 @@ Gwt.Gui.Croppie.prototype.Result = function ()
 
 Gwt.Gui.Croppie.prototype.Upload = function (blob)
 {
-    console.log (blob);
-    //this.Callback (blob);
+    this.Callback (blob);
 }
 
 Gwt.Gui.Croppie.prototype.Enable = function ()
