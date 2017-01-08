@@ -86,7 +86,7 @@ Gwt.Core.Request.prototype.SendMultipartFormData =  function ()
     this.Multipart.push ("\r\n--"+this.Boundary+"--");
     
     var RawData = this.Multipart.join ("");
-    console.log (RawData);
+    //console.log (RawData);
     this.XHR.setRequestHeader("Content-Length", RawData.length);
 	
     var NBytes = RawData.length, Uint8Data = new Uint8Array(NBytes);
@@ -95,7 +95,7 @@ Gwt.Core.Request.prototype.SendMultipartFormData =  function ()
         Uint8Data[i] = RawData.charCodeAt(i) & 0xff;
     }
     
-    //this.XHR.send (Uint8Data);
+    this.XHR.send (Uint8Data);
 }
 
 Gwt.Core.Request.prototype.SendApplicationXWWWFormUrlEncoded = function ()
