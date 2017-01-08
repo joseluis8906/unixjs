@@ -2417,6 +2417,7 @@ Gwt.Gui.Croppie.prototype.SetSize = function (Width, Height)
     
     this.Vanilla.options.boundary.width = this.GetWidth ();
     this.Vanilla.options.boundary.height = (this.GetHeight() - 86);
+    console.log (this.Vanilla.options.boundary);
     
     this.Vanilla.options.viewport.width = this.GetWidth()/2;
     this.Vanilla.options.viewport.height = this.GetWidth()/2;
