@@ -94,7 +94,7 @@ Gwt.Gui.Croppie.prototype.SetHeight = function (Height)
 
 Gwt.Gui.Croppie.prototype.Result = function ()
 {
-    this.Vanilla.result({type: 'base64', size: {width: 640, height: 640},  format: "jpeg"}).then(this.Upload.bind(this));
+    this.Vanilla.result({type: 'base64', size: {width: 320, height: 320},  format: "jpeg"}).then(this.Upload.bind(this));
     this.Disable();
 }
 
