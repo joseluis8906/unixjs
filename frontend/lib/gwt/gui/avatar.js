@@ -47,6 +47,7 @@ Gwt.Gui.Avatar.prototype.InitAvatar = function ()
     this.Image.AddEvent (Gwt.Gui.Event.Window.Load, this.ChangedImage.bind(this));
     
     this.Editor =  new Gwt.Gui.Croppie ();
+    this.Editor.SetCallbackResult (this.SetImage.bind (this));
 }
 
 Gwt.Gui.Avatar.prototype.SetImage = function (Image)

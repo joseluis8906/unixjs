@@ -2348,9 +2348,12 @@ Gwt.Gui.Image.prototype.SetRounded = function ()
 Gwt.Gui.Croppie = function ()
 {
     Gwt.Gui.Frame.call (this);
+ 
     this.Vanilla = null;
     this.BtnFinish = null;
     this.Image = null;
+    this.Callback = null;
+    
     this.InitCroppie ();
 }
 
@@ -2436,7 +2439,7 @@ Gwt.Gui.Croppie.prototype.SetHeight = function (Height)
 Gwt.Gui.Croppie.prototype.Upload = function ()
 {
     this.Vanilla.result({type: 'base64', size: {width: 640, height: 640},  format: "jpeg"}).then(function(blob) {
-        console.log (blob);
+        this.Callback (blob);
     });
     
     this.Disable();
@@ -2450,6 +2453,11 @@ Gwt.Gui.Croppie.prototype.Enable = function ()
 Gwt.Gui.Croppie.prototype.Disable = function ()
 {
     this.SetDisplay (Gwt.Gui.Contrib.Display.None);
+}
+
+Gwt.Gui.Croppie.prototype.SetCallbackResult = function (Callback)
+{
+    this.Callback = Callback;
 }
 //Ends Gwt::Gui::Croppie
 //##################################################################################################
@@ -2502,6 +2510,7 @@ Gwt.Gui.Avatar.prototype.InitAvatar = function ()
     this.Image.AddEvent (Gwt.Gui.Event.Window.Load, this.ChangedImage.bind(this));
     
     this.Editor =  new Gwt.Gui.Croppie ();
+    this.Editor.SetCallbackResult (this.SetImage.bind (this));
 }
 
 Gwt.Gui.Avatar.prototype.SetImage = function (Image)
