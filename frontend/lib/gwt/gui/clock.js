@@ -2,49 +2,43 @@
 //Class Gwt::Gui::Desktop
 Gwt.Gui.Clock = function ()
 {
-	Gwt.Gui.Frame.call (this);
+    Gwt.Gui.Frame.call (this);
 	
-	this.resource = null;
-	this.seconds = null;
-	this.minutes = null;
-	this.hours = null;
-	this.seconds_bar = null;
-	this.minutes_bar = null;
-	this.hours_bar = null;
-	this.center = null;
-	this.seconds_interval = null;
-	
-	this.InitClock ();
+    this.resource = new XMLHttpRequest ();
+    this.seconds = null;
+    this.minutes = null;
+    this.hours = null;
+    this.seconds_bar = null;
+    this.minutes_bar = null;
+    this.hours_bar = null;
+    this.center = null;
+    this.seconds_interval = null;
+    
+    this.SetClassName ("Gwt_Gui_Clock");
+    this.SetSize (200, 200);
+
+    this.resource.open ("GET", Gwt.Core.Contrib.Images+"clock.svg", true);
+    this.resource.overrideMimeType("image/svg+xml");
+    this.resource.onreadystatechange = this.Ready.bind(this);
+    this.resource.send ("");
 }
 
 Gwt.Gui.Clock.prototype = new Gwt.Gui.Frame ();
 Gwt.Gui.Clock.prototype.constructor = Gwt.Gui.Clock;
 
-Gwt.Gui.Clock.prototype.FinalizeClock = function ()
+Gwt.Gui.Clock.prototype._Clock = function ()
 {
-	this.resource = null;
-	this.seconds = null;
-	this.minutes = null;
-	this.hours = null;
-	this.seconds_bar = null;
-	this.minutes_bar = null;
-	this.hours_bar = null;
-	this.center = null;
-	this.seconds_interval = null;
-	
-	this.FinalizeFrame ();
-}
-
-Gwt.Gui.Clock.prototype.InitClock = function ()
-{
-	this.SetClassName ("Gwt_Gui_Clock");
-	this.SetSize (200, 200);
-	
-	this.resource = new XMLHttpRequest ();
-	this.resource.open ("GET", Gwt.Core.Contrib.Images+"clock.svg", true);
-	this.resource.overrideMimeType("image/svg+xml");
-	this.resource.onreadystatechange = this.Ready.bind(this);
-	this.resource.send ("");
+    this.resource = null;
+    this.seconds = null;
+    this.minutes = null;
+    this.hours = null;
+    this.seconds_bar = null;
+    this.minutes_bar = null;
+    this.hours_bar = null;
+    this.center = null;
+    this.seconds_interval = null;
+    
+    this._Frame ();
 }
 
 Gwt.Gui.Clock.prototype.Ready = function ()

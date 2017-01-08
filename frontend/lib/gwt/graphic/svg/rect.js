@@ -3,23 +3,31 @@
 Gwt.Graphic.Svg.Rect = function ()
 {
     Gwt.Graphic.Svg.Graphic.call (this);
+    
+    //instance props
     this.X = null;
     this.Y = null;
     this.Rx = null;
     this.Ry = null;
- 
-    this.InitRect ();
+    
+    //init
+    this.SetHtml ("rect");
+    this.SetX (0);
+    this.SetY (0);
+    this.SetSize (100, 100);
 }
 
 Gwt.Graphic.Svg.Rect.prototype = new Gwt.Graphic.Svg.Graphic ();
 Gwt.Graphic.Svg.Rect.prototype.constructor = Gwt.Graphic.Svg.Rect;
 
-Gwt.Graphic.Svg.Rect.prototype.InitRect = function ()
+Gwt.Graphic.Svg.Rect.prototype._Rect = function ()
 {
-    this.Html = document.createElementNS ("http://www.w3.org/2000/svg", "rect");
-    this.SetX (0);
-    this.SetY (0);
-    this.SetSize (100, 100);
+    this.X = null;
+    this.Y = null;
+    this.Rx = null;
+    this.Ry = null;
+    
+    this._Graphic ();
 }
 
 Gwt.Graphic.Svg.Rect.prototype.SetX = function (X)

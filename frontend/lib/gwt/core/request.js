@@ -1,16 +1,8 @@
+//###################################################################################################
 //Gwt::Core::Request
 Gwt.Core.Request = function (Url, Func, Data, Type)
 {
-	this.XHR = new XMLHttpRequest ();			
-	this.Url = null;
-	this.Func = null;
-	this.Data = null;
-        this.Type = null;
-	this.InitRequest (Url, Func, Data, Type);
-}
-
-Gwt.Core.Request.prototype.InitRequest = function (Url, Func, Data, Type)
-{
+    this.XHR = new XMLHttpRequest ();			
     this.Url = Url;
     this.Func = Func;
     this.Data = Data;
@@ -19,6 +11,15 @@ Gwt.Core.Request.prototype.InitRequest = function (Url, Func, Data, Type)
     this.XHR.onreadystatechange = this.Ready.bind(this);
     this.XHR.open ("POST", this.Url, true);
     this.Send ();
+}
+
+Gwt.Core.Reqiest.prototype._Request = function ()
+{
+    this.XHR = null;
+    this.Url = null;
+    this.Func = null;
+    this.Data = null;
+    this.Type = null;
 }
 
 Gwt.Core.Request.prototype.Send = function ()
@@ -45,19 +46,18 @@ Gwt.Core.Request.prototype.SendMultipartFormData =  function ()
 	
     this.Multipart.push ("\r\n--"+this.Boundary+"\r\n");
     //var ContentDispositionDocumentType = "Content-Disposition: form-data; name=\"user_info\"; filename=\"document_type.txt\"\r\nContent-Type: \"txt\"\r\n\r\n";
-    var ContentDispositionDocumentType = "Content-Disposition: form-data; name=\"data\"\r\n\r\n";
+    var ContentDispositionDocumentType = "Content-Disposition: form-data; name=\""+this.Data[i].name+"\"\r\n\r\n";
     this.Multipart.push (ContentDispositionDocumentType);
     this.Multipart.push (JSON.stringify(this.Data));
 
-    //this.Multipart.push ("\r\n--"+this.Boundary+"\r\n");
-    //var ContentDispositionFile = "Content-Disposition: form-data; name=\"userfile\"; filename=\""+ this.Data.userfile.Name + "\"\r\nContent-Type: " + this.Data.userfile.Type + "\r\n\r\n";
-    //this.Multipart.push (ContentDispositionFile);
+    this.Multipart.push ("\r\n--"+this.Boundary+"\r\n");
+    var ContentDispositionFile = "Content-Disposition: form-data; name=\"userfile\"; filename=\""+ this.Data.userfile.Name + "\"\r\nContent-Type: " + this.Data.userfile.Type + "\r\n\r\n";
+    this.Multipart.push (ContentDispositionFile);
     
-    //this.Multipart.push (atob (this.Data.userfile.Data));
+    this.Multipart.push (atob (this.Data.userfile.Data));
     this.Multipart.push ("\r\n--"+this.Boundary+"--");
     
     var RawData = this.Multipart.join ("");
-    //console.log (RawData);
     this.XHR.setRequestHeader("Content-Length", RawData.length);
 	
     var NBytes = RawData.length, Uint8Data = new Uint8Array(NBytes);

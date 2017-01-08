@@ -8,7 +8,7 @@ cat conf.js > gwt.js
 #core
 cat core/conf.js >> gwt.js
 cat core/request.js >> gwt.js
-
+cat core/parameter.js >> gwt.js
 
 #gui
 cat gui/conf.js >> gwt.js
@@ -23,8 +23,8 @@ cat gui/hbox.js >> gwt.js
 cat gui/image.js >> gwt.js
 cat gui/croppie.js >> gwt.js
 cat gui/avatar.js >> gwt.js
-cat gui/menu.js >> gwt.js
 cat gui/menu_item.js >> gwt.js
+cat gui/menu.js >> gwt.js
 cat gui/select_box_item.js >> gwt.js
 cat gui/select_box_dialog.js >> gwt.js
 cat gui/select_box.js >> gwt.js
@@ -32,7 +32,6 @@ cat gui/static_text.js >> gwt.js
 cat gui/vbox.js >> gwt.js
 cat gui/slider.js >> gwt.js
 cat gui/clock.js >> gwt.js
-cat gui/button_sv_up_dl.js >> gwt.js
 cat gui/button_on_off.js >> gwt.js
 cat gui/icon_control.js >> gwt.js
 cat gui/icon_desktop.js >> gwt.js

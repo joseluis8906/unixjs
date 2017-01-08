@@ -2,46 +2,38 @@
 //Class Gwt::Gui::Menu
 Gwt.Gui.Menu = function ()
 {   
-    this.MenuBtn = null;
-    this.ContainerMenu = null;
-    this.Items = null;
-    
-    this.InitMenu ();
-}
-
-Gwt.Gui.Menu.prototype.FinalizeMenu = function ()
-{
-    for (var i = 0; i < this.Items.length; i++)
-    {
-        this.Items[i].FinalizeMenuItem();
-        this.Items[i] = null;
-    }
-    
-    this.Items = null;
-    
-    this.MenuBtn.FinalizeImage ();
-    this.MenuBtn = null;
-    
-    this.ContainerMenu.FinalizeVBox ();
-    this.ContainerMenu = null;
-}
-
-Gwt.Gui.Menu.prototype.InitMenu = function ()
-{
+    //instance props
     this.MenuBtn = new Gwt.Gui.Image (Gwt.Core.Contrib.Images + "appbar.list.svg");
+    this.ContainerMenu = new Gwt.Gui.VBox (0);
+    this.Items = [];
+    
+    //init
     this.MenuBtn.SetSize (24, 24);
     this.MenuBtn.AddEvent (Gwt.Gui.Event.Mouse.Click, this.Toggle.bind (this));
     
-    this.ContainerMenu = new Gwt.Gui.VBox (0);
     this.ContainerMenu.SetSize (128, 128);
     this.ContainerMenu.SetBorderRadius (2);
     this.ContainerMenu.SetBackgroundColor (new Gwt.Gui.Contrib.Color (50, 50, 50, 0.9));
     this.ContainerMenu.SetPositionType (Gwt.Gui.Contrib.PositionType.Absolute);
     this.ContainerMenu.SetDisplay (Gwt.Gui.Contrib.Display.None);
     this.ContainerMenu.AddEvent (Gwt.Gui.Event.Mouse.Click, this.Toggle.bind (this));
+}
+
+Gwt.Gui.Menu.prototype._Menu = function ()
+{
+    for (var i = 0; i < this.Items.length; i++)
+    {
+        this.Items[i]._MenuItem();
+        this.Items[i] = null;
+    }
     
-    this.Items = [];
+    this.Items = null;
     
+    this.MenuBtn._Image ();
+    this.MenuBtn = null;
+    
+    this.ContainerMenu._VBox ();
+    this.ContainerMenu = null;
 }
 
 Gwt.Gui.Menu.prototype.Toggle = function ()

@@ -3,25 +3,23 @@
 Gwt.Graphic.Svg.Ellipse = function ()
 {
     Gwt.Graphic.Svg.Graphic.call (this);
+
+    //instance props
     this.Cx = null;
     this.Cy = null;
     this.Rx = null;
     this.Ry = null;
  
-    this.InitEllipse ();
-}
-
-Gwt.Graphic.Svg.Ellipse.prototype = new Gwt.Graphic.Svg.Graphic ();
-Gwt.Graphic.Svg.Ellipse.prototype.constructor = Gwt.Graphic.Svg.Ellipse;
-
-Gwt.Graphic.Svg.Ellipse.prototype.InitEllipse = function ()
-{
-    this.Html = document.createElementNS ("http://www.w3.org/2000/svg", "ellipse");
+    //init
+    this.SetHtml ("ellipse");
     this.SetCx (0);
     this.SetCy (0);
     this.SetRx (0);
     this.SetRy (0);
 }
+
+Gwt.Graphic.Svg.Ellipse.prototype = new Gwt.Graphic.Svg.Graphic ();
+Gwt.Graphic.Svg.Ellipse.prototype.constructor = Gwt.Graphic.Svg.Ellipse;
 
 Gwt.Graphic.Svg.Ellipse.prototype.SetCx = function (Cx)
 {

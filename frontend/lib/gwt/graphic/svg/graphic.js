@@ -2,6 +2,7 @@
 //Class Gwt::Graphics::Svg::Graphic
 Gwt.Graphic.Svg.Graphic = function ()
 {
+    //instance props
     this.Html = null;
     this.Width = null;
     this.Height = null;
@@ -13,23 +14,24 @@ Gwt.Graphic.Svg.Graphic = function ()
     this.StrokeLineCap = null;
     this.StrokeDashArray = null;
     
-    this.InitGraphic ();
-}
-
-Gwt.Graphic.Svg.Graphic.prototype.InitGraphic = function ()
-{
-    this.Html = document.createElement ("svg");
-    
+    //init
+    this.SetHtml ("svg");
     this.SetWidth (100);
     this.SetHeight (100);
 }
 
-Gwt.Graphic.Svg.Graphic.prototype.FinalizeGraphic = function ()
+Gwt.Graphic.Svg.Graphic.prototype._Graphic = function ()
 {
     this.Html = null;
-
     this.Width = null;
     this.Height = null;
+    this.Fill = null;
+    this.FillOpacity = null;
+    this.Stroke = null;
+    this.StrokeOpacity = null;
+    this.StrokeWidth = null;
+    this.StrokeLineCap = null;
+    this.StrokeDashArray = null;
 }
 
 Gwt.Graphic.Svg.Graphic.prototype.Add = function (element)
@@ -105,6 +107,11 @@ Gwt.Graphic.Svg.Graphic.prototype.SetStrokeDashArray = function (StrokeDashArray
 {
     this.StrokeDashArray = StrokeDashArray;
     this.Html.setAttribute ("stroke-dasharray", this.StrokeDashArray);
+}
+
+Gwt.Graphic.Svg.Graphic.prototype.SetHtml = function (Html)
+{
+    this.Html = document.createElementNS ("http://www.w3.org/2000/svg", Html);
 }
 //##################################################################################################
 //End Gwt::Graphic::Svg::Graphic

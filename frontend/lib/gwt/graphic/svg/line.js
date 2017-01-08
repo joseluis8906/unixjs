@@ -3,23 +3,21 @@
 Gwt.Graphic.Svg.Line = function ()
 {
     Gwt.Graphic.Svg.Graphic.call (this);
+    
+    //instance props
     this.X1 = null;
     this.Y1 = null;
     this.X2 = null;
     this.Y2 = null;
  
-    this.InitLine ();
+    //init
+    this.SetHtml ("line");
+    this.SetP1 (0, 0);
+    this.SetP2 (10, 10);
 }
 
 Gwt.Graphic.Svg.Line.prototype = new Gwt.Graphic.Svg.Graphic ();
 Gwt.Graphic.Svg.Line.prototype.constructor = Gwt.Graphic.Svg.Line;
-
-Gwt.Graphic.Svg.Line.prototype.InitLine = function ()
-{
-    this.Html = document.createElementNS ("http://www.w3.org/2000/svg", "line");
-    this.SetP1 (0, 0);
-    this.SetP2 (10, 10);
-}
 
 Gwt.Graphic.Svg.Line.prototype.SetX1 = function (X1)
 {

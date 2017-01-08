@@ -3,6 +3,8 @@
 Gwt.Graphic.Svg.Canvas = function ()
 {
     Gwt.Gui.Frame.call (this);
+    
+    this.Html = document.createElementNS ("http://www.w3.org/2000/svg", "svg");
     this.X = null;
     this.Y = null;
     this.ViewBoxMinX = null;
@@ -15,16 +17,7 @@ Gwt.Graphic.Svg.Canvas = function ()
     this.XmlnsXlink = null;
     this.XmlSpace = null;
     
-    
-    this.InitCanvas ();
-}
-
-Gwt.Graphic.Svg.Canvas.prototype = new Gwt.Gui.Frame ();
-Gwt.Graphic.Svg.Canvas.prototype.constructor = Gwt.Graphic.Svg.Canvas;
-
-Gwt.Graphic.Svg.Canvas.prototype.InitCanvas = function ()
-{
-    this.Html = document.createElementNS ("http://www.w3.org/2000/svg", "svg");
+    //init
     this.SetX (0);
     this.SetY (0);
     this.SetWidth (100);
@@ -36,9 +29,11 @@ Gwt.Graphic.Svg.Canvas.prototype.InitCanvas = function ()
     this.SetPositionType (Gwt.Gui.Contrib.PositionType.Relative);
 }
 
-Gwt.Graphic.Svg.Canvas.prototype.FinalizeCanvas = function ()
+Gwt.Graphic.Svg.Canvas.prototype = new Gwt.Gui.Frame ();
+Gwt.Graphic.Svg.Canvas.prototype.constructor = Gwt.Graphic.Svg.Canvas;
+
+Gwt.Graphic.Svg.Canvas.prototype._Canvas = function ()
 {
-    this.FinalizeSvgGraphic ();
     this.X = null;
     this.Y = null;
     this.ViewBoxMinX = null;
@@ -50,6 +45,8 @@ Gwt.Graphic.Svg.Canvas.prototype.FinalizeCanvas = function ()
     this.Xmlns = null;
     this.XmlnsXlink = null;
     this.XmlSpace = null;
+    
+    this._Frame ();
 }
 
 Gwt.Graphic.Svg.Canvas.prototype.SetX = function (X)

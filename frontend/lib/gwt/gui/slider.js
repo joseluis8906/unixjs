@@ -1,22 +1,34 @@
-    //Class Gwt::Gui::Slider
+//####################################################################################################
+//Class Gwt::Gui::Slider
 Gwt.Gui.Slider = function (Slots)
 {
     Gwt.Gui.Frame.call (this);
     
-    this.Slots = null;
-    this.Panel = null;
-    this.ArrowLeft = null;
-    this.ArrowRight = null;
-    this.Viewer = null;
-    this.Slide = null;
+    //instance props
+    this.Slots = new Array (typeof(Slots) === "undefined"? 1 : Slots);
+    this.Panel = new Gwt.Gui.Frame ();
+    this.ArrowLeft = new Gwt.Gui.Button (Gwt.Core.Contrib.Images+"appbar.arrow.left.svg", "");
+    this.ArrowRight = new Gwt.Gui.Button (Gwt.Core.Contrib.Images+"appbar.arrow.right.svg", "");
+    this.Viewer = new Gwt.Gui.Frame ();
+    this.Slide = new Gwt.Gui.HBox ();
     
-    this.InitSlider (Slots);
+    //init
+    this.SetClassName ("Gwt_Gui_Slider");
+
+    this.ArrowLeft.SetWidth (28);
+    this.ArrowLeft.AddEvent (Gwt.Gui.Event.Mouse.Click, this.SlideRight.bind (this));
+    
+    this.ArrowRight.SetWidth (28);
+    this.ArrowRight.AddEvent (Gwt.Gui.Event.Mouse.Click, this.SlideLeft.bind (this));
+
+    this._Add (this.Viewer);
+    this._Add (this.Panel);
 }
 
 Gwt.Gui.Slider.prototype = new Gwt.Gui.Frame ();
 Gwt.Gui.Slider.prototype.constructor = Gwt.Gui.Slider;
 
-Gwt.Gui.Slider.prototype.FinalizeSlider = function ()
+Gwt.Gui.Slider.prototype._Slider = function ()
 {
     this.Slots = null;
     this.Panel = null;
@@ -25,31 +37,7 @@ Gwt.Gui.Slider.prototype.FinalizeSlider = function ()
     this.Viewer = null;
     this.Slide = null;
     
-    this.FinalizeFrame ();
-}
-
-Gwt.Gui.Slider.prototype.InitSlider = function (Slots)
-{
-    this.SetClassName ("Gwt_Gui_Slider");
-    
-    this.Slots = new Array (typeof(Slots) === "undefined"? 1 : Slots);
-    
-    this.Panel = new Gwt.Gui.Frame ();
-    
-    this.ArrowLeft = new Gwt.Gui.Button (Gwt.Core.Contrib.Images+"appbar.arrow.left.svg", "");
-    this.ArrowLeft.SetWidth (28);
-    this.ArrowLeft.AddEvent (Gwt.Gui.Event.Mouse.Click, this.SlideRight.bind (this));
-    
-    this.ArrowRight = new Gwt.Gui.Button (Gwt.Core.Contrib.Images+"appbar.arrow.right.svg", "");
-    this.ArrowRight.SetWidth (28);
-    this.ArrowRight.AddEvent (Gwt.Gui.Event.Mouse.Click, this.SlideLeft.bind (this));
-    
-    this.Viewer = new Gwt.Gui.Frame ();
-    
-    this.Slide = new Gwt.Gui.HBox ();
-    
-    this._Add (this.Viewer);
-    this._Add (this.Panel);
+    this._Frame ();
 }
 
 Gwt.Gui.Slider.prototype.GetSlots = function ()

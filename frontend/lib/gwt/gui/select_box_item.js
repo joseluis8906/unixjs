@@ -3,31 +3,13 @@
 Gwt.Gui.SelectBoxItem = function (Text, Value)
 {
     Gwt.Gui.Frame.call (this);
-	
-    this.Text = null;
-    this.Value = null;
-	
-    this.InitSelectBoxItem (Text, Value);
-}
-
-Gwt.Gui.SelectBoxItem.prototype = new Gwt.Gui.Frame ();
-Gwt.Gui.SelectBoxItem.prototype.constructor = Gwt.Gui.SelectBoxItem;
-
-Gwt.Gui.SelectBoxItem.prototype.FinalizeSelectBoxItem = function ()
-{
-    this.Text = null;
-    this.Value = null;
-	
-    this.FinalizeFrame ();
-}
-
-Gwt.Gui.SelectBoxItem.prototype.InitSelectBoxItem = function (Text, Value)
-{
-    this.SetClassName ("Gwt_Gui_SelectBoxItem");
-	
+    
+    //instance props
     this.Text = new Gwt.Gui.StaticText (Text);
     this.Value = Value;
-	
+    
+    //init
+    this.SetClassName ("Gwt_Gui_SelectBoxItem");
     this.SetHeight (24);
     var background_color = new Gwt.Gui.Contrib.Color (Gwt.Gui.Contrib.Colors.Azure);
     background_color.SetAlpha (0);
@@ -41,6 +23,17 @@ Gwt.Gui.SelectBoxItem.prototype.InitSelectBoxItem = function (Text, Value)
     this.AddEvent (Gwt.Gui.Event.Mouse.MouseOut, this.MouseOut.bind (this));
 	
     this.Add (this.Text);
+}
+
+Gwt.Gui.SelectBoxItem.prototype = new Gwt.Gui.Frame ();
+Gwt.Gui.SelectBoxItem.prototype.constructor = Gwt.Gui.SelectBoxItem;
+
+Gwt.Gui.SelectBoxItem.prototype._SelectBoxItem = function ()
+{
+    this.Text = null;
+    this.Value = null;
+	
+    this._Frame ();
 }
 
 Gwt.Gui.SelectBoxItem.prototype.GetValue = function ()

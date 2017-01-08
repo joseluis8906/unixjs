@@ -7,7 +7,9 @@ Gwt = new Object ();
 //Gwt::Core
 Gwt.Core = {
     REQUEST_TYPE_MULTIPART: 0,
-    REQUEST_TYPE_XWWW: 1
+    REQUEST_TYPE_XWWW: 1,
+    PARAM_TYPE_TEXT: 0,
+    PARAM_TYPE_FILE: 1
 };
 
 Gwt.Core.Contrib = new Object ();
@@ -27,19 +29,11 @@ Gwt.Core.Math.Round = function (value, decimals)
 }
 //End Gwt::Core::Contrib
 //###########################################################################
+//###################################################################################################
 //Gwt::Core::Request
 Gwt.Core.Request = function (Url, Func, Data, Type)
 {
-	this.XHR = new XMLHttpRequest ();			
-	this.Url = null;
-	this.Func = null;
-	this.Data = null;
-        this.Type = null;
-	this.InitRequest (Url, Func, Data, Type);
-}
-
-Gwt.Core.Request.prototype.InitRequest = function (Url, Func, Data, Type)
-{
+    this.XHR = new XMLHttpRequest ();			
     this.Url = Url;
     this.Func = Func;
     this.Data = Data;
@@ -48,6 +42,15 @@ Gwt.Core.Request.prototype.InitRequest = function (Url, Func, Data, Type)
     this.XHR.onreadystatechange = this.Ready.bind(this);
     this.XHR.open ("POST", this.Url, true);
     this.Send ();
+}
+
+Gwt.Core.Reqiest.prototype._Request = function ()
+{
+    this.XHR = null;
+    this.Url = null;
+    this.Func = null;
+    this.Data = null;
+    this.Type = null;
 }
 
 Gwt.Core.Request.prototype.Send = function ()
@@ -74,19 +77,18 @@ Gwt.Core.Request.prototype.SendMultipartFormData =  function ()
 	
     this.Multipart.push ("\r\n--"+this.Boundary+"\r\n");
     //var ContentDispositionDocumentType = "Content-Disposition: form-data; name=\"user_info\"; filename=\"document_type.txt\"\r\nContent-Type: \"txt\"\r\n\r\n";
-    var ContentDispositionDocumentType = "Content-Disposition: form-data; name=\"data\"\r\n\r\n";
+    var ContentDispositionDocumentType = "Content-Disposition: form-data; name=\""+this.Data[i].name+"\"\r\n\r\n";
     this.Multipart.push (ContentDispositionDocumentType);
     this.Multipart.push (JSON.stringify(this.Data));
 
-    //this.Multipart.push ("\r\n--"+this.Boundary+"\r\n");
-    //var ContentDispositionFile = "Content-Disposition: form-data; name=\"userfile\"; filename=\""+ this.Data.userfile.Name + "\"\r\nContent-Type: " + this.Data.userfile.Type + "\r\n\r\n";
-    //this.Multipart.push (ContentDispositionFile);
+    this.Multipart.push ("\r\n--"+this.Boundary+"\r\n");
+    var ContentDispositionFile = "Content-Disposition: form-data; name=\"userfile\"; filename=\""+ this.Data.userfile.Name + "\"\r\nContent-Type: " + this.Data.userfile.Type + "\r\n\r\n";
+    this.Multipart.push (ContentDispositionFile);
     
-    //this.Multipart.push (atob (this.Data.userfile.Data));
+    this.Multipart.push (atob (this.Data.userfile.Data));
     this.Multipart.push ("\r\n--"+this.Boundary+"--");
     
     var RawData = this.Multipart.join ("");
-    //console.log (RawData);
     this.XHR.setRequestHeader("Content-Length", RawData.length);
 	
     var NBytes = RawData.length, Uint8Data = new Uint8Array(NBytes);
@@ -116,6 +118,29 @@ Gwt.Core.Request.prototype.Ready = function ()
 }
 //End of Gwt::Core::Request
 //##########################################################
+//###################################################################################################
+//Gwt::Core::Param
+Gwt.Core.Parameter = function (Type, Data)
+{
+    this.Type = Type === Gwt.Core.PARAM_TYPE_TEXT? Type : Gwt.Core.PARAM_TYPE_FILE;
+    this.Data = Data;
+}
+
+Gwt.Core.Parameter.prototype._Parameter = function ()
+{
+    this.Type = null;
+    this.Data = null;
+}
+
+Gwt.Core.Parameter.prototype.GetType = function ()
+{
+    return this.Type;
+}
+
+Gwt.Core.Parameter.prototype.GetData = function ()
+{
+    return this.Data;
+}
 //#####################################################################################################
 //Gwt::Gui
 //environments constants
@@ -668,6 +693,7 @@ Gwt.Gui.Contrib.OutLine =
 //Class Gwt::Gui::Frame
 Gwt.Gui.Frame = function ()
 {
+    //instance props
     this.BackgroundAttachment = null;
     this.BackgroundClip = null;
     this.BackgroundColor = null;
@@ -729,12 +755,8 @@ Gwt.Gui.Frame = function ()
     this.ClassName = null;
     this.Parent = null;
     this.Childs = null;
-		
-    this.InitFrame ();
-}
 
-Gwt.Gui.Frame.prototype.InitFrame = function ()
-{
+    //init
     this.SetHtml ("div");
     this.SetTabIndex (0);
     this.SetClassName ("Gwt_Gui_Frame");
@@ -746,7 +768,7 @@ Gwt.Gui.Frame.prototype.InitFrame = function ()
     this.Childs = [];
 }
 
-Gwt.Gui.Frame.prototype.FinalizeFrame = function ()
+Gwt.Gui.Frame.prototype._Frame = function ()
 {
     if (this.GetHtml() !== null)
     {
@@ -1377,41 +1399,13 @@ Gwt.Gui.Window = function (Title)
 {
     Gwt.Gui.Frame.call (this);
     
-    this.TitleBar = null;
-    this.Menu = null;
-    this.Body = null;
-    this.Title = null;
-        
-    this.InitWindow (Title);
-}
-
-Gwt.Gui.Window.prototype = new Gwt.Gui.Frame ();
-Gwt.Gui.Window.prototype.constructor = Gwt.Gui.Window;
-
-Gwt.Gui.Window.prototype.FinalizeWindow = function ()
-{
-    this.Menu.FinalizeMenu ();
-    this.Menu = null;
- 
-    this.Title.FinalizeStaticText();
-    this.Title = null;
-    
-    this.TitleBar.FinalizeHBox();
-    this.TitleBar = null;
-    
-    this.Body.FinalizeFrame ();
-    this.Body = null;
-
-    this.FinalizeFrame ();
-}
-
-Gwt.Gui.Window.prototype.InitWindow = function (Title)
-{
+    //instance props
     this.TitleBar = new Gwt.Gui.HBox (0);
     this.Menu = new Gwt.Gui.Menu ();
-    this.Title = new Gwt.Gui.StaticText(Title || "Default Window Title");
     this.Body = new Gwt.Gui.Frame ();
-
+    this.Title = new Gwt.Gui.StaticText(Title || "Default Window Title");
+    
+    //init
     this.SetClassName ("Gwt_Gui_Window");
     this.SetBackgroundColor (new Gwt.Gui.Contrib.Color (25,25,25,0.3));
     this.SetBackgroundSize (Gwt.Gui.Contrib.BackgroundSize.Cover);
@@ -1453,6 +1447,26 @@ Gwt.Gui.Window.prototype.InitWindow = function (Title)
     this.Add (this.Menu.ContainerMenu);
 }
 
+Gwt.Gui.Window.prototype = new Gwt.Gui.Frame ();
+Gwt.Gui.Window.prototype.constructor = Gwt.Gui.Window;
+
+Gwt.Gui.Window.prototype._Window = function ()
+{
+    this.Menu._Menu ();
+    this.Menu = null;
+ 
+    this.Title._StaticText();
+    this.Title = null;
+    
+    this.TitleBar._HBox();
+    this.TitleBar = null;
+    
+    this.Body._Frame ();
+    this.Body = null;
+
+    this._Frame ();
+}
+
 Gwt.Gui.Window.prototype.RootAdd = function (Element)
 {
     this.GetChilds().push (Element);
@@ -1481,7 +1495,13 @@ Gwt.Gui.Window.prototype.Open = function ()
 
 Gwt.Gui.Window.prototype.Close = function ()
 {
-    this.FinalizeWindow ();
+    this._App ();
+    this._Window ();
+}
+
+Gwt.Gui.Window.prototype._App = function ()
+{
+    
 }
 
 Gwt.Gui.Window.prototype.SetSize = function (Width, Height)
@@ -1562,28 +1582,13 @@ Gwt.Gui.Window.prototype.AddMenuItem = function (Image, Text, Callback, Flag)
 Gwt.Gui.Dialog = function (Parent)
 {
     Gwt.Gui.Frame.call (this);
-    
-    this.DialogBox = null;
-    this.IsOpen = null;
+
+    //instance props
+    this.DialogBox = new Gwt.Gui.Frame ();
+    this.IsOpen = false;
     this.InitDialog (Parent);
-}
-
-Gwt.Gui.Dialog.prototype = new Gwt.Gui.Frame ();
-Gwt.Gui.Dialog.prototype.constructor = Gwt.Gui.Dialog;
-
-Gwt.Gui.Dialog.prototype.FinalizeDialog = function ()
-{
-    if(this.DialogBox !== null)
-    {
-        this.DialogBox.FinalizeFrame ();
-    }
-    this.DialogBox = null;
     
-    this.FinalizeFrame ();
-}
-
-Gwt.Gui.Dialog.prototype.InitDialog = function (Parent)
-{
+    //init
     this.SetClassName ("Gwt_Gui_Dialog");
     this.SetPositionType (Gwt.Gui.Contrib.PositionType.Absolute);
     this.SetParent (Parent);
@@ -1595,7 +1600,6 @@ Gwt.Gui.Dialog.prototype.InitDialog = function (Parent)
     this.SetBackgroundColor (color);
     this.SetZIndex (900000);
     
-    this.DialogBox = new Gwt.Gui.Frame ();
     this.DialogBox.SetSize (256, 256);
     var color2 = new Gwt.Gui.Contrib.Color (Gwt.Gui.Contrib.Colors.DarkSlateGray);
     color2.SetAlpha (0.9);
@@ -1609,8 +1613,20 @@ Gwt.Gui.Dialog.prototype.InitDialog = function (Parent)
     this.DialogBox.SetZIndex (1000000);
     
     this.RootAdd (this.DialogBox);
+}
+
+Gwt.Gui.Dialog.prototype = new Gwt.Gui.Frame ();
+Gwt.Gui.Dialog.prototype.constructor = Gwt.Gui.Dialog;
+
+Gwt.Gui.Dialog.prototype._Dialog = function ()
+{
+    if(this.DialogBox !== null)
+    {
+        this.DialogBox._Frame ();
+    }
+    this.DialogBox = null;
     
-    this.IsOpen = false;
+    this._Frame ();
 }
 
 Gwt.Gui.Dialog.prototype.Open = function ()
@@ -1643,29 +1659,12 @@ Gwt.Gui.Dialog.prototype.Add = function (Element)
 Gwt.Gui.Button = function (Image, Text)
 {
     Gwt.Gui.Frame.call (this);
-	
-    this.Image = null;
-    this.Text = null;
-	
-    this.InitButton (Image, Text);
-}
 
-Gwt.Gui.Button.prototype = new Gwt.Gui.Frame ();
-Gwt.Gui.Button.prototype.constructor = Gwt.Gui.Button;
-
-Gwt.Gui.Button.prototype.FinalizeButton = function ()
-{
-    this.Image.FinalizeImage ();
-    this.Image = null;
+    //instance props
+    this.Image = new Gwt.Gui.Image (Image);
+    this.Text = new Gwt.Gui.StaticText (Text);
     
-    this.Text.FinalizeStaticText ();
-    this.Text = null;
-    
-    this.FinalizeFrame ();
-}
-
-Gwt.Gui.Button.prototype.InitButton = function (Image, Text)
-{
+    //init
     this.SetClassName ("Gwt_Gui_Button");
     this.SetExpand (false);
     this.SetBorder (1);
@@ -1680,21 +1679,33 @@ Gwt.Gui.Button.prototype.InitButton = function (Image, Text)
     this.AddEvent (Gwt.Gui.Event.Mouse.MouseUp, this.MouseMove.bind(this));
     this.AddEvent (Gwt.Gui.Event.Mouse.MouseOut, this.MouseOut.bind(this));
 	
-    this.Image = new Gwt.Gui.Image (Image);
     this.Image.SetSize (18, 18);
     this.Image.SetDisplay (Gwt.Gui.Contrib.Display.InlineBlock);
     this.Image.SetMarginRight (5);
     this.Image.SetMarginLeft (5);
     this.Image.SetMarginTop (2);
     this.Image.SetValign (Gwt.Gui.Contrib.Valign.Top);
-	
-    this.Text = new Gwt.Gui.StaticText (Text);
+    
     this.Text.SetDisplay (Gwt.Gui.Contrib.Display.InlineBlock);
     this.Text.SetValign (Gwt.Gui.Contrib.Valign.Top);
     this.SetSize (this.Image.GetWidth()+this.Text.GetWidth(), 24);
 	
     this.Add (this.Image);
     this.Add (this.Text);
+}
+
+Gwt.Gui.Button.prototype = new Gwt.Gui.Frame ();
+Gwt.Gui.Button.prototype.constructor = Gwt.Gui.Button;
+
+Gwt.Gui.Button.prototype._Button = function ()
+{
+    this.Image._Image ();
+    this.Image = null;
+    
+    this.Text._StaticText ();
+    this.Text = null;
+    
+    this._Frame ();
 }
 
 Gwt.Gui.Button.prototype.MouseMove = function ()
@@ -1737,19 +1748,8 @@ Gwt.Gui.Button.prototype.SetFontSize = function (FontSize)
 Gwt.Gui.Entry  = function (Placeholder)
 {
 	Gwt.Gui.Frame.call (this);
-	this.InitEntry (Placeholder);
-}
-
-Gwt.Gui.Entry.prototype = new Gwt.Gui.Frame ();
-Gwt.Gui.Entry.prototype.constructor = Gwt.Gui.Entry;
-
-Gwt.Gui.Entry.prototype.FinalizeEntry = function ()
-{
-	this.FinalizeFrame ();
-}
-
-Gwt.Gui.Entry.prototype.InitEntry = function (Placeholder)
-{
+        
+        //init
 	this.SetHtml ("input");
 	this.Html.setAttribute ("type", "text");
 	this.SetClassName ("Gwt_Gui_Entry");
@@ -1761,39 +1761,47 @@ Gwt.Gui.Entry.prototype.InitEntry = function (Placeholder)
 	this.SetFontSize (11);
 }
 
+Gwt.Gui.Entry.prototype = new Gwt.Gui.Frame ();
+Gwt.Gui.Entry.prototype.constructor = Gwt.Gui.Entry;
+
+Gwt.Gui.Entry.prototype._Entry = function ()
+{
+    this._Frame ();
+}
+
 Gwt.Gui.Entry.prototype.SetPlaceholder = function (Text)
 {
-	this.Html.placeholder = Text;
+    this.Html.placeholder = Text;
 }
 
 Gwt.Gui.Entry.prototype.ChangeToPassword = function ()
 {
-	this.Html.type = "password";
+    this.Html.type = "password";
 }
 
 Gwt.Gui.Entry.prototype.ChangeToText = function ()
 {
-	this.Html.type = "text";
+    this.Html.type = "text";
 }
 
 Gwt.Gui.Entry.prototype.GetText = function ()
 {
-	return this.Html.value;
+    return this.Html.value;
 }
 
 Gwt.Gui.Entry.prototype.SetText = function (Text)
 {
-	this.Html.value = Text;
+    this.Html.value = Text;
 }
 
 Gwt.Gui.Entry.prototype.SetMaxLength = function (MaxLength)
 {	
-	this.Html.maxLength = MaxLength;
+    this.Html.maxLength = MaxLength;
 }
 
 Gwt.Gui.Entry.prototype.Reset = function ()
 {
-	this.SetText ("");
+    this.SetText ("");
 }
 //Ends Gwt::Gui::Entry
 //##################################################################################################
@@ -1802,72 +1810,61 @@ Gwt.Gui.Entry.prototype.Reset = function ()
 Gwt.Gui.File  = function (Callback)
 {
     Gwt.Gui.Frame.call (this);
-	
-    this.Input = null;
-    this.Preview = null;
-    this.Reader = null;
-    this.ReadType = null;
-    this.DataArrayBuffer = null
-    this.DataBinayString = null;
-    this.DataUrl = null;
-    this.DataText = null;
-    this.DataSize = null;
-    this.FileName = null;
-    this.MimeType = null;
-    this.Data = null;
-    this.CallBack = null;
-	
-    this.InitFile (Callback);
-}
 
-Gwt.Gui.File.prototype = new Gwt.Gui.Frame ();
-Gwt.Gui.File.prototype.constructor = Gwt.Gui.File;
-
-Gwt.Gui.File.prototype.FinalizeFile = function ()
-{
-    this.Input.FinalizeFrame ();
-    this.Input = null;
-    
-    this.Reader = null;
-    this.ReadType = null;
-    this.DataArrayBuffer = null
-    this.DataBinayString = null;
-    this.DataUrl = null;
-    this.DataText = null;
-    this.DataSize = null;
-    this.FileName = null;
-    this.MimeType = null;
-    this.Data = null;
-    this.CallBack = null;
-    
-    this.FinalizeFrame ();
-}
-
-Gwt.Gui.File.prototype.InitFile = function (Callback)
-{
+    //instance props
     this.Input = new Gwt.Gui.Frame();
+    this.Reader = new FileReader ();
+    this.CallBack = Callback;
+    this.ReadType = null;
+    this.DataArrayBuffer = null
+    this.DataBinayString = null;
+    this.DataUrl = null;
+    this.DataText = null;
+    this.DataSize = null;
+    this.FileName = null;
+    this.MimeType = null;
+    this.Data = null;
     
+    //init
     this.SetSize (24, 24);
     this.SetClassName ("Gwt_Gui_File");
     this.SetBackgroundImage (Gwt.Core.Contrib.Images+"appbar.paperclip.rotated.svg");
     this.SetBackgroundSize (this.GetWidth(), this.GetHeight());
     this.SetZIndex (1000);
+    this.SetReadType (Gwt.Gui.READ_ARRAY_BUFFER);
     
     this.Input.SetHtml ("input");
     this.Input.Html.setAttribute ("type", "file");
     this.Input.Html.removeAttribute ("multiple");
     this.Input.SetOpacity (0);
     this.Input.SetZIndex (1001);
+    this.Input.AddEvent (Gwt.Gui.Event.Form.Change, this.UpdateInfo.bind (this));
     this.Add (this.Input);
     
-    this.SetReadType (Gwt.Gui.READ_ARRAY_BUFFER);
-	
-    this.Reader = new FileReader ();
-    this.Reader.addEventListener(Gwt.Gui.Event.FileReader.Load, this.Load.bind (this))
+    this.Reader.addEventListener(Gwt.Gui.Event.FileReader.Load, this.Load.bind (this))    
+}
+
+Gwt.Gui.File.prototype = new Gwt.Gui.Frame ();
+Gwt.Gui.File.prototype.constructor = Gwt.Gui.File;
+
+Gwt.Gui.File.prototype._File = function ()
+{
+    this.Input._Frame ();
     
-    this.Input.AddEvent (Gwt.Gui.Event.Form.Change, this.UpdateInfo.bind (this));
+    this.Input = null;
+    this.Reader = null;
+    this.ReadType = null;
+    this.DataArrayBuffer = null
+    this.DataBinayString = null;
+    this.DataUrl = null;
+    this.DataText = null;
+    this.DataSize = null;
+    this.FileName = null;
+    this.MimeType = null;
+    this.Data = null;
+    this.CallBack = null;
     
-    this.CallBack = Callback;
+    this._Frame ();
 }
 
 Gwt.Gui.File.prototype.SetSize = function (Width, Height)
@@ -1995,30 +1992,26 @@ Gwt.Gui.File.prototype.SetCallbackRead = function (Callback)
 //Class Gwt::Gui::Text
 Gwt.Gui.Text  = function (Placeholder)
 {
-	Gwt.Gui.Frame.call (this);
-	this.InitText (Placeholder);
+    Gwt.Gui.Frame.call (this);
+        
+    this.SetHtml ("textarea");
+    this.SetClassName ("Gwt_Gui_Text");
+    this.SetExpand (true);
+    this.SetPadding (0);
+    this.SetBorderRadius(5);
+    this.SetPlaceholder (Placeholder || "Text multi-line");
+    this.SetFontSize (11);
+    this.SetHeight (96);
+    this.SetAlign ();
+    this.SetMaxLength (185);
 }
 
 Gwt.Gui.Text.prototype = new Gwt.Gui.Frame ();
 Gwt.Gui.Text.prototype.constructor = Gwt.Gui.Text;
 
-Gwt.Gui.Text.prototype.FinalizeText = function ()
+Gwt.Gui.Text.prototype._Text = function ()
 {
-	this.FinalizeFrame ();
-}
-
-Gwt.Gui.Text.prototype.InitText = function (Placeholder)
-{
-	this.SetHtml ("textarea");
-	this.SetClassName ("Gwt_Gui_Text");
-	this.SetExpand (true);
-	this.SetPadding (0);
-	this.SetBorderRadius(5);
-	this.SetPlaceholder (Placeholder || "Text multi-line");
-	this.SetFontSize (11);
-	this.SetHeight (96);
-	this.SetAlign ();
-	this.SetMaxLength (185);
+    this._Frame ();
 }
 
 Gwt.Gui.Text.prototype.SetPlaceholder = function (Text)
@@ -2087,32 +2080,26 @@ Gwt.Gui.Text.prototype.SetAlign = function (Value)
 //Class Gwt::Gui::HBox
 Gwt.Gui.HBox = function (Margin)
 {
-        Gwt.Gui.Frame.call (this);
+    Gwt.Gui.Frame.call (this);
+
+    //instance props
+    this.MarginElements = typeof(Margin) === "undefined" ? 12 : Margin;
+    this.Alignment = null;
 	
-        this.MarginElements = null;
-        this.Alignment = null;
-	
-        this.InitHBox (Margin);
+    this.SetClassName ("Gwt_Gui_HBox");
+    this.SetDisplay (Gwt.Gui.Contrib.Display.Block);
+    this.SetAlignment (Gwt.Gui.ALIGN_TOP);
 }
 
 Gwt.Gui.HBox.prototype = new Gwt.Gui.Frame ();
 Gwt.Gui.HBox.prototype.constructor = Gwt.Gui.HBox
 
-Gwt.Gui.HBox.prototype.FinalizeHBox = function ()
+Gwt.Gui.HBox.prototype._HBox = function ()
 {
         this.MarginElements = null;
         this.Alignment = null;
         
-        this.FinalizeFrame ();
-}
-
-Gwt.Gui.HBox.prototype.InitHBox = function (Margin)
-{
-        this.SetClassName ("Gwt_Gui_HBox");
-        this.SetDisplay (Gwt.Gui.Contrib.Display.Block);
-	this.SetAlignment (Gwt.Gui.ALIGN_TOP);
-        
-        this.MarginElements = typeof(Margin) === "undefined" ? 12 : Margin;
+        this._Frame ();
 }
 
 Gwt.Gui.HBox.prototype.GetMarginElements = function ()
@@ -2313,28 +2300,23 @@ Gwt.Gui.HBox.prototype.SetHeight = function (Height)
 //Class Gwt::Gui::Image
 Gwt.Gui.Image = function (Image)
 {
-	Gwt.Gui.Frame.call (this);
-	
-	this.InitImage (Image);
+    Gwt.Gui.Frame.call (this);
+    
+    //init
+    this.SetHtml ("img");
+    this.SetClassName ("Gwt_Gui_Image");
+    this.SetCursor (Gwt.Gui.Contrib.Cursor.Default);
+    this.SetImage (Image || Gwt.Core.Contrib.Images+"default_image.svg");
+    this.SetSelectable ("none");
+    this.SetValign(Gwt.Gui.Contrib.Valign.Top);
 }
 
 Gwt.Gui.Image.prototype = new Gwt.Gui.Frame ();
 Gwt.Gui.Image.prototype.constructor = Gwt.Gui.Image;
 
-Gwt.Gui.Image.prototype.FinalizeImage = function ()
+Gwt.Gui.Image.prototype._Image = function ()
 {
-	this.FinalizeFrame ();
-}
-
-Gwt.Gui.Image.prototype.InitImage = function (Image)
-{
-    this.SetHtml ("img");
-    this.SetClassName ("Gwt_Gui_Image");
-	
-    this.SetCursor (Gwt.Gui.Contrib.Cursor.Default);
-    this.SetImage (Image || Gwt.Core.Contrib.Images+"default_image.svg");
-    this.SetSelectable ("none");
-    this.SetValign(Gwt.Gui.Contrib.Valign.Top);
+	this._Frame ();
 }
 
 Gwt.Gui.Image.prototype.SetImage = function (Image)
@@ -2359,34 +2341,13 @@ Gwt.Gui.Croppie = function ()
 {
     Gwt.Gui.Frame.call (this);
  
-    this.Vanilla = null;
-    this.BtnFinish = null;
+    //instance props
+    this.Vanilla = new Croppie (this.GetHtml());
+    this.BtnFinish = new Gwt.Gui.Button(Gwt.Core.Contrib.Images + "appbar.cabinet.out.svg", "Subir");
     this.Image = null;
     this.Callback = null;
     
-    this.InitCroppie ();
-}
-
-Gwt.Gui.Croppie.prototype = new Gwt.Gui.Frame ();
-Gwt.Gui.Croppie.prototype.constructor = Gwt.Gui.Croppie;
-
-Gwt.Gui.Croppie.prototype.FinalizeCroppie = function ()
-{
-    this.BtnFinish.FinalizeButton();
-    this.BtnFinish = null;
-    
-    this.Vanilla = null;
-    this.Image = null;
-    this.Callback = null
-    
-    this.FinalizeFrame ();
-}
-
-Gwt.Gui.Croppie.prototype.InitCroppie = function ()
-{
-    this.Vanilla = new Croppie (this.GetHtml());
-    this.BtnFinish = new Gwt.Gui.Button(Gwt.Core.Contrib.Images + "appbar.cabinet.out.svg", "Subir");
-    
+    //init
     this.SetSize (512, 512);
     this.SetBackgroundColor (new Gwt.Gui.Contrib.Color (50, 50, 50, 0.9));
     this.SetPositionType (Gwt.Gui.Contrib.PositionType.Absolute);
@@ -2405,6 +2366,21 @@ Gwt.Gui.Croppie.prototype.InitCroppie = function ()
     this.BtnFinish.AddEvent (Gwt.Gui.Event.Mouse.Click, this.Result.bind(this));
     
     this.Add (this.BtnFinish);
+}
+
+Gwt.Gui.Croppie.prototype = new Gwt.Gui.Frame ();
+Gwt.Gui.Croppie.prototype.constructor = Gwt.Gui.Croppie;
+
+Gwt.Gui.Croppie.prototype._Croppie = function ()
+{
+    this.BtnFinish._Button();
+    this.BtnFinish = null;
+    
+    this.Vanilla = null;
+    this.Image = null;
+    this.Callback = null
+    
+    this._Frame ();
 }
 
 Gwt.Gui.Croppie.prototype.SetImage = function (Image)
@@ -2480,38 +2456,18 @@ Gwt.Gui.Avatar = function (Image)
 {
     Gwt.Gui.Frame.call (this);
     
-    this.Image = null;
+    //instance props
+    this.File = new Gwt.Gui.File (this.SetImage.bind(this));
+    this.Image = new Gwt.Gui.Image (Gwt.Core.Contrib.Images+"appbar.camera.switch.svg");
+    this.Editor =  new Gwt.Gui.Croppie ();
     this.Name = null;
     this.Type = null;
-    this.File = null;
-    this.Editor = null;
     
-    this.InitAvatar (Image);
-}
-
-Gwt.Gui.Avatar.prototype = new Gwt.Gui.Image ();
-Gwt.Gui.Avatar.prototype.constructor = Gwt.Gui.Avatar;
-
-Gwt.Gui.Avatar.prototype.FinalizeAvatar = function ()
-{  
-    this.Image.FinalizeImage ();
-    this.File.FinalizeFile ();
-    this.Editor.FinalizeCroppie ()
-    
-    this.Image = null;
-    this.File = null;
-    this.Editor = null;
-    
-    this.FinalizeFrame ();
-}
-
-Gwt.Gui.Avatar.prototype.InitAvatar = function ()
-{
+    //init
     this.SetClassName ("Gwt_Gui_Avatar");
     this.SetSize (96, 96);
     this.SetRounded ();
     
-    this.File = new Gwt.Gui.File (this.SetImage.bind(this));
     this.File.SetSize (96, 96);
     this.File.SetPositionType (Gwt.Gui.Contrib.PositionType.Absolute);
     this.File.SetPosition (0, 0);
@@ -2520,13 +2476,28 @@ Gwt.Gui.Avatar.prototype.InitAvatar = function ()
     this.File.SetCallbackRead (this.ChangeImage.bind(this));
     this.Add (this.File);
 
-    this.Image = new Gwt.Gui.Image (Gwt.Core.Contrib.Images+"appbar.camera.switch.svg")
     this.Image.SetSize (96, 96);
     this.Add (this.Image);
-    
-    this.Editor =  new Gwt.Gui.Croppie ();
+
     this.Editor.SetCallbackResult (this.SetImage.bind (this));
+}
+
+Gwt.Gui.Avatar.prototype = new Gwt.Gui.Image ();
+Gwt.Gui.Avatar.prototype.constructor = Gwt.Gui.Avatar;
+
+Gwt.Gui.Avatar.prototype._Avatar = function ()
+{  
+    this.Image._Image ();
+    this.File._File ();
+    this.Editor._Croppie ();
     
+    this.Image = null;
+    this.File = null;
+    this.Editor = null;
+    this.Name = null;
+    this.Type = null;
+    
+    this._Frame ();
 }
 
 Gwt.Gui.Avatar.prototype.SetImage = function (Image)
@@ -2560,49 +2531,107 @@ Gwt.Gui.Avatar.prototype.GetData = function ()
 //Ends Gwt::Gui::Avatar
 //##################################################################################################
 //##################################################################################################
+//Class Gwt::Gui::MenuItem
+Gwt.Gui.MenuItem = function (Image, Text, Callback)
+{
+    Gwt.Gui.Frame.call (this);
+    
+    //instance props
+    this.Layout = new Gwt.Gui.HBox (5);
+    this.Image = new Gwt.Gui.Image (Image);
+    this.Text = new Gwt.Gui.StaticText (Text);
+    this.Callback = Callback;
+    
+    //init
+    this.SetSize (128, 25);
+    
+    this.Layout.SetSize (this.GetWidth (), this.GetHeight());
+    this.Layout.SetAlignment (Gwt.Gui.ALIGN_CENTER);
+    this.Add (this.Layout);
+
+    this.Image.SetSize (18, 18);
+    this.Image.SetMarginLeft (5);
+    this.Layout.Add (this.Image);
+    
+    this.Text.SetExpand (false);
+    this.Text.SetSize (this.GetWidth() - 34, 20);
+    this.Layout.Add (this.Text);
+
+    this.AddEvent (Gwt.Gui.Event.Mouse.Click, this.Callback);
+    this.AddEvent (Gwt.Gui.Event.Mouse.MouseOver, this.MouseHover.bind(this));
+    this.AddEvent (Gwt.Gui.Event.Mouse.MouseOut, this.MouseOut.bind(this));
+}
+
+Gwt.Gui.MenuItem.prototype = new Gwt.Gui.Frame ();
+Gwt.Gui.MenuItem.prototype.constructor = Gwt.Gui.MenuItem;
+
+Gwt.Gui.MenuItem.prototype._MenuItem = function ()
+{
+    this.Image._Image ();
+    this.Image = null;
+    
+    this.Text._StaticText ();
+    this.Text = null;
+    
+    this.Layout._HBox ();
+    this.Layout = null;
+    
+    this.Callback = null;
+    
+    this._Frame();
+}
+
+Gwt.Gui.MenuItem.prototype.MouseHover = function ()
+{    
+    var Color0 = new Gwt.Gui.Contrib.Color (Gwt.Gui.Contrib.Colors.Azure);
+    Color0.SetAlpha (0.2);
+    this.SetBackgroundColor(Color0);
+}
+
+Gwt.Gui.MenuItem.prototype.MouseOut = function ()
+{
+    var Color0 = new Gwt.Gui.Contrib.Color (Gwt.Gui.Contrib.Colors.Transparent);
+    this.SetBackgroundColor(Color0);
+}
+//Ends Gwt::Gui::MenuItem
+//##################################################################################################
+
+//##################################################################################################
 //Class Gwt::Gui::Menu
 Gwt.Gui.Menu = function ()
 {   
-    this.MenuBtn = null;
-    this.ContainerMenu = null;
-    this.Items = null;
-    
-    this.InitMenu ();
-}
-
-Gwt.Gui.Menu.prototype.FinalizeMenu = function ()
-{
-    for (var i = 0; i < this.Items.length; i++)
-    {
-        this.Items[i].FinalizeMenuItem();
-        this.Items[i] = null;
-    }
-    
-    this.Items = null;
-    
-    this.MenuBtn.FinalizeImage ();
-    this.MenuBtn = null;
-    
-    this.ContainerMenu.FinalizeVBox ();
-    this.ContainerMenu = null;
-}
-
-Gwt.Gui.Menu.prototype.InitMenu = function ()
-{
+    //instance props
     this.MenuBtn = new Gwt.Gui.Image (Gwt.Core.Contrib.Images + "appbar.list.svg");
+    this.ContainerMenu = new Gwt.Gui.VBox (0);
+    this.Items = [];
+    
+    //init
     this.MenuBtn.SetSize (24, 24);
     this.MenuBtn.AddEvent (Gwt.Gui.Event.Mouse.Click, this.Toggle.bind (this));
     
-    this.ContainerMenu = new Gwt.Gui.VBox (0);
     this.ContainerMenu.SetSize (128, 128);
     this.ContainerMenu.SetBorderRadius (2);
     this.ContainerMenu.SetBackgroundColor (new Gwt.Gui.Contrib.Color (50, 50, 50, 0.9));
     this.ContainerMenu.SetPositionType (Gwt.Gui.Contrib.PositionType.Absolute);
     this.ContainerMenu.SetDisplay (Gwt.Gui.Contrib.Display.None);
     this.ContainerMenu.AddEvent (Gwt.Gui.Event.Mouse.Click, this.Toggle.bind (this));
+}
+
+Gwt.Gui.Menu.prototype._Menu = function ()
+{
+    for (var i = 0; i < this.Items.length; i++)
+    {
+        this.Items[i]._MenuItem();
+        this.Items[i] = null;
+    }
     
-    this.Items = [];
+    this.Items = null;
     
+    this.MenuBtn._Image ();
+    this.MenuBtn = null;
+    
+    this.ContainerMenu._VBox ();
+    this.ContainerMenu = null;
 }
 
 Gwt.Gui.Menu.prototype.Toggle = function ()
@@ -2627,110 +2656,18 @@ Gwt.Gui.Menu.prototype.AddItem = function (Item)
 //Ends Gwt::Gui::Menu
 //##################################################################################################
 
-//##################################################################################################
-//Class Gwt::Gui::MenuItem
-Gwt.Gui.MenuItem = function (Image, Text, Callback)
-{
-    Gwt.Gui.Frame.call (this);
-    
-    this.Layout = null;
-    this.Image = null;
-    this.Text = null;
-    this.Callback = null;
-    
-    this.InitMenuItem (Image, Text, Callback);
-}
-
-Gwt.Gui.MenuItem.prototype = new Gwt.Gui.Frame ();
-Gwt.Gui.MenuItem.prototype.constructor = Gwt.Gui.MenuItem;
-
-Gwt.Gui.MenuItem.prototype.FinalizeMenuItem = function ()
-{
-    this.Image.FinalizeImage ();
-    this.Image = null;
-    
-    this.Text.FinalizeStaticText ();
-    this.Text = null;
-    
-    this.Layout.FinalizeHBox ();
-    this.Layout = null;
-    
-    this.Callback = null;
-    
-    this.FinalizeFrame();
-}
-
-Gwt.Gui.MenuItem.prototype.InitMenuItem = function (Image, Text, Callback)
-{
-    this.SetSize (128, 25);
-    
-    this.Layout = new Gwt.Gui.HBox (5);
-    this.Layout.SetSize (this.GetWidth (), this.GetHeight());
-    this.Layout.SetAlignment (Gwt.Gui.ALIGN_CENTER);
-    this.Add (this.Layout);
-    
-    this.Image = new Gwt.Gui.Image (Image);
-    this.Image.SetSize (18, 18);
-    this.Image.SetMarginLeft (5);
-    this.Layout.Add (this.Image);
-    
-    this.Text = new Gwt.Gui.StaticText (Text);
-    this.Text.SetExpand (false);
-    this.Text.SetSize (this.GetWidth() - 34, 20);
-    this.Layout.Add (this.Text);
-    
-    this.Callback = Callback;
-    
-    this.AddEvent (Gwt.Gui.Event.Mouse.Click, this.Callback);
-    this.AddEvent (Gwt.Gui.Event.Mouse.MouseOver, this.MouseHover.bind(this));
-    this.AddEvent (Gwt.Gui.Event.Mouse.MouseOut, this.MouseOut.bind(this));
-}
-
-Gwt.Gui.MenuItem.prototype.MouseHover = function ()
-{    
-    var Color0 = new Gwt.Gui.Contrib.Color (Gwt.Gui.Contrib.Colors.Azure);
-    Color0.SetAlpha (0.2);
-    this.SetBackgroundColor(Color0);
-}
-
-Gwt.Gui.MenuItem.prototype.MouseOut = function ()
-{
-    var Color0 = new Gwt.Gui.Contrib.Color (Gwt.Gui.Contrib.Colors.Transparent);
-    this.SetBackgroundColor(Color0);
-}
-//Ends Gwt::Gui::MenuItem
-//##################################################################################################
-
 //#########################################################################################################################################
 //# class Gwt::Gui::SelectBoxItem
 Gwt.Gui.SelectBoxItem = function (Text, Value)
 {
     Gwt.Gui.Frame.call (this);
-	
-    this.Text = null;
-    this.Value = null;
-	
-    this.InitSelectBoxItem (Text, Value);
-}
-
-Gwt.Gui.SelectBoxItem.prototype = new Gwt.Gui.Frame ();
-Gwt.Gui.SelectBoxItem.prototype.constructor = Gwt.Gui.SelectBoxItem;
-
-Gwt.Gui.SelectBoxItem.prototype.FinalizeSelectBoxItem = function ()
-{
-    this.Text = null;
-    this.Value = null;
-	
-    this.FinalizeFrame ();
-}
-
-Gwt.Gui.SelectBoxItem.prototype.InitSelectBoxItem = function (Text, Value)
-{
-    this.SetClassName ("Gwt_Gui_SelectBoxItem");
-	
+    
+    //instance props
     this.Text = new Gwt.Gui.StaticText (Text);
     this.Value = Value;
-	
+    
+    //init
+    this.SetClassName ("Gwt_Gui_SelectBoxItem");
     this.SetHeight (24);
     var background_color = new Gwt.Gui.Contrib.Color (Gwt.Gui.Contrib.Colors.Azure);
     background_color.SetAlpha (0);
@@ -2744,6 +2681,17 @@ Gwt.Gui.SelectBoxItem.prototype.InitSelectBoxItem = function (Text, Value)
     this.AddEvent (Gwt.Gui.Event.Mouse.MouseOut, this.MouseOut.bind (this));
 	
     this.Add (this.Text);
+}
+
+Gwt.Gui.SelectBoxItem.prototype = new Gwt.Gui.Frame ();
+Gwt.Gui.SelectBoxItem.prototype.constructor = Gwt.Gui.SelectBoxItem;
+
+Gwt.Gui.SelectBoxItem.prototype._SelectBoxItem = function ()
+{
+    this.Text = null;
+    this.Value = null;
+	
+    this._Frame ();
 }
 
 Gwt.Gui.SelectBoxItem.prototype.GetValue = function ()
@@ -2783,44 +2731,41 @@ Gwt.Gui.SelectBoxItem.prototype.Reset = function ()
 Gwt.Gui.SelectBoxDialog = function ()
 {
     Gwt.Gui.Dialog.call (this);
+    
+    //instance props
+    this.LayoutDialog = new Gwt.Gui.VBox (0);
+    this.Container = new Gwt.Gui.VBox (3);
     this.items = null;
-    this.LayoutDialog = null;
-    this.Container = null;
-	
-    this.InitSelectBoxDialog ();
+
+    //init
+    this.SetClassName ("Gwt_Gui_Select_dialog_box");
+    
+    this.LayoutDialog.SetSize (this.DialogBox.GetWidth ()*0.95, this.DialogBox.GetHeight ()*0.95);
+    var top = (this.DialogBox.GetHeight()-this.LayoutDialog.GetHeight())/2;
+    var left = (this.DialogBox.GetWidth()-this.LayoutDialog.GetWidth())/2;
+    this.LayoutDialog.SetPosition (top, left);
+      
+    this.Container.AddEvent (Gwt.Gui.Event.Mouse.Wheel, this.EventScroll.bind(this));
+    this.Container.SetSize (this.LayoutDialog.GetWidth (), 0);
+    
+    this.DialogBox.Add (this.LayoutDialog);
+    this.LayoutDialog.Add (this.Container);
 }
 
 Gwt.Gui.SelectBoxDialog.prototype = new Gwt.Gui.Dialog ();
 Gwt.Gui.SelectBoxDialog.prototype.constructor = Gwt.Gui.SelectBoxDialog;
 
-Gwt.Gui.SelectBoxDialog.prototype.FinalizeSelectBoxDialog = function ()
+Gwt.Gui.SelectBoxDialog.prototype._SelectBoxDialog = function ()
 {
-    this.LayoutDialog.FinalizeVBox();
+    this.LayoutDialog._VBox();
     this.LayoutDialog = null;
     
-    this.Container.FinalizeVBox();
+    this.Container._VBox();
     this.Container = null;
     
     this.items = null;
     
-    this.FinalizeDialog ();
-}
-
-Gwt.Gui.SelectBoxDialog.prototype.InitSelectBoxDialog = function ()
-{
-    this.SetClassName ("Gwt_Gui_Select_dialog_box");
-    this.LayoutDialog = new Gwt.Gui.VBox (0);
-    this.LayoutDialog.SetSize (this.DialogBox.GetWidth ()*0.95, this.DialogBox.GetHeight ()*0.95);
-    var top = (this.DialogBox.GetHeight()-this.LayoutDialog.GetHeight())/2;
-    var left = (this.DialogBox.GetWidth()-this.LayoutDialog.GetWidth())/2;
-    this.LayoutDialog.SetPosition (top, left);
-	
-    this.Container = new Gwt.Gui.VBox (3);
-    this.Container.AddEvent (Gwt.Gui.Event.Mouse.Wheel, this.EventScroll.bind(this));
-    this.Container.SetSize (this.LayoutDialog.GetWidth (), 0);
-	
-    this.DialogBox.Add (this.LayoutDialog);
-    this.LayoutDialog.Add (this.Container);
+    this._Dialog ();
 }
 
 Gwt.Gui.SelectBoxDialog.prototype.AddItem = function (item)
@@ -2870,51 +2815,23 @@ Gwt.Gui.SelectBoxDialog.prototype.EventScroll = function (event)
 Gwt.Gui.SelectBox = function (Placeholder, options)
 {
     Gwt.Gui.Frame.call (this);
-	
-    this.StaticText = null;
-    this.SelectDialogBox = null;
-    this.Placeholder = null;
-    this.Options = null;
+    
+    //instance props
+    this.Placeholder = Placeholder;
+    this.StaticText = new Gwt.Gui.StaticText (this.Placeholder);
+    this.Options = [];
     this.Text=null;
     this.Value=null;
-	
-    this.InitSelectBox (Placeholder, options);
-}
-
-
-Gwt.Gui.SelectBox.prototype = new Gwt.Gui.Frame ();
-Gwt.Gui.SelectBox.prototype.constructor = Gwt.Gui.SelectBox;
-
-
-Gwt.Gui.SelectBox.prototype.FinalizeSelectBox = function ()
-{
-    if(this.SelectDialogBox !== null)
-    {
-        this.SelectDialogBox.FinalizeSelectDialogBox ();
-    }
     this.SelectDialogBox = null;
     
-    this.StaticText = null;
-    this.Placeholder = null;
-    this.Options = null;
-	
-    this.FinalizeFrame ();
-}
-
-
-Gwt.Gui.SelectBox.prototype.InitSelectBox = function (Placeholder, options)
-{
+    //init
     this.SetClassName ("Gwt_Gui_Select_Box");
     this.SetExpand (true);
     this.AddEvent (Gwt.Gui.Event.Mouse.Click, this.ShowDialog.bind(this));
     this.AddEvent (Gwt.Gui.Event.Keyboard.KeyPress, this.ShowDialog.bind(this));
-    this.Placeholder = Placeholder;
-    this.StaticText = new Gwt.Gui.StaticText (this.Placeholder);
-	
+
     this.Add (this.StaticText);
 	
-    this.Options = [];
-    
     options = [{"text": this.Placeholder, "value": ""}].concat(options);
     for (var i = 0; i < options.length; i++)
     {
@@ -2930,6 +2847,33 @@ Gwt.Gui.SelectBox.prototype.InitSelectBox = function (Placeholder, options)
     }
     
     this.SetValue("");
+}
+
+
+Gwt.Gui.SelectBox.prototype = new Gwt.Gui.Frame ();
+Gwt.Gui.SelectBox.prototype.constructor = Gwt.Gui.SelectBox;
+
+Gwt.Gui.SelectBox.prototype._SelectBox = function ()
+{
+    this.StaticText._StaticText ();
+    
+    if(this.SelectDialogBox !== null)
+    {
+        this.SelectDialogBox._SelectDialogBox ();
+        this.SelectDialogBox = null;
+    }
+
+    for (var i=0; i<this.Options.length; i++)
+    {
+        this.Options[i]._SelectBoxItem ();
+        this.Options[i] = null;
+    }
+    
+    this.StaticText = null;
+    this.Placeholder = null;
+    this.Options = null;
+
+    this._Frame ();
 }
 
 Gwt.Gui.SelectBox.prototype.ShowDialog = function (event)
@@ -3018,34 +2962,31 @@ Gwt.Gui.SelectBox.prototype.GetValue = function ()
 //Class Gwt::Gui::Static_Text
 Gwt.Gui.StaticText = function (Text)
 {
-	Gwt.Gui.Frame.call (this);
-	
-	this.Text = null;
-	this.InitStaticText (Text);
+    Gwt.Gui.Frame.call (this);
+    
+    //instance props
+    this.Text = Text || "Default Text";
+
+    //init
+    this.SetClassName ("Gwt_Gui_Static_Text");
+    this.SetText (this.Text);
+    this.SetExpand (true);
+    this.SetFontSize (11);
+    this.SetHeight (22);
+    //this.SetPaddingTop (2);
+    this.SetColor (new Gwt.Gui.Contrib.Color (Gwt.Gui.Contrib.Colors.Azure));
+    //this.SetTextShadow (0, 0, 1, new Gwt.Gui.Contrib.Color (Gwt.Gui.Contrib.Colors.DarkSlateGray));
+    this.SetCursor (Gwt.Gui.Contrib.Cursor.Default);
+    this.SetSelectable (Gwt.Gui.Contrib.UserSelect.None);
+    this.SetOverflow (Gwt.Gui.Contrib.Overflow.Hidden);
 }
 
 Gwt.Gui.StaticText.prototype = new Gwt.Gui.Frame ();
 Gwt.Gui.StaticText.prototype.constructor = Gwt.Gui.StaticText;
 
-Gwt.Gui.StaticText.prototype.FinalizeStaticText = function ()
+Gwt.Gui.StaticText.prototype._StaticText = function ()
 {
-	this.FinalizeFrame ();
-}
-
-Gwt.Gui.StaticText.prototype.InitStaticText = function (Text)
-{
-	this.SetClassName ("Gwt_Gui_Static_Text");
-	this.Text = Text || "Default Text";
-	this.SetText (this.Text);
-        this.SetExpand (true);
-	this.SetFontSize (11);
-        this.SetHeight (22);
-        //this.SetPaddingTop (2);
-	this.SetColor (new Gwt.Gui.Contrib.Color (Gwt.Gui.Contrib.Colors.Azure));
-	//this.SetTextShadow (0, 0, 1, new Gwt.Gui.Contrib.Color (Gwt.Gui.Contrib.Colors.DarkSlateGray));
-	this.SetCursor (Gwt.Gui.Contrib.Cursor.Default);
-	this.SetSelectable (Gwt.Gui.Contrib.UserSelect.None);
-	this.SetOverflow (Gwt.Gui.Contrib.Overflow.Hidden);
+	this._Frame ();
 }
 
 Gwt.Gui.StaticText.prototype.SetText = function (Text)
@@ -3105,32 +3046,27 @@ Gwt.Gui.StaticText.prototype.SetFontSize = function (FontSize)
 //Class Gwt::Gui::VBox
 Gwt.Gui.VBox = function (Margin)
 {
-	Gwt.Gui.Frame.call (this);
-	
-	this.MarginElements = null;
-	this.Alignment = null;
-	
-	this.InitVBox (Margin);
+    Gwt.Gui.Frame.call (this);
+
+    //instance props
+    this.MarginElements = typeof(Margin) === "undefined" ? 12 : Margin;
+    this.Alignment = null;
+
+    //init
+    this.SetClassName ("Gwt_Gui_VBox");
+    this.SetDisplay (Gwt.Gui.Contrib.Display.InlineBlock);
+    this.SetAlignment (Gwt.Gui.ALIGN_LEFT);
 }
 
 Gwt.Gui.VBox.prototype = new Gwt.Gui.Frame ();
 Gwt.Gui.VBox.prototype.constructor = Gwt.Gui.VBox;
 
-Gwt.Gui.VBox.prototype.FinalizeVBox = function ()
+Gwt.Gui.VBox.prototype._VBox = function ()
 {
-	this.MarginElements = null;
-	this.Alignment = null;
+    this.MarginElements = null;
+    this.Alignment = null;
 	
-	this.FinalizeFrame ();
-}
-
-Gwt.Gui.VBox.prototype.InitVBox = function (Margin)
-{
-	this.SetClassName ("Gwt_Gui_VBox");
-	this.SetDisplay (Gwt.Gui.Contrib.Display.InlineBlock);
-	this.SetAlignment (Gwt.Gui.ALIGN_LEFT);
-	
-	this.MarginElements = typeof(Margin) === "undefined" ? 12 : Margin;
+    this._Frame ();
 }
 
 Gwt.Gui.VBox.prototype.GetMarginElements = function ()
@@ -3328,25 +3264,37 @@ Gwt.Gui.VBox.prototype.SetHeight = function (Height)
 //Ends Gwt::Gui::VBox
 //##################################################################################################
 
-    //Class Gwt::Gui::Slider
+//####################################################################################################
+//Class Gwt::Gui::Slider
 Gwt.Gui.Slider = function (Slots)
 {
     Gwt.Gui.Frame.call (this);
     
-    this.Slots = null;
-    this.Panel = null;
-    this.ArrowLeft = null;
-    this.ArrowRight = null;
-    this.Viewer = null;
-    this.Slide = null;
+    //instance props
+    this.Slots = new Array (typeof(Slots) === "undefined"? 1 : Slots);
+    this.Panel = new Gwt.Gui.Frame ();
+    this.ArrowLeft = new Gwt.Gui.Button (Gwt.Core.Contrib.Images+"appbar.arrow.left.svg", "");
+    this.ArrowRight = new Gwt.Gui.Button (Gwt.Core.Contrib.Images+"appbar.arrow.right.svg", "");
+    this.Viewer = new Gwt.Gui.Frame ();
+    this.Slide = new Gwt.Gui.HBox ();
     
-    this.InitSlider (Slots);
+    //init
+    this.SetClassName ("Gwt_Gui_Slider");
+
+    this.ArrowLeft.SetWidth (28);
+    this.ArrowLeft.AddEvent (Gwt.Gui.Event.Mouse.Click, this.SlideRight.bind (this));
+    
+    this.ArrowRight.SetWidth (28);
+    this.ArrowRight.AddEvent (Gwt.Gui.Event.Mouse.Click, this.SlideLeft.bind (this));
+
+    this._Add (this.Viewer);
+    this._Add (this.Panel);
 }
 
 Gwt.Gui.Slider.prototype = new Gwt.Gui.Frame ();
 Gwt.Gui.Slider.prototype.constructor = Gwt.Gui.Slider;
 
-Gwt.Gui.Slider.prototype.FinalizeSlider = function ()
+Gwt.Gui.Slider.prototype._Slider = function ()
 {
     this.Slots = null;
     this.Panel = null;
@@ -3355,31 +3303,7 @@ Gwt.Gui.Slider.prototype.FinalizeSlider = function ()
     this.Viewer = null;
     this.Slide = null;
     
-    this.FinalizeFrame ();
-}
-
-Gwt.Gui.Slider.prototype.InitSlider = function (Slots)
-{
-    this.SetClassName ("Gwt_Gui_Slider");
-    
-    this.Slots = new Array (typeof(Slots) === "undefined"? 1 : Slots);
-    
-    this.Panel = new Gwt.Gui.Frame ();
-    
-    this.ArrowLeft = new Gwt.Gui.Button (Gwt.Core.Contrib.Images+"appbar.arrow.left.svg", "");
-    this.ArrowLeft.SetWidth (28);
-    this.ArrowLeft.AddEvent (Gwt.Gui.Event.Mouse.Click, this.SlideRight.bind (this));
-    
-    this.ArrowRight = new Gwt.Gui.Button (Gwt.Core.Contrib.Images+"appbar.arrow.right.svg", "");
-    this.ArrowRight.SetWidth (28);
-    this.ArrowRight.AddEvent (Gwt.Gui.Event.Mouse.Click, this.SlideLeft.bind (this));
-    
-    this.Viewer = new Gwt.Gui.Frame ();
-    
-    this.Slide = new Gwt.Gui.HBox ();
-    
-    this._Add (this.Viewer);
-    this._Add (this.Panel);
+    this._Frame ();
 }
 
 Gwt.Gui.Slider.prototype.GetSlots = function ()
@@ -3458,49 +3382,43 @@ Gwt.Gui.Slider.prototype.AddSlotWidget = function (Slot, Widget)
 //Class Gwt::Gui::Desktop
 Gwt.Gui.Clock = function ()
 {
-	Gwt.Gui.Frame.call (this);
+    Gwt.Gui.Frame.call (this);
 	
-	this.resource = null;
-	this.seconds = null;
-	this.minutes = null;
-	this.hours = null;
-	this.seconds_bar = null;
-	this.minutes_bar = null;
-	this.hours_bar = null;
-	this.center = null;
-	this.seconds_interval = null;
-	
-	this.InitClock ();
+    this.resource = new XMLHttpRequest ();
+    this.seconds = null;
+    this.minutes = null;
+    this.hours = null;
+    this.seconds_bar = null;
+    this.minutes_bar = null;
+    this.hours_bar = null;
+    this.center = null;
+    this.seconds_interval = null;
+    
+    this.SetClassName ("Gwt_Gui_Clock");
+    this.SetSize (200, 200);
+
+    this.resource.open ("GET", Gwt.Core.Contrib.Images+"clock.svg", true);
+    this.resource.overrideMimeType("image/svg+xml");
+    this.resource.onreadystatechange = this.Ready.bind(this);
+    this.resource.send ("");
 }
 
 Gwt.Gui.Clock.prototype = new Gwt.Gui.Frame ();
 Gwt.Gui.Clock.prototype.constructor = Gwt.Gui.Clock;
 
-Gwt.Gui.Clock.prototype.FinalizeClock = function ()
+Gwt.Gui.Clock.prototype._Clock = function ()
 {
-	this.resource = null;
-	this.seconds = null;
-	this.minutes = null;
-	this.hours = null;
-	this.seconds_bar = null;
-	this.minutes_bar = null;
-	this.hours_bar = null;
-	this.center = null;
-	this.seconds_interval = null;
-	
-	this.FinalizeFrame ();
-}
-
-Gwt.Gui.Clock.prototype.InitClock = function ()
-{
-	this.SetClassName ("Gwt_Gui_Clock");
-	this.SetSize (200, 200);
-	
-	this.resource = new XMLHttpRequest ();
-	this.resource.open ("GET", Gwt.Core.Contrib.Images+"clock.svg", true);
-	this.resource.overrideMimeType("image/svg+xml");
-	this.resource.onreadystatechange = this.Ready.bind(this);
-	this.resource.send ("");
+    this.resource = null;
+    this.seconds = null;
+    this.minutes = null;
+    this.hours = null;
+    this.seconds_bar = null;
+    this.minutes_bar = null;
+    this.hours_bar = null;
+    this.center = null;
+    this.seconds_interval = null;
+    
+    this._Frame ();
 }
 
 Gwt.Gui.Clock.prototype.Ready = function ()
@@ -3565,164 +3483,74 @@ Gwt.Gui.Clock.prototype.UpdateHours = function ()
 //Ends Gwt::Gui::Clock
 //##################################################################################################
 //##################################################################################################
-//Class Gwt::Gui::ButtonSvUpDl
-Gwt.Gui.ButtonSvUpDl = function ()
-{
-    Gwt.Gui.Button.call (this, Gwt.Core.Contrib.Images+"appbar.cabinet.in.svg", "Guardar");
-    
-    this.Update = null;
-    
-    this.InitButtonSvUpDl ();
-}
-
-Gwt.Gui.ButtonSvUpDl.prototype = new Gwt.Gui.Button ();
-Gwt.Gui.ButtonSvUpDl.prototype.constructor = Gwt.Gui.ButtonSvUpDl;
-
-Gwt.Gui.ButtonSvUpDl.prototype.FinalizeButtonSvUpDl = function ()
-{
-    this.Update = null;
-    this.FinalizeButton ();
-}
-
-Gwt.Gui.ButtonSvUpDl.prototype.InitButtonSvUpDl = function ()
-{
-    this.SetWidth (95);
-    this.SetText ("Guardar");
-    this.AddEvent (Gwt.Gui.Event.Mouse.Mousemove, this.CtrlSvUpDl.bind (this));
-    this.AddEvent (Gwt.Gui.Event.Mouse.Mouseout, this.CtrlReset.bind (this));
-    
-    this.Update = false;
-}
-
-Gwt.Gui.ButtonSvUpDl.prototype.CtrlSvUpDl = function (event)
-{
-    if (!this.Update)
-    {
-        this.SetImage (Gwt.Core.Contrib.Images+"icons/list-add.svg");
-        this.SetWidth (85);
-        this.SetText ("Guardar");
-    }
-    else if (this.Update && !event.ctrlKey)
-    {
-        this.SetImage (Gwt.Core.Contrib.Images+"icons/dialog-ok-apply.svg");
-        this.SetWidth (100);
-        this.SetText ("Actualizar");
-    }
-    else if (this.Update && event.ctrlKey)
-    {
-        this.SetImage (Gwt.Core.Contrib.Images+"icons/application-exit.svg");
-    	this.SetWidth (90);
-        this.SetText ("Eliminar");
-    }
-}
-
-Gwt.Gui.ButtonSvUpDl.prototype.CtrlReset = function (enable_disable)
-{
-    if (!this.Update)
-    {
-        this.SetImage (Gwt.Core.Contrib.Images+"icons/list-add.svg");
-        this.SetWidth (85);
-        this.SetText ("Guardar");
-    }
-    else
-    {
-        this.SetImage (Gwt.Core.Contrib.Images+"icons/dialog-ok-apply.svg");
-        this.SetWidth (100);
-        this.SetText ("Actualizar");
-    }
-}
-
-Gwt.Gui.ButtonSvUpDl.prototype.SetUpdate = function (enable_disable)
-{
-    this.Update = enable_disable;
-    
-    if (this.Update)
-    {
-        this.SetImage (Gwt.Core.Contrib.Images+"icons/dialog-ok-apply.svg");
-        this.SetWidth (100);
-        this.SetText ("Actualizar");
-    }
-    else
-    {
-        this.SetImage (Gwt.Core.Contrib.Images+"icons/list-add.svg");
-        this.SetWidth (85);
-        this.SetText ("Guardar");
-    }
-}
-//Ends Gwt::Gui::Button_sv_up_dl
-//##################################################################################################
-
-//##################################################################################################
 //Class Gwt::Gui::Button_on_off
 Gwt.Gui.ButtonOnOff = function ()
 {
-	Gwt.Gui.Frame.call (this);
-	this.Graphic = null;
-	this.InitButtonOnOff ();
-	this.Status = 0;
+    Gwt.Gui.Frame.call (this);
+    
+    //instance props
+    this.Canvas = new Gwt.Graphic.Svg.Canvas ();
+    this.Circle = new Gwt.Graphic.Svg.Circle ();
+    this.Status = 0;
+    
+    //init
+    this.SetClassName ("Gwt_Gui_Button_on_off");
+    this.SetSize (48,24);
+    this.SetBorder(1);
+    this.SetOutLine (Gwt.Gui.Contrib.OutLine.None);
+    var colorborder = new Gwt.Gui.Contrib.Color (Gwt.Gui.Contrib.Colors.Azure);
+    colorborder.SetAlpha (0.5);
+    this.SetBorderColor(colorborder);
+    var colorbackground = new Gwt.Gui.Contrib.Color (25,25,25);
+    colorbackground.SetAlpha (0.25);
+    this.SetBackgroundColor(colorbackground);
+    this.SetBorderStyle(Gwt.Gui.Contrib.BorderStyle.Solid);
+    this.SetBorderRadius(24);
+	
+    this.Canvas.SetSize (24, 24);
+    this.Canvas.SetViewBox (0, 0, this.Canvas.GetWidth(), this.Canvas.GetHeight());
+    this.Add (this.Graphic);
+
+    this.Circle.SetFill ("Azure");
+    this.Circle.SetCx (12);
+    this.Circle.SetCy (12);
+    this.Canvas.Add (this.Circle);
+	
+    this.AddEvent (Gwt.Gui.Event.Mouse.Click, this.Click.bind(this));
 }
 
 Gwt.Gui.ButtonOnOff.prototype = new Gwt.Gui.Frame ();
 Gwt.Gui.ButtonOnOff.prototype.constructor = Gwt.Gui.ButtonOnOff;
 
-Gwt.Gui.ButtonOnOff.prototype.FinalizeButtonOnOff = function ()
+Gwt.Gui.ButtonOnOff.prototype._ButtonOnOff = function ()
 {
-	this.Graphic = null;
-	this.FinalizeFrame ();
-}
-
-Gwt.Gui.ButtonOnOff.prototype.InitButtonOnOff = function ()
-{
-	this.SetClassName ("Gwt_Gui_Button_on_off");
-	this.SetSize (48,24);
-	this.SetBorder(1);
-	this.SetOutLine (Gwt.Gui.Contrib.OutLine.None);
-	var colorborder = new Gwt.Gui.Contrib.Color (Gwt.Gui.Contrib.Colors.Azure);
-	colorborder.SetAlpha (0.5);
-	this.SetBorderColor(colorborder);
-	var colorbackground = new Gwt.Gui.Contrib.Color (25,25,25);
-	colorbackground.SetAlpha (0.25);
-	this.SetBackgroundColor(colorbackground);
-	this.SetBorderStyle(Gwt.Gui.Contrib.BorderStyle.Solid);
-	this.SetBorderRadius(24);
-	
-	this.Graphic = new Gwt.Graphic.Svg.Canvas ();
-        this.Graphic.SetSize (24, 24);
-	this.Graphic.SetViewBox (0, 0, this.Graphic.GetWidth(), this.Graphic.GetHeight());
-		
-	this.Circle = new Gwt.Graphic.Svg.Circle ();
-	this.Circle.SetFill ("Azure");
-	this.Circle.SetCx (12);
-	this.Circle.SetCy (12);
-	
-	this.AddEvent (Gwt.Gui.Event.Mouse.Click, this.Click.bind(this));
-	
-	this.Graphic.Add (this.Circle);
-	this.Add (this.Graphic);
-
+    this.Canvas._Canvas ();
+    this.Circle._Circle ();
+    
+    this.Canvas = null;
+    this.Circle = null;
+    
+    this._Frame ();
 }
 
 Gwt.Gui.ButtonOnOff.prototype.Click = function ()
 {
-		
-	if (this.Status === 0)
-	{
-		//Habia un pequeño bug porque el metodo SetPosition(Y, X) recibia los argumentos trocados
-		//X era Y y Y era X, como ya lo arreglé tenga cuidado la declaración de SetPosition(X, Yser) es la correcta;
-		this.Graphic.SetPosition (24,0);
-		var colorbackground = new Gwt.Gui.Contrib.Color (0,102,255);
-		colorbackground.SetAlpha (0.3);
-		this.SetBackgroundColor(colorbackground);
-		this.Status = 1;
-	}
-	else
-	{
-		this.Graphic.SetPosition (0,0);
-		var colorbackground = new Gwt.Gui.Contrib.Color (25,25,25);
-		colorbackground.SetAlpha (0.25);
-		this.SetBackgroundColor(colorbackground);
-		this.Status = 0;
-	}
+    if (this.Status === 0)
+    {
+        this.Canvas.SetPosition (24,0);
+        var colorbackground = new Gwt.Gui.Contrib.Color (0,102,255);
+        colorbackground.SetAlpha (0.3);
+        this.SetBackgroundColor(colorbackground);
+        this.Status = 1;
+    }
+    else
+    {
+        this.Canvas.SetPosition (0,0);
+        var colorbackground = new Gwt.Gui.Contrib.Color (25,25,25);
+        colorbackground.SetAlpha (0.25);
+        this.SetBackgroundColor(colorbackground);
+        this.Status = 0;
+    }
 }
 
 
@@ -3734,40 +3562,34 @@ Gwt.Gui.IconControl = function (Icon, Control)
 {
     Gwt.Gui.Frame.call (this);
     
-    this.Icon = null;
-    this.Control = null;
-    
-    this.InitIconControl (Icon, Control);
+    //instance props
+    this.Icon = new Gwt.Gui.Image(Icon || Gwt.Core.Contrib.Images+"appbar.notification.star.svg");
+    this.Control = Control || new Gwt.Gui.StaticText ("Text Default");
+
+    //init
+    this.SetClassName ("Gwt_Gui_Icon_Control");
+    this.SetHeight (24);
+    this.SetExpand (true);    
+
+    this.Icon.SetSize(22, 22);
+    this.Icon.SetDisplay (Gwt.Gui.Contrib.Display.InlineBlock);
+    this.Icon.SetMarginRight (5);
+    this.Icon.SetValign (Gwt.Gui.Contrib.Valign.Top);
+    this.Add (this.Icon);
+
+    this.Control.SetWidth (this.GetWidth () - (this.Icon.GetWidth () + this.Icon.GetMarginRight ()));
+    this.Control.SetDisplay (Gwt.Gui.Contrib.Display.InlineBlock);
+    this.Add (this.Control);
 }
 
 Gwt.Gui.IconControl.prototype = new Gwt.Gui.Frame ();
 Gwt.Gui.IconControl.prototype.constructor = Gwt.Gui.IconControl;
 
-Gwt.Gui.IconControl.prototype.FinalizeIconControl = function ()
+Gwt.Gui.IconControl.prototype._IconControl = function ()
 {
     this.Icon = null;
     this.Control = null;
-    this.FinalizeFrame ();
-}
-
-Gwt.Gui.IconControl.prototype.InitIconControl = function (Icon, Control)
-{
-    this.SetClassName ("Gwt_Gui_Icon_Control");
-    
-    this.Icon = new Gwt.Gui.Image(Icon || Gwt.Core.Contrib.Images+"appbar.notification.star.svg");
-    this.Icon.SetSize(22, 22);
-    this.Icon.SetDisplay (Gwt.Gui.Contrib.Display.InlineBlock);
-    this.Icon.SetMarginRight (5);
-    this.Icon.SetValign (Gwt.Gui.Contrib.Valign.Top);
-    
-    this.Control = Control || new Gwt.Gui.StaticText ("Text Default");
-    this.Control.SetWidth (this.GetWidth () - (this.Icon.GetWidth () + this.Icon.GetMarginRight ()));
-    this.Control.SetDisplay (Gwt.Gui.Contrib.Display.InlineBlock);
-    
-    this.SetHeight (24);
-    this.SetExpand (true);    
-    this.Add (this.Icon);
-    this.Add (this.Control);
+    this._Frame ();
 }
 
 Gwt.Gui.IconControl.prototype.SetWidth = function (Width)
@@ -3799,51 +3621,41 @@ Gwt.Gui.IconControl.prototype.SetHeight = function (Height)
 //Class Gwt::Gui::IconDesktop
 Gwt.Gui.IconDesktop = function (Image, Text, Callback)
 {
-	Gwt.Gui.Frame.call (this);
+    Gwt.Gui.Frame.call (this);
         
-        this.Layout = null;
-        this.Image = null;
-        this.Text = null;
-        this.Callback = null;
+    this.Layout = new Gwt.Gui.VBox (0);
+    this.Image = new Gwt.Gui.Image (Image);
+    this.Text = new Gwt.Gui.StaticText (Text);
+    this.Callback = Callback;
 	
-	this.InitIconDesktop (Image, Text, Callback);
+    this.SetSize (80, 80);
+    this.SetBorderRadius (3);
+    this.SetBorderStyle (Gwt.Gui.Contrib.BorderStyle.Solid);
+    
+    this.Layout.SetSize (this.GetWidth (), this.GetHeight());
+    this.Layout.SetAlignment(Gwt.Gui.ALIGN_CENTER);
+    this.Add (this.Layout);
+
+    this.Image.SetSize (56, 56);
+    this.Image.SetMarginTop (3);
+    this.Layout.Add (this.Image);
+    
+    this.Text.SetSize (this.Layout.GetWidth(), 16);
+    this.Text.SetFontSize (10);
+    this.Text.SetTextAlignment (Gwt.Gui.Contrib.TextAlign.Center);
+    this.Layout.Add (this.Text);
+
+    this.AddEvent (Gwt.Gui.Event.Mouse.Click, this.Callback);
+    this.AddEvent (Gwt.Gui.Event.Mouse.MouseOver, this.MouseHover.bind(this));
+    this.AddEvent (Gwt.Gui.Event.Mouse.MouseOut, this.MouseOut.bind(this));
 }
 
 Gwt.Gui.IconDesktop.prototype = new Gwt.Gui.Frame ();
 Gwt.Gui.IconDesktop.prototype.constructor = Gwt.Gui.IconDesktop;
 
-Gwt.Gui.IconDesktop.prototype.FinalizeIconDesktop = function ()
+Gwt.Gui.IconDesktop.prototype._IconDesktop = function ()
 {
-    this.FinalizeFrame ();
-}
-
-Gwt.Gui.IconDesktop.prototype.InitIconDesktop = function (Image, Text, Callback)
-{
-    this.SetSize (80, 80);
-    this.SetBorderRadius (3);
-    this.SetBorderStyle (Gwt.Gui.Contrib.BorderStyle.Solid);
-    
-    this.Layout = new Gwt.Gui.VBox (0);
-    this.Layout.SetSize (this.GetWidth (), this.GetHeight());
-    this.Layout.SetAlignment(Gwt.Gui.ALIGN_CENTER);
-    this.Add (this.Layout);
-    
-    this.Image = new Gwt.Gui.Image (Image);
-    this.Image.SetSize (56, 56);
-    this.Image.SetMarginTop (3);
-    this.Layout.Add (this.Image);
-    
-    this.Text = new Gwt.Gui.StaticText (Text);
-    this.Text.SetSize (this.Layout.GetWidth(), 16);
-    this.Text.SetFontSize (10);
-    this.Text.SetTextAlignment (Gwt.Gui.Contrib.TextAlign.Center);
-    this.Layout.Add (this.Text);
-    
-    this.Callback = Callback;
-    
-    this.AddEvent (Gwt.Gui.Event.Mouse.Click, this.Callback);
-    this.AddEvent (Gwt.Gui.Event.Mouse.MouseOver, this.MouseHover.bind(this));
-    this.AddEvent (Gwt.Gui.Event.Mouse.MouseOut, this.MouseOut.bind(this));
+    this._Frame ();
 }
 
 Gwt.Gui.IconDesktop.prototype.MouseHover = function ()
@@ -3865,20 +3677,16 @@ Gwt.Gui.IconEntry = function (Icon, Placeholder)
 {
     Gwt.Gui.IconControl.call (this, Icon, new Gwt.Gui.Entry(Placeholder));
     
-    this.InitIconEntry ();
+    //init
+    this.SetClassName ("Gwt_Gui_Icon_Entry");
 }
 
 Gwt.Gui.IconEntry.prototype = new Gwt.Gui.IconControl ();
 Gwt.Gui.IconEntry.prototype.constructor = Gwt.Gui.IconEntry;
 
-Gwt.Gui.IconEntry.prototype.FinalizeIconEntry = function ()
+Gwt.Gui.IconEntry.prototype._IconEntry = function ()
 {
-    this.FinalizeIconControl ();
-}
-
-Gwt.Gui.IconEntry.prototype.InitIconEntry = function ()
-{
-    this.SetClassName ("Gwt_Gui_Icon_Entry");
+    this._IconControl ();
 }
 
 Gwt.Gui.IconEntry.prototype.SetMaxLength = function (MaxLength)
@@ -3898,20 +3706,16 @@ Gwt.Gui.IconSelectBox = function (Icon, Placeholder, Options)
 {
     Gwt.Gui.IconControl.call (this, Icon, new Gwt.Gui.SelectBox(Placeholder, Options));
     
-    this.InitIconSelectBox ();
+    //init
+    this.SetClassName ("Gwt_Gui_Icon_Select_Box");
 }
 
 Gwt.Gui.IconSelectBox.prototype = new Gwt.Gui.IconControl ();
 Gwt.Gui.IconSelectBox.prototype.constructor = Gwt.Gui.IconSelectBox;
 
-Gwt.Gui.IconSelectBox.prototype.FinalizeIconSelectBox = function ()
+Gwt.Gui.IconSelectBox.prototype._IconSelectBox = function ()
 {
-    this.FinalizeIconSelectBox ();
-}
-
-Gwt.Gui.IconSelectBox.prototype.InitIconSelectBox = function ()
-{
-    this.SetClassName ("Gwt_Gui_Icon_Select_Box");
+    this._IconSelectBox ();
 }
 
 Gwt.Gui.IconSelectBox.prototype.GetValue = function ()
@@ -3929,32 +3733,22 @@ Gwt.Gui.IconSelectBox.prototype.SetText = function (Text)
 //Class Gwt::Gui::Image
 Gwt.Gui.Date = function (placeholder)
 {
-        Gwt.Gui.Frame.call (this);
-        this.year = null;
-        this.month = null;
-        this.day = null;
-        this.InitDate (placeholder);
-}
-
-Gwt.Gui.Date.prototype = new Gwt.Gui.Frame ();
-Gwt.Gui.Date.prototype.constructor = Gwt.Gui.Date;
-
-Gwt.Gui.Date.prototype.FinalizeDate = function (placeholder)
-{
-    this.year.FinalizeSelectBox ();
+    Gwt.Gui.Frame.call (this);
+    
+    //instance props
     this.year = null;
-    this.month.FinalizeSelectBox ();
-    this.mont = null;
-    this.day.FinalizeSelectBox ();
+    this.month = null;
     this.day = null;
-    this.FinalizeFrame ();
-}
-
-Gwt.Gui.Date.prototype.InitDate = function (placeholder)
-{
+    this.container = new Gwt.Gui.HBox (0);
+    
+    
+    //init
     this.SetClassName ("Gwt_Gui_Date");
     this.SetSize (190, 24);
 
+    this.container.SetSize (160,24);
+    this.Add (this.container);
+    
     var y = new Date().getFullYear();
     var range = (y-150);
     var years_items = [];
@@ -3989,14 +3783,26 @@ Gwt.Gui.Date.prototype.InitDate = function (placeholder)
     
     this.day = new Gwt.Gui.SelectBox ("Día", days_items);
     this.day.SetWidth (48);
-
-    this.container = new Gwt.Gui.HBox (0);
-    this.container.SetSize (160,24);
-
-    this.Add (this.container);
+    
     this.container.Add (this.day);
     this.container.Add (this.month);
     this.container.Add (this.year);
+}
+
+Gwt.Gui.Date.prototype = new Gwt.Gui.Frame ();
+Gwt.Gui.Date.prototype.constructor = Gwt.Gui.Date;
+
+Gwt.Gui.Date.prototype._Date = function (placeholder)
+{
+    this.year._SelectBox ();
+    this.month._SelectBox ();
+    this.day._SelectBox ();
+    
+    this.year = null;
+    this.mont = null;
+    this.day = null;
+    
+    this._Frame ();
 }
 
 Gwt.Gui.Date.prototype.GetDate = function ()
@@ -4092,6 +3898,7 @@ Gwt.Graphic.Svg.Contrib.StrokeLineCap =
 //Class Gwt::Graphics::Svg::Graphic
 Gwt.Graphic.Svg.Graphic = function ()
 {
+    //instance props
     this.Html = null;
     this.Width = null;
     this.Height = null;
@@ -4103,23 +3910,24 @@ Gwt.Graphic.Svg.Graphic = function ()
     this.StrokeLineCap = null;
     this.StrokeDashArray = null;
     
-    this.InitGraphic ();
-}
-
-Gwt.Graphic.Svg.Graphic.prototype.InitGraphic = function ()
-{
-    this.Html = document.createElement ("svg");
-    
+    //init
+    this.SetHtml ("svg");
     this.SetWidth (100);
     this.SetHeight (100);
 }
 
-Gwt.Graphic.Svg.Graphic.prototype.FinalizeGraphic = function ()
+Gwt.Graphic.Svg.Graphic.prototype._Graphic = function ()
 {
     this.Html = null;
-
     this.Width = null;
     this.Height = null;
+    this.Fill = null;
+    this.FillOpacity = null;
+    this.Stroke = null;
+    this.StrokeOpacity = null;
+    this.StrokeWidth = null;
+    this.StrokeLineCap = null;
+    this.StrokeDashArray = null;
 }
 
 Gwt.Graphic.Svg.Graphic.prototype.Add = function (element)
@@ -4196,6 +4004,11 @@ Gwt.Graphic.Svg.Graphic.prototype.SetStrokeDashArray = function (StrokeDashArray
     this.StrokeDashArray = StrokeDashArray;
     this.Html.setAttribute ("stroke-dasharray", this.StrokeDashArray);
 }
+
+Gwt.Graphic.Svg.Graphic.prototype.SetHtml = function (Html)
+{
+    this.Html = document.createElementNS ("http://www.w3.org/2000/svg", Html);
+}
 //##################################################################################################
 //End Gwt::Graphic::Svg::Graphic
 
@@ -4204,6 +4017,8 @@ Gwt.Graphic.Svg.Graphic.prototype.SetStrokeDashArray = function (StrokeDashArray
 Gwt.Graphic.Svg.Canvas = function ()
 {
     Gwt.Gui.Frame.call (this);
+    
+    this.Html = document.createElementNS ("http://www.w3.org/2000/svg", "svg");
     this.X = null;
     this.Y = null;
     this.ViewBoxMinX = null;
@@ -4216,16 +4031,7 @@ Gwt.Graphic.Svg.Canvas = function ()
     this.XmlnsXlink = null;
     this.XmlSpace = null;
     
-    
-    this.InitCanvas ();
-}
-
-Gwt.Graphic.Svg.Canvas.prototype = new Gwt.Gui.Frame ();
-Gwt.Graphic.Svg.Canvas.prototype.constructor = Gwt.Graphic.Svg.Canvas;
-
-Gwt.Graphic.Svg.Canvas.prototype.InitCanvas = function ()
-{
-    this.Html = document.createElementNS ("http://www.w3.org/2000/svg", "svg");
+    //init
     this.SetX (0);
     this.SetY (0);
     this.SetWidth (100);
@@ -4237,9 +4043,11 @@ Gwt.Graphic.Svg.Canvas.prototype.InitCanvas = function ()
     this.SetPositionType (Gwt.Gui.Contrib.PositionType.Relative);
 }
 
-Gwt.Graphic.Svg.Canvas.prototype.FinalizeCanvas = function ()
+Gwt.Graphic.Svg.Canvas.prototype = new Gwt.Gui.Frame ();
+Gwt.Graphic.Svg.Canvas.prototype.constructor = Gwt.Graphic.Svg.Canvas;
+
+Gwt.Graphic.Svg.Canvas.prototype._Canvas = function ()
 {
-    this.FinalizeSvgGraphic ();
     this.X = null;
     this.Y = null;
     this.ViewBoxMinX = null;
@@ -4251,6 +4059,8 @@ Gwt.Graphic.Svg.Canvas.prototype.FinalizeCanvas = function ()
     this.Xmlns = null;
     this.XmlnsXlink = null;
     this.XmlSpace = null;
+    
+    this._Frame ();
 }
 
 Gwt.Graphic.Svg.Canvas.prototype.SetX = function (X)
@@ -4317,23 +4127,31 @@ Gwt.Graphic.Svg.Canvas.prototype.SetXmlns = function (Xmlns, XmlnsXlink, XmlSpac
 Gwt.Graphic.Svg.Rect = function ()
 {
     Gwt.Graphic.Svg.Graphic.call (this);
+    
+    //instance props
     this.X = null;
     this.Y = null;
     this.Rx = null;
     this.Ry = null;
- 
-    this.InitRect ();
+    
+    //init
+    this.SetHtml ("rect");
+    this.SetX (0);
+    this.SetY (0);
+    this.SetSize (100, 100);
 }
 
 Gwt.Graphic.Svg.Rect.prototype = new Gwt.Graphic.Svg.Graphic ();
 Gwt.Graphic.Svg.Rect.prototype.constructor = Gwt.Graphic.Svg.Rect;
 
-Gwt.Graphic.Svg.Rect.prototype.InitRect = function ()
+Gwt.Graphic.Svg.Rect.prototype._Rect = function ()
 {
-    this.Html = document.createElementNS ("http://www.w3.org/2000/svg", "rect");
-    this.SetX (0);
-    this.SetY (0);
-    this.SetSize (100, 100);
+    this.X = null;
+    this.Y = null;
+    this.Rx = null;
+    this.Ry = null;
+    
+    this._Graphic ();
 }
 
 Gwt.Graphic.Svg.Rect.prototype.SetX = function (X)
@@ -4387,22 +4205,28 @@ Gwt.Graphic.Svg.Rect.prototype.GetRy = function ()
 Gwt.Graphic.Svg.Circle = function ()
 {
     Gwt.Graphic.Svg.Graphic.call (this);
+
+    //instance props
     this.Cx = null;
     this.Cy = null;
     this.R = null;
  
-    this.InitCircle ();
+    this.SetHtml ("circle");
+    this.SetCx (0);
+    this.SetCy (0);
+    this.SetR (10);
 }
 
 Gwt.Graphic.Svg.Circle.prototype = new Gwt.Graphic.Svg.Graphic ();
 Gwt.Graphic.Svg.Circle.prototype.constructor = Gwt.Graphic.Svg.Circle;
 
-Gwt.Graphic.Svg.Circle.prototype.InitCircle = function ()
+Gwt.Graphic.Svg.Circle.prototype._Circle = function ()
 {
-    this.Html = document.createElementNS ("http://www.w3.org/2000/svg", "circle");
-    this.SetCx (0);
-    this.SetCy (0);
-    this.SetR (10);
+    this.Cx = null;
+    this.Cy = null;
+    this.R = null;
+    
+    this._Graphic ();
 }
 
 Gwt.Graphic.Svg.Circle.prototype.SetCx = function (Cx)
@@ -4445,25 +4269,23 @@ Gwt.Graphic.Svg.Circle.prototype.GetR = function ()
 Gwt.Graphic.Svg.Ellipse = function ()
 {
     Gwt.Graphic.Svg.Graphic.call (this);
+
+    //instance props
     this.Cx = null;
     this.Cy = null;
     this.Rx = null;
     this.Ry = null;
  
-    this.InitEllipse ();
-}
-
-Gwt.Graphic.Svg.Ellipse.prototype = new Gwt.Graphic.Svg.Graphic ();
-Gwt.Graphic.Svg.Ellipse.prototype.constructor = Gwt.Graphic.Svg.Ellipse;
-
-Gwt.Graphic.Svg.Ellipse.prototype.InitEllipse = function ()
-{
-    this.Html = document.createElementNS ("http://www.w3.org/2000/svg", "ellipse");
+    //init
+    this.SetHtml ("ellipse");
     this.SetCx (0);
     this.SetCy (0);
     this.SetRx (0);
     this.SetRy (0);
 }
+
+Gwt.Graphic.Svg.Ellipse.prototype = new Gwt.Graphic.Svg.Graphic ();
+Gwt.Graphic.Svg.Ellipse.prototype.constructor = Gwt.Graphic.Svg.Ellipse;
 
 Gwt.Graphic.Svg.Ellipse.prototype.SetCx = function (Cx)
 {
@@ -4516,23 +4338,21 @@ Gwt.Graphic.Svg.Ellipse.prototype.GetRy = function ()
 Gwt.Graphic.Svg.Line = function ()
 {
     Gwt.Graphic.Svg.Graphic.call (this);
+    
+    //instance props
     this.X1 = null;
     this.Y1 = null;
     this.X2 = null;
     this.Y2 = null;
  
-    this.InitLine ();
+    //init
+    this.SetHtml ("line");
+    this.SetP1 (0, 0);
+    this.SetP2 (10, 10);
 }
 
 Gwt.Graphic.Svg.Line.prototype = new Gwt.Graphic.Svg.Graphic ();
 Gwt.Graphic.Svg.Line.prototype.constructor = Gwt.Graphic.Svg.Line;
-
-Gwt.Graphic.Svg.Line.prototype.InitLine = function ()
-{
-    this.Html = document.createElementNS ("http://www.w3.org/2000/svg", "line");
-    this.SetP1 (0, 0);
-    this.SetP2 (10, 10);
-}
 
 Gwt.Graphic.Svg.Line.prototype.SetX1 = function (X1)
 {
@@ -4597,19 +4417,15 @@ Gwt.Graphic.Svg.Line.prototype.SetP2 = function (P2X, P2Y)
 Gwt.Graphic.Svg.Polygon = function ()
 {
     Gwt.Graphic.Svg.Graphic.call (this);
+
     this.Points = null;
     this.FillRule = null;
  
-    this.InitPolygon ();
+    this.SetHtml ("polygon");
 }
 
 Gwt.Graphic.Svg.Polygon.prototype = new Gwt.Graphic.Svg.Graphic ();
 Gwt.Graphic.Svg.Polygon.prototype.constructor = Gwt.Graphic.Svg.Polygon;
-
-Gwt.Graphic.Svg.Polygon.prototype.InitPolygon = function ()
-{
-    this.Html = document.createElementNS ("http://www.w3.org/2000/svg", "polygon");
-}
 
 Gwt.Graphic.Svg.Polygon.prototype.SetPoints = function (Points)
 {
@@ -4635,18 +4451,16 @@ Gwt.Graphic.Svg.Polygon.prototype.SetFillRule = function (FillRule)
 Gwt.Graphic.Svg.Polyline = function ()
 {
     Gwt.Graphic.Svg.Graphic.call (this);
+
+    //instace props
     this.Points = null;
  
-    this.InitPolygon ();
+    //init
+    this.SetHtml ("polyline");
 }
 
 Gwt.Graphic.Svg.Polyline.prototype = new Gwt.Graphic.Svg.Graphic ();
 Gwt.Graphic.Svg.Polyline.prototype.constructor = Gwt.Graphic.Svg.Polyline;
-
-Gwt.Graphic.Svg.Polyline.prototype.InitPolyline = function ()
-{
-    this.Html = document.createElementNS ("http://www.w3.org/2000/svg", "polyline");
-}
 
 Gwt.Graphic.Svg.Polyline.prototype.SetPoints = function (Points)
 {
@@ -4666,6 +4480,7 @@ Gwt.Graphic.Svg.Polyline.prototype.GetPoints = function ()
 Gwt.Graphic.Svg.Path = function ()
 {
     Gwt.Graphic.Svg.Graphic.call (this);
+
     this.D = null;
     this.M = null;
     this.L = null;
@@ -4678,16 +4493,11 @@ Gwt.Graphic.Svg.Path = function ()
     this.A = null;
     this.Z = null;
  
-    this.InitPath ();
+    this.SetHtml ("path");
 }
 
 Gwt.Graphic.Svg.Path.prototype = new Gwt.Graphic.Svg.Graphic ();
 Gwt.Graphic.Svg.Path.prototype.constructor = Gwt.Graphic.Svg.Path;
-
-Gwt.Graphic.Svg.Path.prototype.InitPath = function ()
-{
-    this.Html = document.createElementNS ("http://www.w3.org/2000/svg", "path");
-}
 
 Gwt.Graphic.Svg.Path.prototype.SetD = function (D)
 {
@@ -4812,6 +4622,8 @@ Gwt.Graphic.Svg.Path.prototype.GetZ = function ()
 Gwt.Graphic.Svg.Arc = function ()
 {
     Gwt.Graphic.Svg.Path.call (this);
+
+    //instance props
     this.X1 = null;
     this.Y1 = null;
     this.X2 = null;
@@ -4819,16 +4631,13 @@ Gwt.Graphic.Svg.Arc = function ()
     this.CenterX = null;
     this.CenterY = null;
     this.Radius = null;
-    this.InitArc ();
+    
+    //init
+    this.SetHtml ("path");
 }
 
 Gwt.Graphic.Svg.Arc.prototype = new Gwt.Graphic.Svg.Path ();
 Gwt.Graphic.Svg.Arc.prototype.constructor = Gwt.Graphic.Svg.Arc;
-
-Gwt.Graphic.Svg.Arc.prototype.InitArc = function ()
-{
-    this.Html = document.createElementNS ("http://www.w3.org/2000/svg", "path");
-}
 
 Gwt.Graphic.Svg.Arc.prototype.PolarToCartesian = function (centerX, centerY, angleInDegrees)
 {

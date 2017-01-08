@@ -4,34 +4,13 @@ Gwt.Gui.Croppie = function ()
 {
     Gwt.Gui.Frame.call (this);
  
-    this.Vanilla = null;
-    this.BtnFinish = null;
+    //instance props
+    this.Vanilla = new Croppie (this.GetHtml());
+    this.BtnFinish = new Gwt.Gui.Button(Gwt.Core.Contrib.Images + "appbar.cabinet.out.svg", "Subir");
     this.Image = null;
     this.Callback = null;
     
-    this.InitCroppie ();
-}
-
-Gwt.Gui.Croppie.prototype = new Gwt.Gui.Frame ();
-Gwt.Gui.Croppie.prototype.constructor = Gwt.Gui.Croppie;
-
-Gwt.Gui.Croppie.prototype.FinalizeCroppie = function ()
-{
-    this.BtnFinish.FinalizeButton();
-    this.BtnFinish = null;
-    
-    this.Vanilla = null;
-    this.Image = null;
-    this.Callback = null
-    
-    this.FinalizeFrame ();
-}
-
-Gwt.Gui.Croppie.prototype.InitCroppie = function ()
-{
-    this.Vanilla = new Croppie (this.GetHtml());
-    this.BtnFinish = new Gwt.Gui.Button(Gwt.Core.Contrib.Images + "appbar.cabinet.out.svg", "Subir");
-    
+    //init
     this.SetSize (512, 512);
     this.SetBackgroundColor (new Gwt.Gui.Contrib.Color (50, 50, 50, 0.9));
     this.SetPositionType (Gwt.Gui.Contrib.PositionType.Absolute);
@@ -50,6 +29,21 @@ Gwt.Gui.Croppie.prototype.InitCroppie = function ()
     this.BtnFinish.AddEvent (Gwt.Gui.Event.Mouse.Click, this.Result.bind(this));
     
     this.Add (this.BtnFinish);
+}
+
+Gwt.Gui.Croppie.prototype = new Gwt.Gui.Frame ();
+Gwt.Gui.Croppie.prototype.constructor = Gwt.Gui.Croppie;
+
+Gwt.Gui.Croppie.prototype._Croppie = function ()
+{
+    this.BtnFinish._Button();
+    this.BtnFinish = null;
+    
+    this.Vanilla = null;
+    this.Image = null;
+    this.Callback = null
+    
+    this._Frame ();
 }
 
 Gwt.Gui.Croppie.prototype.SetImage = function (Image)

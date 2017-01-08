@@ -2,30 +2,26 @@
 //Class Gwt::Gui::Text
 Gwt.Gui.Text  = function (Placeholder)
 {
-	Gwt.Gui.Frame.call (this);
-	this.InitText (Placeholder);
+    Gwt.Gui.Frame.call (this);
+        
+    this.SetHtml ("textarea");
+    this.SetClassName ("Gwt_Gui_Text");
+    this.SetExpand (true);
+    this.SetPadding (0);
+    this.SetBorderRadius(5);
+    this.SetPlaceholder (Placeholder || "Text multi-line");
+    this.SetFontSize (11);
+    this.SetHeight (96);
+    this.SetAlign ();
+    this.SetMaxLength (185);
 }
 
 Gwt.Gui.Text.prototype = new Gwt.Gui.Frame ();
 Gwt.Gui.Text.prototype.constructor = Gwt.Gui.Text;
 
-Gwt.Gui.Text.prototype.FinalizeText = function ()
+Gwt.Gui.Text.prototype._Text = function ()
 {
-	this.FinalizeFrame ();
-}
-
-Gwt.Gui.Text.prototype.InitText = function (Placeholder)
-{
-	this.SetHtml ("textarea");
-	this.SetClassName ("Gwt_Gui_Text");
-	this.SetExpand (true);
-	this.SetPadding (0);
-	this.SetBorderRadius(5);
-	this.SetPlaceholder (Placeholder || "Text multi-line");
-	this.SetFontSize (11);
-	this.SetHeight (96);
-	this.SetAlign ();
-	this.SetMaxLength (185);
+    this._Frame ();
 }
 
 Gwt.Gui.Text.prototype.SetPlaceholder = function (Text)

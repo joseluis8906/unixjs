@@ -3,6 +3,7 @@
 Gwt.Graphic.Svg.Path = function ()
 {
     Gwt.Graphic.Svg.Graphic.call (this);
+
     this.D = null;
     this.M = null;
     this.L = null;
@@ -15,16 +16,11 @@ Gwt.Graphic.Svg.Path = function ()
     this.A = null;
     this.Z = null;
  
-    this.InitPath ();
+    this.SetHtml ("path");
 }
 
 Gwt.Graphic.Svg.Path.prototype = new Gwt.Graphic.Svg.Graphic ();
 Gwt.Graphic.Svg.Path.prototype.constructor = Gwt.Graphic.Svg.Path;
-
-Gwt.Graphic.Svg.Path.prototype.InitPath = function ()
-{
-    this.Html = document.createElementNS ("http://www.w3.org/2000/svg", "path");
-}
 
 Gwt.Graphic.Svg.Path.prototype.SetD = function (D)
 {

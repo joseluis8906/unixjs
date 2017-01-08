@@ -4,38 +4,18 @@ Gwt.Gui.Avatar = function (Image)
 {
     Gwt.Gui.Frame.call (this);
     
-    this.Image = null;
+    //instance props
+    this.File = new Gwt.Gui.File (this.SetImage.bind(this));
+    this.Image = new Gwt.Gui.Image (Gwt.Core.Contrib.Images+"appbar.camera.switch.svg");
+    this.Editor =  new Gwt.Gui.Croppie ();
     this.Name = null;
     this.Type = null;
-    this.File = null;
-    this.Editor = null;
     
-    this.InitAvatar (Image);
-}
-
-Gwt.Gui.Avatar.prototype = new Gwt.Gui.Image ();
-Gwt.Gui.Avatar.prototype.constructor = Gwt.Gui.Avatar;
-
-Gwt.Gui.Avatar.prototype.FinalizeAvatar = function ()
-{  
-    this.Image.FinalizeImage ();
-    this.File.FinalizeFile ();
-    this.Editor.FinalizeCroppie ()
-    
-    this.Image = null;
-    this.File = null;
-    this.Editor = null;
-    
-    this.FinalizeFrame ();
-}
-
-Gwt.Gui.Avatar.prototype.InitAvatar = function ()
-{
+    //init
     this.SetClassName ("Gwt_Gui_Avatar");
     this.SetSize (96, 96);
     this.SetRounded ();
     
-    this.File = new Gwt.Gui.File (this.SetImage.bind(this));
     this.File.SetSize (96, 96);
     this.File.SetPositionType (Gwt.Gui.Contrib.PositionType.Absolute);
     this.File.SetPosition (0, 0);
@@ -44,13 +24,28 @@ Gwt.Gui.Avatar.prototype.InitAvatar = function ()
     this.File.SetCallbackRead (this.ChangeImage.bind(this));
     this.Add (this.File);
 
-    this.Image = new Gwt.Gui.Image (Gwt.Core.Contrib.Images+"appbar.camera.switch.svg")
     this.Image.SetSize (96, 96);
     this.Add (this.Image);
-    
-    this.Editor =  new Gwt.Gui.Croppie ();
+
     this.Editor.SetCallbackResult (this.SetImage.bind (this));
+}
+
+Gwt.Gui.Avatar.prototype = new Gwt.Gui.Image ();
+Gwt.Gui.Avatar.prototype.constructor = Gwt.Gui.Avatar;
+
+Gwt.Gui.Avatar.prototype._Avatar = function ()
+{  
+    this.Image._Image ();
+    this.File._File ();
+    this.Editor._Croppie ();
     
+    this.Image = null;
+    this.File = null;
+    this.Editor = null;
+    this.Name = null;
+    this.Type = null;
+    
+    this._Frame ();
 }
 
 Gwt.Gui.Avatar.prototype.SetImage = function (Image)

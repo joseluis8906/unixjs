@@ -3,51 +3,23 @@
 Gwt.Gui.SelectBox = function (Placeholder, options)
 {
     Gwt.Gui.Frame.call (this);
-	
-    this.StaticText = null;
-    this.SelectDialogBox = null;
-    this.Placeholder = null;
-    this.Options = null;
+    
+    //instance props
+    this.Placeholder = Placeholder;
+    this.StaticText = new Gwt.Gui.StaticText (this.Placeholder);
+    this.Options = [];
     this.Text=null;
     this.Value=null;
-	
-    this.InitSelectBox (Placeholder, options);
-}
-
-
-Gwt.Gui.SelectBox.prototype = new Gwt.Gui.Frame ();
-Gwt.Gui.SelectBox.prototype.constructor = Gwt.Gui.SelectBox;
-
-
-Gwt.Gui.SelectBox.prototype.FinalizeSelectBox = function ()
-{
-    if(this.SelectDialogBox !== null)
-    {
-        this.SelectDialogBox.FinalizeSelectDialogBox ();
-    }
     this.SelectDialogBox = null;
     
-    this.StaticText = null;
-    this.Placeholder = null;
-    this.Options = null;
-	
-    this.FinalizeFrame ();
-}
-
-
-Gwt.Gui.SelectBox.prototype.InitSelectBox = function (Placeholder, options)
-{
+    //init
     this.SetClassName ("Gwt_Gui_Select_Box");
     this.SetExpand (true);
     this.AddEvent (Gwt.Gui.Event.Mouse.Click, this.ShowDialog.bind(this));
     this.AddEvent (Gwt.Gui.Event.Keyboard.KeyPress, this.ShowDialog.bind(this));
-    this.Placeholder = Placeholder;
-    this.StaticText = new Gwt.Gui.StaticText (this.Placeholder);
-	
+
     this.Add (this.StaticText);
 	
-    this.Options = [];
-    
     options = [{"text": this.Placeholder, "value": ""}].concat(options);
     for (var i = 0; i < options.length; i++)
     {
@@ -63,6 +35,33 @@ Gwt.Gui.SelectBox.prototype.InitSelectBox = function (Placeholder, options)
     }
     
     this.SetValue("");
+}
+
+
+Gwt.Gui.SelectBox.prototype = new Gwt.Gui.Frame ();
+Gwt.Gui.SelectBox.prototype.constructor = Gwt.Gui.SelectBox;
+
+Gwt.Gui.SelectBox.prototype._SelectBox = function ()
+{
+    this.StaticText._StaticText ();
+    
+    if(this.SelectDialogBox !== null)
+    {
+        this.SelectDialogBox._SelectDialogBox ();
+        this.SelectDialogBox = null;
+    }
+
+    for (var i=0; i<this.Options.length; i++)
+    {
+        this.Options[i]._SelectBoxItem ();
+        this.Options[i] = null;
+    }
+    
+    this.StaticText = null;
+    this.Placeholder = null;
+    this.Options = null;
+
+    this._Frame ();
 }
 
 Gwt.Gui.SelectBox.prototype.ShowDialog = function (event)

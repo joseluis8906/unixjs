@@ -3,29 +3,12 @@
 Gwt.Gui.Button = function (Image, Text)
 {
     Gwt.Gui.Frame.call (this);
-	
-    this.Image = null;
-    this.Text = null;
-	
-    this.InitButton (Image, Text);
-}
 
-Gwt.Gui.Button.prototype = new Gwt.Gui.Frame ();
-Gwt.Gui.Button.prototype.constructor = Gwt.Gui.Button;
-
-Gwt.Gui.Button.prototype.FinalizeButton = function ()
-{
-    this.Image.FinalizeImage ();
-    this.Image = null;
+    //instance props
+    this.Image = new Gwt.Gui.Image (Image);
+    this.Text = new Gwt.Gui.StaticText (Text);
     
-    this.Text.FinalizeStaticText ();
-    this.Text = null;
-    
-    this.FinalizeFrame ();
-}
-
-Gwt.Gui.Button.prototype.InitButton = function (Image, Text)
-{
+    //init
     this.SetClassName ("Gwt_Gui_Button");
     this.SetExpand (false);
     this.SetBorder (1);
@@ -40,21 +23,33 @@ Gwt.Gui.Button.prototype.InitButton = function (Image, Text)
     this.AddEvent (Gwt.Gui.Event.Mouse.MouseUp, this.MouseMove.bind(this));
     this.AddEvent (Gwt.Gui.Event.Mouse.MouseOut, this.MouseOut.bind(this));
 	
-    this.Image = new Gwt.Gui.Image (Image);
     this.Image.SetSize (18, 18);
     this.Image.SetDisplay (Gwt.Gui.Contrib.Display.InlineBlock);
     this.Image.SetMarginRight (5);
     this.Image.SetMarginLeft (5);
     this.Image.SetMarginTop (2);
     this.Image.SetValign (Gwt.Gui.Contrib.Valign.Top);
-	
-    this.Text = new Gwt.Gui.StaticText (Text);
+    
     this.Text.SetDisplay (Gwt.Gui.Contrib.Display.InlineBlock);
     this.Text.SetValign (Gwt.Gui.Contrib.Valign.Top);
     this.SetSize (this.Image.GetWidth()+this.Text.GetWidth(), 24);
 	
     this.Add (this.Image);
     this.Add (this.Text);
+}
+
+Gwt.Gui.Button.prototype = new Gwt.Gui.Frame ();
+Gwt.Gui.Button.prototype.constructor = Gwt.Gui.Button;
+
+Gwt.Gui.Button.prototype._Button = function ()
+{
+    this.Image._Image ();
+    this.Image = null;
+    
+    this.Text._StaticText ();
+    this.Text = null;
+    
+    this._Frame ();
 }
 
 Gwt.Gui.Button.prototype.MouseMove = function ()

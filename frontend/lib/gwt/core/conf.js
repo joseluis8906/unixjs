@@ -2,7 +2,9 @@
 //Gwt::Core
 Gwt.Core = {
     REQUEST_TYPE_MULTIPART: 0,
-    REQUEST_TYPE_XWWW: 1
+    REQUEST_TYPE_XWWW: 1,
+    PARAM_TYPE_TEXT: 0,
+    PARAM_TYPE_FILE: 1
 };
 
 Gwt.Core.Contrib = new Object ();

@@ -2,6 +2,7 @@
 //Class Gwt::Gui::Frame
 Gwt.Gui.Frame = function ()
 {
+    //instance props
     this.BackgroundAttachment = null;
     this.BackgroundClip = null;
     this.BackgroundColor = null;
@@ -63,12 +64,8 @@ Gwt.Gui.Frame = function ()
     this.ClassName = null;
     this.Parent = null;
     this.Childs = null;
-		
-    this.InitFrame ();
-}
 
-Gwt.Gui.Frame.prototype.InitFrame = function ()
-{
+    //init
     this.SetHtml ("div");
     this.SetTabIndex (0);
     this.SetClassName ("Gwt_Gui_Frame");
@@ -80,7 +77,7 @@ Gwt.Gui.Frame.prototype.InitFrame = function ()
     this.Childs = [];
 }
 
-Gwt.Gui.Frame.prototype.FinalizeFrame = function ()
+Gwt.Gui.Frame.prototype._Frame = function ()
 {
     if (this.GetHtml() !== null)
     {

@@ -2,32 +2,27 @@
 //Class Gwt::Gui::VBox
 Gwt.Gui.VBox = function (Margin)
 {
-	Gwt.Gui.Frame.call (this);
-	
-	this.MarginElements = null;
-	this.Alignment = null;
-	
-	this.InitVBox (Margin);
+    Gwt.Gui.Frame.call (this);
+
+    //instance props
+    this.MarginElements = typeof(Margin) === "undefined" ? 12 : Margin;
+    this.Alignment = null;
+
+    //init
+    this.SetClassName ("Gwt_Gui_VBox");
+    this.SetDisplay (Gwt.Gui.Contrib.Display.InlineBlock);
+    this.SetAlignment (Gwt.Gui.ALIGN_LEFT);
 }
 
 Gwt.Gui.VBox.prototype = new Gwt.Gui.Frame ();
 Gwt.Gui.VBox.prototype.constructor = Gwt.Gui.VBox;
 
-Gwt.Gui.VBox.prototype.FinalizeVBox = function ()
+Gwt.Gui.VBox.prototype._VBox = function ()
 {
-	this.MarginElements = null;
-	this.Alignment = null;
+    this.MarginElements = null;
+    this.Alignment = null;
 	
-	this.FinalizeFrame ();
-}
-
-Gwt.Gui.VBox.prototype.InitVBox = function (Margin)
-{
-	this.SetClassName ("Gwt_Gui_VBox");
-	this.SetDisplay (Gwt.Gui.Contrib.Display.InlineBlock);
-	this.SetAlignment (Gwt.Gui.ALIGN_LEFT);
-	
-	this.MarginElements = typeof(Margin) === "undefined" ? 12 : Margin;
+    this._Frame ();
 }
 
 Gwt.Gui.VBox.prototype.GetMarginElements = function ()

@@ -3,22 +3,28 @@
 Gwt.Graphic.Svg.Circle = function ()
 {
     Gwt.Graphic.Svg.Graphic.call (this);
+
+    //instance props
     this.Cx = null;
     this.Cy = null;
     this.R = null;
  
-    this.InitCircle ();
+    this.SetHtml ("circle");
+    this.SetCx (0);
+    this.SetCy (0);
+    this.SetR (10);
 }
 
 Gwt.Graphic.Svg.Circle.prototype = new Gwt.Graphic.Svg.Graphic ();
 Gwt.Graphic.Svg.Circle.prototype.constructor = Gwt.Graphic.Svg.Circle;
 
-Gwt.Graphic.Svg.Circle.prototype.InitCircle = function ()
+Gwt.Graphic.Svg.Circle.prototype._Circle = function ()
 {
-    this.Html = document.createElementNS ("http://www.w3.org/2000/svg", "circle");
-    this.SetCx (0);
-    this.SetCy (0);
-    this.SetR (10);
+    this.Cx = null;
+    this.Cy = null;
+    this.R = null;
+    
+    this._Graphic ();
 }
 
 Gwt.Graphic.Svg.Circle.prototype.SetCx = function (Cx)

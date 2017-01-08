@@ -3,19 +3,15 @@
 Gwt.Graphic.Svg.Polygon = function ()
 {
     Gwt.Graphic.Svg.Graphic.call (this);
+
     this.Points = null;
     this.FillRule = null;
  
-    this.InitPolygon ();
+    this.SetHtml ("polygon");
 }
 
 Gwt.Graphic.Svg.Polygon.prototype = new Gwt.Graphic.Svg.Graphic ();
 Gwt.Graphic.Svg.Polygon.prototype.constructor = Gwt.Graphic.Svg.Polygon;
-
-Gwt.Graphic.Svg.Polygon.prototype.InitPolygon = function ()
-{
-    this.Html = document.createElementNS ("http://www.w3.org/2000/svg", "polygon");
-}
 
 Gwt.Graphic.Svg.Polygon.prototype.SetPoints = function (Points)
 {

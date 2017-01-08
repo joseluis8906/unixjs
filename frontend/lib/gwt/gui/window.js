@@ -3,41 +3,13 @@ Gwt.Gui.Window = function (Title)
 {
     Gwt.Gui.Frame.call (this);
     
-    this.TitleBar = null;
-    this.Menu = null;
-    this.Body = null;
-    this.Title = null;
-        
-    this.InitWindow (Title);
-}
-
-Gwt.Gui.Window.prototype = new Gwt.Gui.Frame ();
-Gwt.Gui.Window.prototype.constructor = Gwt.Gui.Window;
-
-Gwt.Gui.Window.prototype.FinalizeWindow = function ()
-{
-    this.Menu.FinalizeMenu ();
-    this.Menu = null;
- 
-    this.Title.FinalizeStaticText();
-    this.Title = null;
-    
-    this.TitleBar.FinalizeHBox();
-    this.TitleBar = null;
-    
-    this.Body.FinalizeFrame ();
-    this.Body = null;
-
-    this.FinalizeFrame ();
-}
-
-Gwt.Gui.Window.prototype.InitWindow = function (Title)
-{
+    //instance props
     this.TitleBar = new Gwt.Gui.HBox (0);
     this.Menu = new Gwt.Gui.Menu ();
-    this.Title = new Gwt.Gui.StaticText(Title || "Default Window Title");
     this.Body = new Gwt.Gui.Frame ();
-
+    this.Title = new Gwt.Gui.StaticText(Title || "Default Window Title");
+    
+    //init
     this.SetClassName ("Gwt_Gui_Window");
     this.SetBackgroundColor (new Gwt.Gui.Contrib.Color (25,25,25,0.3));
     this.SetBackgroundSize (Gwt.Gui.Contrib.BackgroundSize.Cover);
@@ -79,6 +51,26 @@ Gwt.Gui.Window.prototype.InitWindow = function (Title)
     this.Add (this.Menu.ContainerMenu);
 }
 
+Gwt.Gui.Window.prototype = new Gwt.Gui.Frame ();
+Gwt.Gui.Window.prototype.constructor = Gwt.Gui.Window;
+
+Gwt.Gui.Window.prototype._Window = function ()
+{
+    this.Menu._Menu ();
+    this.Menu = null;
+ 
+    this.Title._StaticText();
+    this.Title = null;
+    
+    this.TitleBar._HBox();
+    this.TitleBar = null;
+    
+    this.Body._Frame ();
+    this.Body = null;
+
+    this._Frame ();
+}
+
 Gwt.Gui.Window.prototype.RootAdd = function (Element)
 {
     this.GetChilds().push (Element);
@@ -107,7 +99,13 @@ Gwt.Gui.Window.prototype.Open = function ()
 
 Gwt.Gui.Window.prototype.Close = function ()
 {
-    this.FinalizeWindow ();
+    this._App ();
+    this._Window ();
+}
+
+Gwt.Gui.Window.prototype._App = function ()
+{
+    
 }
 
 Gwt.Gui.Window.prototype.SetSize = function (Width, Height)

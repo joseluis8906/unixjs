@@ -2,28 +2,13 @@
 Gwt.Gui.Dialog = function (Parent)
 {
     Gwt.Gui.Frame.call (this);
-    
-    this.DialogBox = null;
-    this.IsOpen = null;
+
+    //instance props
+    this.DialogBox = new Gwt.Gui.Frame ();
+    this.IsOpen = false;
     this.InitDialog (Parent);
-}
-
-Gwt.Gui.Dialog.prototype = new Gwt.Gui.Frame ();
-Gwt.Gui.Dialog.prototype.constructor = Gwt.Gui.Dialog;
-
-Gwt.Gui.Dialog.prototype.FinalizeDialog = function ()
-{
-    if(this.DialogBox !== null)
-    {
-        this.DialogBox.FinalizeFrame ();
-    }
-    this.DialogBox = null;
     
-    this.FinalizeFrame ();
-}
-
-Gwt.Gui.Dialog.prototype.InitDialog = function (Parent)
-{
+    //init
     this.SetClassName ("Gwt_Gui_Dialog");
     this.SetPositionType (Gwt.Gui.Contrib.PositionType.Absolute);
     this.SetParent (Parent);
@@ -35,7 +20,6 @@ Gwt.Gui.Dialog.prototype.InitDialog = function (Parent)
     this.SetBackgroundColor (color);
     this.SetZIndex (900000);
     
-    this.DialogBox = new Gwt.Gui.Frame ();
     this.DialogBox.SetSize (256, 256);
     var color2 = new Gwt.Gui.Contrib.Color (Gwt.Gui.Contrib.Colors.DarkSlateGray);
     color2.SetAlpha (0.9);
@@ -49,8 +33,20 @@ Gwt.Gui.Dialog.prototype.InitDialog = function (Parent)
     this.DialogBox.SetZIndex (1000000);
     
     this.RootAdd (this.DialogBox);
+}
+
+Gwt.Gui.Dialog.prototype = new Gwt.Gui.Frame ();
+Gwt.Gui.Dialog.prototype.constructor = Gwt.Gui.Dialog;
+
+Gwt.Gui.Dialog.prototype._Dialog = function ()
+{
+    if(this.DialogBox !== null)
+    {
+        this.DialogBox._Frame ();
+    }
+    this.DialogBox = null;
     
-    this.IsOpen = false;
+    this._Frame ();
 }
 
 Gwt.Gui.Dialog.prototype.Open = function ()

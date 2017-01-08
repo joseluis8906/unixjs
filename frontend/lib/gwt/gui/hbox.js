@@ -1,32 +1,26 @@
 //Class Gwt::Gui::HBox
 Gwt.Gui.HBox = function (Margin)
 {
-        Gwt.Gui.Frame.call (this);
+    Gwt.Gui.Frame.call (this);
+
+    //instance props
+    this.MarginElements = typeof(Margin) === "undefined" ? 12 : Margin;
+    this.Alignment = null;
 	
-        this.MarginElements = null;
-        this.Alignment = null;
-	
-        this.InitHBox (Margin);
+    this.SetClassName ("Gwt_Gui_HBox");
+    this.SetDisplay (Gwt.Gui.Contrib.Display.Block);
+    this.SetAlignment (Gwt.Gui.ALIGN_TOP);
 }
 
 Gwt.Gui.HBox.prototype = new Gwt.Gui.Frame ();
 Gwt.Gui.HBox.prototype.constructor = Gwt.Gui.HBox
 
-Gwt.Gui.HBox.prototype.FinalizeHBox = function ()
+Gwt.Gui.HBox.prototype._HBox = function ()
 {
         this.MarginElements = null;
         this.Alignment = null;
         
-        this.FinalizeFrame ();
-}
-
-Gwt.Gui.HBox.prototype.InitHBox = function (Margin)
-{
-        this.SetClassName ("Gwt_Gui_HBox");
-        this.SetDisplay (Gwt.Gui.Contrib.Display.Block);
-	this.SetAlignment (Gwt.Gui.ALIGN_TOP);
-        
-        this.MarginElements = typeof(Margin) === "undefined" ? 12 : Margin;
+        this._Frame ();
 }
 
 Gwt.Gui.HBox.prototype.GetMarginElements = function ()

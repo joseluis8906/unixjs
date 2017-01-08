@@ -48,7 +48,7 @@ function gusers ()
 gusers.prototype = new Gwt.Gui.Window ();
 gusers.prototype.constructor = gusers;
 
-gusers.prototype.FinalizeApp = function ()
+gusers.prototype._app = function ()
 {
     this.layout.FinalizeVBox ();
     this.layout = null;
@@ -93,7 +93,7 @@ gusers.prototype.Guardar = function ()
 {
     
     //var data = {"user_info": {"document": "1098671330", "document_type": "c.c"}, "userfile": this.avatar.GetData ()};
-    var data = {"user_info": {"document": "1098671330", "document_type": "c.c"}};
+    var data = [{"document": "1098671330", "document_type": "c.c"}, ];
     new Gwt.Core.Request ("/backend/test/", function(response){console.log(response)}, data, Gwt.Core.REQUEST_TYPE_MULTIPART);
 }
 

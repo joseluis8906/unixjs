@@ -4,40 +4,34 @@ Gwt.Gui.IconControl = function (Icon, Control)
 {
     Gwt.Gui.Frame.call (this);
     
-    this.Icon = null;
-    this.Control = null;
-    
-    this.InitIconControl (Icon, Control);
+    //instance props
+    this.Icon = new Gwt.Gui.Image(Icon || Gwt.Core.Contrib.Images+"appbar.notification.star.svg");
+    this.Control = Control || new Gwt.Gui.StaticText ("Text Default");
+
+    //init
+    this.SetClassName ("Gwt_Gui_Icon_Control");
+    this.SetHeight (24);
+    this.SetExpand (true);    
+
+    this.Icon.SetSize(22, 22);
+    this.Icon.SetDisplay (Gwt.Gui.Contrib.Display.InlineBlock);
+    this.Icon.SetMarginRight (5);
+    this.Icon.SetValign (Gwt.Gui.Contrib.Valign.Top);
+    this.Add (this.Icon);
+
+    this.Control.SetWidth (this.GetWidth () - (this.Icon.GetWidth () + this.Icon.GetMarginRight ()));
+    this.Control.SetDisplay (Gwt.Gui.Contrib.Display.InlineBlock);
+    this.Add (this.Control);
 }
 
 Gwt.Gui.IconControl.prototype = new Gwt.Gui.Frame ();
 Gwt.Gui.IconControl.prototype.constructor = Gwt.Gui.IconControl;
 
-Gwt.Gui.IconControl.prototype.FinalizeIconControl = function ()
+Gwt.Gui.IconControl.prototype._IconControl = function ()
 {
     this.Icon = null;
     this.Control = null;
-    this.FinalizeFrame ();
-}
-
-Gwt.Gui.IconControl.prototype.InitIconControl = function (Icon, Control)
-{
-    this.SetClassName ("Gwt_Gui_Icon_Control");
-    
-    this.Icon = new Gwt.Gui.Image(Icon || Gwt.Core.Contrib.Images+"appbar.notification.star.svg");
-    this.Icon.SetSize(22, 22);
-    this.Icon.SetDisplay (Gwt.Gui.Contrib.Display.InlineBlock);
-    this.Icon.SetMarginRight (5);
-    this.Icon.SetValign (Gwt.Gui.Contrib.Valign.Top);
-    
-    this.Control = Control || new Gwt.Gui.StaticText ("Text Default");
-    this.Control.SetWidth (this.GetWidth () - (this.Icon.GetWidth () + this.Icon.GetMarginRight ()));
-    this.Control.SetDisplay (Gwt.Gui.Contrib.Display.InlineBlock);
-    
-    this.SetHeight (24);
-    this.SetExpand (true);    
-    this.Add (this.Icon);
-    this.Add (this.Control);
+    this._Frame ();
 }
 
 Gwt.Gui.IconControl.prototype.SetWidth = function (Width)

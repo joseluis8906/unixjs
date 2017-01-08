@@ -2,32 +2,22 @@
 //Class Gwt::Gui::Image
 Gwt.Gui.Date = function (placeholder)
 {
-        Gwt.Gui.Frame.call (this);
-        this.year = null;
-        this.month = null;
-        this.day = null;
-        this.InitDate (placeholder);
-}
-
-Gwt.Gui.Date.prototype = new Gwt.Gui.Frame ();
-Gwt.Gui.Date.prototype.constructor = Gwt.Gui.Date;
-
-Gwt.Gui.Date.prototype.FinalizeDate = function (placeholder)
-{
-    this.year.FinalizeSelectBox ();
+    Gwt.Gui.Frame.call (this);
+    
+    //instance props
     this.year = null;
-    this.month.FinalizeSelectBox ();
-    this.mont = null;
-    this.day.FinalizeSelectBox ();
+    this.month = null;
     this.day = null;
-    this.FinalizeFrame ();
-}
-
-Gwt.Gui.Date.prototype.InitDate = function (placeholder)
-{
+    this.container = new Gwt.Gui.HBox (0);
+    
+    
+    //init
     this.SetClassName ("Gwt_Gui_Date");
     this.SetSize (190, 24);
 
+    this.container.SetSize (160,24);
+    this.Add (this.container);
+    
     var y = new Date().getFullYear();
     var range = (y-150);
     var years_items = [];
@@ -62,14 +52,26 @@ Gwt.Gui.Date.prototype.InitDate = function (placeholder)
     
     this.day = new Gwt.Gui.SelectBox ("Día", days_items);
     this.day.SetWidth (48);
-
-    this.container = new Gwt.Gui.HBox (0);
-    this.container.SetSize (160,24);
-
-    this.Add (this.container);
+    
     this.container.Add (this.day);
     this.container.Add (this.month);
     this.container.Add (this.year);
+}
+
+Gwt.Gui.Date.prototype = new Gwt.Gui.Frame ();
+Gwt.Gui.Date.prototype.constructor = Gwt.Gui.Date;
+
+Gwt.Gui.Date.prototype._Date = function (placeholder)
+{
+    this.year._SelectBox ();
+    this.month._SelectBox ();
+    this.day._SelectBox ();
+    
+    this.year = null;
+    this.mont = null;
+    this.day = null;
+    
+    this._Frame ();
 }
 
 Gwt.Gui.Date.prototype.GetDate = function ()

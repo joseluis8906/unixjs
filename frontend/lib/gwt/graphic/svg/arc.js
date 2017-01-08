@@ -3,6 +3,8 @@
 Gwt.Graphic.Svg.Arc = function ()
 {
     Gwt.Graphic.Svg.Path.call (this);
+
+    //instance props
     this.X1 = null;
     this.Y1 = null;
     this.X2 = null;
@@ -10,16 +12,13 @@ Gwt.Graphic.Svg.Arc = function ()
     this.CenterX = null;
     this.CenterY = null;
     this.Radius = null;
-    this.InitArc ();
+    
+    //init
+    this.SetHtml ("path");
 }
 
 Gwt.Graphic.Svg.Arc.prototype = new Gwt.Graphic.Svg.Path ();
 Gwt.Graphic.Svg.Arc.prototype.constructor = Gwt.Graphic.Svg.Arc;
-
-Gwt.Graphic.Svg.Arc.prototype.InitArc = function ()
-{
-    this.Html = document.createElementNS ("http://www.w3.org/2000/svg", "path");
-}
 
 Gwt.Graphic.Svg.Arc.prototype.PolarToCartesian = function (centerX, centerY, angleInDegrees)
 {
