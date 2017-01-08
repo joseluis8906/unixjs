@@ -2401,8 +2401,6 @@ Gwt.Gui.Croppie.prototype.InitCroppie = function ()
     this.BtnFinish.AddEvent (Gwt.Gui.Event.Mouse.Click, this.Upload.bind(this));
     
     this.Add (this.BtnFinish);
-    
-    this.Disable ();
 }
 
 Gwt.Gui.Croppie.prototype.SetImage = function (Image)
@@ -2514,6 +2512,7 @@ Gwt.Gui.Avatar.prototype.InitAvatar = function ()
     this.Image.AddEvent (Gwt.Gui.Event.Window.Load, this.ChangedImage.bind(this));
     
     this.Editor =  new Gwt.Gui.Croppie ();
+    this.Editor.Disable ();
 }
 
 Gwt.Gui.Avatar.prototype.SetImage = function (Image)

@@ -47,8 +47,6 @@ Gwt.Gui.Croppie.prototype.InitCroppie = function ()
     this.BtnFinish.AddEvent (Gwt.Gui.Event.Mouse.Click, this.Upload.bind(this));
     
     this.Add (this.BtnFinish);
-    
-    this.Disable ();
 }
 
 Gwt.Gui.Croppie.prototype.SetImage = function (Image)
