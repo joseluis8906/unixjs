@@ -111,7 +111,6 @@ int upload_file (struct http_request *req)
         }
     }
     
-    
     if (subpath == NULL)
     {
         for (i = 0; i < length_pictures_ext; i++)
@@ -146,6 +145,7 @@ int upload_file (struct http_request *req)
         return (KORE_RESULT_OK);
     }
     
+    /*
     Connection_T conn = get_connection ();
     
     if (Connection_ping (conn))
@@ -226,7 +226,7 @@ int upload_file (struct http_request *req)
        kore_log (LOG_INFO, "imposible to make connection, first open pool");
        return (KORE_RESULT_OK);
     }
-
+    */
     
     
     char full_name[32] = "";
