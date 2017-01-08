@@ -1,22 +1,22 @@
 @font-face
 {
     font-family: Cantarell;
-    src: url("/frontend/share/fonts/Cantarell-Regular.woff");  
+    src: url("/share/fonts/Cantarell-Regular.woff");  
 }
 @font-face
 {
     font-family: Calibri;
-    src: url("/frontend/share/fonts/Calibri.woff");
+    src: url("/share/fonts/Calibri.woff");
 }
 @font-face
 {
     font-family: CalibriBold;
-    src: url("/frontend/share/fonts/Calibri-Bold.woff");
+    src: url("/share/fonts/Calibri-Bold.woff");
 }
 @font-face
 {
     font-family: ComicSansMsBold;
-    src: url("/frontend/share/fonts/Comic-Sans-Ms-Bold.woff");
+    src: url("/share/fonts/Comic-Sans-Ms-Bold.woff");
 }
 html, body, div, span, applet, object, iframe, h1, 
 h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, 
