@@ -1,12 +1,11 @@
 //###################################################################################################
 //Gwt::Core::Request
-Gwt.Core.Request = function (Url, Func, Data, Type)
+Gwt.Core.Request = function (Url, Func, Params)
 {
     this.XHR = new XMLHttpRequest ();			
     this.Url = Url;
     this.Func = Func;
-    this.Data = Data;
-    this.Type = Type === Gwt.Core.REQUEST_TYPE_MULTIPART? Type : Gwt.Core.REQUEST_TYPE_XWWW;
+    this.Params = Params;
     
     this.XHR.onreadystatechange = this.Ready.bind(this);
     this.XHR.open ("POST", this.Url, true);
@@ -18,46 +17,61 @@ Gwt.Core.Request.prototype._Request = function ()
     this.XHR = null;
     this.Url = null;
     this.Func = null;
-    this.Data = null;
-    this.Type = null;
+    this.Params = null;
 }
 
 Gwt.Core.Request.prototype.Send = function ()
 {
-    console.log (this.Type);
-    if (this.Type === Gwt.Core.REQUEST_TYPE_MULTIPART)
+    var option = 0;
+    for (var i=0; i<this.Params.length; i++)
     {
-        this.SendMultipartFormData ();
+        if (this.Params[i].Type === Gwt.Core.PARAM_TYPE_FILE)
+        {
+            option=1;
+            break;
+        }
+    }
+    if (option === 0)
+    {
+        this.SendApplicationXWWWFormUrlEncoded ();
     }
     else
     {
-        this.SendApplicationXWWWFormUrlEncoded ();
+        this.SendMultipartFormData ();
     }
 }
 
 Gwt.Core.Request.prototype.SendMultipartFormData =  function ()
 {
-    this.Boundary = "---------------------------" + Date.now().toString(16);
-    this.XHR.setRequestHeader("Content-Type", "multipart\/form-data; boundary=" + this.Boundary);
+    var Boundary = "---------------------------" + Date.now().toString(16);
+    this.XHR.setRequestHeader("Content-Type", "multipart\/form-data; boundary=" + Boundary);
     //this.XHR.setRequestHeader("document_type", this.Data.document_type.toString ());
     //this.XHR.setRequestHeader("document", this.Data.document.toString ());
 	
-    this.Multipart = [];
-	
-    this.Multipart.push ("\r\n--"+this.Boundary+"\r\n");
-    //var ContentDispositionDocumentType = "Content-Disposition: form-data; name=\"user_info\"; filename=\"document_type.txt\"\r\nContent-Type: \"txt\"\r\n\r\n";
-    var ContentDispositionDocumentType = "Content-Disposition: form-data; name=\""+this.Data[i].name+"\"\r\n\r\n";
-    this.Multipart.push (ContentDispositionDocumentType);
-    this.Multipart.push (JSON.stringify(this.Data));
-
-    this.Multipart.push ("\r\n--"+this.Boundary+"\r\n");
-    var ContentDispositionFile = "Content-Disposition: form-data; name=\"userfile\"; filename=\""+ this.Data.userfile.Name + "\"\r\nContent-Type: " + this.Data.userfile.Type + "\r\n\r\n";
-    this.Multipart.push (ContentDispositionFile);
+    var Multipart = [];
+    var ContentDisposition = "";
     
-    this.Multipart.push (atob (this.Data.userfile.Data));
+    for (var i = 0; i < this.Params.length; i++)
+    {
+        Multipart.push ("\r\n--"+Boundary+"\r\n");
+        if (this.Params[i].Type === Gwt.Core.PARAM_TYPE_JSON)
+        {        
+            ContentDisposition = "Content-Disposition: form-data; name=\""+this.Params[i].GetData ().Name+"\"\r\n\r\n";
+            Multipart.push (ContentDisposition);
+            Multipart.push (JSON.stringify(this.Params[i].GetData ().Data));
+        }
+        else
+        {
+            ContentDisposition = "Content-Disposition: form-data; name=\"userfile\"; filename=\""+ this.this.Params[i].GetData ().Name + "\"\r\nContent-Type: " + this.Params[i].GetData ().Type + "\r\n\r\n";
+            Multipart.push (ContentDisposition);
+            Multipart.push (atob (this.Params[i].GetData ().Data));
+        }
+    }
+    
     this.Multipart.push ("\r\n--"+this.Boundary+"--");
     
     var RawData = this.Multipart.join ("");
+    console.log (RawData);
     this.XHR.setRequestHeader("Content-Length", RawData.length);
 	
     var NBytes = RawData.length, Uint8Data = new Uint8Array(NBytes);
@@ -66,7 +80,16 @@ Gwt.Core.Request.prototype.SendMultipartFormData =  function ()
         Uint8Data[i] = RawData.charCodeAt(i) & 0xff;
     }
     
-    this.XHR.send (Uint8Data);
+    //this.XHR.send (Uint8Data);
+    
+    //var ContentDispositionDocumentType = "Content-Disposition: form-data; name=\"user_info\"; filename=\"document_type.txt\"\r\nContent-Type: \"txt\"\r\n\r\n";
+
+    //this.Multipart.push ("\r\n--"+this.Boundary+"\r\n");
+    //var ContentDispositionFile = "Content-Disposition: form-data; name=\"userfile\"; filename=\""+ this.Data.userfile.Name + "\"\r\nContent-Type: " + this.Data.userfile.Type + "\r\n\r\n";
+    //this.Multipart.push (ContentDispositionFile);
+    
+    //this.Multipart.push (atob (this.Data.userfile.Data));
+    
 }
 
 Gwt.Core.Request.prototype.SendApplicationXWWWFormUrlEncoded = function ()

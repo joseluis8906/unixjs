@@ -1,9 +1,7 @@
 //###########################################################################
 //Gwt::Core
 Gwt.Core = {
-    REQUEST_TYPE_MULTIPART: 0,
-    REQUEST_TYPE_XWWW: 1,
-    PARAM_TYPE_TEXT: 0,
+    PARAM_TYPE_JSON: 0,
     PARAM_TYPE_FILE: 1
 };
 
