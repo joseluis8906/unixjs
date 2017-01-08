@@ -44,7 +44,7 @@ Gwt.Core.Request = function (Url, Func, Data, Type)
     this.Send ();
 }
 
-Gwt.Core.Reqiest.prototype._Request = function ()
+Gwt.Core.Request.prototype._Request = function ()
 {
     this.XHR = null;
     this.Url = null;
