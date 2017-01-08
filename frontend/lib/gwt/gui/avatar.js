@@ -5,6 +5,8 @@ Gwt.Gui.Avatar = function (Image)
     Gwt.Gui.Frame.call (this);
     
     this.Image = null;
+    this.Name = null;
+    this.Type = null;
     this.File = null;
     this.Editor = null;
     
@@ -48,6 +50,7 @@ Gwt.Gui.Avatar.prototype.InitAvatar = function ()
     
     this.Editor =  new Gwt.Gui.Croppie ();
     this.Editor.SetCallbackResult (this.SetImage.bind (this));
+    
 }
 
 Gwt.Gui.Avatar.prototype.SetImage = function (Image)
@@ -55,8 +58,11 @@ Gwt.Gui.Avatar.prototype.SetImage = function (Image)
     this.Image.SetImage (Image);
 }
 
-Gwt.Gui.Avatar.prototype.ChangeImage = function (Image)
+Gwt.Gui.Avatar.prototype.ChangeImage = function (FileName, MimeType, FileSize, Image)
 {
+    this.Name = FileName;
+    this.Type = "image/jpeg";
+    
     this.Editor.SetImage (Image);
     this.Editor.Enable ();
 }   
@@ -73,7 +79,7 @@ Gwt.Gui.Avatar.prototype.GetEditor = function ()
 
 Gwt.Gui.Avatar.prototype.GetData = function ()
 {
-    return this.Image.GetSrc();
+    return {Name: this.Name, Type: this.Type, Data: this.Image.GetSrc().replace(/^[^,]+,/, '')};
 }
 //Ends Gwt::Gui::Avatar
 //##################################################################################################

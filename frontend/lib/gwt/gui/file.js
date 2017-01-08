@@ -178,7 +178,7 @@ Gwt.Gui.File.prototype.Read = function ()
 
 Gwt.Gui.File.prototype.Load = function ()
 {
-    this.CallBack (this.Reader.result);
+    this.CallBack (this.FileName, this.MimeType, this.DataSize, this.Reader.result);
 }
 
 Gwt.Gui.File.prototype.SetReadType = function (Type)

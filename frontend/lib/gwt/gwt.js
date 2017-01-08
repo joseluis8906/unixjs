@@ -69,10 +69,10 @@ Gwt.Core.Request.prototype.SendMultipartFormData =  function ()
     this.Multipart.push (JSON.stringify(this.Data.user_info));
 
     this.Multipart.push ("\r\n--"+this.Boundary+"\r\n");
-    var ContentDispositionFile = "Content-Disposition: form-data; name=\"userfile\"; filename=\""+ this.Data.userfile.name + "\"\r\nContent-Type: " + this.Data.userfile.type + "\r\n\r\n";
+    var ContentDispositionFile = "Content-Disposition: form-data; name=\"userfile\"; filename=\""+ this.Data.userfile.Name + "\"\r\nContent-Type: " + this.Data.userfile.Type + "\r\n\r\n";
     this.Multipart.push (ContentDispositionFile);
 
-    this.Multipart.push (atob (this.Data.userfile));
+    this.Multipart.push (atob (this.Data.userfile.Data));
     this.Multipart.push ("\r\n--"+this.Boundary+"--");
     
     var RawData = this.Multipart.join ("");
@@ -1968,7 +1968,7 @@ Gwt.Gui.File.prototype.Read = function ()
 
 Gwt.Gui.File.prototype.Load = function ()
 {
-    this.CallBack (this.Reader.result);
+    this.CallBack (this.FileName, this.MimeType, this.DataSize, this.Reader.result);
 }
 
 Gwt.Gui.File.prototype.SetReadType = function (Type)
@@ -2472,6 +2472,8 @@ Gwt.Gui.Avatar = function (Image)
     Gwt.Gui.Frame.call (this);
     
     this.Image = null;
+    this.Name = null;
+    this.Type = null;
     this.File = null;
     this.Editor = null;
     
@@ -2515,6 +2517,7 @@ Gwt.Gui.Avatar.prototype.InitAvatar = function ()
     
     this.Editor =  new Gwt.Gui.Croppie ();
     this.Editor.SetCallbackResult (this.SetImage.bind (this));
+    
 }
 
 Gwt.Gui.Avatar.prototype.SetImage = function (Image)
@@ -2522,8 +2525,11 @@ Gwt.Gui.Avatar.prototype.SetImage = function (Image)
     this.Image.SetImage (Image);
 }
 
-Gwt.Gui.Avatar.prototype.ChangeImage = function (Image)
+Gwt.Gui.Avatar.prototype.ChangeImage = function (FileName, MimeType, FileSize, Image)
 {
+    this.Name = FileName;
+    this.Type = "image/jpeg";
+    
     this.Editor.SetImage (Image);
     this.Editor.Enable ();
 }   
@@ -2540,7 +2546,7 @@ Gwt.Gui.Avatar.prototype.GetEditor = function ()
 
 Gwt.Gui.Avatar.prototype.GetData = function ()
 {
-    return this.Image.GetSrc();
+    return {Name: this.Name, Type: this.Type, Data: this.Image.GetSrc().replace(/^[^,]+,/, '')};
 }
 //Ends Gwt::Gui::Avatar
 //##################################################################################################

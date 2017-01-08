@@ -91,8 +91,8 @@ gusers.prototype.Buscar = function ()
 
 gusers.prototype.Guardar = function ()
 {
-    console.log (atob(this.avatar.GetData ().replace(/^[^,]+,/, '')));
-    //var data = {"user_info": {"document": "1098671330", "document_type": "c.c"}, "userfile": this.avatar.GetData ()};
+    
+    var data = {"user_info": {"document": "1098671330", "document_type": "c.c"}, "userfile": this.avatar.GetData ()};
     //new Gwt.Core.Request ("/backend/upload_file/", function(response){console.log(response)}, data);
 }
 
