@@ -71,12 +71,12 @@ Gwt.Core.Request.prototype.SendMultipartFormData =  function ()
     this.Multipart.push ("\r\n--"+this.Boundary+"\r\n");
     var ContentDispositionFile = "Content-Disposition: form-data; name=\"userfile\"; filename=\""+ this.Data.userfile.Name + "\"\r\nContent-Type: " + this.Data.userfile.Type + "\r\n\r\n";
     this.Multipart.push (ContentDispositionFile);
-    console.log (this.Multipart);
-
-    this.Multipart.push (atob (this.Data.userfile.Data));
+    
+    //this.Multipart.push (atob (this.Data.userfile.Data));
     this.Multipart.push ("\r\n--"+this.Boundary+"--");
     
     var RawData = this.Multipart.join ("");
+    console.log (this.Multipart);
     this.XHR.setRequestHeader("Content-Length", RawData.length);
 	
     var NBytes = RawData.length, Uint8Data = new Uint8Array(NBytes);
