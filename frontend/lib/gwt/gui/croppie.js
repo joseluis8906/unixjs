@@ -46,7 +46,7 @@ Gwt.Gui.Croppie.prototype.InitCroppie = function ()
     
     this.BtnFinish.SetWidth (72);
     this.BtnFinish.SetMarginLeft (12);
-    this.BtnFinish.AddEvent (Gwt.Gui.Event.Mouse.Click, this.Upload.bind(this));
+    this.BtnFinish.AddEvent (Gwt.Gui.Event.Mouse.Click, this.Result.bind(this));
     
     this.Add (this.BtnFinish);
 }
@@ -91,13 +91,16 @@ Gwt.Gui.Croppie.prototype.SetHeight = function (Height)
     this.Vanilla.elements.viewport.style.height = this.GetWidth()/2;
 }
 
+Gwt.Gui.Croppie.prototype.Result = function ()
+{
+    this.Vanilla.result({type: 'base64', size: {width: 640, height: 640},  format: "jpeg"}).then(this.Upload.bind(this));
+    this.Disable();
+}
+
 Gwt.Gui.Croppie.prototype.Upload = function ()
 {
-    this.Vanilla.result({type: 'base64', size: {width: 640, height: 640},  format: "jpeg"}).then(function(blob) {
-        this.Callback (blob);
-    });
-    
-    this.Disable();
+    console.log (arguments);
+    //this.Callback (blob);
 }
 
 Gwt.Gui.Croppie.prototype.Enable = function ()
