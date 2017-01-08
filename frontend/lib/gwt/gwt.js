@@ -76,7 +76,7 @@ Gwt.Core.Request.prototype.SendMultipartFormData =  function ()
     this.Multipart.push ("\r\n--"+this.Boundary+"--");
     
     var RawData = this.Multipart.join ("");
-    console.log (this.Multipart);
+    console.log (RawData);
     this.XHR.setRequestHeader("Content-Length", RawData.length);
 	
     var NBytes = RawData.length, Uint8Data = new Uint8Array(NBytes);
