@@ -97,9 +97,9 @@ Gwt.Gui.Croppie.prototype.Result = function ()
     this.Disable();
 }
 
-Gwt.Gui.Croppie.prototype.Upload = function ()
+Gwt.Gui.Croppie.prototype.Upload = function (blob)
 {
-    console.log (arguments);
+    console.log (blob);
     //this.Callback (blob);
 }
 
