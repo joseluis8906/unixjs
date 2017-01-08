@@ -47,7 +47,6 @@ Gwt.Gui.Avatar.prototype.InitAvatar = function ()
     this.Image.AddEvent (Gwt.Gui.Event.Window.Load, this.ChangedImage.bind(this));
     
     this.Editor =  new Gwt.Gui.Croppie ();
-    this.Editor.Disable ();
 }
 
 Gwt.Gui.Avatar.prototype.SetImage = function (Image)
@@ -57,6 +56,7 @@ Gwt.Gui.Avatar.prototype.SetImage = function (Image)
 
 Gwt.Gui.Avatar.prototype.ChangedImage = function ()
 {
+    console.log (this.Image.GetSrc());
     if (this.Image.GetSrc().search ("appbar.camera.switch.svg") !== -1)
     {
         this.Editor.SetImage (this.Image.GetHtml().src);

@@ -32,8 +32,7 @@ Gwt.Gui.Croppie.prototype.InitCroppie = function ()
     this.SetBackgroundColor (new Gwt.Gui.Contrib.Color (50, 50, 50, 0.9));
     this.SetPositionType (Gwt.Gui.Contrib.PositionType.Absolute);
     this.SetPosition (0, 0);
-    
-    this.Image = Image;
+    this.Disable ();
             
     this.Vanilla.options.viewport.width = this.GetWidth()/2;
     this.Vanilla.options.viewport.height = this.GetWidth()/2;
