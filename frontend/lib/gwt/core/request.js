@@ -22,7 +22,8 @@ Gwt.Core.Request.prototype.InitRequest = function (Url, Func, Data, Type)
 }
 
 Gwt.Core.Request.prototype.Send = function ()
-{	
+{
+    console.log (this.Type);
     if (this.Type === Gwt.Core.REQUEST_TYPE_MULTIPART)
     {
         this.SendMultipartFormData ();
