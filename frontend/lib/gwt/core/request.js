@@ -1,18 +1,21 @@
 //Gwt::Core::Request
-Gwt.Core.Request = function (Url, Func, Data)
+Gwt.Core.Request = function (Url, Func, Data, Type)
 {
 	this.XHR = new XMLHttpRequest ();			
 	this.Url = null;
 	this.Func = null;
 	this.Data = null;
+        this.Type = null;
 	this.InitRequest (Url, Func, Data);
 }
 
-Gwt.Core.Request.prototype.InitRequest = function (Url, Func, Data)
+Gwt.Core.Request.prototype.InitRequest = function (Url, Func, Data, Type)
 {
     this.Url = Url;
     this.Func = Func;
     this.Data = Data;
+    this.Type = Type || Gwt.Core.REQUEST_TYPE_XWWW;
+    
     this.XHR.onreadystatechange = this.Ready.bind(this);
     this.XHR.open ("POST", this.Url, true);
     this.Send ();
@@ -20,12 +23,14 @@ Gwt.Core.Request.prototype.InitRequest = function (Url, Func, Data)
 
 Gwt.Core.Request.prototype.Send = function ()
 {	
-    if (this.Data.userfile !== undefined)
+    if (this.Type === Gwt.Core.REQUEST_TYPE_MULTIPART)
     {
         this.SendMultipartFormData ();
-        return;
     }
-    this.SendApplicationXWWWFormUrlEncoded ();
+    else
+    {
+        this.SendApplicationXWWWFormUrlEncoded ();
+    }
 }
 
 Gwt.Core.Request.prototype.SendMultipartFormData =  function ()
@@ -69,7 +74,7 @@ Gwt.Core.Request.prototype.SendApplicationXWWWFormUrlEncoded = function ()
 	
     var RawData = "data="+JSON.stringify(this.Data);
 	
-    this.XHR.send (RawData);
+    //this.XHR.send (RawData);
 }
 
 Gwt.Core.Request.prototype.Ready = function ()

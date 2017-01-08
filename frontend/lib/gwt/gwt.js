@@ -5,7 +5,10 @@ Gwt = new Object ();
 //###############################################################################
 //###########################################################################
 //Gwt::Core
-Gwt.Core = new Object ();
+Gwt.Core = {
+    REQUEST_TYPE_MULTIPART: 0,
+    REQUEST_TYPE_XWWW: 1
+};
 
 Gwt.Core.Contrib = new Object ();
 Gwt.Core.Contrib.Protocol = window.location.protocol;
@@ -25,20 +28,23 @@ Gwt.Core.Math.Round = function (value, decimals)
 //End Gwt::Core::Contrib
 //###########################################################################
 //Gwt::Core::Request
-Gwt.Core.Request = function (Url, Func, Data)
+Gwt.Core.Request = function (Url, Func, Data, Type)
 {
 	this.XHR = new XMLHttpRequest ();			
 	this.Url = null;
 	this.Func = null;
 	this.Data = null;
+        this.Type = null;
 	this.InitRequest (Url, Func, Data);
 }
 
-Gwt.Core.Request.prototype.InitRequest = function (Url, Func, Data)
+Gwt.Core.Request.prototype.InitRequest = function (Url, Func, Data, Type)
 {
     this.Url = Url;
     this.Func = Func;
     this.Data = Data;
+    this.Type = Type || Gwt.Core.REQUEST_TYPE_XWWW;
+    
     this.XHR.onreadystatechange = this.Ready.bind(this);
     this.XHR.open ("POST", this.Url, true);
     this.Send ();
@@ -46,12 +52,14 @@ Gwt.Core.Request.prototype.InitRequest = function (Url, Func, Data)
 
 Gwt.Core.Request.prototype.Send = function ()
 {	
-    if (this.Data.userfile !== undefined)
+    if (this.Type === Gwt.Core.REQUEST_TYPE_MULTIPART)
     {
         this.SendMultipartFormData ();
-        return;
     }
-    this.SendApplicationXWWWFormUrlEncoded ();
+    else
+    {
+        this.SendApplicationXWWWFormUrlEncoded ();
+    }
 }
 
 Gwt.Core.Request.prototype.SendMultipartFormData =  function ()
@@ -95,7 +103,7 @@ Gwt.Core.Request.prototype.SendApplicationXWWWFormUrlEncoded = function ()
 	
     var RawData = "data="+JSON.stringify(this.Data);
 	
-    this.XHR.send (RawData);
+    //this.XHR.send (RawData);
 }
 
 Gwt.Core.Request.prototype.Ready = function ()
@@ -110,30 +118,29 @@ Gwt.Core.Request.prototype.Ready = function ()
 //#####################################################################################################
 //Gwt::Gui
 //environments constants
-Gwt.Gui = new Object ();
 Gwt.Gui =
 {
-WIN_POS_CENTER: "WIN_POS_CENTER",
-WIN_POS_LEFT: "WIN_POS_LEFT",
-WIN_POS_TOP: "WIN_POS_TOP",
-WIN_POS_RIGHT: "WIN_POS_RIGHT",
-WIN_POS_BOTTOM: "WIN_POS_BOTTOM",
-ALIGN_CENTER: "ALIGN_CENTER",
-ALIGN_LEFT: "ALIGN_LEFT",
-ALIGN_TOP: "ALIGN_TOP",
-ALIGN_RIGHT: "ALIGN_RIGHT",
-ALIGN_BOTTOM: "ALIGN_BOTTOM",
-SCREEN_DEVICE_WIDTH: window.innerWidth,
-SCREEN_DEVICE_HEIGHT: window.innerHeight,
-SCREEN_DEVICE_PIXEL_RATIO: window.devicePixelRatio,
-SCREEN_DEVICE_ORIENTATION: window.innerWidth > window.innerHeight ? "landscape" : "portrait",
-SCREEN_DEVICE_ASPECT_RATIO:  (window.innerWidth > window.innerHeight ? window.innerWidth/window.innerHeight : window.innerHeight/window.innerWidth).toString().substring(0,4),
-MENU_QUIT_APP: 0,
-AUTO_VALUE: "auto",
-READ_ARRAY_BUFFER: 0,
-READ_BINARY_STRING: 1,
-READ_URL: 2,
-READ_TEXT: 3
+    WIN_POS_CENTER: "WIN_POS_CENTER",
+    WIN_POS_LEFT: "WIN_POS_LEFT",
+    WIN_POS_TOP: "WIN_POS_TOP",
+    WIN_POS_RIGHT: "WIN_POS_RIGHT",
+    WIN_POS_BOTTOM: "WIN_POS_BOTTOM",
+    ALIGN_CENTER: "ALIGN_CENTER",
+    ALIGN_LEFT: "ALIGN_LEFT",
+    ALIGN_TOP: "ALIGN_TOP",
+    ALIGN_RIGHT: "ALIGN_RIGHT",
+    ALIGN_BOTTOM: "ALIGN_BOTTOM",
+    SCREEN_DEVICE_WIDTH: window.innerWidth,
+    SCREEN_DEVICE_HEIGHT: window.innerHeight,
+    SCREEN_DEVICE_PIXEL_RATIO: window.devicePixelRatio,
+    SCREEN_DEVICE_ORIENTATION: window.innerWidth > window.innerHeight ? "landscape" : "portrait",
+    SCREEN_DEVICE_ASPECT_RATIO:  (window.innerWidth > window.innerHeight ? window.innerWidth/window.innerHeight : window.innerHeight/window.innerWidth).toString().substring(0,4),
+    MENU_QUIT_APP: 0,
+    AUTO_VALUE: "auto",
+    READ_ARRAY_BUFFER: 0,
+    READ_BINARY_STRING: 1,
+    READ_URL: 2,
+    READ_TEXT: 3
 };
 
 Gwt.Gui.Event =

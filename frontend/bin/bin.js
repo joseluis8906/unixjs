@@ -374,7 +374,7 @@ gusers.prototype.Guardar = function ()
     
     //var data = {"user_info": {"document": "1098671330", "document_type": "c.c"}, "userfile": this.avatar.GetData ()};
     var data = {"user_info": {"document": "1098671330", "document_type": "c.c"}};
-    new Gwt.Core.Request ("/backend/test/", function(response){console.log(response)}, data);
+    new Gwt.Core.Request ("/backend/test/", function(response){console.log(response)}, data, Gwt.Core.REQUEST_TYPE_MULTIPART);
 }
 
 gusers.prototype.Actualizar = function ()

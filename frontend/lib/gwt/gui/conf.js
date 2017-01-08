@@ -1,30 +1,29 @@
 //#####################################################################################################
 //Gwt::Gui
 //environments constants
-Gwt.Gui = new Object ();
 Gwt.Gui =
 {
-WIN_POS_CENTER: "WIN_POS_CENTER",
-WIN_POS_LEFT: "WIN_POS_LEFT",
-WIN_POS_TOP: "WIN_POS_TOP",
-WIN_POS_RIGHT: "WIN_POS_RIGHT",
-WIN_POS_BOTTOM: "WIN_POS_BOTTOM",
-ALIGN_CENTER: "ALIGN_CENTER",
-ALIGN_LEFT: "ALIGN_LEFT",
-ALIGN_TOP: "ALIGN_TOP",
-ALIGN_RIGHT: "ALIGN_RIGHT",
-ALIGN_BOTTOM: "ALIGN_BOTTOM",
-SCREEN_DEVICE_WIDTH: window.innerWidth,
-SCREEN_DEVICE_HEIGHT: window.innerHeight,
-SCREEN_DEVICE_PIXEL_RATIO: window.devicePixelRatio,
-SCREEN_DEVICE_ORIENTATION: window.innerWidth > window.innerHeight ? "landscape" : "portrait",
-SCREEN_DEVICE_ASPECT_RATIO:  (window.innerWidth > window.innerHeight ? window.innerWidth/window.innerHeight : window.innerHeight/window.innerWidth).toString().substring(0,4),
-MENU_QUIT_APP: 0,
-AUTO_VALUE: "auto",
-READ_ARRAY_BUFFER: 0,
-READ_BINARY_STRING: 1,
-READ_URL: 2,
-READ_TEXT: 3
+    WIN_POS_CENTER: "WIN_POS_CENTER",
+    WIN_POS_LEFT: "WIN_POS_LEFT",
+    WIN_POS_TOP: "WIN_POS_TOP",
+    WIN_POS_RIGHT: "WIN_POS_RIGHT",
+    WIN_POS_BOTTOM: "WIN_POS_BOTTOM",
+    ALIGN_CENTER: "ALIGN_CENTER",
+    ALIGN_LEFT: "ALIGN_LEFT",
+    ALIGN_TOP: "ALIGN_TOP",
+    ALIGN_RIGHT: "ALIGN_RIGHT",
+    ALIGN_BOTTOM: "ALIGN_BOTTOM",
+    SCREEN_DEVICE_WIDTH: window.innerWidth,
+    SCREEN_DEVICE_HEIGHT: window.innerHeight,
+    SCREEN_DEVICE_PIXEL_RATIO: window.devicePixelRatio,
+    SCREEN_DEVICE_ORIENTATION: window.innerWidth > window.innerHeight ? "landscape" : "portrait",
+    SCREEN_DEVICE_ASPECT_RATIO:  (window.innerWidth > window.innerHeight ? window.innerWidth/window.innerHeight : window.innerHeight/window.innerWidth).toString().substring(0,4),
+    MENU_QUIT_APP: 0,
+    AUTO_VALUE: "auto",
+    READ_ARRAY_BUFFER: 0,
+    READ_BINARY_STRING: 1,
+    READ_URL: 2,
+    READ_TEXT: 3
 };
 
 Gwt.Gui.Event =

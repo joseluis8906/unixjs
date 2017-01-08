@@ -1,6 +1,9 @@
 //###########################################################################
 //Gwt::Core
-Gwt.Core = new Object ();
+Gwt.Core = {
+    REQUEST_TYPE_MULTIPART: 0,
+    REQUEST_TYPE_XWWW: 1
+};
 
 Gwt.Core.Contrib = new Object ();
 Gwt.Core.Contrib.Protocol = window.location.protocol;
