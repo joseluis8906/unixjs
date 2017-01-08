@@ -100,7 +100,7 @@ Gwt.Core.Request.prototype.SendMultipartFormData =  function ()
     Multipart.push ("\r\n--"+Boundary+"--");
     
     var RawData = Multipart.join ("");
-    console.log (RawData);
+    
     this.XHR.setRequestHeader("Content-Length", RawData.length);
 	
     var NBytes = RawData.length, Uint8Data = new Uint8Array(NBytes);
@@ -109,7 +109,7 @@ Gwt.Core.Request.prototype.SendMultipartFormData =  function ()
         Uint8Data[i] = RawData.charCodeAt(i) & 0xff;
     }
     
-    //this.XHR.send (Uint8Data);
+    this.XHR.send (Uint8Data);
     
     //var ContentDispositionDocumentType = "Content-Disposition: form-data; name=\"user_info\"; filename=\"document_type.txt\"\r\nContent-Type: \"txt\"\r\n\r\n";
 
