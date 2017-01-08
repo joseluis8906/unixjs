@@ -43,6 +43,7 @@ Gwt.Core.Request.prototype.InitRequest = function (Url, Func, Data, Type)
     this.Url = Url;
     this.Func = Func;
     this.Data = Data;
+    console.log (Type);
     this.Type = Type === Gwt.Core.REQUEST_TYPE_MULTIPART? Type : Gwt.Core.REQUEST_TYPE_XWWW;
     
     this.XHR.onreadystatechange = this.Ready.bind(this);
