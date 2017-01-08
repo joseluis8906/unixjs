@@ -2502,7 +2502,7 @@ Gwt.Gui.Avatar.prototype.InitAvatar = function ()
     this.File.SetPosition (0, 0);
     this.File.SetOpacity (0);
     this.File.SetReadType (Gwt.Gui.READ_URL);
-    this.File.SetCallbackRead (this.ChangedImage.bind(this));
+    this.File.SetCallbackRead (this.ChangeImage.bind(this));
     this.Add (this.File);
 
     this.Image = new Gwt.Gui.Image (Gwt.Core.Contrib.Images+"appbar.camera.switch.svg")
@@ -2518,13 +2518,10 @@ Gwt.Gui.Avatar.prototype.SetImage = function (Image)
     this.Image.SetImage (Image);
 }
 
-Gwt.Gui.Avatar.prototype.ChangedImage = function ()
+Gwt.Gui.Avatar.prototype.ChangeImage = function (Image)
 {
-    if (this.Image.GetSrc().search ("appbar.camera.switch.svg") === -1)
-    {
-        this.Editor.SetImage (this.Image.GetHtml().src);
-        this.Editor.Enable ();
-    }
+    this.Editor.SetImage (Image);
+    this.Editor.Enable ();
 }   
         
 Gwt.Gui.Avatar.prototype.SetSizeEditor = function (Width, Height)
