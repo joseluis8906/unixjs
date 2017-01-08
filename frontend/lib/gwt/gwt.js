@@ -84,7 +84,7 @@ Gwt.Core.Request.prototype.SendMultipartFormData =  function ()
         Uint8Data[i] = RawData.charCodeAt(i) & 0xff;
     }
     
-    console.log (this.Multipart);
+    console.log (Uint8Data);
     //this.XHR.send (Uint8Data);
 }
 
