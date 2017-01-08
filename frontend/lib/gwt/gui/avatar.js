@@ -39,12 +39,12 @@ Gwt.Gui.Avatar.prototype.InitAvatar = function ()
     this.File.SetPosition (0, 0);
     this.File.SetOpacity (0);
     this.File.SetReadType (Gwt.Gui.READ_URL);
+    this.File.SetCallbackRead (this.ChangedImage.bind(this));
     this.Add (this.File);
-    
+
     this.Image = new Gwt.Gui.Image (Gwt.Core.Contrib.Images+"appbar.camera.switch.svg")
     this.Image.SetSize (96, 96);
     this.Add (this.Image);
-    this.Image.AddEvent (Gwt.Gui.Event.Window.Load, this.ChangedImage.bind(this));
     
     this.Editor =  new Gwt.Gui.Croppie ();
     this.Editor.SetCallbackResult (this.SetImage.bind (this));

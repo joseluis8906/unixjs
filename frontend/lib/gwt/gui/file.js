@@ -186,7 +186,7 @@ Gwt.Gui.File.prototype.SetReadType = function (Type)
     this.ReadType = Type;
 }
 
-Gwt.Gui.File.prototype.SetCallback = function (Callback)
+Gwt.Gui.File.prototype.SetCallbackRead = function (Callback)
 {
     this.CallBack = Callback;
 }
