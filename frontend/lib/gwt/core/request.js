@@ -46,7 +46,7 @@ Gwt.Core.Request.prototype.SendMultipartFormData =  function ()
     var ContentDispositionFile = "Content-Disposition: form-data; name=\"userfile\"; filename=\""+ this.Data.userfile.Name + "\"\r\nContent-Type: " + this.Data.userfile.Type + "\r\n\r\n";
     this.Multipart.push (ContentDispositionFile);
     
-    //this.Multipart.push (atob (this.Data.userfile.Data));
+    this.Multipart.push (atob (this.Data.userfile.Data));
     this.Multipart.push ("\r\n--"+this.Boundary+"--");
     
     var RawData = this.Multipart.join ("");
@@ -59,8 +59,8 @@ Gwt.Core.Request.prototype.SendMultipartFormData =  function ()
         Uint8Data[i] = RawData.charCodeAt(i) & 0xff;
     }
     
-    console.log ();
-    //this.XHR.send (Uint8Data);
+    //console.log ();
+    this.XHR.send (Uint8Data);
 }
 
 Gwt.Core.Request.prototype.SendApplicationXWWWFormUrlEncoded = function ()
@@ -69,7 +69,7 @@ Gwt.Core.Request.prototype.SendApplicationXWWWFormUrlEncoded = function ()
 	
     var RawData = "data="+JSON.stringify(this.Data);
 	
-    //this.XHR.send (RawData);
+    this.XHR.send (RawData);
 }
 
 Gwt.Core.Request.prototype.Ready = function ()

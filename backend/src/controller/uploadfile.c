@@ -231,8 +231,9 @@ int upload_file (struct http_request *req)
     
     char full_name[32] = "";
     strcat (path, subpath);
-    strcpy (full_name, media.name);
-    strcat (full_name, ext);
+    //strcpy (full_name, media.name);
+    strcpy (full_name, file->filename);
+    //strcat (full_name, ext);
     strcat (path, full_name);
     
     fd = open (path, O_CREAT | O_TRUNC | O_WRONLY, 0644);
@@ -305,8 +306,10 @@ int upload_file (struct http_request *req)
     json_msg = json_object_new_object ();
     char *json_media_name = NULL;
     char *json_media_type = NULL;
-    json_media_name = media.name;
-    json_media_type = media.type;
+    //json_media_name = media.name;
+    //json_media_type = media.type;
+    json_media_name = file->filename;
+    json_media_type = "jpeg";
     
     json_object_object_add (json_msg, "name", json_object_new_string (json_media_name));
     json_object_object_add (json_msg, "type", json_object_new_string (json_media_type));
