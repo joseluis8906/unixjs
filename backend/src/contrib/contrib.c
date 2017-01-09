@@ -81,7 +81,7 @@ int CheckPassword (const char *Password_)
 
 
 
-int VerifyRequest (struct HttpRequest *Req, char **Data, RequestType Type)
+int VerifyRequest (struct HttpRequest *Req, char **Data, int Type)
 {
     const char *Msg = NULL;
     JsonObject *JsonMsg = NULL;

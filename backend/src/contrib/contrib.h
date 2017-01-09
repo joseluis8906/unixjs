@@ -20,7 +20,7 @@ struct SQLState
 
 const char *EncryptPassword (const char*);
 int CheckPassword (const char*);
-int VerifyRequest (struct HttpRequest*, char**, RequestType);
+int VerifyRequest (struct HttpRequest*, char**, int);
 int HttpResponseJsonMsg (struct HttpRequest*, int, const char*);
 int HttpResponseJsonArray (struct HttpRequest*, int, JsonObject *);
 float MmToPx (float);
