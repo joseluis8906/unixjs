@@ -2972,7 +2972,7 @@ Gwt.Gui.SelectBox.prototype.SetValue = function (value)
     }
 }
 
-Gwt.Gui.SelectBox.prototype.GetValue = function ()
+Gwt.Gui.SelectBox.prototype.GetText = function ()
 {
     return this.Value;
 }
