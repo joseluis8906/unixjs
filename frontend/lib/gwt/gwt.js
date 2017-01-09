@@ -3740,9 +3740,9 @@ Gwt.Gui.IconSelectBox.prototype._IconSelectBox = function ()
     this._IconSelectBox ();
 }
 
-Gwt.Gui.IconSelectBox.prototype.GetValue = function ()
+Gwt.Gui.IconSelectBox.prototype.GetText = function ()
 {
-    return this.Control.GetValue();
+    return this.Control.GetText ();
 }
 
 Gwt.Gui.IconSelectBox.prototype.SetText = function (Text)
