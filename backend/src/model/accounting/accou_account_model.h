@@ -1,3 +1,4 @@
+/*
 #include <json-c/json.h>
 #include "../../contrib/contrib.h"
 
@@ -7,3 +8,4 @@
 
 
 #endif
+*/

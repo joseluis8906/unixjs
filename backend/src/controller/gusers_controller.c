@@ -1,3 +1,4 @@
+/*
 #include <kore/kore.h>
 #include <kore/http.h>
 
@@ -167,3 +168,4 @@ int gusers_controller_delete (struct http_request *req)
     
     return (KORE_RESULT_OK);
 }
+*/

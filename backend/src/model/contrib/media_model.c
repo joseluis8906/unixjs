@@ -1,3 +1,4 @@
+/*
 #include <string.h>
 #include "media_model.h"
 
@@ -9,5 +10,4 @@ media_model_t  new_media_model (void)
     
     return x;
 }
-
-
+ */

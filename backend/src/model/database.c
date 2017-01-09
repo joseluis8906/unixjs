@@ -1,3 +1,4 @@
+/*
 #include <kore/kore.h>
 #include <kore/http.h>
 #include <zdb/zdb.h>
@@ -65,4 +66,4 @@ Connection_T get_connection ()
     
     return conn;
 }
-
+*/

@@ -1,3 +1,4 @@
+/*
 #include <kore/kore.h>
 #include <kore/http.h>
 #include <zdb/zdb.h>
@@ -13,3 +14,4 @@ Connection_T get_connection (void);
 
 //sql_state init_database_system (void);
 #endif
+*/

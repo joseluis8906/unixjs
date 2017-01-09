@@ -1,3 +1,4 @@
+/*
 #include <kore/kore.h>
 #include <kore/http.h>
 #include <string.h>
@@ -9,3 +10,4 @@
 int accounting_cedeg_view_pdf (struct http_request*);
 
 #endif
+*/

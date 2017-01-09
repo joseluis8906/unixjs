@@ -1,3 +1,4 @@
+/*
 #include "../model/database.h"
 #include "../model/contrib/media_model.h"
 #include "../model/contrib/variable_model.h"
@@ -133,7 +134,7 @@ int upload_file (struct HttpRequest *req)
         return (KORE_RESULT_OK);
     }
     
-    /*
+    
     Connection_T conn = get_connection ();
     
     if (Connection_ping (conn))
@@ -214,7 +215,7 @@ int upload_file (struct HttpRequest *req)
        kore_log (LOG_INFO, "imposible to make connection, first open pool");
        return (KORE_RESULT_OK);
     }
-    */
+    
     
     char full_name[32] = "";
     strcat (path, subpath);
@@ -308,3 +309,4 @@ int upload_file (struct HttpRequest *req)
     return (KORE_RESULT_OK);
 }
 
+*/

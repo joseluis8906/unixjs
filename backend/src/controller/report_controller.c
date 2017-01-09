@@ -1,3 +1,4 @@
+/*
 #include <kore/kore.h>
 #include <kore/http.h>
 
@@ -8,4 +9,4 @@
 int report_controller_cedeg (struct http_request *req)
 {
     return accounting_cedeg_view_pdf (req);
-}
+}/*

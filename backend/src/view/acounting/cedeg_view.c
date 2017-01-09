@@ -1,3 +1,4 @@
+/*
 #include <kore/kore.h>
 #include <kore/http.h>
 #include <stdio.h>
@@ -251,3 +252,4 @@ void error_handler (HPDF_STATUS error_no, HPDF_STATUS detail_no, void *user_data
     printf ("ERROR: error_no=%04X, detail_no=%u\n", (HPDF_UINT)error_no, (HPDF_UINT)detail_no);
     longjmp (env, 1);
 }
+*/

@@ -1,3 +1,4 @@
+/*
 #include <string.h>
 #include "auth_group_model.h"
 
@@ -30,3 +31,4 @@ json_object*    auth_group_model_to_json (auth_group_model_t* group)
     
     return jobj;
 }
+*/

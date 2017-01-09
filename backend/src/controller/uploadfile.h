@@ -1,3 +1,4 @@
+/*
 #include <kore/kore.h>
 #include <kore/http.h>
 
@@ -7,3 +8,4 @@
 int upload_file (struct http_request *);
 
 #endif
+*/

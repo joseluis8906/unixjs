@@ -1,3 +1,4 @@
+/*
 #include <kore/kore.h>
 #include <kore/http.h>
 #include <json-c/json.h>
@@ -5,4 +6,4 @@
 
 #include "../database.h"
 #include "../../contrib/contrib.h"
-
+*/

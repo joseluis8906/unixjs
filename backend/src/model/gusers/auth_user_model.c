@@ -1,3 +1,4 @@
+/*
 #include <kore/kore.h>
 #include <kore/http.h>
 #include <json-c/json.h>
@@ -216,3 +217,4 @@ struct sql_state   auth_user_model_delete (struct auth_user_model users[], int l
     Connection_close (conn);
     return s;
 }
+*/

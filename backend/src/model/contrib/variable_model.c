@@ -1,3 +1,4 @@
+/*
 #include "variable_model.h"
 #include <string.h>
 
@@ -10,4 +11,4 @@ variable_model_t    new_variable_model (void)
     
     return x;
 }
-
+*/

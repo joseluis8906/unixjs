@@ -1,3 +1,4 @@
+/*
 #include <kore/kore.h>
 #include <kore/http.h>
 
@@ -6,3 +7,4 @@
 //function session management
 int  report_controller_cedeg (struct http_request *);
 #endif
+*/

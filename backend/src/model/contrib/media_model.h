@@ -1,3 +1,4 @@
+/*
 #ifndef _MEDIA_MODEL_
 #define _MEDIA_MODEL_
 
@@ -9,3 +10,4 @@ typedef struct {
 media_model_t   new_media_model (void);
 
 #endif
+*/

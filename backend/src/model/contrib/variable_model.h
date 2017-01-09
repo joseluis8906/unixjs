@@ -1,3 +1,4 @@
+/*
 #ifndef _VARIABLE_MODEL_
 #define _VARIABLE_MODEL_
 
@@ -10,3 +11,4 @@ typedef struct {
 variable_model_t new_variable_model (void);
 
 #endif
+*/

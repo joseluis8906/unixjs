@@ -1,3 +1,4 @@
+/*
 #include <json-c/json.h>
 #include "../../contrib/contrib.h"
 
@@ -29,3 +30,4 @@ struct sql_state  auth_user_model_update (struct auth_user_model_tuple[], int);
 struct sql_state  auth_user_model_delete (struct auth_user_model[], int);
 
 #endif
+*/

@@ -1,3 +1,4 @@
+/*
 #include <kore/kore.h>
 #include <kore/http.h>
 
@@ -11,3 +12,4 @@ int gusers_controller_update (struct http_request*);
 int gusers_controller_delete (struct http_request*);
 
 #endif
+*/

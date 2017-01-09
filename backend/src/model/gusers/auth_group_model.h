@@ -1,3 +1,4 @@
+/*
 #include <json-c/json.h>
 
 #ifndef _AUTH_GROUP_MODEL_
@@ -18,3 +19,4 @@ auth_group_model_t new_void_auth_group_model (void);
 json_object* auth_group_model_to_json (auth_group_model_t*);
 
 #endif
+*/
