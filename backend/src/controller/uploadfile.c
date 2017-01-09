@@ -56,10 +56,10 @@ int upload_file (struct http_request *req)
     */
     
     char *data_user_info;
-    if (!http_argument_get_string (req, "data", &data_user_info))
+    if (http_argument_get_string (req, "data", &data_user_info))
     {
-        const char *msg = "{error: 'nada'}";
-        http_response (req, 200, msg,  strlen(msg));
+        //const char *msg = "{error: 'nada'}";
+        http_response (req, 200, data_user_info,  strlen(data_user_info));
         return (KORE_RESULT_OK);
     }
     
