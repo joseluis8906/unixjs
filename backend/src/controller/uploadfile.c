@@ -16,7 +16,6 @@ int upload_file (struct http_request *req)
 {
     int                 fd;
     struct http_file    *file=NULL;
-    struct http_file    *user_info=NULL;
     u_int8_t            buf[BUFSIZ];
     u_int8_t            buf_user_info[BUFSIZ];
     ssize_t             ret, written;
@@ -30,7 +29,6 @@ int upload_file (struct http_request *req)
     media_model_t         media = new_media_model ();
     struct auth_user_model    user = new_void_auth_user_model ();
     
-	    
     if (req->method != HTTP_METHOD_POST)
     {
         http_response_json_msg (req, KORE_RESULT_ERROR, "method is not post");
@@ -39,34 +37,14 @@ int upload_file (struct http_request *req)
 
     http_populate_multipart_form (req);
     //kore_log (LOG_INFO, "%s", req->http_body->data);
-    /*
-    if ((user_info = http_file_lookup (req, "user_info")) == NULL)
-    {
-        http_response_json_msg (req, KORE_RESULT_ERROR, "user_info key not found");
-        return (KORE_RESULT_OK);
-    }
     
-    int ret_tmp = http_file_read (user_info, buf_user_info, sizeof(buf_user_info));
-    
-    if (ret_tmp < 0)
+    char *data_user_info;
+    if (!http_argument_get_string (req, "data", &data_user_info))
     {
         http_response_json_msg (req, KORE_RESULT_ERROR, "user_info key error data");
         return (KORE_RESULT_OK);
     }
-    */
     
-    char *data_user_info;
-    if (http_argument_get_string (req, "data", &data_user_info))
-    {
-        //const char *msg = "{error: 'nada'}";
-        http_response (req, 200, data_user_info,  strlen(data_user_info));
-        return (KORE_RESULT_OK);
-    }
-    
-    
-    //char data_user_info[BUFSIZ];
-    //sprintf (data_user_info, "%s", buf_user_info);
-   
     json_object *jobj = NULL;
     jobj =  json_tokener_parse(data_user_info);
     
@@ -238,7 +216,6 @@ int upload_file (struct http_request *req)
     }
     */
     
-    
     char full_name[32] = "";
     strcat (path, subpath);
     //strcpy (full_name, media.name);
@@ -296,6 +273,7 @@ int upload_file (struct http_request *req)
     }
     
     ret = KORE_RESULT_OK;
+    
     cleanup:
         if (close (fd) == -1)
         {

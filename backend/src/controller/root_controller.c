@@ -27,13 +27,8 @@ int home (struct http_request *req)
 //test
 int test (struct http_request *req)
 {
-    http_populate_multipart_form (req);   
-    //const char *msg = "test!";
-    const char *msg;
-    if (!http_argument_get_string (req, "data", &msg))
-    {
-        msg = "test";
-    }
+
+    const char *msg = "test!";
     http_response (req, 200, msg,  strlen(msg));
     return (KORE_RESULT_OK);
 }
