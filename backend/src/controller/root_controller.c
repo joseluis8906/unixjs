@@ -1,17 +1,4 @@
-#include <kore/kore.h>
-#include <kore/http.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <stdio.h>
-
-#include <json-c/json.h>
-
 #include "root_controller.h"
-//#include "../model/database.h"
-#include "../contrib/contrib.h"
-
-//#include "../model/gusers/auth_group_model.h"
 
 //home
 int Home (struct HttpRequest *Req)

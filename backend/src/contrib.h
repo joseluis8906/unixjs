@@ -1,4 +1,8 @@
+#include <kore/kore.h>
+#include <kore/http.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include <json-c/json.h>
 #include "defines.h"
 
@@ -6,8 +10,8 @@
 #define _CONTRIB_H_
 
 enum RequestType {
-    XWWW,
-    MULTIPART
+    FORM_JSON,
+    FORM_MULTIPART
 };
 
 

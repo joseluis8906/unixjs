@@ -1,7 +1,4 @@
-#include <kore/kore.h>
-#include <kore/http.h>
-#include <string.h>
-#include "../contrib/contrib.h";
+#include "../contrib.h";
 
 #ifndef _ROOT_CONTROLLER_H_
 #define _ROOT_CONTROLLER_H_

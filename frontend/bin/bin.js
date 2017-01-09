@@ -348,7 +348,7 @@ function gusers ()
     this.Add (this.layout);
     this.SetBorderSpacing (12);
 	
-    this.avatar = new Gwt.Gui.Avatar ("avatar");
+    this.avatar = new Gwt.Gui.Avatar ("Avatar");
     this.avatar.SetSizeEditor (this.GetWidth(), this.GetHeight()-32);
     this.title = new Gwt.Gui.StaticText ("Datos:");
     this.doc_type = new Gwt.Gui.IconSelectBox (Gwt.Core.Contrib.Images+"appbar.notification.star.svg", "Tipo de Documento", [{"text": "Tarjeta de Identidad", "value": "T.I"}, {"text": "Cédula de Ciudadanía", "value": "C.C"}, {"text": "Registro Civil", "value": "R.C"}, {"text": "Cédula Extranjera", "value": "C.E"}, {"text": "Pasaporte", "value": "PS"}, {"text": "Libreta Militar", "value": "L.M"}]);
@@ -422,7 +422,7 @@ gusers.prototype.Guardar = function ()
     //var data = {"user_info": {"document": "1098671330", "document_type": "c.c"}, "userfile": this.avatar.GetData ()};
     var params = [
         new Gwt.Core.Parameter(Gwt.Core.PARAM_TYPE_FILE, this.avatar.GetData ()),
-        new Gwt.Core.Parameter(Gwt.Core.PARAM_TYPE_JSON, {"Name": "data", "Data": {"document_type": this.doc_type.GetText(), "document_num": this.doc_num.GetText(), "name": this.name.GetText(), "last_name": this.last_name.GetText(), "phone": this.phone.GetText(), "email": this.email.GetText (), "address": this.address.GetText ()}})
+        new Gwt.Core.Parameter(Gwt.Core.PARAM_TYPE_JSON, {"Name": "Data", "Data": {"document_type": this.doc_type.GetText(), "document_num": this.doc_num.GetText(), "name": this.name.GetText(), "last_name": this.last_name.GetText(), "phone": this.phone.GetText(), "email": this.email.GetText (), "address": this.address.GetText ()}})
     ];
     
     new Gwt.Core.Request ("/backend/gusers/save/", function(response){console.log(response)}, params);

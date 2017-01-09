@@ -99,7 +99,7 @@ int VerifyRequest (struct HttpRequest *Req, char **Data, int Type)
         return (KORE_RESULT_ERROR);
     }
     
-    if (Type == XWWW)
+    if (Type == FORM_JSON)
     {
         HttpPopulatePost (Req);
     }

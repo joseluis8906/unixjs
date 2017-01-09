@@ -1,21 +1,16 @@
-/*
-#include <kore/kore.h>
-#include <kore/http.h>
-
 #include "gusers_controller.h"
-#include "../model/gusers/auth_user_model.h"
-#include "../contrib/contrib.h"
 
-//user insert
-int gusers_controller_insert (struct http_request *req)
+//gusers save
+int GusersControllerSave (struct HttpRequest *Req)
 {
-    char  *data = NULL;
+    char  *Data = NULL;
       
-    if (verify_request (req, &data) == KORE_RESULT_ERROR)
+    if (VerifyRequest (Req, &Data, FORM_MULTIPART) == KORE_RESULT_ERROR)
     {
+        HttpResponseJsonMsg (Req, 0, "Error");
         return (KORE_RESULT_OK);
     }
-    
+    /*
     json_object *jobjs = NULL;
     jobjs =  json_tokener_parse(data);
     int length = json_object_array_length (jobjs);
@@ -42,13 +37,13 @@ int gusers_controller_insert (struct http_request *req)
     jobjs = NULL;
     
     struct sql_state state = auth_user_model_insert (new_users, length);
-    
-    http_response_json_msg (req, state.result, state.msg);
+    */
+    HttpResponseJsonMsg (Req, 1, "Exito");
 
     return (KORE_RESULT_OK);
 }
 
-
+/*
 //user update
 int gusers_controller_update (struct http_request *req)
 {
