@@ -90,8 +90,8 @@ int VerifyRequest (struct HttpRequest *Req, char **Data, int Type)
     
     if (Req->method != HTTP_METHOD_POST)
     {
-        JsonObjectObjectAdd (JsonMsg, "result", JsonObjectNewInt (KORE_RESULT_ERROR));
-        JsonObjectObjectAdd (JsonMsg, "message", JsonObjectNewString ("method is not post"));
+        JsonObjectObjectAdd (JsonMsg, "Result", JsonObjectNewInt (KORE_RESULT_ERROR));
+        JsonObjectObjectAdd (JsonMsg, "Message", JsonObjectNewString ("method is not post"));
         Msg = JsonObjectToJsonString (JsonMsg);
         HttpResponse (Req, 200, Msg,  strlen(Msg));
         
@@ -108,10 +108,10 @@ int VerifyRequest (struct HttpRequest *Req, char **Data, int Type)
         HttpPopulateMultipartForm (Req);
     }
     
-    if (http_argument_get_string (req, "data", data) == KORE_RESULT_ERROR)
+    if (http_argument_get_string (Req, "Data", Data) == KORE_RESULT_ERROR)
     {
-        JsonObjectObjectAdd (JsonMsg, "result", JsonObjectNewInt (KORE_RESULT_ERROR));
-        JsonObjectObjectAdd (JsonMsg, "message", JsonObjectNewString ("parameter data not found"));
+        JsonObjectObjectAdd (JsonMsg, "Result", JsonObjectNewInt (KORE_RESULT_ERROR));
+        JsonObjectObjectAdd (JsonMsg, "Message", JsonObjectNewString ("parameter data not found"));
         Msg = JsonObjectToJsonString(JsonMsg);
         HttpResponse (Req, 200, Msg,  strlen(Msg));
         
