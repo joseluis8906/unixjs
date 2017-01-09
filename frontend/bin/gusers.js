@@ -98,7 +98,7 @@ gusers.prototype.Guardar = function ()
         new Gwt.Core.Parameter(Gwt.Core.PARAM_TYPE_FILE, this.avatar.GetData ())
     ];
     
-    new Gwt.Core.Request ("/backend/test/", function(response){console.log(response)}, params);
+    new Gwt.Core.Request ("/backend/upload_file/", function(response){console.log(response)}, params);
 }
 
 gusers.prototype.Actualizar = function ()

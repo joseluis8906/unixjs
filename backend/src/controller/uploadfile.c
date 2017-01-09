@@ -24,8 +24,8 @@ int upload_file (struct http_request *req)
     char                path[64]="";
     char                ext[8] = ".";
     char                *subpath = NULL;
-	char                *type = NULL;
-	unsigned int        i = 0;
+    char                *type = NULL;
+    unsigned int        i = 0;
     variable_model_t      variable = new_variable_model ();
     media_model_t         media = new_media_model ();
     struct auth_user_model    user = new_void_auth_user_model ();
@@ -39,7 +39,7 @@ int upload_file (struct http_request *req)
 
     http_populate_multipart_form (req);
     //kore_log (LOG_INFO, "%s", req->http_body->data);
-    
+    /*
     if ((user_info = http_file_lookup (req, "user_info")) == NULL)
     {
         http_response_json_msg (req, KORE_RESULT_ERROR, "user_info key not found");
@@ -53,9 +53,19 @@ int upload_file (struct http_request *req)
         http_response_json_msg (req, KORE_RESULT_ERROR, "user_info key error data");
         return (KORE_RESULT_OK);
     }
+    */
     
-    char data_user_info[BUFSIZ];
-    sprintf (data_user_info, "%s", buf_user_info);
+    char *data_user_info;
+    if (!http_argument_get_string (req, "data", &data_user_info))
+    {
+        const char *msg = "{error: 'nada'}";
+        http_response (req, 200, msg,  strlen(msg));
+        return (KORE_RESULT_OK);
+    }
+    
+    
+    //char data_user_info[BUFSIZ];
+    //sprintf (data_user_info, "%s", buf_user_info);
    
     json_object *jobj = NULL;
     jobj =  json_tokener_parse(data_user_info);
@@ -66,7 +76,7 @@ int upload_file (struct http_request *req)
         return (KORE_RESULT_OK);
     }
     
-    if ((file = http_file_lookup (req, "userfile")) == NULL)
+    if ((file = http_file_lookup (req, "avatar")) == NULL)
     {
         http_response_json_msg (req, KORE_RESULT_ERROR, "userfile key not found");
         return (KORE_RESULT_OK);
