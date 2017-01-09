@@ -2,6 +2,7 @@
 #include <kore/http.h>
 #include <json-c/json.h>
 #include "contrib.h"
+#include "defines.h"
 #include <openssl/sha.h>
 #include <math.h>
 #include <time.h>
@@ -10,11 +11,11 @@
 #include <stdio.h>
 
 //encrypt password
-const char *encrypt_password (const char *password_)
+const char *EncryptPassword (const char *Password_)
 {
     char *p = NULL;
     
-    if (strlen(password_) != 4)
+    if (strlen(Password_) != 4)
     {
         return p;
     }
@@ -48,7 +49,7 @@ const char *encrypt_password (const char *password_)
     
     salt[3] = character[0];
     char password[5];
-    strcpy (password, password_);
+    strcpy (password, Password_);
     password[4] = character[0];
     
     const unsigned char *p_password = (const unsigned char*)password;
@@ -73,104 +74,133 @@ const char *encrypt_password (const char *password_)
 
 
 
-int check_password (const char *password_)
+int CheckPassword (const char *Password_)
 {
     return 0;
 }
 
 
 
-int verify_request (struct http_request *req, char **data)
+int VerifyRequest (struct HttpRequest *Req, char **Data, RequestType Type)
 {
-    const char          *msg = NULL;
-    json_object         *json_msg = NULL;
+    const char *Msg = NULL;
+    JsonObject *JsonMsg = NULL;
     
-    json_msg = json_object_new_object ();
+    JsonMsg = JsonObjectNewObject ();
     
-    if (req->method != HTTP_METHOD_POST)
+    if (Req->method != HTTP_METHOD_POST)
     {
-        json_object_object_add (json_msg, "result", json_object_new_int (KORE_RESULT_ERROR));
-        json_object_object_add (json_msg, "message", json_object_new_string ("method is not post"));
-        msg = json_object_to_json_string(json_msg);
-        http_response (req, 200, msg,  strlen(msg));
+        JsonObjectObjectAdd (JsonMsg, "result", JsonObjectNewInt (KORE_RESULT_ERROR));
+        JsonObjectObjectAdd (JsonMsg, "message", JsonObjectNewString ("method is not post"));
+        Msg = JsonObjectToJsonString (JsonMsg);
+        HttpResponse (Req, 200, Msg,  strlen(Msg));
         
-        json_object_put (json_msg);
+        JsonObjectPut (JsonMsg);
         return (KORE_RESULT_ERROR);
     }
     
-    http_populate_post (req);
+    if (Type == XWWW)
+    {
+        HttpPopulatePost (Req);
+    }
+    else
+    {
+        HttpPopulateMultipartForm (Req);
+    }
     
     if (http_argument_get_string (req, "data", data) == KORE_RESULT_ERROR)
     {
-        json_object_object_add (json_msg, "result", json_object_new_int (KORE_RESULT_ERROR));
-        json_object_object_add (json_msg, "message", json_object_new_string ("argument key is not data"));
-        msg = json_object_to_json_string(json_msg);
-        http_response (req, 200, msg,  strlen(msg));
+        JsonObjectObjectAdd (JsonMsg, "result", JsonObjectNewInt (KORE_RESULT_ERROR));
+        JsonObjectObjectAdd (JsonMsg, "message", JsonObjectNewString ("parameter data not found"));
+        Msg = JsonObjectToJsonString(JsonMsg);
+        HttpResponse (Req, 200, Msg,  strlen(Msg));
         
-        json_object_put (json_msg);
+        JsonObjectPut (JsonMsg);
         return (KORE_RESULT_ERROR);
     }
     
-    json_object_put (json_msg);
+    JsonObjectPut (JsonMsg);
     return (KORE_RESULT_OK);
 }
 
 
 
-int http_response_json_msg (struct http_request *req, int result, const char *msg)
+int HttpResponseJsonMsg (struct HttpRequest *Req, int Result, const char *Msg)
 {
-    const char *resp = NULL;
-    json_object         *json_msg = NULL;
-    json_msg  = json_object_new_object ();
+    const char *Resp = NULL;
+    JsonObject *JsonMsg = NULL;
+    JsonMsg  = JsonObjectNewObject ();
     
-    json_object_object_add (json_msg, "result", json_object_new_int (result));
-    json_object_object_add (json_msg, "data", json_object_new_string (msg));
-    resp = json_object_to_json_string(json_msg);
-    http_response (req, 200, resp, strlen(resp));
+    JsonObjectObjectAdd (JsonMsg, "result", JsonObjectNewInt (Result));
+    JsonObjectObjectAdd (JsonMsg, "data", JsonObjectNewString (Msg));
+    Resp = JsonObjectToJsonString(JsonMsg);
+    HttpResponse (Req, 200, Resp, strlen(Resp));
     
-    json_object_put (json_msg);
-    json_msg = NULL;
+    JsonObjectPut (JsonMsg);
+    JsonMsg = NULL;
     
     return KORE_RESULT_OK;
 }
 
 
-int http_response_json_array (struct http_request *req, int result, json_object *array)
+int HttpResponseJsonArray (struct HttpRequest *Req, int Result, JsonObject *Array)
 {
-    const char *resp = NULL;
-    json_object         *json_msg = NULL;
-    json_msg  = json_object_new_object ();
+    const char *Resp = NULL;
+    JsonObject *JsonMsg = NULL;
+    JsonMsg  = JsonObjectNewObject ();
     
-    json_object_object_add (json_msg, "result", json_object_new_int (result));
-    json_object_object_add (json_msg, "data", array);
-    resp = json_object_to_json_string(json_msg);
-    http_response (req, 200, resp, strlen(resp));
+    JsonObjectObjectAdd (JsonMsg, "result", JsonObjectNewInt (Result));
+    JsonObjectObjectAdd (JsonMsg, "data", Array);
+    Resp = JsonObjectToJsonString (JsonMsg);
+    HttpResponse (Req, 200, Resp, strlen(Resp));
     
-    json_object_put (json_msg);
-    json_msg = NULL;
+    JsonObjectPut (JsonMsg);
+    JsonMsg = NULL;
     
     return KORE_RESULT_OK;
 }
 
-float mm_to_px (float mm)
+float MmToPx (float mm)
 {
     float px = (1 * mm) / 0.352777778f;
     return px;
 }
 
-float px_to_mm (float px)
+float PxToMm (float px)
 {
     float mm = (0.352777778f * px) / 1.0f;
     return mm;
 }
 
-
-struct sql_state new_sql_state (int result, const char *msg)
+//sql state
+struct SQLState NewSQLState (int Result, const char *Msg)
 {
-    struct sql_state r;
-    r.result = result;
-    r.msg = msg;
+    struct SQLState State;
+    State.Result = Result;
+    State.Msg = Msg;
     
-    return r;
+    return State;
 }
 
+//v_params_enable
+int ParamsEnabled (struct HttpRequest *Req, char *Param)
+{
+	if (1)
+	{
+		return (KORE_RESULT_OK);
+	}
+
+	return (KORE_RESULT_ERROR);
+}
+
+int SessionValidate (struct HttpRequest *Req, char *Data)
+{
+	kore_log(LOG_NOTICE, "v_session_validate: %s", Data);
+
+	if (strcmp(Data, "test123") == 0)
+	{
+		return (KORE_RESULT_OK);
+	}
+
+	return (KORE_RESULT_ERROR);
+}

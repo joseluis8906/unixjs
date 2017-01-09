@@ -17,10 +17,9 @@
         <df name="contrib">
           <in>contrib.c</in>
           <in>contrib.h</in>
+          <in>defines.h</in>
         </df>
         <df name="controller">
-          <in>auth.c</in>
-          <in>auth.h</in>
           <in>gusers_controller.c</in>
           <in>gusers_controller.h</in>
           <in>report_controller.c</in>

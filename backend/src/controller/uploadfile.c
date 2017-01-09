@@ -12,7 +12,7 @@
 #include <json-c/json.h>
 
 //upload_file
-int upload_file (struct http_request *req)
+int upload_file (struct HttpRequest *req)
 {
     int                 fd;
     struct http_file    *file=NULL;
@@ -31,7 +31,7 @@ int upload_file (struct http_request *req)
     
     if (req->method != HTTP_METHOD_POST)
     {
-        http_response_json_msg (req, KORE_RESULT_ERROR, "method is not post");
+        HttpResponseJsonMsg (req, KORE_RESULT_ERROR, "method is not post");
         return (KORE_RESULT_OK);
     }
 
@@ -41,7 +41,7 @@ int upload_file (struct http_request *req)
     char *data_user_info;
     if (!http_argument_get_string (req, "data", &data_user_info))
     {
-        http_response_json_msg (req, KORE_RESULT_ERROR, "user_info key error data");
+        HttpResponseJsonMsg (req, KORE_RESULT_ERROR, "user_info key error data");
         return (KORE_RESULT_OK);
     }
     
@@ -50,13 +50,13 @@ int upload_file (struct http_request *req)
     
     if (json_to_auth_user_model (jobj, &user) == KORE_RESULT_ERROR)
     {
-        http_response_json_msg (req, KORE_RESULT_ERROR, "document or document_type key not found");
+        HttpResponseJsonMsg (req, KORE_RESULT_ERROR, "document or document_type key not found");
         return (KORE_RESULT_OK);
     }
     
     if ((file = http_file_lookup (req, "avatar")) == NULL)
     {
-        http_response_json_msg (req, KORE_RESULT_ERROR, "userfile key not found");
+        HttpResponseJsonMsg (req, KORE_RESULT_ERROR, "userfile key not found");
         return (KORE_RESULT_OK);
     }
     
@@ -129,7 +129,7 @@ int upload_file (struct http_request *req)
     
     if (subpath == NULL)
     {
-        http_response_json_msg (req, KORE_RESULT_ERROR, "file type not suported");
+        HttpResponseJsonMsg (req, KORE_RESULT_ERROR, "file type not suported");
         return (KORE_RESULT_OK);
     }
     

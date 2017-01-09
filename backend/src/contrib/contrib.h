@@ -1,23 +1,34 @@
 #include <stdio.h>
 #include <json-c/json.h>
+#include "defines.h"
 
-#ifndef _CONTRIB_
-#define _CONTRIB_
+#ifndef _CONTRIB_H_
+#define _CONTRIB_H_
 
-struct sql_state
-{
-    int result;
-    const char *msg;
+enum RequestType {
+    XWWW,
+    MULTIPART
 };
 
-const char *encrypt_password (const char*);
-int check_password (const char*);
-int verify_request (struct http_request*, char**);
-int http_response_json_msg (struct http_request*, int, const char*);
-int http_response_json_array (struct http_request*, int, json_object *);
-float mm_to_px (float);
-float px_to_mm (float);
 
-struct sql_state new_sql_state (int, const char*);
+struct SQLState
+{
+    int Result;
+    const char *Msg;
+};
 
+
+const char *EncryptPassword (const char*);
+int CheckPassword (const char*);
+int VerifyRequest (struct HttpRequest*, char**, RequestType);
+int HttpResponseJsonMsg (struct HttpRequest*, int, const char*);
+int HttpResponseJsonArray (struct HttpRequest*, int, JsonObject *);
+float MmToPx (float);
+float PxToMm (float);
+
+struct SQLState NewSQLState (int, const char*);
+
+//function to validate params
+int ParamsEnabled (struct HttpRequest *, char *);
+int SessionValidate (struct HttpRequest *, char *);
 #endif

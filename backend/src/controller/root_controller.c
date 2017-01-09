@@ -8,44 +8,32 @@
 #include <json-c/json.h>
 
 #include "root_controller.h"
-#include "../model/database.h"
+//#include "../model/database.h"
 #include "../contrib/contrib.h"
 
-#include "../model/gusers/auth_group_model.h"
+//#include "../model/gusers/auth_group_model.h"
 
 //home
-int home (struct http_request *req)
+int Home (struct HttpRequest *Req)
 {
     //sql_state r = init_database_system ();
     //kore_log (LOG_INFO, "%s", r.msg);
-    const char *msg = "hello world!";
-    http_response (req, 200, msg,  strlen(msg));
+    const char *Msg = "hello world!";
+    HttpResponse (Req, 200, Msg,  strlen(Msg));
     return (KORE_RESULT_OK);
 }
 
 
 //test
-int test (struct http_request *req)
+int Test (struct HttpRequest *Req)
 {
-
-    const char *msg = "test!";
-    http_response (req, 200, msg,  strlen(msg));
+    const char *Msg = "test!";
+    HttpResponse (Req, 200, Msg,  strlen(Msg));
     return (KORE_RESULT_OK);
 }
 
-//v_params_enable
-int v_params_enabled (struct http_request *req, char *param)
-{
-	if (1)
-	{
-		return (KORE_RESULT_OK);
-	}
 
-	return (KORE_RESULT_ERROR);
-}
-
-
-
+/*
 //group select
 int group_select (struct http_request *req)
 {
@@ -381,3 +369,4 @@ int group_delete (struct http_request *req)
     return (KORE_RESULT_OK);
 }
 
+*/

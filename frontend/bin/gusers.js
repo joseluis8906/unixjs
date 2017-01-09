@@ -94,11 +94,11 @@ gusers.prototype.Guardar = function ()
     
     //var data = {"user_info": {"document": "1098671330", "document_type": "c.c"}, "userfile": this.avatar.GetData ()};
     var params = [
-        new Gwt.Core.Parameter(Gwt.Core.PARAM_TYPE_JSON, {"Name": "data", "Data": {"document": "1098671330", "document_type": "c.c"}}),
-        new Gwt.Core.Parameter(Gwt.Core.PARAM_TYPE_FILE, this.avatar.GetData ())
+        new Gwt.Core.Parameter(Gwt.Core.PARAM_TYPE_FILE, this.avatar.GetData ()),
+        new Gwt.Core.Parameter(Gwt.Core.PARAM_TYPE_JSON, {"Name": "data", "Data": {"document_type": this.doc_type.GetText(), "document_num": this.doc_num.GetText(), "name": this.name.GetText(), "last_name": this.last_name.GetText(), "phone": this.phone.GetText(), "email": this.email.GetText (), "address": this.address.GetText ()}})
     ];
     
-    new Gwt.Core.Request ("/backend/upload_file/", function(response){console.log(response)}, params);
+    new Gwt.Core.Request ("/backend/gusers/save/", function(response){console.log(response)}, params);
 }
 
 gusers.prototype.Actualizar = function ()
