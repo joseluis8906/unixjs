@@ -1656,7 +1656,7 @@ Gwt.Gui.Dialog.prototype.Open = function ()
 
 Gwt.Gui.Dialog.prototype.Close = function ()
 {
-    this.FinalizeDialog ();
+    this._Dialog ();
 }
 
 Gwt.Gui.Dialog.prototype.RootAdd = function (Element)
