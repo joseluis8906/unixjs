@@ -14,11 +14,6 @@
         <in>gusers.sql</in>
       </df>
       <df name="src">
-        <df name="contrib">
-          <in>contrib.c</in>
-          <in>contrib.h</in>
-          <in>defines.h</in>
-        </df>
         <df name="controller">
           <in>gusers_controller.c</in>
           <in>gusers_controller.h</in>
@@ -26,8 +21,6 @@
           <in>report_controller.h</in>
           <in>root_controller.c</in>
           <in>root_controller.h</in>
-          <in>uploadfile.c</in>
-          <in>uploadfile.h</in>
         </df>
         <df name="model">
           <df name="accounting">
@@ -58,6 +51,9 @@
           </df>
         </df>
         <in>backend.c</in>
+        <in>contrib.c</in>
+        <in>contrib.h</in>
+        <in>defines.h</in>
       </df>
       <df name="tmp_files">
       </df>

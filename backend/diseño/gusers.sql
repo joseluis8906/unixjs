@@ -8,34 +8,39 @@
  * Created: Jan 2, 2017
  */
 
-CREATE TABLE IF NOT EXISTS "auth_user"
+CREATE TABLE IF NOT EXISTS "AuthUser"
 (
-    "id" BIGSERIAL PRIMARY KEY,
-    "document" VARCHAR(16) NOT NULL,
-    "document_type" VARCHAR(8) NOT NULL,
-    UNIQUE ("document", "document_type")
-);
-        
-CREATE TABLE IF NOT EXISTS "auth_password"
-(
-    "id" BIGSERIAL PRIMARY KEY,
-    "auth_user_id" BIGINT NOT NULL REFERENCES "auth_user" ("id") ON UPDATE CASCADE ON DELETE CASCADE,
-    "password" VARCHAR(256) NOT NULL
-);
-        
-CREATE TABLE IF NOT EXISTS "auth_group"
-(
-    "id" BIGSERIAL PRIMARY KEY,
-    "name" VARCHAR(32) UNIQUE NOT NULL
-);
-        
-CREATE TABLE IF NOT EXISTS "auth_user_group"
-(
-    "user_id" BIGINT NOT NULL REFERENCES "auth_user" ("id") ON UPDATE CASCADE ON DELETE CASCADE,
-    "group_id" BIGINT NOT NULL REFERENCES "auth_group" ("id") ON UPDATE CASCADE ON DELETE CASCADE,
-    UNIQUE ("user_id", "group_id")
+    "Id" BIGSERIAL PRIMARY KEY,
+    "DocumentType" VARCHAR(8) NOT NULL,    
+    "DocumentNum" VARCHAR(16) NOT NULL,
+    "Password" VARCHAR(256) NOT NULL
+    UNIQUE ("DocumentType", "DocumentNum")
 );
 
-INSERT INTO "auth_user" ("document", "document_type") VALUES ('root', 'xxxxxxxx');
-INSERT INTO "auth_group" ("name") VALUES ('root');
-INSERT INTO "auth_group" ("name") VALUES ('user');
+CREATE TABLE IF NOT EXISTS "AuthUserInfo"
+(
+    "Id" BIGSERIAL PRIMARY KEY,
+    "UserId" BIGINT NOT NULL REFERENCES "AuthUser" ("Id") ON UPDATE CASCADE ON DELETE CASCADE,
+    "Name" VARCHAR(64) NOT NULL,
+    "LastName" VARCHAR(64) NOT NULL,
+    "Phone" VARCHAR(24) NOT NULL,
+    "Email" VARCHAR(24) NOT NULL,
+    "Address" VARCHAR(64) NOT NULL,
+);
+        
+CREATE TABLE IF NOT EXISTS "AuthGroup"
+(
+    "Id" BIGSERIAL PRIMARY KEY,
+    "Name" VARCHAR(32) UNIQUE NOT NULL
+);
+        
+CREATE TABLE IF NOT EXISTS "AuthUserGroup"
+(
+    "UserId" BIGINT NOT NULL REFERENCES "AuthUser" ("Id") ON UPDATE CASCADE ON DELETE CASCADE,
+    "GroupId" BIGINT NOT NULL REFERENCES "AuthGroup" ("Id") ON UPDATE CASCADE ON DELETE CASCADE,
+    UNIQUE ("UserId", "GroupId")
+);
+
+INSERT INTO "AuthUser" ("Document", "DocumentType") VALUES ('root', 'xxxxxxxx');
+INSERT INTO "AuthGroup" ("Name") VALUES ('root');
+INSERT INTO "AuthGroup" ("Name") VALUES ('users');

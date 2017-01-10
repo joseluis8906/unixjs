@@ -7,15 +7,14 @@ int GusersControllerSave (struct HttpRequest *Req)
       
     if (VerifyRequest (Req, &Data, FORM_MULTIPART) == KORE_RESULT_ERROR)
     {
-        HttpResponseJsonMsg (Req, 0, "Error");
         return (KORE_RESULT_OK);
     }
-    /*
-    json_object *jobjs = NULL;
-    jobjs =  json_tokener_parse(data);
-    int length = json_object_array_length (jobjs);
-    struct auth_user_model  new_users[length];
     
+    JsonObject *Array = NULL;
+    Array =  JsonTokenerParse(Data);
+    int Length = JsonObjectArrayLength (Array);
+    
+    /*
     for (int i = 0; i < length; i++)
     {
         json_object *jobj = json_object_array_get_idx (jobjs, i);

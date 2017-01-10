@@ -1,33 +1,37 @@
-/*
-#include <json-c/json.h>
-#include "../../contrib/contrib.h"
+#include "../../contrib.h"
+#include "../database.h"
 
-#ifndef _AUTH_USER_MODEL_
-#define _AUTH_USER_MODEL_
+#ifndef _AUTH_USER_MODEL_H_
+#define _AUTH_USER_MODEL_H_
 
-//auth_user
-struct auth_user_model
+//auth_user_model
+struct AuthUserModel
 {
-    int64_t id;
-    char document[16];
-    char document_type[8];
+    int64_t Id;
+    char DocumentType[8];
+    char DocumentNum[16];
+    char Password[256];
+    char Name[64];
+    char LastName[64];
+    char Phone[24];
+    char Email[24];
+    char Address[64];
 };
 
-struct auth_user_model_tuple 
+struct AuthUserModelTuple 
 {
     struct auth_user_model old_user;
     struct auth_user_model new_user;
 };
 
-struct auth_user_model  new_auth_user_model (char*, char*);
-struct auth_user_model  new_void_auth_user_model (void);
-int  auth_user_model_to_json (struct auth_user_model*, json_object*);
-int  json_to_auth_user_model (json_object*, struct auth_user_model*);
+struct AuthUserModel  NewAuthUserModel (char *, char *, char *, char *, char *, char *, char *, char *);
+struct AuthUserModel  NewVoidAuthUserModel (void);
+int  AuthUserModelToJson (struct AuthUserModel *, JsonObject *);
+int  JsonToAuthUserModel (JsonObject *, struct AuthUserModel *);
 
-struct sql_state  auth_user_model_select (struct auth_user_model[], int);
-struct sql_state  auth_user_model_insert (struct auth_user_model[], int);
-struct sql_state  auth_user_model_update (struct auth_user_model_tuple[], int);
-struct sql_state  auth_user_model_delete (struct auth_user_model[], int);
+//struct SqlState  AuthUserModelSelect (struct AuthUserModel[], int);
+struct SqlState  AuthUserModelInsert (struct AuthUserModel[], int);
+//struct SqlState  AuthUserModelUpdate (struct AuthUserModelTuple[], int);
+//struct SqlState  AuthUserModelDelete (struct AuthUserModel[], int);
 
 #endif
-*/

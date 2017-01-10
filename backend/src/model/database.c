@@ -1,8 +1,3 @@
-/*
-#include <kore/kore.h>
-#include <kore/http.h>
-#include <zdb/zdb.h>
-#include <json-c/json.h>
 #include "database.h"
 
 static URL_T url;
@@ -40,7 +35,6 @@ int close_pool (void)
         kore_log (LOG_INFO, "url not opened");
     }
 
-    
     return 0;
 }
 
@@ -66,4 +60,3 @@ Connection_T get_connection ()
     
     return conn;
 }
-*/

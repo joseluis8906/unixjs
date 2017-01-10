@@ -6,15 +6,10 @@
         <in>gusers.sql</in>
       </df>
       <df name="src">
-        <df name="contrib">
-          <in>contrib.c</in>
-          <in>defines.h</in>
-        </df>
         <df name="controller">
           <in>gusers_controller.c</in>
           <in>report_controller.c</in>
           <in>root_controller.c</in>
-          <in>uploadfile.c</in>
         </df>
         <df name="model">
           <df name="accounting">
@@ -37,6 +32,8 @@
           </df>
         </df>
         <in>backend.c</in>
+        <in>contrib.c</in>
+        <in>defines.h</in>
       </df>
     </df>
     <logicalFolder name="ExternalFiles"
@@ -85,7 +82,7 @@
           </incDir>
         </cTool>
       </item>
-      <item path="src/contrib/contrib.c" ex="false" tool="0" flavor2="3">
+      <item path="src/contrib.c" ex="false" tool="0" flavor2="3">
         <cTool flags="0">
           <incDir>
             <pElem>src</pElem>
@@ -94,8 +91,6 @@
             <pElem>.</pElem>
           </incDir>
         </cTool>
-      </item>
-      <item path="src/contrib/defines.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="src/controller/gusers_controller.c" ex="false" tool="0" flavor2="3">
         <cTool flags="0">
@@ -126,16 +121,7 @@
           </incDir>
         </cTool>
       </item>
-      <item path="src/controller/uploadfile.c" ex="false" tool="0" flavor2="3">
-        <cTool flags="0">
-          <incDir>
-            <pElem>src</pElem>
-            <pElem>/usr/local/include/kore</pElem>
-            <pElem>/usr/include/zdb</pElem>
-            <pElem>/usr/include/json-c</pElem>
-            <pElem>.</pElem>
-          </incDir>
-        </cTool>
+      <item path="src/defines.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="src/model/accounting/accou_account_model.c"
             ex="false"

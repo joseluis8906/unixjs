@@ -1,43 +1,59 @@
-/*
-#include <kore/kore.h>
-#include <kore/http.h>
-#include <json-c/json.h>
-#include <stdlib.h>
 #include "auth_user_model.h"
-#include "../database.h"
-#include "../../contrib/contrib.h"
 
-struct auth_user_model  new_auth_user_model (char *document, char *document_type)
+struct AuthUserModel  NewAuthUserModel (char *DocumentType, char *DocumentNum, char *Password, char *Name, char *LastName, char *Phone, char *Email, char *Address)
 {
-    struct auth_user_model x;
+    struct AuthUserModel X;
     
-    strcpy (x.document, document);
-    strcpy (x.document_type, document_type);
+    strcpy (X.DocumentType, DocumentType);
+    strcpy (X.DocumentNum, DocumentNum);
+    strcpy (X.Password, Password);
+    strcpy (X.Name, Name);
+    strcpy (X.LastName, LastName);
+    strcpy (X.Phone, Phone);
+    strcpy (X.Email, Email);
+    strcpy (X.Address, Address);
     
-    return x;
+    return X;
 }
 
 
-struct auth_user_model  new_void_auth_user_model (void)
+
+struct AuthUserModel  NewVoidAuthUserModel (void)
 {
-    struct auth_user_model x;
+    struct AuthUserModel X;
     
-    strcpy (x.document, "");
-    strcpy (x.document_type, "");
+    strcpy (X.DocumentType, "");
+    strcpy (X.DocumentNum, "");
+    strcpy (X.Password, "");
+    strcpy (X.Name, "");
+    strcpy (X.LastName, "");
+    strcpy (X.Phone, "");
+    strcpy (X.Email, "");
+    strcpy (X.Address, "");
     
-    return x;
+    return X;
 }
 
 
-int auth_user_model_to_json (struct auth_user_model* auth_user, json_object* jobj)
+
+
+int AuthUserModelToJson (struct AuthUserModel *User, JsonObject *Obj)
 {
-    json_object_object_add (jobj, "document", json_object_new_string (auth_user->document));
-    json_object_object_add (jobj, "document_type", json_object_new_string (auth_user->document_type));
-    
+    JsonObjectObjectAdd (Obj, "Id", JsonObjectNewInt64 (User->Id));
+    JsonObjectObjectAdd (Obj, "DocumentType", JsonObjectNewString (User->DocumentType));
+    JsonObjectObjectAdd (Obj, "DocumentNum", JsonObjectNewString (User->DocumentNum));
+    JsonObjectObjectAdd (Obj, "Password", JsonObjectNewString (User->Password));
+    JsonObjectObjectAdd (Obj, "Name", JsonObjectNewString (User->Name));
+    JsonObjectObjectAdd (Obj, "LastName", JsonObjectNewString (User->LastName));
+    JsonObjectObjectAdd (Obj, "Phone", JsonObjectNewString (User->Phone));
+    JsonObjectObjectAdd (Obj, "Email", JsonObjectNewString (User->Email));
+    JsonObjectObjectAdd (Obj, "Address", JsonObjectNewString (User->Address));
+        
     return (KORE_RESULT_OK);
 }
 
 
+/*
 int  json_to_auth_user_model (json_object* jobj, struct auth_user_model* auth_user)
 {
     json_object_object_foreach (jobj, key, val)
