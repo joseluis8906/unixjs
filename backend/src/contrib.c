@@ -245,6 +245,7 @@ int UploadFile (struct HttpRequest *Req, char *Name, char *SubPath)
 
     unsigned int i = 0;
     char ext[8] = ".";
+    char *type = NULL;
     int TypeFound = 0;
     
     for (i = 0; i < LengthDocumentsExt; i++)
