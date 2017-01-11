@@ -21,7 +21,16 @@ struct AuthUserModel  NewAuthUserModel (char *DocumentType, char *DocumentNum, c
 struct AuthUserModel NewVoidAuthUserModel (void)
 {
     struct AuthUserModel X;
-        
+    
+    strcpy (X.DocumentType, "");
+    strcpy (X.DocumentNum, "");
+    strcpy (X.Password, "");
+    strcpy (X.Name, "");
+    strcpy (X.LastName, "");
+    strcpy (X.Phone, "");
+    strcpy (X.Email, "");
+    strcpy (X.Address, "");        
+    
     return X;
 }
 
