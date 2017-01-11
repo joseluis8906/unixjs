@@ -1,3 +1,5 @@
+#include <sys/syslog.h>
+
 #include "auth_user_model.h"
 
 struct AuthUserModel  NewAuthUserModel (char *DocumentType, char *DocumentNum, char *Password, char *Name, char *LastName, char *Phone, char *Email, char *Address)
@@ -132,6 +134,7 @@ int JsonToAuthUserModels (char *Data, struct AuthUserModelArray *X)
             }
         }
         
+        kore_log (LOG_NOTICE, JsonObjectToJsonString(jobj));
         json_object_put (jobj);
         jobj = NULL;
         
