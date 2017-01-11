@@ -11,7 +11,7 @@ int GusersControllerSave (struct HttpRequest *Req)
         return (KORE_RESULT_OK);
     }
     
-    //struct AuthUserModelArray *Users = JsonToAuthUserModels(Data);
+    struct AuthUserModelArray *Users = JsonToAuthUserModels(Data);
     
     //JsonObject *Res = NULL;
     //Res = AuthUserModelsToJson (Users);

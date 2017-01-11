@@ -27,13 +27,12 @@ struct AuthUserModel NewVoidAuthUserModel (void)
 
 
 
-struct AuthUserModelArray *NewAuthUserModelArray(void)
+struct AuthUserModelArray NewAuthUserModelArray(void)
 {
-    struct AuthUserModelArray *X;
-    X->At[LowArraySize];
-    X->Length = 0;
+    struct AuthUserModelArray X;
     return X;
 }
+
 
 
 JsonObject* AuthUserModelsToJson (struct AuthUserModelArray *Users)
@@ -67,11 +66,8 @@ JsonObject* AuthUserModelsToJson (struct AuthUserModelArray *Users)
 
 
 
-struct AuthUserModelArray* JsonToAuthUserModels (char *Data)
+int JsonToAuthUserModels (char *Data, struct AuthUserModelArray *X)
 {
-    struct AuthUserModelArray *X = NULL;
-    X = NewAuthUserModelArray ();
-    
     JsonObject *jobjs = NULL;
     jobjs = JsonTokenerParse (Data);
     int length = JsonObjectArrayLength (jobjs);
@@ -127,7 +123,7 @@ struct AuthUserModelArray* JsonToAuthUserModels (char *Data)
                 json_object_put (jobjs);
                 jobjs = NULL;
                 
-                return NULL;
+                return (KORE_RESULT_ERROR);
             }
         }
         
@@ -140,7 +136,7 @@ struct AuthUserModelArray* JsonToAuthUserModels (char *Data)
     jobjs = NULL;
     
 
-    return X;
+    return (KORE_RESULT_OK);
 }
 
 
