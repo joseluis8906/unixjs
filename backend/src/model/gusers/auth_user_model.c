@@ -30,7 +30,7 @@ struct AuthUserModel NewVoidAuthUserModel (void)
 struct AuthUserModelArray *NewAuthUserModelArray(void)
 {
     struct AuthUserModelArray *X;
-    X->At[];
+    X->At[LowArraySize];
     X->Length = 0;
     return X;
 }
