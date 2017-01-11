@@ -58,7 +58,7 @@ Gwt.Core.Request.prototype.SendMultipartFormData =  function ()
         {        
             ContentDisposition = "Content-Disposition: form-data; name=\""+this.Params[i].GetData ().Name + "\"\r\nContent-Type: text/plain; charset=UTF-8\r\n\r\n";
             Multipart.push (ContentDisposition);
-            Multipart.push (JSON.stringify(this.Params[i].GetData ().Data));
+            Multipart.push (unescape(encodeURIComponent(JSON.stringify(this.Params[i].GetData ().Data))));
         }
         else
         {
