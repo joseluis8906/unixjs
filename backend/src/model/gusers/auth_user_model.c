@@ -21,7 +21,7 @@ struct AuthUserModel  NewAuthUserModel (char *DocumentType, char *DocumentNum, c
 struct AuthUserModel NewVoidAuthUserModel (void)
 {
     struct AuthUserModel X;
-
+        
     return X;
 }
 
@@ -30,6 +30,8 @@ struct AuthUserModel NewVoidAuthUserModel (void)
 struct AuthUserModelArray *NewAuthUserModelArray(void)
 {
     struct AuthUserModelArray *X;
+    X->At[];
+    X->Length = 0;
     return X;
 }
 
