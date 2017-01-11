@@ -53,6 +53,7 @@ int AuthUserModelsToJson (struct AuthUserModelArray *Users, JsonObject *X)
     {
         Y = JsonObjectNewObject ();
         
+        kore_log (LOG_NOTICE, JsonObjectToJsonString(Users->At[i].DocumentType));
         JsonObjectObjectAdd (Y, "DocumentType", JsonObjectNewString (Users->At[i].DocumentType));
         JsonObjectObjectAdd (Y, "DocumentNum", JsonObjectNewString (Users->At[i].DocumentNum));
         JsonObjectObjectAdd (Y, "Password", JsonObjectNewString (Users->At[i].Password));
