@@ -35,15 +35,11 @@ struct AuthUserModelArray NewAuthUserModelArray(void)
 
 
 
-JsonObject* AuthUserModelsToJson (struct AuthUserModelArray *Users)
-{
-    JsonObject *X;
-    X = JsonObjectNewArray ();
-    
+int AuthUserModelsToJson (struct AuthUserModelArray *Users, JsonObject *X)
+{   
     JsonObject *Y = NULL;
     for (int i = 0; i < Users->Length; i++)
     {
-        
         Y = JsonObjectNewObject ();
         
         JsonObjectObjectAdd (Y, "DocumentType", JsonObjectNewString (Users->At[i].DocumentType));
@@ -61,7 +57,7 @@ JsonObject* AuthUserModelsToJson (struct AuthUserModelArray *Users)
         Y = NULL;
     }
     
-    return X;
+    return (KORE_RESULT_OK);
 }
 
 

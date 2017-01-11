@@ -26,7 +26,7 @@ struct AuthUserModelArray
 struct AuthUserModel  NewAuthUserModel (char *, char *, char *, char *, char *, char *, char *, char *);
 struct AuthUserModel  NewVoidAuthUserModel (void);
 struct AuthUserModelArray NewAuthUserModelArray (void);
-JsonObject* AuthUserModelsToJson (struct AuthUserModelArray *);
+int AuthUserModelsToJson (struct AuthUserModelArray *, JsonObject *);
 int JsonToAuthUserModels (char *, struct AuthUserModelArray *);
 
 //struct SqlState  AuthUserModelSelect (struct AuthUserModel[], int);
