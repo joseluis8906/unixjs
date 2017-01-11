@@ -238,7 +238,7 @@ int UploadFile (struct HttpRequest *Req, char *Name, char *SubPath)
     char *VideosExt[] = {"mpeg", "vob", "3gp", "mov", "mp4", "webm", "flv", "mkv", "avi", "ogm"};
     size_t LengthVideosExt = sizeof (VideosExt) / sizeof (VideosExt[0]);
     
-    char path[128]=NULL;
+    char path[128];
                   
     strcpy (path, "../share/");
     strcat (path, SubPath); 
