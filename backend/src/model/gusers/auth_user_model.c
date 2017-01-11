@@ -45,7 +45,7 @@ JsonObject* AuthUserModelsToJson (struct AuthUserModelArray *Users)
     for (int i = 0; i < Users->Length; i++)
     {
         
-        Y = JsonObjectNewObject (void);
+        Y = JsonObjectNewObject ();
         
         JsonObjectObjectAdd (Y, "DocumentType", JsonObjectNewString (Users->At[i].DocumentType));
         JsonObjectObjectAdd (Y, "DocumentNum", JsonObjectNewString (Users->At[i].DocumentNum));
