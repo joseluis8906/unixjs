@@ -88,35 +88,35 @@ struct AuthUserModelArray* JsonToAuthUserModels (char *Data)
             
             if (strcmp (Key, "DocumentType") == 0)
             {   
-                strcpy (X->At[i].DocumentType, JsonObjectGetString (val));
+                strcpy (X->At[i].DocumentType, JsonObjectGetString (Val));
             }
             else if (strcmp (Key, "DocumentNum") == 0)
             {
-                strcpy (X->At[i].DocumentNum, JsonObjectGetString (val));
+                strcpy (X->At[i].DocumentNum, JsonObjectGetString (Val));
             }
             else if (strcmp (Key, "Password") == 0)
             {
-                strcpy (X->At[i].Password, JsonObjectGetString (val));
+                strcpy (X->At[i].Password, JsonObjectGetString (Val));
             }
             else if (strcmp (Key, "Name") == 0)
             {
-                strcpy (X->At[i].Name, JsonObjectGetString (val));
+                strcpy (X->At[i].Name, JsonObjectGetString (Val));
             }
             else if (strcmp (Key, "LastName") == 0)
             {
-                strcpy (X->At[i].LastName, JsonObjectGetString (val));
+                strcpy (X->At[i].LastName, JsonObjectGetString (Val));
             }
             else if (strcmp (Key, "Phone") == 0)
             {
-                strcpy (X->At[i].Phone, JsonObjectGetString (val));
+                strcpy (X->At[i].Phone, JsonObjectGetString (Val));
             }
             else if (strcmp (Key, "Email") == 0)
             {
-                strcpy (X->At[i].Email, JsonObjectGetString (val));
+                strcpy (X->At[i].Email, JsonObjectGetString (Val));
             }
             else if (strcmp (Key, "Address") == 0)
             {
-                strcpy (X->At[i].Address, JsonObjectGetString (val));
+                strcpy (X->At[i].Address, JsonObjectGetString (Val));
             }
             else
             {
