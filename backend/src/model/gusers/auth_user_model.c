@@ -82,7 +82,7 @@ struct AuthUserModelArray* JsonToAuthUserModels (char *Data)
         json_object *jobj = NULL;
         jobj = json_object_array_get_idx (jobjs, i);
         
-        JsonObjectObjectForeach (obj, Key, Val)
+        JsonObjectObjectForeach (jobj, Key, Val)
         {
             X->At[i] = NewVoidAuthUserModel();
             
@@ -130,8 +130,8 @@ struct AuthUserModelArray* JsonToAuthUserModels (char *Data)
             }
         }
         
-        json_object_put (jobj);
-        jobj = NULL;
+        json_object_put (jobjs);
+        jobjs = NULL;
         
     }
     
