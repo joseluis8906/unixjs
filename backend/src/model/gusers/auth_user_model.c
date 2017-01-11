@@ -3,7 +3,7 @@
 struct AuthUserModel  NewAuthUserModel (char *DocumentType, char *DocumentNum, char *Password, char *Name, char *LastName, char *Phone, char *Email, char *Address)
 {
     struct AuthUserModel X;
-    
+     
     strcpy (X.DocumentType, DocumentType);
     strcpy (X.DocumentNum, DocumentNum);
     strcpy (X.Password, Password);
@@ -18,65 +18,132 @@ struct AuthUserModel  NewAuthUserModel (char *DocumentType, char *DocumentNum, c
 
 
 
-struct AuthUserModel  NewVoidAuthUserModel (void)
+struct AuthUserModel NewVoidAuthUserModel (void)
 {
     struct AuthUserModel X;
     
-    strcpy (X.DocumentType, "");
-    strcpy (X.DocumentNum, "");
-    strcpy (X.Password, "");
-    strcpy (X.Name, "");
-    strcpy (X.LastName, "");
-    strcpy (X.Phone, "");
-    strcpy (X.Email, "");
-    strcpy (X.Address, "");
+    X.DocumentType = NULL;
+    X.DocumentNum = NULL;
+    X.Password = NULL;
+    X.Name = NULL;
+    X.LastName = NULL;
+    X.Phone = NULL;
+    X.Email = NULL;
+    X.Address = NULL;
     
     return X;
 }
 
 
 
-
-int AuthUserModelToJson (struct AuthUserModel *User, JsonObject *Obj)
+JsonObject* AuthUserModelsToJson (struct AuthUserModelArray *Users)
 {
-    JsonObjectObjectAdd (Obj, "Id", JsonObjectNewInt64 (User->Id));
-    JsonObjectObjectAdd (Obj, "DocumentType", JsonObjectNewString (User->DocumentType));
-    JsonObjectObjectAdd (Obj, "DocumentNum", JsonObjectNewString (User->DocumentNum));
-    JsonObjectObjectAdd (Obj, "Password", JsonObjectNewString (User->Password));
-    JsonObjectObjectAdd (Obj, "Name", JsonObjectNewString (User->Name));
-    JsonObjectObjectAdd (Obj, "LastName", JsonObjectNewString (User->LastName));
-    JsonObjectObjectAdd (Obj, "Phone", JsonObjectNewString (User->Phone));
-    JsonObjectObjectAdd (Obj, "Email", JsonObjectNewString (User->Email));
-    JsonObjectObjectAdd (Obj, "Address", JsonObjectNewString (User->Address));
+    JsonObject *X;
+    X = JsonObjectNewArray (void);
+    
+    JsonObject *Y = NULL;
+    for (int i = 0; i < Users->Length; i++)
+    {
         
-    return (KORE_RESULT_OK);
+        Y = JsonObjectNewObject (void);
+        
+        JsonObjectObjectAdd (Y, "DocumentType", JsonObjectNewString (Users->At[i].DocumentType));
+        JsonObjectObjectAdd (Y, "DocumentNum", JsonObjectNewString (Users->At[i].DocumentNum));
+        JsonObjectObjectAdd (Y, "Password", Users->At[i].Password);
+        JsonObjectObjectAdd (Y, "Name", JsonObjectNewString (Users->At[i].Name));
+        JsonObjectObjectAdd (Y, "LastName", JsonObjectNewString (Users->At[i].LastName));
+        JsonObjectObjectAdd (Y, "Phone", JsonObjectNewString (Users->At[i].Phone));
+        JsonObjectObjectAdd (Y, "Email", JsonObjectNewString (Users->At[i].Email));
+        JsonObjectObjectAdd (Y, "Address", JsonObjectNewString (Users->At[i].Address));
+        
+        JsonObjectArrayAdd (X, JsonObjectGet (Y));
+        
+        JsonObjectPut (Y);
+        Y = NULL;
+    }
+    
+    return X;
+}
+
+
+
+struct AuthUserModelArray* JsonToAuthUserModels (char *Data)
+{
+    struct AuthUserModelArray *X;
+    
+    JsonObject *jobjs = NULL;
+    jobjs = JsonTokenerParse (Data);
+    int length = JsonObjectArrayLength (jobs);
+    
+    X->Length = length;
+    
+    for (int i = 0; i < X->Length; i++)
+    {
+        json_object *jobj = NULL;
+        jobj = json_object_array_get_idx (jobjs, i);
+        
+        JsonObjectObjectForeach (obj, Key, Val)
+        {
+            X.At[i] = NewVoidAuthUserModel();
+            
+            if (strcmp (Key, "DocumentType") == 0)
+            {   
+                strcpy (X->At[i].DocumentType, JsonObjectGetString (val));
+            }
+            else if (strcmp (Key, "DocumentNum") == 0)
+            {
+                strcpy (X->At[i].DocumentNum, JsonObjectGetString (val));
+            }
+            else if (strcmp (Key, "Password") == 0)
+            {
+                strcpy (X->At[i].Password, JsonObjectGetString (val));
+            }
+            else if (strcmp (Key, "Name") == 0)
+            {
+                strcpy (X->At[i].Name, JsonObjectGetString (val));
+            }
+            else if (strcmp (Key, "LastName") == 0)
+            {
+                strcpy (X->At[i].LastName, JsonObjectGetString (val));
+            }
+            else if (strcmp (Key, "Phone") == 0)
+            {
+                strcpy (X->At[i].Phone, JsonObjectGetString (val));
+            }
+            else if (strcmp (Key, "Email") == 0)
+            {
+                strcpy (X->At[i].Email, JsonObjectGetString (val));
+            }
+            else if (strcmp (Key, "Address") == 0)
+            {
+                strcpy (X->At[i].Address, JsonObjectGetString (val));
+            }
+            else
+            {
+                json_object_put (jobj);
+                jobj = NULL;
+                
+                json_object_put (jobjs);
+                jobjs = NULL;
+                
+                return NULL;
+            }
+        }
+        
+        json_object_put (jobj);
+        jobj = NULL;
+        
+    }
+    
+    json_object_put (jobjs);
+    jobjs = NULL;
+    
+
+    return X;
 }
 
 
 /*
-int  json_to_auth_user_model (json_object* jobj, struct auth_user_model* auth_user)
-{
-    json_object_object_foreach (jobj, key, val)
-    {
-        if (strcmp (key, "document") == 0)
-        {
-            strcpy (auth_user->document, json_object_get_string (val));
-        }
-        else if (strcmp (key, "document_type") == 0)
-        {
-            strcpy (auth_user->document_type, json_object_get_string (val));
-        }
-        else
-        {
-            return (KORE_RESULT_ERROR);
-        }
-    }
-    
-    return (KORE_RESULT_OK);
-}
-
-
-
 //insert
 struct sql_state auth_user_model_insert (struct auth_user_model users[], int length)
 {

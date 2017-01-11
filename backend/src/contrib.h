@@ -24,6 +24,7 @@ struct SqlState
 };
 
 
+
 const char *EncryptPassword (const char *);
 int CheckPassword (const char *);
 int VerifyRequest (struct HttpRequest *, char **, int);

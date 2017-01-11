@@ -7,7 +7,6 @@
 //auth_user_model
 struct AuthUserModel
 {
-    int64_t Id;
     char DocumentType[8];
     char DocumentNum[16];
     char Password[256];
@@ -18,16 +17,16 @@ struct AuthUserModel
     char Address[64];
 };
 
-struct AuthUserModelTuple 
+struct AuthUserModelArray
 {
-    struct auth_user_model old_user;
-    struct auth_user_model new_user;
+    struct AuthUserModel At[LowArraySize];
+    int Length;
 };
 
 struct AuthUserModel  NewAuthUserModel (char *, char *, char *, char *, char *, char *, char *, char *);
 struct AuthUserModel  NewVoidAuthUserModel (void);
-int  AuthUserModelToJson (struct AuthUserModel *, JsonObject *);
-int  JsonToAuthUserModel (JsonObject *, struct AuthUserModel *);
+JsonObject* AuthUserModelsToJson (struct AuthUserModelArray *);
+struct AuthUserModelArray* JsonToAuthUserModels (char *);
 
 //struct SqlState  AuthUserModelSelect (struct AuthUserModel[], int);
 struct SqlState  AuthUserModelInsert (struct AuthUserModel[], int);

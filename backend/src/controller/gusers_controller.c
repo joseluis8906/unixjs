@@ -1,43 +1,25 @@
 #include "gusers_controller.h"
+#include "model/gusers/auth_user_model.h"
 
 //gusers save
 int GusersControllerSave (struct HttpRequest *Req)
 {
-    char  *Data = NULL;
+    char *Data = NULL;
       
     if (VerifyRequest (Req, &Data, FORM_MULTIPART) == KORE_RESULT_ERROR)
     {
         return (KORE_RESULT_OK);
     }
     
-    JsonObject *Array = NULL;
-    Array =  JsonTokenerParse(Data);
-    int Length = JsonObjectArrayLength (Array);
+    struct AuthUserModelArray *Users = JsonToAuthUserModels(Data);
     
-    /*
-    for (int i = 0; i < length; i++)
-    {
-        json_object *jobj = json_object_array_get_idx (jobjs, i);
-        
-        new_users[i] = new_void_auth_user_model ();
-        int ret = json_to_auth_user_model (jobj, &new_users[i]);
-        
-        json_object_put (jobj);
-        jobj = NULL;
-        
-        if (ret == KORE_RESULT_ERROR)
-        {
-            http_response_json_msg (req, KORE_RESULT_ERROR, "document or document_type keys not found");
-            return (KORE_RESULT_OK);        
-        }
-    }
+    JsonObject *Res = NULL;
+    Res = AuthUserModelsToJson (Users);
     
-    json_object_put (jobjs);
-    jobjs = NULL;
+    HttpResponseJsonMsg (Req, KORE_RESULT_OK, Res);
     
-    struct sql_state state = auth_user_model_insert (new_users, length);
-    */
-    HttpResponseJsonMsg (Req, 1, "Exito");
+    JsonObjectPut (Res);
+    Res = NULL;
 
     return (KORE_RESULT_OK);
 }
