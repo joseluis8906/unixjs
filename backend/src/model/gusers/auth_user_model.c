@@ -73,7 +73,7 @@ struct AuthUserModelArray* JsonToAuthUserModels (char *Data)
     
     JsonObject *jobjs = NULL;
     jobjs = JsonTokenerParse (Data);
-    int length = JsonObjectArrayLength (jobs);
+    int length = JsonObjectArrayLength (jobjs);
     
     X->Length = length;
     
