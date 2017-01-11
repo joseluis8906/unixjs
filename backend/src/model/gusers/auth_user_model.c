@@ -132,8 +132,8 @@ int JsonToAuthUserModels (char *Data, struct AuthUserModelArray *X)
             }
         }
         
-        json_object_put (jobjs);
-        jobjs = NULL;
+        json_object_put (jobj);
+        jobj = NULL;
         
     }
     
