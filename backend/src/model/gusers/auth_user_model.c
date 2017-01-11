@@ -42,16 +42,16 @@ int AuthUserModelsToJson (struct AuthUserModelArray *Users, JsonObject *X)
     {
         Y = JsonObjectNewObject ();
         
-        JsonObjectObjectAdd (Y, "DocumentType", JsonObjectNewString (Users->At[i]->DocumentType));
-        JsonObjectObjectAdd (Y, "DocumentNum", JsonObjectNewString (Users->At[i]->DocumentNum));
-        JsonObjectObjectAdd (Y, "Password", JsonObjectNewString (Users->At[i]->Password));
-        JsonObjectObjectAdd (Y, "Name", JsonObjectNewString (Users->At[i]->Name));
-        JsonObjectObjectAdd (Y, "LastName", JsonObjectNewString (Users->At[i]->LastName));
-        JsonObjectObjectAdd (Y, "Phone", JsonObjectNewString (Users->At[i]->Phone));
-        JsonObjectObjectAdd (Y, "Email", JsonObjectNewString (Users->At[i]->Email));
-        JsonObjectObjectAdd (Y, "Address", JsonObjectNewString (Users->At[i]->Address));
+        JsonObjectObjectAdd (Y, "DocumentType", JsonObjectNewString (Users->At[i].DocumentType));
+        JsonObjectObjectAdd (Y, "DocumentNum", JsonObjectNewString (Users->At[i].DocumentNum));
+        JsonObjectObjectAdd (Y, "Password", JsonObjectNewString (Users->At[i].Password));
+        JsonObjectObjectAdd (Y, "Name", JsonObjectNewString (Users->At[i].Name));
+        JsonObjectObjectAdd (Y, "LastName", JsonObjectNewString (Users->At[i].LastName));
+        JsonObjectObjectAdd (Y, "Phone", JsonObjectNewString (Users->At[i].Phone));
+        JsonObjectObjectAdd (Y, "Email", JsonObjectNewString (Users->At[i].Email));
+        JsonObjectObjectAdd (Y, "Address", JsonObjectNewString (Users->At[i].Address));
         
-        JsonObjectArrayAdd (X, JsonObjectGet (Y));
+        JsonObjectArrayAdd (X, Y);
         
         JsonObjectPut (Y);
         Y = NULL;
