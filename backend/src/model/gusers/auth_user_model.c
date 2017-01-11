@@ -21,16 +21,7 @@ struct AuthUserModel  NewAuthUserModel (char *DocumentType, char *DocumentNum, c
 struct AuthUserModel NewVoidAuthUserModel (void)
 {
     struct AuthUserModel X;
-    
-    X.DocumentType;
-    X.DocumentNum;
-    X.Password;
-    X.Name;
-    X.LastName;
-    X.Phone;
-    X.Email;
-    X.Address;
-    
+
     return X;
 }
 
