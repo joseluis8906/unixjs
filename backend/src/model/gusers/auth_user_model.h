@@ -25,6 +25,7 @@ struct AuthUserModelArray
 
 struct AuthUserModel  NewAuthUserModel (char *, char *, char *, char *, char *, char *, char *, char *);
 struct AuthUserModel  NewVoidAuthUserModel (void);
+struct AuthUserModelArray* NewAuthUserModelArray (void);
 JsonObject* AuthUserModelsToJson (struct AuthUserModelArray *);
 struct AuthUserModelArray* JsonToAuthUserModels (char *);
 

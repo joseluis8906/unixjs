@@ -27,6 +27,13 @@ struct AuthUserModel NewVoidAuthUserModel (void)
 
 
 
+struct AuthUserModelArray *NewAuthUserModelArray(void)
+{
+    struct AuthUserModelArray *X;
+    return X;
+}
+
+
 JsonObject* AuthUserModelsToJson (struct AuthUserModelArray *Users)
 {
     JsonObject *X;
@@ -60,7 +67,8 @@ JsonObject* AuthUserModelsToJson (struct AuthUserModelArray *Users)
 
 struct AuthUserModelArray* JsonToAuthUserModels (char *Data)
 {
-    struct AuthUserModelArray *X;
+    struct AuthUserModelArray *X = NULL;
+    X = NewAuthUserModelArray ();
     
     JsonObject *jobjs = NULL;
     jobjs = JsonTokenerParse (Data);
