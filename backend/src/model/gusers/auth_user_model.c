@@ -62,7 +62,6 @@ int AuthUserModelsToJson (struct AuthUserModelArray *Users, JsonObject *X)
         JsonObjectObjectAdd (Y, "Email", JsonObjectNewString (Users->At[i].Email));
         JsonObjectObjectAdd (Y, "Address", JsonObjectNewString (Users->At[i].Address));
         
-        kore_log (LOG_NOTICE, JsonObjectToJsonString(Y));
         JsonObjectArrayAdd (X, JsonObjectGet (Y));
         
         JsonObjectPut (Y);
@@ -135,7 +134,7 @@ int JsonToAuthUserModels (char *Data, struct AuthUserModelArray *X)
             }
         }
         
-        kore_log (LOG_NOTICE, JsonObjectToJsonString(jobj));
+        //kore_log (LOG_NOTICE, JsonObjectToJsonString(jobj));
         json_object_put (jobj);
         jobj = NULL;
         
