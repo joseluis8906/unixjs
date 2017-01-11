@@ -13,7 +13,7 @@ int GusersControllerSave (struct HttpRequest *Req)
     
     struct AuthUserModelArray Users;
     
-    JsonToAuthUserModels(Data, Users);
+    JsonToAuthUserModels(Data, &Users);
     
     //JsonObject *Res = NULL;
     //Res = AuthUserModelsToJson (Users);
