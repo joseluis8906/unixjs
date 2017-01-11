@@ -13,13 +13,13 @@ int GusersControllerSave (struct HttpRequest *Req)
     
     struct AuthUserModelArray *Users = JsonToAuthUserModels(Data);
     
-    JsonObject *Res = NULL;
-    Res = AuthUserModelsToJson (Users);
+    //JsonObject *Res = NULL;
+    //Res = AuthUserModelsToJson (Users);
     
-    HttpResponseJsonArray (Req, KORE_RESULT_OK, Res);
+    HttpResponseJsonMsg (Req, KORE_RESULT_OK, "exito");
     
-    JsonObjectPut (Res);
-    Res = NULL;
+    //JsonObjectPut (Res);
+    //Res = NULL;
 
     return (KORE_RESULT_OK);
 }
