@@ -86,7 +86,6 @@ int JsonToAuthUserModels (char *Data, struct AuthUserModelArray *X)
         json_object *jobj = NULL;
         jobj = json_object_array_get_idx (jobjs, i);
         
-        kore_log (LOG_NOTICE, JsonObjectToJsonString(jobj));
         X->At[i] = NewVoidAuthUserModel();
         
         JsonObjectObjectForeach (jobj, Key, Val)
