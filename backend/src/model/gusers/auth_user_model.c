@@ -84,7 +84,7 @@ struct AuthUserModelArray* JsonToAuthUserModels (char *Data)
         
         JsonObjectObjectForeach (obj, Key, Val)
         {
-            X.At[i] = NewVoidAuthUserModel();
+            X->At[i] = NewVoidAuthUserModel();
             
             if (strcmp (Key, "DocumentType") == 0)
             {   
