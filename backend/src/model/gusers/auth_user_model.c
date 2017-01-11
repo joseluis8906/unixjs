@@ -39,7 +39,7 @@ struct AuthUserModel NewVoidAuthUserModel (void)
 JsonObject* AuthUserModelsToJson (struct AuthUserModelArray *Users)
 {
     JsonObject *X;
-    X = JsonObjectNewArray (void);
+    X = JsonObjectNewArray ();
     
     JsonObject *Y = NULL;
     for (int i = 0; i < Users->Length; i++)
