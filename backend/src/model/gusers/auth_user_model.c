@@ -86,10 +86,10 @@ int JsonToAuthUserModels (char *Data, struct AuthUserModelArray *X)
         json_object *jobj = NULL;
         jobj = json_object_array_get_idx (jobjs, i);
         
+        X->At[i] = NewVoidAuthUserModel();
+        
         JsonObjectObjectForeach (jobj, Key, Val)
-        {
-            X->At[i] = NewVoidAuthUserModel();
-            
+        {          
             if (strcmp (Key, "DocumentType") == 0)
             {   
                 strcpy (X->At[i].DocumentType, JsonObjectGetString (Val));
