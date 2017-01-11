@@ -176,9 +176,9 @@ float PxToMm (float px)
 
 
 //SQL state
-struct SQLState NewSQLState (int Result, const char *Msg)
+struct SqlState NewSQLState (int Result, const char *Msg)
 {
-    struct SQLState State;
+    struct SqlState State;
     State.Result = Result;
     State.Msg = Msg;
     
@@ -245,7 +245,6 @@ int UploadFile (struct HttpRequest *Req, char *Name, char *SubPath)
 
     unsigned int i = 0;
     char ext[8] = ".";
-    char *type = NULL;
     int TypeFound = 0;
     
     for (i = 0; i < LengthDocumentsExt; i++)
