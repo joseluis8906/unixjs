@@ -14,8 +14,6 @@ int GusersControllerSave (struct HttpRequest *Req)
     struct AuthUserModelArray Users;
 
     JsonToAuthUserModels(Data, &Users);
-
-    kore_log (LOG_NOTICE, Users.At[0].DocumentType);
     
     JsonObject *Res = NULL;
     Res = JsonObjectNewArray ();

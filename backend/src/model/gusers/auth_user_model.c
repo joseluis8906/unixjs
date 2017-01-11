@@ -132,18 +132,16 @@ int JsonToAuthUserModels (char *Data, struct AuthUserModelArray *X)
                 
                 return (KORE_RESULT_ERROR);
             }
+            kore_log (LOG_NOTICE, JsonObjectToJsonString(jobj));
         }
-        
-        //kore_log (LOG_NOTICE, JsonObjectToJsonString(jobj));
+
         json_object_put (jobj);
-        jobj = NULL;
-        
+        jobj = NULL;        
     }
     
     json_object_put (jobjs);
     jobjs = NULL;
     
-
     return (KORE_RESULT_OK);
 }
 
