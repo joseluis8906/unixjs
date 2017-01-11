@@ -22,14 +22,14 @@ struct AuthUserModel NewVoidAuthUserModel (void)
 {
     struct AuthUserModel X;
     
-    X.DocumentType = NULL;
-    X.DocumentNum = NULL;
-    X.Password = NULL;
-    X.Name = NULL;
-    X.LastName = NULL;
-    X.Phone = NULL;
-    X.Email = NULL;
-    X.Address = NULL;
+    X.DocumentType;
+    X.DocumentNum;
+    X.Password;
+    X.Name;
+    X.LastName;
+    X.Phone;
+    X.Email;
+    X.Address;
     
     return X;
 }
