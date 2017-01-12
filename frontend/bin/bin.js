@@ -65,7 +65,7 @@ function PanelItem (Width, Height, Text, Image)
     this.Add (this.Layout);
     
     this.Text.SetExpand (false);
-    this.Text.SetWidth (this.GetWidth () - 48, 24);
+    this.Text.SetWidth (this.GetWidth () - 60, 24);
     this.Text.SetMarginLeft (12);
     
     this.Layout.Add (this.Text);
