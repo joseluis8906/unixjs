@@ -3,7 +3,8 @@ window.addEventListener("load", init);
 function init (event)
 {
 	desktop.open();
-        gcontrol.open ();
+        //gcontrol.open ();
+        domotictrl.open ();
         //presctrl.open();
 	
 	/*if (typeof(session_env) != "undefined")
