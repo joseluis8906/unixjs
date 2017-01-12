@@ -68,7 +68,7 @@ function domotictrl ()
     this.SetPosition (Gwt.Gui.WIN_POS_CENTER);
     this.DisableMenu ();
     
-    this.Layout.SetSize (this.GetWidth (), this.GetHeight());    
+    this.Layout.SetSize (this.GetAvailableWidth (), this.GetAvailableHeight());    
     this.Add (this.Layout);
     
     this.Col1.SetBackgroundImage (Gwt.Core.Contrib.Images + "blurry_background2_33.png");

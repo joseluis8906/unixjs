@@ -1616,6 +1616,16 @@ Gwt.Gui.Window.prototype.SetHeight = function (Height)
     this.Body.SetHeight (this.GetHeight () - 32);
 }
 
+Gwt.Gui.Window.prototype.GetAvailableWidth = function ()
+{
+    return this.Body.GetWidth ();
+}
+
+Gwt.Gui.Window.prototype.GetAvailableHeight = function ()
+{
+    return this.Body.GetHeight ();
+}
+
 Gwt.Gui.Window.prototype.EnableMenu = function ()
 {
     this.Menu.MenuBtn.SetDisplay (Gwt.Gui.Contrib.Display.InlineBlock);
