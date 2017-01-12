@@ -1125,6 +1125,26 @@ Gwt.Gui.Frame.prototype.GetBorder = function ()
     return this.Border;
 }
 
+Gwt.Gui.Frame.prototype.GetBorderLeft = function ()
+{
+    return this.BorderLeft;
+}
+
+Gwt.Gui.Frame.prototype.GetBorderTop = function ()
+{
+    return this.BorderTop;
+}
+
+Gwt.Gui.Frame.prototype.GetBorderRight = function ()
+{
+    return this.BorderRight;
+}
+
+Gwt.Gui.Frame.prototype.GetBorderBottom = function ()
+{
+    return this.BorderBottom;
+}
+
 Gwt.Gui.Frame.prototype.SetBorderStyle = function (Style)
 {
     this.BorderStyle = Style;
@@ -2215,7 +2235,7 @@ Gwt.Gui.HBox.prototype.Add = function (Element)
             }
         }
         
-        if (Element.GetExpand ()) Element.SetHeight (this.GetHeight () - (Element.GetBorder()*2)+2);
+        if (Element.GetExpand ()) Element.SetHeight (this.GetHeight () - (Element.GetBorderTop () + Element.GetBorderBottom ()));
         
         if (!Element.GetExpand ())
         {
@@ -3156,7 +3176,7 @@ Gwt.Gui.VBox.prototype.Add = function (Element)
             }
         }
 		
-        if (Element.GetExpand ()) Element.SetWidth (this.GetWidth () - (Element.GetBorder()*2)+2);
+        if (Element.GetExpand ()) Element.SetWidth (this.GetWidth () - (Element.GetBorderLeft () + Element.GetBorderRight ()));
 		
         if (!Element.GetExpand ())
         {

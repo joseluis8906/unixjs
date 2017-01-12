@@ -81,7 +81,7 @@ Gwt.Gui.HBox.prototype.Add = function (Element)
             }
         }
         
-        if (Element.GetExpand ()) Element.SetHeight (this.GetHeight () - (Element.GetBorder()*2)+2);
+        if (Element.GetExpand ()) Element.SetHeight (this.GetHeight () - (Element.GetBorderTop () + Element.GetBorderBottom ()));
         
         if (!Element.GetExpand ())
         {
