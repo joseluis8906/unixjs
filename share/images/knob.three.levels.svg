@@ -82,7 +82,7 @@
          cx="24"
          r="12.368"
          id="circle16"
-         style="fill:none" />
+         style="fill:none;stroke:#f0ffff;stroke-opacity:1;stroke-width:0.99999541;stroke-miterlimit:4;stroke-dasharray:none" />
     </g>
     <path
        stroke-linejoin="round"
