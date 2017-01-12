@@ -3923,13 +3923,14 @@ Gwt.Gui.KnobThreeLevels.prototype.Loaded = function ()
         this.Graphic.SetHtml (this.Resource.responseXML.documentElement);        
         this.Knob.SetHtml (this.GetElement ("Knob"));
 
+        this.Graphic.SetSize (200, 200);
         this.Add (this.Graphic);
     }
 }
 
 Gwt.Gui.KnobThreeLevels.prototype.ChangeState = function ()
 {
-    console.log ("click");
+    this.SetRotation(45);
 }
 
 Gwt.Gui.KnobThreeLevels.prototype.GetElement = function (Id)
