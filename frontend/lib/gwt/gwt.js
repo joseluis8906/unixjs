@@ -3156,7 +3156,7 @@ Gwt.Gui.VBox.prototype.Add = function (Element)
             }
         }
 		
-        if (Element.GetExpand ()) Element.SetWidth (this.GetWidth ()*0.99);
+        if (Element.GetExpand ()) Element.SetWidth (this.GetWidth ());
 		
         if (!Element.GetExpand ())
         {
