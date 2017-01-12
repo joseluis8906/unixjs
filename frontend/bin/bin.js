@@ -143,7 +143,7 @@ function domotictrl ()
     this.PanelCtrlTilte.SetMarginTop (10);
     this.PanelCtrlHeadBox.Add (this.PanelCtrlTilte);
     
-    this.VentiladorPanelCtrl = new PanelItem (this.Col2.GetWidth(), this.Col2.GetHeight(), "Velocidad Del Ventilador", Gwt.Core.Contrib.Images + "appbar.fan.box.svg");
+    this.VentiladorPanelCtrl = new PanelItem (this.Col2.GetWidth(), 48, "Velocidad Del Ventilador", Gwt.Core.Contrib.Images + "appbar.fan.box.svg");
     
     this.Col2.Add (this.VentiladorPanelCtrl);
     
