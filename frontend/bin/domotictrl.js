@@ -1,21 +1,26 @@
 domotictrl = ( function ()
 {
-function PanelItem (Text, Image)
+function PanelItem (Width, Height, Text, Image)
 {
-    Gwt.Gui.HBox.call (this);
+    Gwt.Gui.Frame.call (this);
     
+    this.Layout = new Gwt.Gui.HBox (12);
     this.Text = new Gwt.Gui.StaticText (Text);
     this.Image = new Gwt.Gui.Image (Image);
     
-    this.SetAlignment (Gwt.Gui.ALIGN_CENTER);
+    this.SetSize (Width, Height);
     this.SetBorderColor (new Gwt.Gui.Contrib.Color (20, 20, 25, 0.9));
     this.SetBorderBottom (1);
     
-    this.Text.SetWidth (this.GetWidth () - 44);
-    this.Image.SetSize (32, 32);
+    this.Layout.SetSize (this.GetWidth(), this.GetHeight ());
+    this.Layout.SetAlignment (Gwt.Gui.ALIGN_CENTER);
+    this.Add (this.Layout);
     
-    this.Add (this.Text);
-    this.Add (this.Image);
+    this.Text.SetWidth (this.GetWidth () - 44);
+    this.Layout.Add (this.Text);
+    
+    this.Image.SetSize (32, 32);
+    this.Layout.Add (this.Image);
 }
 PanelItem.prototype = new Gwt.Gui.HBox();
 PanelItem.prototype.constructor = PanelItem;
@@ -45,7 +50,7 @@ function domotictrl ()
     this.PanelCtrlHead = new Gwt.Gui.Frame ();
     this.PanelCtrlHeadBox = new Gwt.Gui.VBox (0);
     this.PanelCtrlTilte = new Gwt.Gui.StaticText ("Panel De Control");
-    this.VentiladorPanelCtrl = new PanelItem ("Velocidad Del Ventilador", Gwt.Core.Contrib.Images + "appbar.fan.box.svg");
+    this.VentiladorPanelCtrl = null;
         
     this.SetSize (640, 480);
     this.SetPosition (Gwt.Gui.WIN_POS_CENTER);
@@ -87,6 +92,8 @@ function domotictrl ()
     this.PanelCtrlTilte.SetHeight (32);
     this.PanelCtrlTilte.SetMarginTop (10);
     this.PanelCtrlHeadBox.Add (this.PanelCtrlTilte);
+    
+    this.VentiladorPanelCtrl = new PanelItem (this.Col2.GetWidth(), this.Col2.GetHeight(), "Velocidad Del Ventilador", Gwt.Core.Contrib.Images + "appbar.fan.box.svg");
     
     this.Col2.Add (this.VentiladorPanelCtrl);
     
