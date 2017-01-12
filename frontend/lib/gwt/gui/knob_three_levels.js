@@ -7,6 +7,8 @@ Gwt.Gui.KnobThreeLevels = function ()
     this.Resource = new XMLHttpRequest ();
     this.Graphic = new Gwt.Gui.Frame ();
     this.Knob = new Gwt.Gui.Frame ();;
+    this.Angle = 0;
+    this.Direction = 0;
     
     this.SetClassName ("Gwt_Gui_Knob_Three_Levels");
     this.SetSize (200, 200);
@@ -44,7 +46,30 @@ Gwt.Gui.KnobThreeLevels.prototype.Loaded = function ()
 
 Gwt.Gui.KnobThreeLevels.prototype.ChangeState = function ()
 {
-    this.SetRotation(-45);
+    if (this.Direction === 0)
+    {
+        if (this.Angle >= (-45*3))
+        {
+            this.Angle -= 45;
+        }
+        else 
+        {
+            this.Direction = 1;
+        }
+    }
+    else
+    {
+        if (this.Angle <= (0))
+        {
+            this.Angle -= 45;
+        }
+        else 
+        {
+            this.Direction = 0;
+        }
+    }
+    
+    this.SetRotation(this.Angle);
 }
 
 Gwt.Gui.KnobThreeLevels.prototype.GetElement = function (Id)
