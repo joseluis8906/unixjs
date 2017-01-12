@@ -38,6 +38,7 @@ Gwt.Gui.KnobThreeLevels.prototype.Loaded = function ()
     {
         this.Graphic.SetHtml (this.Resource.responseXML.documentElement);        
         this.Knob.SetHtml (this.GetElement ("Knob"));
+        this.Knob.AddEvent (Gwt.Gui.Event.Mouse.Click, this.ChangeState.bind(this));
 
         this.Graphic.SetSize (200, 200);
         this.Add (this.Graphic);
