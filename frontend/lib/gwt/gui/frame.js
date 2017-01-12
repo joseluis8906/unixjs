@@ -191,7 +191,6 @@ Gwt.Gui.Frame.prototype.SetHtml = function (Element)
     {
         this.Html = Element;
     }
-    console.log (Element)
     this.InitStyle ();
 }
 Gwt.Gui.Frame.prototype.SetTabIndex = function (TabIndex)
