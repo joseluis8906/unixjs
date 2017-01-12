@@ -47,7 +47,7 @@ Gwt.Gui.KnobThreeLevels.prototype.ChangeState = function ()
 Gwt.Gui.KnobThreeLevels.prototype.GetElement = function (Id)
 {
     console.log (this.GetHtml ());
-    return this.GetHtml ().document.getElementById (Id);
+    return this.GetHtml ().getElementById (Id);
 }
 
 Gwt.Gui.KnobThreeLevels.prototype.SetRotation = function (Angle)
