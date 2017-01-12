@@ -1463,7 +1463,7 @@ Gwt.Gui.Window = function (Title)
     this._Title.SetExpand (false);
     this._Title.SetSize (this.TitleBar.GetWidth(), 20);
     
-    this.TitleBar.Add (this.Title);
+    this.TitleBar.Add (this._Title);
     this.Menu.MenuBtn.SetDisplay (Gwt.Gui.Contrib.Display.None);
     this.TitleBar.Add (this.Menu.MenuBtn);
 
@@ -1484,7 +1484,7 @@ Gwt.Gui.Window.prototype._Window = function ()
     this.Menu = null;
  
     this._Title._StaticText();
-    this.Title = null;
+    this._Title = null;
     
     this.TitleBar._HBox();
     this.TitleBar = null;
