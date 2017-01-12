@@ -11,7 +11,7 @@ function domotictrl ()
     this.Col2 = new Gwt.Gui.VBox ();
     this.Knob = new  Gwt.Gui.KnobThreeLevels ();
     this.Title = new Gwt.Gui.StaticText ("Ventilador");
-    this.PanelCtrlTitle = new Frame ();
+    this.PanelCtrlTitle = new Gwt.Gui.Frame ();
         
     this.SetSize (640, 480);
     this.SetPosition (Gwt.Gui.WIN_POS_CENTER);
