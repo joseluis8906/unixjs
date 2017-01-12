@@ -85,8 +85,8 @@ function domotictrl ()
     this.Layout.Add (this.Col2);
     
     this.PanelCtrlTitle.SetExpand (true);
-    this.PanelCtrlTitle.SetHeight (32);
-    this.PanelCtrlTitle.SetBackgroundColor (new Gwt.Gui.Contrib.Color (40, 40, 50, 0.9));
+    this.PanelCtrlTitle.SetHeight (48);
+    this.PanelCtrlTitle.SetBackgroundColor (new Gwt.Gui.Contrib.Color (40, 40, 45, 0.9));
     this.Col2.Add (this.PanelCtrlTitle);
     
 }
