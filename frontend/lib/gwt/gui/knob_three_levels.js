@@ -46,6 +46,7 @@ Gwt.Gui.KnobThreeLevels.prototype.ChangeState = function ()
 
 Gwt.Gui.KnobThreeLevels.prototype.GetElement = function (Id)
 {
+    console.log (this.GetHtml ());
     return this.GetHtml ().document.getElementById (Id);
 }
 
