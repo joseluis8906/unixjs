@@ -59,7 +59,7 @@ function PanelItem (Text, Image)
     this.SetBorderColor (new Gwt.Gui.Contrib.Color (20, 20, 25, 0.9));
     this.SetBorderBottom (1);
     
-    this.Text.SetWidth (this.Getwith () - 44);
+    this.Text.SetWidth (this.GetWith () - 44);
     this.Image.SetSize (32, 32);
     
     this.Add (this.Text);
