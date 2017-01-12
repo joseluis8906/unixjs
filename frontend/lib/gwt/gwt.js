@@ -1093,7 +1093,10 @@ Gwt.Gui.Frame.prototype.SetBackgroundSize = function (Width, Height)
 Gwt.Gui.Frame.prototype.SetBorder = function (Border)
 {
     this.Border = Border;
-    this.Html.style.borderWidth = this.Border+"px";
+    this.SetBorderLeft (this.Border);
+    this.SetBorderTop (this.Border);
+    this.SetBorderRight (this.Border);
+    this.SetBorderBottom (this.Border);
 }
 
 Gwt.Gui.Frame.prototype.SetBorderLeft = function (BorderLeft)
@@ -2354,7 +2357,7 @@ Gwt.Gui.HBox.prototype.SetHeight = function (Height)
     {
         var tmp = elements[i];
         
-        if (tmp.GetExpand ()) tmp.SetHeight (this.GetHeight ()*0.99);
+        if (tmp.GetExpand ()) tmp.SetHeight (this.GetHeight () - (tmp.GetBorderTop () + tmp.GetBorderBottom ()));
 		
         if (!tmp.GetExpand ())
         {
@@ -2369,7 +2372,7 @@ Gwt.Gui.HBox.prototype.SetHeight = function (Height)
                     break;
                         
                 case Gwt.Gui.ALIGN_RIGHT:
-                    tmp.SetMarginTop (this.GetHeight() - (tmp.GetHeight () + tmp.GetBorder()*2));
+                    tmp.SetMarginTop (this.GetHeight() - (tmp.GetHeight () + (tmp.GetBorderTop () + tmp.GetBorderBottom ())));
                     break;
                         
                 default:
@@ -3285,7 +3288,7 @@ Gwt.Gui.VBox.prototype.SetWidth = function (Width)
     {
         var tmp = elements[i];
         
-        if (tmp.GetExpand ()) tmp.SetWidth (this.GetWidth ()*0.99);
+        if (tmp.GetExpand ()) tmp.SetWidth (this.GetWidth () - (tmp.GetBorderLeft () + tmp.GetBorderRight ()));
 		
         if (!tmp.GetExpand ())
         {
@@ -3300,7 +3303,7 @@ Gwt.Gui.VBox.prototype.SetWidth = function (Width)
                     break;
                         
                 case Gwt.Gui.ALIGN_RIGHT:
-                    tmp.SetMarginLeft (this.GetWidth() - (tmp.GetWidth() + tmp.GetBorder()*2));
+                    tmp.SetMarginLeft (this.GetWidth() - (tmp.GetWidth() + (tmp.GetBorderLeft () + tmp.GetBorderRight ())));
                     break;
                         
                 default:

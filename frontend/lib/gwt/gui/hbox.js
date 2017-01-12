@@ -190,7 +190,7 @@ Gwt.Gui.HBox.prototype.SetHeight = function (Height)
     {
         var tmp = elements[i];
         
-        if (tmp.GetExpand ()) tmp.SetHeight (this.GetHeight ()*0.99);
+        if (tmp.GetExpand ()) tmp.SetHeight (this.GetHeight () - (tmp.GetBorderTop () + tmp.GetBorderBottom ()));
 		
         if (!tmp.GetExpand ())
         {
@@ -205,7 +205,7 @@ Gwt.Gui.HBox.prototype.SetHeight = function (Height)
                     break;
                         
                 case Gwt.Gui.ALIGN_RIGHT:
-                    tmp.SetMarginTop (this.GetHeight() - (tmp.GetHeight () + tmp.GetBorder()*2));
+                    tmp.SetMarginTop (this.GetHeight() - (tmp.GetHeight () + (tmp.GetBorderTop () + tmp.GetBorderBottom ())));
                     break;
                         
                 default:

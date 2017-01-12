@@ -381,7 +381,10 @@ Gwt.Gui.Frame.prototype.SetBackgroundSize = function (Width, Height)
 Gwt.Gui.Frame.prototype.SetBorder = function (Border)
 {
     this.Border = Border;
-    this.Html.style.borderWidth = this.Border+"px";
+    this.SetBorderLeft (this.Border);
+    this.SetBorderTop (this.Border);
+    this.SetBorderRight (this.Border);
+    this.SetBorderBottom (this.Border);
 }
 
 Gwt.Gui.Frame.prototype.SetBorderLeft = function (BorderLeft)

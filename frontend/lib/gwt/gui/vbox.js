@@ -154,7 +154,7 @@ Gwt.Gui.VBox.prototype.SetWidth = function (Width)
     {
         var tmp = elements[i];
         
-        if (tmp.GetExpand ()) tmp.SetWidth (this.GetWidth ()*0.99);
+        if (tmp.GetExpand ()) tmp.SetWidth (this.GetWidth () - (tmp.GetBorderLeft () + tmp.GetBorderRight ()));
 		
         if (!tmp.GetExpand ())
         {
@@ -169,7 +169,7 @@ Gwt.Gui.VBox.prototype.SetWidth = function (Width)
                     break;
                         
                 case Gwt.Gui.ALIGN_RIGHT:
-                    tmp.SetMarginLeft (this.GetWidth() - (tmp.GetWidth() + tmp.GetBorder()*2));
+                    tmp.SetMarginLeft (this.GetWidth() - (tmp.GetWidth() + (tmp.GetBorderLeft () + tmp.GetBorderRight ())));
                     break;
                         
                 default:
