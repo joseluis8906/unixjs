@@ -65,11 +65,13 @@ function PanelItem (Width, Height, Text, Image)
     this.Add (this.Layout);
     
     this.Text.SetExpand (false);
-    this.Text.SetWidth (this.GetWidth () - 44, 24);
+    this.Text.SetWidth (this.GetWidth () - 48, 24);
+    this.Text.SetMarginLeft (12);
     
     this.Layout.Add (this.Text);
     
     this.Image.SetSize (32, 32);
+    this.Image.SetMarginRight (24);
     this.Layout.Add (this.Image);
 }
 PanelItem.prototype = new Gwt.Gui.HBox();
