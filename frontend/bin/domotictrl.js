@@ -82,6 +82,8 @@ function domotictrl ()
     this.Title.SetMarginTop (25);
     this.Title.SetFontSize (20);
     this.Col1.Add (this.Title);
+    
+    this.Knob.SetMarginTop (64);
     this.Col1.Add (this.Knob);
     
     this.Col2.SetBackgroundColor (new Gwt.Gui.Contrib.Color (50, 50, 50, 0.9));
