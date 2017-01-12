@@ -5,6 +5,7 @@ Gwt.Gui.KnobThreeLevels = function ()
     Gwt.Gui.Frame.call (this);
 
     this.Resource = new XMLHttpRequest ();
+    this.Graphic = new Gwt.Gui.Frame ();
     this.Knob = null;
     
     this.SetClassName ("Gwt_Gui_Knob_Three_Levels");
@@ -33,9 +34,11 @@ Gwt.Gui.KnobThreeLevels.prototype.Loaded = function ()
 {
     if (this.Resource.readyState == 4 && this.Resource.status == 200)
     {
-        this.SetHtml (this.Resource.responseXML.documentElement);
+        this.Graphic.SetHtml (this.Resource.responseXML.documentElement);
         this.Knob = new Gwt.Gui.Frame ();
         this.Knob.SetHtml (this.GetElement ("Knob"));
+        
+        this.Add (this.Graphic);
     }
 }
 
