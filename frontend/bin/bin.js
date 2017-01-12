@@ -64,7 +64,9 @@ function PanelItem (Width, Height, Text, Image)
     this.Layout.SetAlignment (Gwt.Gui.ALIGN_CENTER);
     this.Add (this.Layout);
     
-    this.Text.SetWidth (this.GetWidth () - 44);
+    this.Text.SetExpand (false);
+    this.Text.SetWidth (this.GetWidth () - 44, 24);
+    
     this.Layout.Add (this.Text);
     
     this.Image.SetSize (32, 32);
