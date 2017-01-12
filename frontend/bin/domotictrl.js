@@ -60,6 +60,7 @@ function domotictrl ()
     this.PanelCtrlHeadBox = new Gwt.Gui.VBox (0);
     this.PanelCtrlTilte = new Gwt.Gui.StaticText ("Panel De Control");
     this.VentiladorPanelCtrl = null;
+    this.VentanasPanelCtrl = null;
         
     this.SetSize (WIDTH, HEIGHT);
     this.SetPosition (Gwt.Gui.WIN_POS_CENTER);
@@ -104,6 +105,9 @@ function domotictrl ()
     
     this.VentiladorPanelCtrl = new PanelItem (this.Col2.GetWidth(), 48, "Velocidad Del Ventilador", Gwt.Core.Contrib.Images + "appbar.fan.box.svg");
     this.Col2.Add (this.VentiladorPanelCtrl);
+    
+    this.VentanasPanelCtrl = new PanelItem (this.Col2.GetWidth(), 48, "Velocidad Del Ventilador", Gwt.Core.Contrib.Images + "appbar.fan.box.svg");
+    this.Col2.Add (this.VentanasPanelCtrl);
     
     
 }
