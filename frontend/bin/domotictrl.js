@@ -46,7 +46,7 @@ var instance;
 
 function domotictrl () 
 {
-    Gwt.Gui.Window.call (this, "Control De Domótica");
+    Gwt.Gui.Window.call (this, "Domótica");
     
     var WIDTH = 640;
     var HEIGHT = 320;
