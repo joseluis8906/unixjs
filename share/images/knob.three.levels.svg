@@ -6,15 +6,13 @@
 <stop stop-color="#f0ffff" stop-opacity=".19608" offset="1"/>
 </linearGradient>
 </defs>
-<g transform="translate(0 -1004.4)">
-<path id="Knob" d="m29.875 1034.3c3.2463-3.2462 3.2463-8.5095 0-11.756-0.02111-0.019-0.04228-0.039-0.06353-0.058-1.8489-1.9399-3.8827-3.9269-5.8171-5.8613-1.9314 1.9839-4.0388 3.9452-5.8875 5.9317-3.2343 3.2485-3.2287 8.5023 0.01343 11.743 3.2456 3.247 8.5094 3.247 11.755 0z" fill="#f0ffff"/>
-<path stroke-linejoin="round" d="m10.561 11.824a17.68 17.68 0 0 0 -7.1919 14.188 17.68 17.68 0 0 0 3.5098 10.539h4.6891a17.68 17.68 0 0 1 -5.2477 -12.551 17.68 17.68 0 0 1 4.9117 -12.176h-0.671z" transform="translate(0 1004.4)" stroke="#f0ffff" fill="url(#linearGradient4318)"/>
-<path d="m17.492 40.422c2.071 0.826 4.279 1.252 6.508 1.258 9.764-0.001 17.679-7.916 17.68-17.68-0.005-4.499-1.724-8.828-4.809-12.104" transform="translate(0 1004.4)" stroke="#f0ffff" stroke-linecap="round" stroke-dasharray="1, 2" fill="none"/>
-<g font-size="4.5199px" font-family="Cantarell" fill="#f0ffff">
-<text style="word-spacing:0px;letter-spacing:0px" xml:space="preserve" line-height="125%" y="1011.3204" x="20.558865"><tspan y="1011.3204" x="20.558865">off</tspan></text>
-<text style="word-spacing:0px;letter-spacing:0px" xml:space="preserve" line-height="125%" y="1015.3113" x="7.7276959"><tspan y="1015.3113" x="7.7276959">1</tspan></text>
-<text style="word-spacing:0px;letter-spacing:0px" xml:space="preserve" line-height="125%" y="1029.6743" x="0.14104685"><tspan y="1029.6743" x="0.14104685">2</tspan></text>
-<text style="word-spacing:0px;letter-spacing:0px" xml:space="preserve" line-height="125%" y="1045.0894" x="3.7823873"><tspan y="1045.0894" x="3.7823873">3</tspan></text>
-</g>
+<path id="Knob" fill="#f0ffff" d="m29.875 29.856c3.2463-3.2462 3.2463-8.5095 0-11.756-0.02111-0.019-0.04228-0.039-0.06353-0.058-1.8489-1.9399-3.8827-3.9269-5.8171-5.8613-1.9314 1.9839-4.0388 3.9452-5.8875 5.9317-3.2343 3.2485-3.2287 8.5023 0.01343 11.743 3.2456 3.247 8.5094 3.247 11.755 0z"/>
+<path stroke-linejoin="round" d="m10.561 11.824a17.68 17.68 0 0 0 -7.1919 14.188 17.68 17.68 0 0 0 3.5098 10.539h4.6891a17.68 17.68 0 0 1 -5.2477 -12.551 17.68 17.68 0 0 1 4.9117 -12.176h-0.671z" stroke="#f0ffff" fill="url(#linearGradient4318)"/>
+<path d="m17.492 40.422c2.071 0.826 4.279 1.252 6.508 1.258 9.764-0.001 17.679-7.916 17.68-17.68-0.005-4.499-1.724-8.828-4.809-12.104" stroke="#f0ffff" stroke-linecap="round" stroke-dasharray="1, 2" fill="none"/>
+<g font-size="4.5199px" transform="translate(0,-1004.4)" font-family="Cantarell" fill="#f0ffff">
+<text style="word-spacing:0px;letter-spacing:0px" line-height="125%" y="1011.3204" x="20.558865" xml:space="preserve"><tspan y="1011.3204" x="20.558865">off</tspan></text>
+<text style="word-spacing:0px;letter-spacing:0px" line-height="125%" y="1015.3113" x="7.7276959" xml:space="preserve"><tspan y="1015.3113" x="7.7276959">1</tspan></text>
+<text style="word-spacing:0px;letter-spacing:0px" line-height="125%" y="1029.6743" x="0.14104685" xml:space="preserve"><tspan y="1029.6743" x="0.14104685">2</tspan></text>
+<text style="word-spacing:0px;letter-spacing:0px" line-height="125%" y="1045.0894" x="3.7823873" xml:space="preserve"><tspan y="1045.0894" x="3.7823873">3</tspan></text>
 </g>
 </svg>
