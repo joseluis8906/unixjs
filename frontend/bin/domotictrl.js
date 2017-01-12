@@ -106,8 +106,10 @@ function domotictrl ()
     this.VentiladorPanelCtrl = new PanelItem (this.Col2.GetWidth(), 48, "Velocidad Del Ventilador", Gwt.Core.Contrib.Images + "appbar.fan.box.svg");
     this.Col2.Add (this.VentiladorPanelCtrl);
     
-    this.VentanasPanelCtrl = new PanelItem (this.Col2.GetWidth(), 48, "Velocidad Del Ventilador", Gwt.Core.Contrib.Images + "appbar.fan.box.svg");
+    this.VentanasPanelCtrl = new PanelItem (this.Col2.GetWidth(), 48, "Apertura De Ventanas", Gwt.Core.Contrib.Images + "appbar.window.restore.svg");
     this.Col2.Add (this.VentanasPanelCtrl);
+    
+    
     
     
 }
