@@ -57,7 +57,7 @@ function domotictrl ()
     this.SetSize (640, 480);
     this.SetPosition (Gwt.Gui.WIN_POS_CENTER);
     
-    //this.DisableMenu ();
+    this.DisableMenu ();
 }
 
 domotictrl.prototype = new Gwt.Gui.Window ();
