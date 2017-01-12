@@ -3888,10 +3888,10 @@ Gwt.Gui.KnobThreeLevels = function ()
     this.SetClassName ("Gwt_Gui_Knob_Three_Levels");
     this.SetSize (200, 200);
     
-    this.resource.open ("GET", Gwt.Core.Contrib.Images+"knob.three.levels.svg", true);
-    this.resource.overrideMimeType("image/svg+xml");
-    this.resource.onreadystatechange = this.Loaded.bind(this);
-    this.resource.send ("");
+    this.Resource.open ("GET", Gwt.Core.Contrib.Images+"knob.three.levels.svg", true);
+    this.Resource.overrideMimeType("image/svg+xml");
+    this.Resource.onreadystatechange = this.Loaded.bind(this);
+    this.Resource.send ("");
     
     this.AddEvent (Get.Gui.Event.Mouse.Click, this.ChangeState.bind(this));
 }
@@ -3908,10 +3908,10 @@ Gwt.Gui.KnobThreeLevels.prototype._KnobThreeLevels = function ()
 
 Gwt.Gui.KnobThreeLevels.prototype.Loaded = function ()
 {
-    if (this.resource.readyState == 4 && this.resource.status == 200)
+    if (this.Resource.readyState == 4 && this.Resource.status == 200)
     {
-        console.log (this.resource.responseXML.documentElement);
-        this.GetHtml ().appendChild (this.resource.responseXML.documentElement);
+        console.log (this.Resource.responseXML.documentElement);
+        this.GetHtml ().appendChild (this.Resource.responseXML.documentElement);
         this.Knob = this.GetElement ("Knob");
     }
 }
