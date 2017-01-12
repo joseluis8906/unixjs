@@ -102,6 +102,8 @@ function domotictrl ()
     this.PanelCtrlTilte.SetHeight (32);
     this.PanelCtrlTilte.SetMarginTop (10);
     
+    this.PanelCtrlHeadBox.Add (this.PanelCtrlTilte);
+    
 }
 
 domotictrl.prototype = new Gwt.Gui.Window ();
