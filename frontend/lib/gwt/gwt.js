@@ -895,7 +895,7 @@ Gwt.Gui.Frame.prototype.RemoveEvent = function (Event, Callback)
 }
 Gwt.Gui.Frame.prototype.SetHtml = function (Element)
 {
-    console.log (Element);
+    console.log (Element instanceof String);
     if (Element instanceof String)
     {
         this.Html = document.createElement (Element);
