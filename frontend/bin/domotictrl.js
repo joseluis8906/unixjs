@@ -11,7 +11,9 @@ function domotictrl ()
     this.Col2 = new Gwt.Gui.VBox ();
     this.Knob = new  Gwt.Gui.KnobThreeLevels ();
     this.Title = new Gwt.Gui.StaticText ("Ventilador");
-    this.PanelCtrlTitle = new Gwt.Gui.Frame ();
+    this.PanelCtrlHead = new Gwt.Gui.Frame ();
+    this.PanelCtrlHeadBox = new Gwt.Gui.VBox (0);
+    this.PanelCtrlTilte = new Gwt.Gui.StaticText ("Panel De Control");
         
     this.SetSize (640, 480);
     this.SetPosition (Gwt.Gui.WIN_POS_CENTER);
@@ -36,12 +38,21 @@ function domotictrl ()
     this.Col2.SetBackgroundColor (new Gwt.Gui.Contrib.Color (50, 50, 50, 0.9));
     this.Layout.Add (this.Col2);
     
-    this.PanelCtrlTitle.SetExpand (true);
-    this.PanelCtrlTitle.SetHeight (48);
-    this.PanelCtrlTitle.SetBackgroundColor (new Gwt.Gui.Contrib.Color (40, 40, 45, 0.9));
-    this.PanelCtrlTitle.SetBorderColor (new Gwt.Gui.Contrib.Color (20, 20, 25, 0.9));
-    this.PanelCtrlTitle.SetBorderBottom (2);
-    this.Col2.Add (this.PanelCtrlTitle);
+    this.PanelCtrlHead.SetExpand (true);
+    this.PanelCtrlHead.SetHeight (48);
+    this.PanelCtrlHead.SetBackgroundColor (new Gwt.Gui.Contrib.Color (40, 40, 45, 0.9));
+    this.PanelCtrlHead.SetBorderColor (new Gwt.Gui.Contrib.Color (20, 20, 25, 0.9));
+    this.PanelCtrlHead.SetBorderBottom (2);
+    this.Col2.Add (this.PanelCtrlHead);
+    
+    this.PanelCtrlHeadBox.SetSize (this.PanelCtrlHead.GetWidth (), this.PanelCtrlHead.GetHeight ());
+    this.PanelCtrlHead.Add (this.PanelCtrlHeadBox);
+    
+    this.PanelCtrlTilte.SetExpand (true);
+    this.PanelCtrlTilte.SetTextAlignment (Gwt.Gui.Contrib.TextAlign.Center);
+    this.PanelCtrlTilte.SetFontSize (20);
+    this.PanelCtrlTilte.SetHeight (32);
+    this.PanelCtrlTilte.SetMarginTop (10);
     
 }
 
