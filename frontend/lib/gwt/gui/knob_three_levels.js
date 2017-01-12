@@ -54,6 +54,7 @@ Gwt.Gui.KnobThreeLevels.prototype.ChangeState = function ()
         }
         else 
         {
+            this.Angle -= 45;
             this.Direction = 1;
         }
     }
@@ -65,6 +66,7 @@ Gwt.Gui.KnobThreeLevels.prototype.ChangeState = function ()
         }
         else 
         {
+            this.Angle += 45;
             this.Direction = 0;
         }
     }
