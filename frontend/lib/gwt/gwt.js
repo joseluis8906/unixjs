@@ -2215,7 +2215,7 @@ Gwt.Gui.HBox.prototype.Add = function (Element)
             }
         }
         
-        if (Element.GetExpand ()) Element.SetHeight (this.GetHeight ());
+        if (Element.GetExpand ()) Element.SetHeight (this.GetHeight () - Element.GetBorder());
         
         if (!Element.GetExpand ())
         {
@@ -3156,7 +3156,7 @@ Gwt.Gui.VBox.prototype.Add = function (Element)
             }
         }
 		
-        if (Element.GetExpand ()) Element.SetWidth (this.GetWidth ());
+        if (Element.GetExpand ()) Element.SetWidth (this.GetWidth () - Element.GetBorder());
 		
         if (!Element.GetExpand ())
         {
