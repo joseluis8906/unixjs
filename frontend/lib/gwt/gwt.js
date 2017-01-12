@@ -3919,7 +3919,7 @@ Gwt.Gui.KnobThreeLevels.prototype.Loaded = function ()
 {
     if (this.Resource.readyState == 4 && this.Resource.status == 200)
     {
-        this.SetHtml (this.Resource.responseXML.documentElement);
+        //this.SetHtml (this.Resource.responseXML.documentElement);
         //this.Knob = new Gwt.Gui.Frame ();
         //this.Knob.SetHtml (this.GetElement ("Knob"));
     }
