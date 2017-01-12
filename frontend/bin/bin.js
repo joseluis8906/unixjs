@@ -63,7 +63,7 @@ function domotictrl ()
     
     //color rgba(48, 40, 40, 0.9);
     
-    //this.Add (this.Knob);
+    this.Add (this.Knob);
     
 }
 

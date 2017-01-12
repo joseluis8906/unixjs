@@ -17,8 +17,6 @@ Gwt.Gui.KnobThreeLevels = function ()
     this.Resource.overrideMimeType ("image/svg+xml");
     this.Resource.onreadystatechange = this.Loaded.bind(this);
     this.Resource.send ("");
-    
-    this.AddEvent (Gwt.Gui.Event.Mouse.Click, this.ChangeState.bind(this));
 }
 
 Gwt.Gui.KnobThreeLevels.prototype = new Gwt.Gui.Frame ();
