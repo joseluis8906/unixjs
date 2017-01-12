@@ -155,16 +155,16 @@ function domotictrl ()
     this.PanelCtrlTilte.SetMarginTop (10);
     this.PanelCtrlHeadBox.Add (this.PanelCtrlTilte);
     
-    this.VentiladorPanelCtrl = new PanelItem (this.Col2.GetWidth(), 56, "Velocidad De Ventilador", Gwt.Core.Contrib.Images + "appbar.fan.box.svg");
+    this.VentiladorPanelCtrl = new PanelItem (this.Col2.GetWidth(), 56, "Control De Ventilador", Gwt.Core.Contrib.Images + "appbar.fan.box.svg");
     this.Col2.Add (this.VentiladorPanelCtrl);
     
-    this.VentanasPanelCtrl = new PanelItem (this.Col2.GetWidth(), 56, "Apertura De Ventanas", Gwt.Core.Contrib.Images + "appbar.window.restore.svg");
+    this.VentanasPanelCtrl = new PanelItem (this.Col2.GetWidth(), 56, "Control De Ventanas", Gwt.Core.Contrib.Images + "appbar.window.restore.svg");
     this.Col2.Add (this.VentanasPanelCtrl);
     
-    this.LuzPanelCtrl = new PanelItem (this.Col2.GetWidth(), 56, "Atenuación De Luz", Gwt.Core.Contrib.Images + "appbar.lightbulb.coil.svg");
+    this.LuzPanelCtrl = new PanelItem (this.Col2.GetWidth(), 56, "Control De Luz", Gwt.Core.Contrib.Images + "appbar.lightbulb.coil.svg");
     this.Col2.Add (this.LuzPanelCtrl);
     
-    this.PersianasPanelCtrl = new PanelItem (this.Col2.GetWidth(), 56, "Apertura De Persianas", Gwt.Core.Contrib.Images + "appbar.map.folds.svg");
+    this.PersianasPanelCtrl = new PanelItem (this.Col2.GetWidth(), 56, "Control De Persianas", Gwt.Core.Contrib.Images + "appbar.map.folds.svg");
     this.Col2.Add (this.PersianasPanelCtrl);
 }
 
