@@ -109,6 +109,7 @@ function domotictrl ()
     this.PanelCtrlTilte = new Gwt.Gui.StaticText ("Panel De Control");
     this.VentiladorPanelCtrl = null;
     this.VentanasPanelCtrl = null;
+    this.LuzPanelCtrl = null;
         
     this.SetSize (WIDTH, HEIGHT);
     this.SetPosition (Gwt.Gui.WIN_POS_CENTER);
@@ -157,7 +158,8 @@ function domotictrl ()
     this.VentanasPanelCtrl = new PanelItem (this.Col2.GetWidth(), 48, "Apertura De Ventanas", Gwt.Core.Contrib.Images + "appbar.window.restore.svg");
     this.Col2.Add (this.VentanasPanelCtrl);
     
-    
+    this.LuzPanelCtrl = new PanelItem (this.Col2.GetWidth(), 48, "Atenuación De Luz", Gwt.Core.Contrib.Images + "appbar.lightbulb.coil.svg");
+    this.Col2.Add (this.LuzPanelCtrl);
     
     
 }
