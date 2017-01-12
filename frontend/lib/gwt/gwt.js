@@ -3933,7 +3933,7 @@ Gwt.Gui.KnobThreeLevels.prototype.ChangeState = function ()
 {
     if (this.Direction === 0)
     {
-        if (this.Angle >= (-45*3))
+        if (this.Angle >= (-45*2))
         {
             this.Angle -= 45;
         }
@@ -3944,7 +3944,7 @@ Gwt.Gui.KnobThreeLevels.prototype.ChangeState = function ()
     }
     else
     {
-        if (this.Angle <= (0))
+        if (this.Angle <= (-45))
         {
             this.Angle += 45;
         }
