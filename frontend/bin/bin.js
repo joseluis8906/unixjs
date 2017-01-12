@@ -151,6 +151,7 @@ function domotictrl ()
     this.VentiladorPanelCtrl.SetExpand (false);
     
     this.Col2.Add (this.VentiladorPanelCtrl);
+    this.VentiladorPanelCtrl.SetHeight (48);
     
 }
 
