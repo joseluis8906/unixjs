@@ -141,7 +141,7 @@ function domotictrl ()
     this.PanelCtrlHead.SetHeight (48);
     this.PanelCtrlHead.SetBackgroundColor (new Gwt.Gui.Contrib.Color (40, 40, 45, 0.9));
     this.PanelCtrlHead.SetBorderColor (new Gwt.Gui.Contrib.Color (20, 20, 25, 0.9));
-    this.PanelCtrlHead.SetBorderTop (1);
+    this.PanelCtrlHead.SetBorder (1);
     this.PanelCtrlHead.SetBorderBottom (2);
     this.Col2.Add (this.PanelCtrlHead);
     
