@@ -98,7 +98,7 @@ function domotictrl ()
     
     this.PanelCtrlTilte.SetExpand (true);
     this.PanelCtrlTilte.SetTextAlignment (Gwt.Gui.Contrib.TextAlign.Center);
-    this.PanelCtrlTilte.SetFontSize (20);
+    this.PanelCtrlTilte.SetFontSize (16);
     this.PanelCtrlTilte.SetHeight (32);
     this.PanelCtrlTilte.SetMarginTop (10);
     
