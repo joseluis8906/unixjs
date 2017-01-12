@@ -11,8 +11,8 @@ function domotictrl ()
     this.Col2 = new Gwt.Gui.VBox ();
     this.Knob = new  Gwt.Gui.KnobThreeLevels ();
     this.Title = new Gwt.Gui.StaticText ("Ventilador");
-    
-    
+    this.PanelCtrlTitle = new Frame ();
+        
     this.SetSize (640, 480);
     this.SetPosition (Gwt.Gui.WIN_POS_CENTER);
     this.DisableMenu ();
@@ -35,6 +35,11 @@ function domotictrl ()
     
     this.Col2.SetBackgroundColor (new Gwt.Gui.Contrib.Color (50, 50, 50, 0.9));
     this.Layout.Add (this.Col2);
+    
+    this.PanelCtrlTitle.SetExpand (true);
+    this.PanelCtrlTitle.SetHeight (32);
+    this.PanelCtrlTitle.SetBackgroundColor (new Gwt.Gui.Contrib.Color (40, 40, 50, 0.9));
+    this.Col2.Add (this.PanelCtrlTitle);
     
 }
 
