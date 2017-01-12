@@ -33,9 +33,9 @@ Gwt.Gui.KnobThreeLevels.prototype.Loaded = function ()
 {
     if (this.Resource.readyState == 4 && this.Resource.status == 200)
     {
-        console.log (this.Resource.responseXML.documentElement);
-        this.GetHtml ().appendChild (this.Resource.responseXML.documentElement);
-        this.Knob = this.GetElement ("Knob");
+        this.SetHtml (this.Resource.responseXML.documentElement);
+        this.Knob = new Gwt.Gui.Frame ();
+        this.Knob.SetHtml (this.GetElement ("Knob"));
     }
 }
 
@@ -46,7 +46,7 @@ Gwt.Gui.KnobThreeLevels.prototype.ChangeState = function ()
 
 Gwt.Gui.KnobThreeLevels.prototype.GetElement = function (Id)
 {
-    return this.GetHtml ().firstChild.getElementById (Id);
+    return this.GetHtml ().getElementById (Id);
 }
 
 Gwt.Gui.KnobThreeLevels.prototype.SetRotation = function (Angle)

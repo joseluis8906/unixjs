@@ -183,7 +183,14 @@ Gwt.Gui.Frame.prototype.RemoveEvent = function (Event, Callback)
 }
 Gwt.Gui.Frame.prototype.SetHtml = function (Element)
 {
-    this.Html = document.createElement (Element);
+    if (Element instanceof String)
+    {
+        this.Html = document.createElement (Element);
+    }
+    else 
+    {
+        this.Html = Element;
+    }
     this.InitStyle ();
 }
 Gwt.Gui.Frame.prototype.SetTabIndex = function (TabIndex)
