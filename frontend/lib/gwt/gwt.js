@@ -3932,7 +3932,7 @@ Gwt.Gui.KnobThreeLevels.prototype.ChangeState = function ()
 
 Gwt.Gui.KnobThreeLevels.prototype.GetElement = function (Id)
 {
-    return this.GetHtml ().getElementById (Id);
+    return this.GetHtml ().document.getElementById (Id);
 }
 
 Gwt.Gui.KnobThreeLevels.prototype.SetRotation = function (Angle)
