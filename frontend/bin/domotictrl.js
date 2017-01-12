@@ -49,8 +49,8 @@ function domotictrl ()
     Gwt.Gui.Window.call (this, "Control De Domótica");
     
     this.Layout = new Gwt.Gui.HBox(0);
-    this.Col1 = new Gwt.Gui.VBox ();
-    this.Col2 = new Gwt.Gui.VBox ();
+    this.Col1 = new Gwt.Gui.VBox (0);
+    this.Col2 = new Gwt.Gui.VBox (0);
     this.Knob = new  Gwt.Gui.KnobThreeLevels ();
     this.Title = new Gwt.Gui.StaticText ("Ventilador");
     this.PanelCtrlHead = new Gwt.Gui.Frame ();
