@@ -11,12 +11,13 @@ Gwt.Gui.KnobThreeLevels = function ()
     this.SetSize (200, 200);
     
     this.Resource.open ("GET", Gwt.Core.Contrib.Images+"knob.three.levels.svg", true);
-    this.Resource.overrideMimeType("image/svg+xml");
+    this.Resource.overrideMimeType ("image/svg+xml");
     this.Resource.onreadystatechange = this.Loaded.bind(this);
     this.Resource.send ("");
     
     this.AddEvent (Get.Gui.Event.Mouse.Click, this.ChangeState.bind(this));
 }
+
 Gwt.Gui.KnobThreeLevels.prototype = new Gwt.Gui.Frame ();
 Gwt.Gui.KnobThreeLevels.prototype.constructor = Gwt.Gui.KnobThreeLevels;
 
