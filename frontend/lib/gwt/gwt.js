@@ -1431,7 +1431,7 @@ Gwt.Gui.Window = function (Title)
     this.TitleBar = new Gwt.Gui.HBox (0);
     this.Menu = new Gwt.Gui.Menu ();
     this.Body = new Gwt.Gui.Frame ();
-    this.Title = new Gwt.Gui.StaticText(Title || "Default Window Title");
+    this._Title = new Gwt.Gui.StaticText(Title || "Default Window Title");
     
     //init
     this.SetClassName ("Gwt_Gui_Window");
@@ -1459,9 +1459,9 @@ Gwt.Gui.Window = function (Title)
     this.TitleBar.SetAlignment (Gwt.Gui.ALIGN_CENTER);
     this.RootAdd (this.TitleBar);
     
-    this.Title.SetTextAlignment (Gwt.Gui.Contrib.TextAlign.Center);
-    this.Title.SetExpand (false);
-    this.Title.SetSize (this.TitleBar.GetWidth(), 20);
+    this._Title.SetTextAlignment (Gwt.Gui.Contrib.TextAlign.Center);
+    this._Title.SetExpand (false);
+    this._Title.SetSize (this.TitleBar.GetWidth(), 20);
     
     this.TitleBar.Add (this.Title);
     this.Menu.MenuBtn.SetDisplay (Gwt.Gui.Contrib.Display.None);
@@ -1483,7 +1483,7 @@ Gwt.Gui.Window.prototype._Window = function ()
     this.Menu._Menu ();
     this.Menu = null;
  
-    this.Title._StaticText();
+    this._Title._StaticText();
     this.Title = null;
     
     this.TitleBar._HBox();
@@ -1549,11 +1549,11 @@ Gwt.Gui.Window.prototype.SetWidth = function (Width)
     
     if (this.Menu !== null)
     {
-       this.Title.SetWidth (this.TitleBar.GetWidth() - 29);
+       this._Title.SetWidth (this.TitleBar.GetWidth() - 29);
     }
     else
     {
-        this.Title.SetWidth (this.TitleBar.GetWidth());
+        this._Title.SetWidth (this.TitleBar.GetWidth());
     }
     this.Body.SetWidth (this.GetWidth());
 }
@@ -1571,7 +1571,7 @@ Gwt.Gui.Window.prototype.SetHeight = function (Height)
 Gwt.Gui.Window.prototype.EnableMenu = function ()
 {
     this.Menu.MenuBtn.SetDisplay (Gwt.Gui.Contrib.Display.InlineBlock);
-    this.Title.SetSize ((this.TitleBar.GetWidth() - 29), 32);
+    this._Title.SetSize ((this.TitleBar.GetWidth() - 29), 32);
     
     this.Menu.ContainerMenu.SetWidth (this.GetWidth ());
 }
@@ -1580,7 +1580,7 @@ Gwt.Gui.Window.prototype.DisableMenu = function ()
 {
     this.Menu.ContainerMenu.SetDisplay (Gwt.Gui.Contrib.Display.None);
     this.Menu.MenuBtn.SetDisplay (Gwt.Gui.Contrib.Display.None);
-    this.Title.SetWidth (this.TitleBar.GetWidth());
+    this._Title.SetWidth (this.TitleBar.GetWidth());
 }
 
 Gwt.Gui.Window.prototype.EnableTitleBar = function ()
