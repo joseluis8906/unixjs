@@ -40,7 +40,7 @@
      showgrid="false"
      inkscape:zoom="13.122695"
      inkscape:cx="21.339059"
-     inkscape:cy="25.099577"
+     inkscape:cy="28.147731"
      inkscape:window-x="43"
      inkscape:window-y="27"
      inkscape:window-maximized="1"
@@ -66,84 +66,79 @@
     </linearGradient>
   </defs>
   <g
-     transform="translate(0 -1004.4)"
-     id="g11">
-    <g
-       id="Knob"
-       transform="matrix(-0.70711003,0.70711003,-0.70711003,-0.70711003,768.15996,1738.6)">
-      <path
-         d="m 24,15.688 c -4.5909,-8e-5 -8.3126,3.7216 -8.3125,8.3125 0.0012,0.02865 0.0025,0.0573 0.0039,0.08594 -0.06434,2.6791 -0.03125,5.5222 -0.03125,8.2578 2.7685,-0.03713 5.6455,0.06625 8.3574,-0.03125 4.584,-0.01 8.295,-3.729 8.294,-8.313 0.001,-4.591 -3.721,-8.313 -8.312,-8.312 z"
-         transform="translate(0,1004.4)"
-         id="path14"
-         inkscape:connector-curvature="0"
-         style="fill:#f0ffff" />
-      <circle
-         cy="1028.4"
-         cx="24"
-         r="12.368"
-         id="circle16"
-         style="fill:none;stroke:#f0ffff;stroke-opacity:1;stroke-width:0.99999541;stroke-miterlimit:4;stroke-dasharray:none" />
-    </g>
+     transform="matrix(-0.70711003,0.70711003,-0.70711003,-0.70711003,768.15996,734.2)"
+     id="Knob">
     <path
-       stroke-linejoin="round"
-       d="m10.561 11.824a17.68 17.68 0 0 0 -7.1919 14.188 17.68 17.68 0 0 0 3.5098 10.539h4.6891a17.68 17.68 0 0 1 -5.2477 -12.551 17.68 17.68 0 0 1 4.9117 -12.176h-0.671z"
-       transform="translate(0 1004.4)"
-       stroke="#f0ffff"
-       fill="url(#linearGradient4318)"
-       id="path18" />
-    <path
-       d="m17.492 40.422c2.071 0.826 4.279 1.252 6.508 1.258 9.764-0.001 17.679-7.916 17.68-17.68-0.005-4.499-1.724-8.828-4.809-12.104"
-       transform="translate(0 1004.4)"
-       stroke="#f0ffff"
-       stroke-linecap="round"
-       stroke-dasharray="1, 2"
-       fill="none"
-       id="path20" />
-    <g
-       font-size="4.5199px"
-       font-family="Cantarell"
-       fill="#f0ffff"
-       id="g22">
-      <text
-         style="word-spacing:0px;letter-spacing:0px"
-         xml:space="preserve"
-         line-height="125%"
-         y="1011.3204"
+       style="fill:#f0ffff"
+       inkscape:connector-curvature="0"
+       id="path14"
+       transform="translate(0,1004.4)"
+       d="m 24,15.688 c -4.5909,-8e-5 -8.3126,3.7216 -8.3125,8.3125 0.0012,0.02865 0.0025,0.0573 0.0039,0.08594 -0.06434,2.6791 -0.03125,5.5222 -0.03125,8.2578 2.7685,-0.03713 5.6455,0.06625 8.3574,-0.03125 4.584,-0.01 8.295,-3.729 8.294,-8.313 0.001,-4.591 -3.721,-8.313 -8.312,-8.312 z" />
+    <circle
+       style="fill:none;stroke:#f0ffff;stroke-width:0.99999541;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0"
+       id="circle16"
+       r="12.368"
+       cx="24"
+       cy="1028.4" />
+  </g>
+  <path
+     inkscape:connector-curvature="0"
+     style="fill:url(#linearGradient4318);stroke:#f0ffff;stroke-linejoin:round"
+     id="path18"
+     d="M 10.561,11.824 A 17.68,17.68 0 0 0 3.3691,26.012 17.68,17.68 0 0 0 6.8789,36.551 l 4.6891,0 A 17.68,17.68 0 0 1 6.3203,24 17.68,17.68 0 0 1 11.232,11.824 l -0.671,0 z" />
+  <path
+     style="fill:none;stroke:#f0ffff;stroke-linecap:round;stroke-dasharray:1, 2"
+     inkscape:connector-curvature="0"
+     id="path20"
+     d="M 17.492,40.422 C 19.563,41.248 21.771,41.674 24,41.68 33.764,41.679 41.679,33.764 41.68,24 41.675,19.501 39.956,15.172 36.871,11.896" />
+  <g
+     style="font-size:4.51989985px;font-family:Cantarell;fill:#f0ffff"
+     id="g22"
+     font-size="4.5199px"
+     transform="translate(0,-1004.4)">
+    <text
+       sodipodi:linespacing="125%"
+       id="text24"
+       x="20.558865"
+       y="1011.3204"
+       line-height="125%"
+       xml:space="preserve"
+       style="line-height:125%;letter-spacing:0px;word-spacing:0px"><tspan
+         id="tspan26"
          x="20.558865"
-         id="text24"><tspan
-           y="1011.3204"
-           x="20.558865"
-           id="tspan26">off</tspan></text>
-      <text
-         style="word-spacing:0px;letter-spacing:0px"
-         xml:space="preserve"
-         line-height="125%"
-         y="1015.3113"
+         y="1011.3204">off</tspan></text>
+    <text
+       sodipodi:linespacing="125%"
+       id="text28"
+       x="7.7276959"
+       y="1015.3113"
+       line-height="125%"
+       xml:space="preserve"
+       style="line-height:125%;letter-spacing:0px;word-spacing:0px"><tspan
+         id="tspan30"
          x="7.7276959"
-         id="text28"><tspan
-           y="1015.3113"
-           x="7.7276959"
-           id="tspan30">1</tspan></text>
-      <text
-         style="word-spacing:0px;letter-spacing:0px"
-         xml:space="preserve"
-         line-height="125%"
-         y="1029.6743"
+         y="1015.3113">1</tspan></text>
+    <text
+       sodipodi:linespacing="125%"
+       id="text32"
+       x="0.14104685"
+       y="1029.6743"
+       line-height="125%"
+       xml:space="preserve"
+       style="line-height:125%;letter-spacing:0px;word-spacing:0px"><tspan
+         id="tspan34"
          x="0.14104685"
-         id="text32"><tspan
-           y="1029.6743"
-           x="0.14104685"
-           id="tspan34">2</tspan></text>
-      <text
-         style="word-spacing:0px;letter-spacing:0px"
-         xml:space="preserve"
-         line-height="125%"
-         y="1045.0894"
+         y="1029.6743">2</tspan></text>
+    <text
+       sodipodi:linespacing="125%"
+       id="text36"
+       x="3.7823873"
+       y="1045.0894"
+       line-height="125%"
+       xml:space="preserve"
+       style="line-height:125%;letter-spacing:0px;word-spacing:0px"><tspan
+         id="tspan38"
          x="3.7823873"
-         id="text36"><tspan
-           y="1045.0894"
-           x="3.7823873"
-           id="tspan38">3</tspan></text>
-    </g>
+         y="1045.0894">3</tspan></text>
   </g>
 </svg>
