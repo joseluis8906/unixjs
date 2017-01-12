@@ -727,6 +727,10 @@ Gwt.Gui.Frame = function ()
     this.BackgroundSizeHeight = null;
     this.BackgroundSizeWidth = null;
     this.Border = null;
+    this.BorderLeft = null;
+    this.BorderTop = null;
+    this.BorderRight = null;
+    this.BorderBottom = null;
     this.BorderRadius = null;
     this.BorderStyle = null;
     this.BoxShadowH = null;
@@ -1090,6 +1094,30 @@ Gwt.Gui.Frame.prototype.SetBorder = function (Border)
 {
     this.Border = Border;
     this.Html.style.borderWidth = this.Border+"px";
+}
+
+Gwt.Gui.Frame.prototype.SetBorderLeft = function (BorderLeft)
+{
+    this.BorderLeft = BorderLeft;
+    this.Html.style.borderLeftWidth = this.BorderLeft+"px";
+}
+
+Gwt.Gui.Frame.prototype.SetBorderTop = function (BorderTop)
+{
+    this.BorderTop = BorderTop;
+    this.Html.style.borderTopWidth = this.BorderTop+"px";
+}
+
+Gwt.Gui.Frame.prototype.SetBorderRight = function (BorderRight)
+{
+    this.BorderRight = BorderRight;
+    this.Html.style.borderRightWidth = this.BorderRight+"px";
+}
+
+Gwt.Gui.Frame.prototype.SetBorderBottom = function (BorderBottom)
+{
+    this.BorderBottom = BorderBottom;
+    this.Html.style.borderBottomWidth = this.BorderBottom+"px";
 }
 
 Gwt.Gui.Frame.prototype.GetBorder = function ()
