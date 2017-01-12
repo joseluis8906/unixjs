@@ -218,7 +218,7 @@ int SessionValidate (struct HttpRequest *Req, char *Data)
 //upload_file
 int UploadFile (struct HttpRequest *Req, char *Name, char *SubPath)
 {
-    struct HttpFile    *file = NULL;
+    struct HttpFile *file = NULL;
     
     if ((file = http_file_lookup (Req, Name)) == NULL)
     {
