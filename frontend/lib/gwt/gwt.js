@@ -2215,7 +2215,7 @@ Gwt.Gui.HBox.prototype.Add = function (Element)
             }
         }
         
-        if (Element.GetExpand ()) Element.SetHeight (this.GetHeight ()*0.99);
+        if (Element.GetExpand ()) Element.SetHeight (this.GetHeight ());
         
         if (!Element.GetExpand ())
         {
