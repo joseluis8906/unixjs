@@ -54,7 +54,6 @@ function domotictrl ()
 {
     Gwt.Gui.Window.call (this, "Control De Domótica");
 	
-    
     this.Knob = Gwt.Gui.KnobThreeLevels ();
     
     this.SetSize (640, 480);
