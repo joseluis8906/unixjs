@@ -904,7 +904,7 @@ Gwt.Gui.Frame.prototype.SetHtml = function (Element)
         this.Html = Element;
     }
     console.log (this.Html)
-    this.InitStyle ();
+    //this.InitStyle ();
 }
 Gwt.Gui.Frame.prototype.SetTabIndex = function (TabIndex)
 {
