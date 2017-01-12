@@ -40,8 +40,8 @@ function domotictrl ()
     
     this.PanelCtrlHead.SetExpand (true);
     this.PanelCtrlHead.SetHeight (48);
-    this.PanelCtrlHead.SetBackgroundColor (new Gwt.Gui.Contrib.Color (40, 40, 45, 0.6));
-    this.PanelCtrlHead.SetBorderColor (new Gwt.Gui.Contrib.Color (20, 20, 25, 0.6));
+    this.PanelCtrlHead.SetBackgroundColor (new Gwt.Gui.Contrib.Color (40, 40, 45, 0.9));
+    this.PanelCtrlHead.SetBorderColor (new Gwt.Gui.Contrib.Color (20, 20, 25, 0.9));
     this.PanelCtrlHead.SetBorderTop (2);
     this.PanelCtrlHead.SetBorderBottom (2);
     this.Col2.Add (this.PanelCtrlHead);
