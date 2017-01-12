@@ -895,8 +895,7 @@ Gwt.Gui.Frame.prototype.RemoveEvent = function (Event, Callback)
 }
 Gwt.Gui.Frame.prototype.SetHtml = function (Element)
 {
-    console.log (Element instanceof String);
-    if (Element instanceof String)
+    if (typeof (Element) === "string")
     {
         this.Html = document.createElement (Element);
     }
@@ -904,7 +903,7 @@ Gwt.Gui.Frame.prototype.SetHtml = function (Element)
     {
         this.Html = Element;
     }
-    
+    console.log (Element)
     this.InitStyle ();
 }
 Gwt.Gui.Frame.prototype.SetTabIndex = function (TabIndex)
@@ -3920,9 +3919,9 @@ Gwt.Gui.KnobThreeLevels.prototype.Loaded = function ()
 {
     if (this.Resource.readyState == 4 && this.Resource.status == 200)
     {
-        //this.SetHtml (this.Resource.responseXML.documentElement);
-        //this.Knob = new Gwt.Gui.Frame ();
-        //this.Knob.SetHtml (this.GetElement ("Knob"));
+        this.SetHtml (this.Resource.responseXML.documentElement);
+        this.Knob = new Gwt.Gui.Frame ();
+        this.Knob.SetHtml (this.GetElement ("Knob"));
     }
 }
 
