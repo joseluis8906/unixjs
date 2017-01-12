@@ -48,6 +48,9 @@ function domotictrl ()
 {
     Gwt.Gui.Window.call (this, "Control De Domótica");
     
+    var WIDTH = 640;
+    var HEIGHT = 480;
+    
     this.Layout = new Gwt.Gui.HBox(0);
     this.Col1 = new Gwt.Gui.VBox (0);
     this.Col2 = new Gwt.Gui.VBox (0);
@@ -58,7 +61,7 @@ function domotictrl ()
     this.PanelCtrlTilte = new Gwt.Gui.StaticText ("Panel De Control");
     this.VentiladorPanelCtrl = null;
         
-    this.SetSize (640, 480);
+    this.SetSize (WIDTH, HEIGHT);
     this.SetPosition (Gwt.Gui.WIN_POS_CENTER);
     this.DisableMenu ();
     
