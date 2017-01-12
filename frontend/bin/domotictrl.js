@@ -10,7 +10,7 @@ function domotictrl ()
     this.Col1 = new Gwt.Gui.VBox ();
     this.Col2 = new Gwt.Gui.VBox ();
     this.Knob = new  Gwt.Gui.KnobThreeLevels ();
-    this.Title = new Gwt.Gui.StaticText ("Control de Ventilador");
+    this.Title = new Gwt.Gui.StaticText ("Ventilador");
     
     
     this.SetSize (640, 480);
