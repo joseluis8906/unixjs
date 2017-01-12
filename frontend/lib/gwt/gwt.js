@@ -1466,6 +1466,8 @@ Gwt.Gui.Window = function (Title)
     this.Menu.ContainerMenu.SetZIndex (1000);
     this.Menu.ContainerMenu.SetWidth (this.GetWidth ());
     this.Add (this.Menu.ContainerMenu);
+    
+    this.DisableMenu ();
 }
 
 Gwt.Gui.Window.prototype = new Gwt.Gui.Frame ();
