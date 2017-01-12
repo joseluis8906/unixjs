@@ -26,7 +26,7 @@ function PanelItem (Width, Height, Text, Image)
     this.Image.SetMarginRight (24);
     this.Layout.Add (this.Image);
 }
-PanelItem.prototype = new Gwt.Gui.HBox();
+PanelItem.prototype = new Gwt.Gui.Frame ();
 PanelItem.prototype.constructor = PanelItem;
 
 PanelItem.prototype._PanelItem = function ()
@@ -100,10 +100,8 @@ function domotictrl ()
     this.PanelCtrlHeadBox.Add (this.PanelCtrlTilte);
     
     this.VentiladorPanelCtrl = new PanelItem (this.Col2.GetWidth(), 48, "Velocidad Del Ventilador", Gwt.Core.Contrib.Images + "appbar.fan.box.svg");
-    this.VentiladorPanelCtrl.SetExpand (false);
-    
     this.Col2.Add (this.VentiladorPanelCtrl);
-    this.VentiladorPanelCtrl.SetHeight (48);
+    
     
 }
 
