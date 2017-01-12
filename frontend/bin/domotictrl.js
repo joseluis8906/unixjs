@@ -49,7 +49,7 @@ function domotictrl ()
     Gwt.Gui.Window.call (this, "Control De Domótica");
     
     var WIDTH = 640;
-    var HEIGHT = 360;
+    var HEIGHT = 320;
     
     this.Layout = new Gwt.Gui.HBox(0);
     this.Col1 = new Gwt.Gui.VBox (0);
@@ -83,7 +83,7 @@ function domotictrl ()
     this.Title.SetFontSize (20);
     this.Col1.Add (this.Title);
     
-    this.Knob.SetMarginTop (48);
+    this.Knob.SetMarginTop (24);
     this.Col1.Add (this.Knob);
     
     this.Col2.SetBackgroundColor (new Gwt.Gui.Contrib.Color (50, 50, 50, 0.9));
