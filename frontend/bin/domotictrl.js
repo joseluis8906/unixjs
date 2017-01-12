@@ -10,6 +10,8 @@ function domotictrl ()
     this.Col1 = new Gwt.Gui.VBox ();
     this.Col2 = new Gwt.Gui.VBox ();
     this.Knob = new  Gwt.Gui.KnobThreeLevels ();
+    this.Title = new StaticText ("Control de Ventilador");
+    this.Title.SetWidth (160);
     
     this.SetSize (640, 480);
     this.SetPosition (Gwt.Gui.WIN_POS_CENTER);
@@ -22,6 +24,7 @@ function domotictrl ()
     this.Col1.SetBackgroundSize (this.Col1.GetWidth (), this.Col1.GetHeight ());
     this.Col1.SetAlignment (Gwt.Gui.ALIGN_CENTER);
     this.Layout.Add (this.Col1);    
+    this.Col1.Add (this.Title);
     this.Col1.Add (this.Knob);
     
     this.Col2.SetBackgroundColor (new Gwt.Gui.Contrib.Color (50, 50, 50, 0.9));
