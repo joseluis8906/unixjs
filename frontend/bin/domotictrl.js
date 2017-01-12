@@ -15,13 +15,12 @@ function domotictrl ()
     this.SetPosition (Gwt.Gui.WIN_POS_CENTER);
     this.DisableMenu ();
     
-    //color rgba(48, 40, 40, 0.9);
     this.Layout.SetSize (this.GetWidth (), this.GetHeight());    
     this.Add (this.Layout);
     
     this.Layout.Add (this.Col1);
     
-    this.Col2.SetBackgroundColor (new Gwt.Gui.Contrib.Color (48, 40, 40, 0.9))
+    this.Col2.SetBackgroundColor (new Gwt.Gui.Contrib.Color (50, 50, 50, 0.9))
     this.Layout.Add (this.Col2);
     
 }
