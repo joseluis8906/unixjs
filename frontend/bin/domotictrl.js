@@ -29,11 +29,13 @@ PanelItem.prototype._PanelItem = function ()
 {
     this.Text._StaticText();
     this.Image._Image();
+    this.Layout._HBox();
     
     this.Text = null;
     this.Image = null;
+    this.Layout = null;
     
-    this._HBox ();
+    this._Frame ();
 }
 
 var instance;
