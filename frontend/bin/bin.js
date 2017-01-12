@@ -70,7 +70,7 @@ function domotictrl ()
     this.Layout.SetSize (this.GetWidth (), this.GetHeight());    
     this.Add (this.Layout);
     
-    this.Col1.SetBackgroundImage (Gwt.Core.Contrib.Images + "blurry_background2_50.png");
+    this.Col1.SetBackgroundImage (Gwt.Core.Contrib.Images + "blurry_background2_66.png");
     this.Col1.SetBackgroundSize (this.Col1.GetWidth (), this.Col1.GetHeight ());
     this.Col1.SetAlignment (Gwt.Gui.ALIGN_CENTER);
     this.Layout.Add (this.Col1);    
