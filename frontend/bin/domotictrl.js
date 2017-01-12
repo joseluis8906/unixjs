@@ -20,7 +20,7 @@ function domotictrl ()
     
     this.Col1.SetBackgroundImage (Gwt.Core.Contrib.Images + "blurry_background1.jpg");
     this.Layout.Add (this.Col1);
-    this.Col1.SetBackgroundSize (this.Col1.GetWidth (); this.Col1.GetHeight ());
+    this.Col1.SetBackgroundSize (this.Col1.GetWidth (), this.Col1.GetHeight ());
     
     this.Col2.SetBackgroundColor (new Gwt.Gui.Contrib.Color (50, 50, 50, 0.9))
     this.Layout.Add (this.Col2);
