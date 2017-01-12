@@ -73,11 +73,11 @@ function domotictrl ()
     this.Col1.SetAlignment (Gwt.Gui.ALIGN_CENTER);
     this.Layout.Add (this.Col1);    
     
-    this.Title.SetWidth (160);
+    this.Title.SetSize (250, 32);
     this.Title.SetExpand (false);
     this.Title.SetTextAlignment (Gwt.Gui.Contrib.TextAlign.Center);
     this.Title.SetMarginTop (25);
-    this.Title.SetFontSize (48);
+    this.Title.SetFontSize (20);
     this.Col1.Add (this.Title);
     this.Col1.Add (this.Knob);
     
