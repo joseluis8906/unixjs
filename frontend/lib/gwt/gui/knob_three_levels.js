@@ -82,7 +82,6 @@ Gwt.Gui.KnobThreeLevels.prototype.SetRotation = function (Angle)
 {
     var Center = {'X': this.Graphic.GetHtml().getAttribute("width")/2, 'Y': this.Graphic.GetHtml().getAttribute("height")/2};
     var str = "rotate(%angle, %x, %y)".replace("%angle", Angle).replace ("%x", Center.X).replace ("%y", Center.Y);
-    console.log (str);
     this.Knob.GetHtml().setAttribute ("transform", str);
 }
 //#####################################################################################################
