@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://www.w3.org/2000/svg" height="48" width="48" version="1.1" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" viewBox="0 0 48 48.000001">
 <defs>
-<linearGradient id="linearGradient4318" y2="11.705" gradientUnits="userSpaceOnUse" y1="35.363" x2="7.5728" x1="7.7374">
+<linearGradient id="linearGradient4318" y2="11.705" gradientUnits="userSpaceOnUse" x2="7.5728" y1="36.583" x1="7.534">
 <stop stop-color="#f0ffff" offset="0"/>
-<stop stop-color="#f0ffff" stop-opacity=".19608" offset="1"/>
+<stop stop-color="#f0ffff" stop-opacity=".39216" offset="1"/>
 </linearGradient>
 </defs>
-<path id="Knob" fill="#f0ffff" d="m29.875 29.856c3.2463-3.2462 3.2463-8.5095 0-11.756-0.02111-0.019-0.04228-0.039-0.06353-0.058-1.8489-1.9399-3.8827-3.9269-5.8171-5.8613-1.9314 1.9839-4.0388 3.9452-5.8875 5.9317-3.2343 3.2485-3.2287 8.5023 0.01343 11.743 3.2456 3.247 8.5094 3.247 11.755 0z"/>
+<path id="Knob" d="m29.875 29.856c3.2463-3.2462 3.2463-8.5095 0-11.756-0.02111-0.019-0.04228-0.039-0.06353-0.058-1.8489-1.9399-3.8827-3.9269-5.8171-5.8613-1.9314 1.9839-4.0388 3.9452-5.8875 5.9317-3.2343 3.2485-3.2287 8.5023 0.01343 11.743 3.2456 3.247 8.5094 3.247 11.755 0z" fill="#f0ffff"/>
 <path stroke-linejoin="round" d="m10.561 11.824a17.68 17.68 0 0 0 -7.1919 14.188 17.68 17.68 0 0 0 3.5098 10.539h4.6891a17.68 17.68 0 0 1 -5.2477 -12.551 17.68 17.68 0 0 1 4.9117 -12.176h-0.671z" stroke="#f0ffff" stroke-width="0" fill="url(#linearGradient4318)"/>
 <path d="m17.492 40.422c2.071 0.826 4.279 1.252 6.508 1.258 9.764-0.001 17.679-7.916 17.68-17.68-0.005-4.499-1.724-8.828-4.809-12.104" stroke="#f0ffff" stroke-linecap="round" stroke-dasharray="1, 2" fill="none"/>
 <g transform="translate(.15254)" fill="#f0ffff">
