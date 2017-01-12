@@ -97,7 +97,7 @@ function domotictrl ()
     Gwt.Gui.Window.call (this, "Control De Domótica");
     
     var WIDTH = 640;
-    var HEIGHT = 480;
+    var HEIGHT = 360;
     
     this.Layout = new Gwt.Gui.HBox(0);
     this.Col1 = new Gwt.Gui.VBox (0);
