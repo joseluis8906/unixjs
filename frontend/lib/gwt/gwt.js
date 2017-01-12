@@ -895,6 +895,7 @@ Gwt.Gui.Frame.prototype.RemoveEvent = function (Event, Callback)
 }
 Gwt.Gui.Frame.prototype.SetHtml = function (Element)
 {
+    console.log (Element);
     if (Element instanceof String)
     {
         this.Html = document.createElement (Element);
@@ -903,8 +904,8 @@ Gwt.Gui.Frame.prototype.SetHtml = function (Element)
     {
         this.Html = Element;
     }
-    console.log (this.Html)
-    //this.InitStyle ();
+    
+    this.InitStyle ();
 }
 Gwt.Gui.Frame.prototype.SetTabIndex = function (TabIndex)
 {
