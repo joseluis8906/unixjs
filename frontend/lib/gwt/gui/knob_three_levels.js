@@ -61,7 +61,7 @@ Gwt.Gui.KnobThreeLevels.prototype.ChangeState = function ()
     {
         if (this.Angle <= (0))
         {
-            this.Angle -= 45;
+            this.Angle += 45;
         }
         else 
         {
