@@ -15,7 +15,7 @@ Gwt.Gui.KnobThreeLevels = function ()
     this.Resource.onreadystatechange = this.Loaded.bind(this);
     this.Resource.send ("");
     
-    this.AddEvent (Get.Gui.Event.Mouse.Click, this.ChangeState.bind(this));
+    this.AddEvent (Gwt.Gui.Event.Mouse.Click, this.ChangeState.bind(this));
 }
 
 Gwt.Gui.KnobThreeLevels.prototype = new Gwt.Gui.Frame ();
