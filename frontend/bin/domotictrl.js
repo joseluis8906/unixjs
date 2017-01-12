@@ -11,6 +11,7 @@ function PanelItem (Width, Height, Text, Image)
     this.SetSize (Width, Height);
     this.SetBorderColor (new Gwt.Gui.Contrib.Color (20, 20, 25, 0.9));
     this.SetBorderBottom (1);
+    this.SetExpand (false);
     
     this.Layout.SetSize (this.GetWidth(), this.GetHeight ());
     this.Layout.SetAlignment (Gwt.Gui.ALIGN_CENTER);
