@@ -110,6 +110,7 @@ function domotictrl ()
     this.VentiladorPanelCtrl = null;
     this.VentanasPanelCtrl = null;
     this.LuzPanelCtrl = null;
+    this.PersianasPanelCtrl = null;
         
     this.SetSize (WIDTH, HEIGHT);
     this.SetPosition (Gwt.Gui.WIN_POS_CENTER);
@@ -161,7 +162,8 @@ function domotictrl ()
     this.LuzPanelCtrl = new PanelItem (this.Col2.GetWidth(), 48, "Atenuación De Luz", Gwt.Core.Contrib.Images + "appbar.lightbulb.coil.svg");
     this.Col2.Add (this.LuzPanelCtrl);
     
-    
+    this.PersianasPanelCtrl = new PanelItem (this.Col2.GetWidth(), 48, "Apertura De Persianas", Gwt.Core.Contrib.Images + "appbar.map.folds.svg");
+    this.Col2.Add (this.PersianasPanelCtrl);
 }
 
 domotictrl.prototype = new Gwt.Gui.Window ();
