@@ -50,7 +50,7 @@ domotictrl = ( function ()
 {
 function PanelItem (Text, Image)
 {
-    Gwt.Gui.Hbox.call (this);
+    Gwt.Gui.HBox.call (this);
     
     this.Text = new Gwt.Gui.StaticText (Text);
     this.Image = new Gwt.Gui.Image (Image);
