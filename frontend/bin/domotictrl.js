@@ -4,7 +4,7 @@ var instance;
 
 function domotictrl () 
 {
-    Gwt.Gui.Window.call (this, "Control De Domotica");
+    Gwt.Gui.Window.call (this, "Control De Domótica");
 	
     this.SetSize (640, 480);
     this.SetPosition (Gwt.Gui.WIN_POS_CENTER);
