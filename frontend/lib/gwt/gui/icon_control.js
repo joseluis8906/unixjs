@@ -17,11 +17,12 @@ Gwt.Gui.IconControl = function (Icon, Control)
     this.Icon.SetDisplay (Gwt.Gui.Contrib.Display.InlineBlock);
     this.Icon.SetMarginRight (5);
     this.Icon.SetValign (Gwt.Gui.Contrib.Valign.Top);
-    this.Icon.SetDisableFocus ();
+    this.Icon.SetTabIndex (-1);
     this.Add (this.Icon);
 
     this.Control.SetWidth (this.GetWidth () - (this.Icon.GetWidth () + this.Icon.GetMarginRight ()));
     this.Control.SetDisplay (Gwt.Gui.Contrib.Display.InlineBlock);
+    this.Control.SetTabIndex (1);
     this.Add (this.Control);
 }
 
@@ -55,6 +56,11 @@ Gwt.Gui.IconControl.prototype.SetHeight = function (Height)
     
     this.Icon.SetHeight (22);
     this.Control.SetHeight (24);
+}
+
+Gwt.Gui.IconControl.prototype.SetTabIndex = function (Index)
+{
+    this.Control.SetTabIndex(Index);
 }
 
 
