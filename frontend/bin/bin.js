@@ -369,9 +369,13 @@ function gusers ()
     this.layout.Add (this.email);
     this.layout.Add (this.address);
     
-    this.doc_num.SetTabIndex(1);
-    this.name.SetTabIndex(2);
-    this.last_name.SetTabIndex(3);
+    this.doc_type.SetTabIndex(1)
+    this.doc_num.SetTabIndex(2);
+    this.name.SetTabIndex(3);
+    this.last_name.SetTabIndex(4);
+    this.phone.SetTabIndex(5);
+    this.email (6);
+    this.address.SetTabIndex(7);
     
     this.Add (this.avatar.GetEditor ());
 }
