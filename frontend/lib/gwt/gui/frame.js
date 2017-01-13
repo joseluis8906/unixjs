@@ -321,7 +321,7 @@ Gwt.Gui.Frame.prototype.SetFocus = function ()
 
 Gwt.Gui.Frame.prototype.SetDisableFocus = function ()
 {
-    this.SetTabIndex(-1);
+    this.Add(Gwt.Gui.Event.Keyboard.KeyPress, function (){this.blur();});
 }
 
 Gwt.Gui.Frame.prototype.SetBackgroundAttachment = function (Attachment)
