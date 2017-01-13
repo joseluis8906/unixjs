@@ -8,7 +8,7 @@ int open_pool (void)
 {
     if (url == NULL)
     {
-        url = URL_new ("postgresql://localhost:5432/unixjs?user=unixjs&password=unixjs123456");
+        url = URL_new ("postgresql://localhost:5432/unixjs?user=unixjs&password=K3J9 8LMN 02F3 B3LW");
         pool = ConnectionPool_new (url);
         ConnectionPool_setReaper (pool, 2);
         ConnectionPool_start (pool);

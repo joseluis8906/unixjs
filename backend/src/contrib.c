@@ -10,73 +10,75 @@
 #include <string.h>
 #include <stdio.h>
 
-//encrypt password
-const char *EncryptPassword (const char *Password_)
+//encrypt
+int StringEncrypt (const char *Src, char *Dest)
 {
-    char *p = NULL;
-    
-    if (strlen(Password_) != 4)
+    if (strlen(Dest) < 88)
     {
-        return p;
+        return (KORE_RESULT_ERROR);
     }
     
-    time_t seconds;
-    time (&seconds);	
-    srand ((unsigned int) seconds);
+    time_t Seconds;
+    time (&Seconds);	
+    srand ((unsigned int) Seconds);
 	
-    char *alpha = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    int index = rand () % 62;
+    char *PtrAlpha = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    int Index = rand () % 62;
 	
-    char character[1];
-    character[0] = alpha[index];
+    char Character[1];
+    Character[0] = PtrAlpha[Index];
 	
-    unsigned char hash[SHA256_DIGEST_LENGTH];
-
-    const unsigned char *p_character = NULL;
-    p_character = (const unsigned char*)character;    
+    const unsigned char *PtrCharacter = NULL;
+    PtrCharacter = (const unsigned char*)Character;
     
-    SHA256 (p_character, strlen(character), hash);
+    unsigned char Hash[SHA256_DIGEST_LENGTH];
+
+    SHA256 (PtrCharacter, strlen (Character), Hash);
 	
-    char digest_random[SHA256_DIGEST_LENGTH*2];
-	
+    char RandomDigest[SHA256_DIGEST_LENGTH * 2];
+    char *PtrRandomDigest = NULL;
+    PtrRandomDigest = RandomDigest;
+    
     for (int i = 0; i < SHA256_DIGEST_LENGTH; i++)
     {
-        sprintf (digest_random + (i*2), "%02x",(int)hash[i]);
+        sprintf (PtrRandomDigest + (i * 2), "%02x", (int)Hash[i]);
     }
     
-    char salt[16];
-    snprintf (salt, sizeof(salt)+1, digest_random);
+    char Salt[16];
+    snprintf (Salt, sizeof (Salt) + 1, RandomDigest);
     
-    salt[3] = character[0];
-    char password[5];
-    strcpy (password, Password_);
-    password[4] = character[0];
+    Salt[7] = Character[0];
     
-    const unsigned char *p_password = (const unsigned char*)password;
-    SHA256 (p_password, strlen(password), hash);
+    int SrcLength = strlen(Src);
+    char SrcModified[SrcLength + 1];
+    strcpy (SrcModified, Src);
+    SrcModified[SrcLength] = Character[0];
     
-    char digest_password[SHA256_DIGEST_LENGTH*2];
+    const unsigned char *PtrSrcModified = (const unsigned char*)SrcModified;
+    
+    SHA256 (PtrSrcModified, strlen(SrcModified), Hash);
+    
+    char DigestSrcModified[SHA256_DIGEST_LENGTH * 2];
 
     for (int i = 0; i < SHA256_DIGEST_LENGTH; i++)
     {
-        sprintf (digest_password + (i*2), "%02x",(int)hash[i]);
+        sprintf (DigestSrcModified + (i * 2), "%02x", (int)Hash[i]);
     }
     
-    char password_salt[128];
-    strcpy (password_salt, "sha256$");
-    strcat (password_salt, salt);
-    strcat (password_salt, "$");
-    strcat (password_salt, digest_password);
+    strcpy (Dest, "sha256$");
+    strcat (Dest, Salt);
+    strcat (Dest, "$");
+    strcat (Dest, DigestSrcModified);
     
-    p = password_salt;
-    return p;
+    return (KORE_RESULT_OK);
 }
 
 
 
-int CheckPassword (const char *Password_)
+int CheckEncrypted (const char *Original, const char *Crypted)
 {
-    return 0;
+    
+    return (KORE_RESULT_OK);
 }
 
 

@@ -41,6 +41,6 @@ CREATE TABLE IF NOT EXISTS "AuthUserGroup"
     UNIQUE ("UserId", "GroupId")
 );
 
-INSERT INTO "AuthUser" ("Document", "DocumentType") VALUES ('root', 'xxxxxxxx');
+INSERT INTO "AuthUser" ("DocumentType", "DocumentNum", "Pasword") VALUES ('root', 'root', );
 INSERT INTO "AuthGroup" ("Name") VALUES ('root');
 INSERT INTO "AuthGroup" ("Name") VALUES ('users');

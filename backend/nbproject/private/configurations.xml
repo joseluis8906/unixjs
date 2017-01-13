@@ -10,8 +10,7 @@
       </df>
       <df name="conf">
       </df>
-      <df name="diseño">
-        <in>gusers.sql</in>
+      <df name="sql">
       </df>
       <df name="src">
         <df name="controller">
