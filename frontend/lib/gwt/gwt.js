@@ -780,6 +780,7 @@ Gwt.Gui.Frame = function ()
     this.ClassName = null;
     this.Parent = null;
     this.Childs = null;
+    this.TabIndex = null;
 
     //init
     this.SetHtml ("div");
@@ -861,6 +862,7 @@ Gwt.Gui.Frame.prototype._Frame = function ()
     this.ClassName = null;
     this.Parent = null;
     this.Childs = null;
+    this.TabIndex = null;
 }
 
 Gwt.Gui.Frame.prototype.Add = function (Element)
@@ -1029,6 +1031,19 @@ Gwt.Gui.Frame.prototype.GetPositionTop = function ()
 Gwt.Gui.Frame.prototype.SetFocus = function ()
 {
     this.Html.focus ();
+}
+
+Gwt.Gui.Frame.prototype.SetEnableFocus = function (option)
+{
+    if (option === true)
+    {
+        this.GetHtml ().setAttribute("tabindex", this.TabIndex);
+    }
+    else
+    {
+        this.TabIndex = this.GetHtml ().GetAttribute("tabindex");
+        this.GetHtml ().setAttribute("tabindex", -1);
+    }
 }
 
 Gwt.Gui.Frame.prototype.SetBackgroundAttachment = function (Attachment)
@@ -3665,6 +3680,7 @@ Gwt.Gui.IconControl = function (Icon, Control)
     this.Icon.SetDisplay (Gwt.Gui.Contrib.Display.InlineBlock);
     this.Icon.SetMarginRight (5);
     this.Icon.SetValign (Gwt.Gui.Contrib.Valign.Top);
+    this.Icon.SetEnableFocus (false);
     this.Add (this.Icon);
 
     this.Control.SetWidth (this.GetWidth () - (this.Icon.GetWidth () + this.Icon.GetMarginRight ()));
