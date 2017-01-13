@@ -374,7 +374,7 @@ function gusers ()
     this.name.SetTabIndex(3);
     this.last_name.SetTabIndex(4);
     this.phone.SetTabIndex(5);
-    this.email (6);
+    this.email.SetTabIndex(6);
     this.address.SetTabIndex(7);
     
     this.Add (this.avatar.GetEditor ());
