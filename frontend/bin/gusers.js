@@ -42,7 +42,7 @@ function gusers ()
     this.layout.Add (this.email);
     this.layout.Add (this.address);
     
-    this.doc_num.SetTabIndex(1);
+    //this.doc_num.SetTabIndex(1);
     //this.name.SetTabIndex(2);
     //this.last_name.SetTabIndex(3);
     
