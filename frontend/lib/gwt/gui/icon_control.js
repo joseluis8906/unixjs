@@ -60,7 +60,7 @@ Gwt.Gui.IconControl.prototype.SetHeight = function (Height)
 
 Gwt.Gui.IconControl.prototype.SetTabIndex = function (TabIndex)
 {
-    this.Control.SetTabIndex (TabIndex);
+    //this.Control.SetTabIndex (TabIndex);
 }
 //Ends Gwt::Gui::IconEntry
 //##################################################################################################
