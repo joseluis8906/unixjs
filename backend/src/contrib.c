@@ -13,7 +13,7 @@
 //encrypt
 int StringEncrypt (const char *Src, char *Dest)
 {
-    if (strlen(Dest) < 88)
+    if (sizeof(Dest)/sizeof(char) < 88)
     {
         return (KORE_RESULT_ERROR);
     }

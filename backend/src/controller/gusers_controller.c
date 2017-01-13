@@ -11,6 +11,13 @@ int GusersControllerSave (struct HttpRequest *Req)
         return (KORE_RESULT_OK);
     }
     
+    char *Pwd = "8181";
+    char EncryptedPwd[88];
+    
+    StringEncrypt(Pwd, &EncryptedPwd);
+    
+    kore_log (LOG_INFO, EncryptedPwd);
+    
     struct AuthUserModelArray Users;
     
     JsonToAuthUserModels(Data, &Users);

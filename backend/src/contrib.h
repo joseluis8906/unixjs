@@ -26,7 +26,7 @@ struct SqlState
 
 
 int StringEncrypt (const char *, char *);
-int CheckEncrypted (const char *);
+int CheckEncrypted (const char *, const char *);
 int VerifyRequest (struct HttpRequest *, char **, int);
 int HttpResponseJsonMsg (struct HttpRequest *, int, const char *);
 int HttpResponseJsonArray (struct HttpRequest *, int, JsonObject *);
