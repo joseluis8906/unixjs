@@ -1041,7 +1041,7 @@ Gwt.Gui.Frame.prototype.SetEnableFocus = function (option)
     }
     else
     {
-        this.TabIndex = this.GetHtml ().GetAttribute("tabindex");
+        this.TabIndex = this.GetHtml ().getAttribute("tabindex");
         this.GetHtml ().setAttribute("tabindex", -1);
     }
 }
