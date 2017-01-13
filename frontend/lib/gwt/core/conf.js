@@ -12,7 +12,7 @@ Gwt.Core.Contrib.Port = window.location.port;
 Gwt.Core.Contrib.Host = Gwt.Core.Contrib.Protocol + "//"+Gwt.Core.Contrib.HostName+":"+Gwt.Core.Contrib.Port+"/";
 Gwt.Core.Contrib.Backend = Gwt.Core.Contrib.Host + "backend/";
 Gwt.Core.Contrib.Frontend = Gwt.Core.Contrib.Host + "frontend/";
-Gwt.Core.Contrib.Share = Gwt.Core.Contrib.Host + "share/";
+Gwt.Core.Contrib.Share = /*Gwt.Core.Contrib.Host*/ "../share/";
 Gwt.Core.Contrib.Images = Gwt.Core.Contrib.Share + "images/";
 
 Gwt.Core.Math = {};
