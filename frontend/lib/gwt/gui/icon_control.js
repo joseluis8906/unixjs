@@ -62,7 +62,5 @@ Gwt.Gui.IconControl.prototype.SetTabIndex = function (Index)
 {
     this.Control.SetTabIndex(Index);
 }
-
-
 //Ends Gwt::Gui::IconEntry
 //##################################################################################################
