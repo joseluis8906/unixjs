@@ -14,11 +14,11 @@ Gwt.Core.Contrib = new Object ();
 Gwt.Core.Contrib.Protocol = window.location.protocol;
 Gwt.Core.Contrib.HostName = window.location.hostname;
 Gwt.Core.Contrib.Port = window.location.port;
-Gwt.Core.Contrib.Host = Gwt.Core.Contrib.Protocol+"//"+Gwt.Core.Contrib.HostName+":"+Gwt.Core.Contrib.Port+"/";
-Gwt.Core.Contrib.Backend = Gwt.Core.Contrib.Host+"backend/";
-Gwt.Core.Contrib.Frontend = Gwt.Core.Contrib.Host+"frontend/";
-Gwt.Core.Contrib.Share = /*Gwt.Core.Contrib.Host+"share/"*/"../share/";
-Gwt.Core.Contrib.Images = Gwt.Core.Contrib.Share+"images/";
+Gwt.Core.Contrib.Host = Gwt.Core.Contrib.Protocol + "//"+Gwt.Core.Contrib.HostName+":"+Gwt.Core.Contrib.Port+"/";
+Gwt.Core.Contrib.Backend = Gwt.Core.Contrib.Host + "backend/";
+Gwt.Core.Contrib.Frontend = Gwt.Core.Contrib.Host + "frontend/";
+Gwt.Core.Contrib.Share = Gwt.Core.Contrib.Host + "share/";
+Gwt.Core.Contrib.Images = Gwt.Core.Contrib.Share + "images/";
 
 Gwt.Core.Math = {};
 Gwt.Core.Math.Round = function (value, decimals) 
@@ -3959,7 +3959,7 @@ Gwt.Gui.KnobThreeLevels = function ()
     this.SetClassName ("Gwt_Gui_Knob_Three_Levels");
     this.SetSize (200, 200);
     
-    this.Resource.open ("GET", Gwt.Core.Contrib.Images+"knob.three.levelss.svg", true);
+    this.Resource.open ("GET", Gwt.Core.Contrib.Images + "knob.three.levelss.svg", true);
     this.Resource.overrideMimeType ("image/svg+xml");
     this.Resource.onreadystatechange = this.Loaded.bind(this);
     this.Resource.send ("");
