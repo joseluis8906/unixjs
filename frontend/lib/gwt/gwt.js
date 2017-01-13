@@ -3708,6 +3708,7 @@ Gwt.Gui.IconControl.prototype.SetHeight = function (Height)
 
 Gwt.Gui.IconControl.prototype.SetTabIndex = function (TabIndex)
 {
+    console.log(this);
     //this.Control.SetTabIndex (TabIndex);
 }
 //Ends Gwt::Gui::IconEntry
