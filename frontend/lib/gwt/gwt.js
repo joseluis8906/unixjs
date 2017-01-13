@@ -780,7 +780,6 @@ Gwt.Gui.Frame = function ()
     this.ClassName = null;
     this.Parent = null;
     this.Childs = null;
-    this.TabIndex = null;
 
     //init
     this.SetHtml ("div");
@@ -862,7 +861,6 @@ Gwt.Gui.Frame.prototype._Frame = function ()
     this.ClassName = null;
     this.Parent = null;
     this.Childs = null;
-    this.TabIndex = null;
 }
 
 Gwt.Gui.Frame.prototype.Add = function (Element)
@@ -1033,17 +1031,9 @@ Gwt.Gui.Frame.prototype.SetFocus = function ()
     this.Html.focus ();
 }
 
-Gwt.Gui.Frame.prototype.SetEnableFocus = function (option)
+Gwt.Gui.Frame.prototype.SetDisableFocus = function ()
 {
-    if (option === true)
-    {
-        this.GetHtml ().setAttribute("tabindex", this.TabIndex);
-    }
-    else
-    {
-        this.TabIndex = this.GetHtml ().getAttribute("tabindex");
-        this.GetHtml ().setAttribute("tabindex", -1);
-    }
+    this.SetTabIndex(-1);
 }
 
 Gwt.Gui.Frame.prototype.SetBackgroundAttachment = function (Attachment)
