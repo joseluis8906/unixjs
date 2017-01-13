@@ -3670,7 +3670,7 @@ Gwt.Gui.IconControl = function (Icon, Control)
     this.Icon.SetDisplay (Gwt.Gui.Contrib.Display.InlineBlock);
     this.Icon.SetMarginRight (5);
     this.Icon.SetValign (Gwt.Gui.Contrib.Valign.Top);
-    this.Icon.SetEnableFocus (false);
+    this.Icon.SetDisableFocus ();
     this.Add (this.Icon);
 
     this.Control.SetWidth (this.GetWidth () - (this.Icon.GetWidth () + this.Icon.GetMarginRight ()));
