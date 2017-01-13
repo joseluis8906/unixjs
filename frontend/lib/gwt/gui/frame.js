@@ -71,7 +71,6 @@ Gwt.Gui.Frame = function ()
 
     //init
     this.SetHtml ("div");
-    this.SetTabIndex (0);
     this.SetClassName ("Gwt_Gui_Frame");
     this.SetExpand(false);
     this.SetBorder (0);
