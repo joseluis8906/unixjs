@@ -3959,7 +3959,7 @@ Gwt.Gui.KnobThreeLevels = function ()
     this.SetClassName ("Gwt_Gui_Knob_Three_Levels");
     this.SetSize (200, 200);
     
-    this.Resource.open ("GET", Gwt.Core.Contrib.Images + "knob.three.levelss.svg", true);
+    this.Resource.open ("GET", Gwt.Core.Contrib.Images + "knob.three.levels.svg", true);
     this.Resource.overrideMimeType ("image/svg+xml");
     this.Resource.onreadystatechange = this.Loaded.bind(this);
     this.Resource.send ("");
