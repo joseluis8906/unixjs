@@ -78,5 +78,10 @@ Gwt.Gui.Avatar.prototype.GetData = function ()
 {
     return {Name: this.Name, FileName: this.FileName, Type: this.Type, Data: this.Image.GetSrc().replace(/^[^,]+,/, '')};
 }
+
+Gwt.Gui.Avatar.prototype.GetText = function ()
+{
+    return this.Name;
+}
 //Ends Gwt::Gui::Avatar
 //##################################################################################################

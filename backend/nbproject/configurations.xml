@@ -3,30 +3,12 @@
   <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
     <df root="." name="0">
       <df name="src">
-        <df name="controller">
+        <df name="controllers">
           <in>gusers_controller.c</in>
-          <in>report_controller.c</in>
           <in>root_controller.c</in>
         </df>
-        <df name="model">
-          <df name="accounting">
-            <in>accou_account_model.c</in>
-          </df>
-          <df name="contrib">
-            <in>media_model.c</in>
-            <in>variable_model.c</in>
-          </df>
-          <df name="gusers">
-            <in>auth_group_model.c</in>
-            <in>auth_password_model.c</in>
-            <in>auth_user_model.c</in>
-          </df>
+        <df name="models">
           <in>database.c</in>
-        </df>
-        <df name="view">
-          <df name="acounting">
-            <in>cedeg_view.c</in>
-          </df>
         </df>
         <in>backend.c</in>
         <in>contrib.c</in>
@@ -87,7 +69,10 @@
           </incDir>
         </cTool>
       </item>
-      <item path="src/controller/gusers_controller.c" ex="false" tool="0" flavor2="3">
+      <item path="src/controllers/gusers_controller.c"
+            ex="false"
+            tool="0"
+            flavor2="3">
         <cTool flags="0">
           <incDir>
             <pElem>src</pElem>
@@ -96,16 +81,7 @@
           </incDir>
         </cTool>
       </item>
-      <item path="src/controller/report_controller.c" ex="false" tool="0" flavor2="3">
-        <cTool flags="0">
-          <incDir>
-            <pElem>src</pElem>
-            <pElem>/usr/local/include/kore</pElem>
-            <pElem>.</pElem>
-          </incDir>
-        </cTool>
-      </item>
-      <item path="src/controller/root_controller.c" ex="false" tool="0" flavor2="3">
+      <item path="src/controllers/root_controller.c" ex="false" tool="0" flavor2="3">
         <cTool flags="0">
           <incDir>
             <pElem>src</pElem>
@@ -118,91 +94,13 @@
       </item>
       <item path="src/defines.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="src/model/accounting/accou_account_model.c"
-            ex="false"
-            tool="0"
-            flavor2="3">
-        <cTool flags="0">
-          <incDir>
-            <pElem>src</pElem>
-            <pElem>/usr/local/include/kore</pElem>
-            <pElem>/usr/include/json-c</pElem>
-            <pElem>/usr/include/zdb</pElem>
-            <pElem>.</pElem>
-          </incDir>
-        </cTool>
-      </item>
-      <item path="src/model/contrib/media_model.c" ex="false" tool="0" flavor2="3">
-        <cTool flags="0">
-          <incDir>
-            <pElem>src</pElem>
-            <pElem>.</pElem>
-          </incDir>
-        </cTool>
-      </item>
-      <item path="src/model/contrib/variable_model.c" ex="false" tool="0" flavor2="3">
-        <cTool flags="0">
-          <incDir>
-            <pElem>src</pElem>
-            <pElem>.</pElem>
-          </incDir>
-        </cTool>
-      </item>
-      <item path="src/model/database.c" ex="false" tool="0" flavor2="3">
+      <item path="src/models/database.c" ex="false" tool="0" flavor2="3">
         <cTool flags="0">
           <incDir>
             <pElem>src</pElem>
             <pElem>/usr/local/include/kore</pElem>
             <pElem>/usr/include/zdb</pElem>
             <pElem>/usr/include/json-c</pElem>
-            <pElem>.</pElem>
-          </incDir>
-        </cTool>
-      </item>
-      <item path="src/model/gusers/auth_group_model.c"
-            ex="false"
-            tool="0"
-            flavor2="3">
-        <cTool flags="0">
-          <incDir>
-            <pElem>src</pElem>
-            <pElem>/usr/include/json-c</pElem>
-            <pElem>.</pElem>
-          </incDir>
-        </cTool>
-      </item>
-      <item path="src/model/gusers/auth_password_model.c"
-            ex="false"
-            tool="0"
-            flavor2="3">
-        <cTool flags="0">
-          <incDir>
-            <pElem>src</pElem>
-            <pElem>/usr/local/include/kore</pElem>
-            <pElem>/usr/include/json-c</pElem>
-            <pElem>/usr/include/zdb</pElem>
-            <pElem>.</pElem>
-          </incDir>
-        </cTool>
-      </item>
-      <item path="src/model/gusers/auth_user_model.c" ex="false" tool="0" flavor2="3">
-        <cTool flags="0">
-          <incDir>
-            <pElem>src</pElem>
-            <pElem>/usr/local/include/kore</pElem>
-            <pElem>/usr/include/json-c</pElem>
-            <pElem>/usr/include/zdb</pElem>
-            <pElem>.</pElem>
-          </incDir>
-        </cTool>
-      </item>
-      <item path="src/view/acounting/cedeg_view.c" ex="false" tool="0" flavor2="3">
-        <cTool flags="0">
-          <incDir>
-            <pElem>src</pElem>
-            <pElem>/usr/local/include/kore</pElem>
-            <pElem>/usr/include/json-c</pElem>
-            <pElem>/usr/include/zdb</pElem>
             <pElem>.</pElem>
           </incDir>
         </cTool>

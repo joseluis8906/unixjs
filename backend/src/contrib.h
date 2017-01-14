@@ -17,7 +17,7 @@ enum RequestType {
 };
 
 
-struct SqlState
+struct FuncResult
 {
     int Result;
     const char *Msg;
@@ -33,12 +33,14 @@ int HttpResponseJsonArray (struct HttpRequest *, int, JsonObject *);
 float MmToPx (float);
 float PxToMm (float);
 
-struct SqlState NewSQLState (int, const char *);
+struct FuncResult NewFuncResult (int, const char *);
 
 //function to validate params
 int ParamsEnabled (struct HttpRequest *, char *);
 int SessionValidate (struct HttpRequest *, char *);
 
-int UploadFile (struct HttpRequest *, char *, char *);
+struct FuncResult FindFile (struct HttpRequest *, const char *, struct HttpFile *);
+
+int UploadFile (struct HttpFile *, char *, char *);
 
 #endif

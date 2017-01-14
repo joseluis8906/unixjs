@@ -42,7 +42,7 @@ int StringEncrypt (const char *Src, char *Dest)
     char SrcModified[64];
     strncpy (SrcModified, Src, 64);
     SrcModified[4] = Character[0];
-     
+    
     SHA256 ((unsigned char*)SrcModified, strlen (SrcModified), Hash);
 
     char DigestSrcModified[(SHA256_DIGEST_LENGTH * 2) + 1];
@@ -213,13 +213,13 @@ float PxToMm (float px)
 
 
 //SQL state
-struct SqlState NewSQLState (int Result, const char *Msg)
+struct FuncResult NewFuncResult (int Result, const char *Msg)
 {
-    struct SqlState State;
-    State.Result = Result;
-    State.Msg = Msg;
+    struct FuncResult X;
+    X.Result = Result;
+    X.Msg = Msg;
     
-    return State;
+    return X;
 }
 
 
@@ -252,17 +252,9 @@ int SessionValidate (struct HttpRequest *Req, char *Data)
 
 
 
-//upload_file
-int UploadFile (struct HttpRequest *Req, char *Name, char *SubPath)
+//upload_File
+int UploadFile (struct HttpFile *File, char *Name, char *SubPath)
 {
-    struct HttpFile *file = NULL;
-    
-    if ((file = http_file_lookup (Req, Name)) == NULL)
-    {
-        HttpResponseJsonMsg (Req, KORE_RESULT_ERROR, "File not found");
-        return (KORE_RESULT_OK);
-    }
-    
     char *DocumentsExt[] = {"txt", "pdf", "ps", "rtf", "wps", "xml", "xps", "odt", "doc", "docm", "docx", "dot", "dotm", "dotx", "csv", "dbf", "DIF", "ods", "prn", "xla", "xlam", "xls", "xlsb", "xlsm", "xlsl", "xlsx", "xlt", "xltm", "xltx", "xlw", "xps", "pot", "potm", "potx", "ppa", "ppam", "pps", "ppsm", "ppsx", "ppt", "pptm", "pptx"};
     size_t LengthDocumentsExt = sizeof (DocumentsExt) / sizeof (DocumentsExt[0]);
     
@@ -275,10 +267,10 @@ int UploadFile (struct HttpRequest *Req, char *Name, char *SubPath)
     char *VideosExt[] = {"mpeg", "vob", "3gp", "mov", "mp4", "webm", "flv", "mkv", "avi", "ogm"};
     size_t LengthVideosExt = sizeof (VideosExt) / sizeof (VideosExt[0]);
     
-    char path[128];
-                  
-    strcpy (path, "../share/");
-    strcat (path, SubPath); 
+    char Path[4095];
+    
+    strcpy (Path, "../share/");
+    strcat (Path, SubPath); 
 
     unsigned int i = 0;
     char ext[8] = ".";
@@ -287,10 +279,9 @@ int UploadFile (struct HttpRequest *Req, char *Name, char *SubPath)
     
     for (i = 0; i < LengthDocumentsExt; i++)
     {
-        if (strstr (file->filename, strcat (ext, DocumentsExt[i])) != NULL)
+        if (strstr (File->filename, strcat (ext, DocumentsExt[i])) != NULL)
         {
             type = DocumentsExt [i];
-            strcat (path, "documents/");
             TypeFound = 1;
             break;
         }
@@ -301,10 +292,9 @@ int UploadFile (struct HttpRequest *Req, char *Name, char *SubPath)
     {
         for (i = 0; i < LengthMusicExt; i++)
         {
-            if (strstr (file->filename, strcat (ext, MusicExt[i])) != NULL)
+            if (strstr (File->filename, strcat (ext, MusicExt[i])) != NULL)
             {
                 type = MusicExt [i];
-                strcat (path, "music/");
                 TypeFound = 1;
                 break;
             }
@@ -316,10 +306,9 @@ int UploadFile (struct HttpRequest *Req, char *Name, char *SubPath)
     {
         for (i = 0; i < LengthPicturesExt; i++)
         {
-            if (strstr (file->filename, strcat (ext, PicturesExt[i])) != NULL)
+            if (strstr (File->filename, strcat (ext, PicturesExt[i])) != NULL)
             {
                 type = PicturesExt [i];
-                strcat (path, "images/");
                 TypeFound = 1;
                 break;
             }
@@ -331,10 +320,9 @@ int UploadFile (struct HttpRequest *Req, char *Name, char *SubPath)
     {
         for (i = 0; i < LengthVideosExt; i++)
         {
-            if (strstr (file->filename, strcat (ext, VideosExt[i])) != NULL)
+            if (strstr (File->filename, strcat (ext, VideosExt[i])) != NULL)
             {
                 type = VideosExt [i];
-                strcat (path, "videos/");
                 TypeFound = 1;
                 break;
             }
@@ -348,9 +336,9 @@ int UploadFile (struct HttpRequest *Req, char *Name, char *SubPath)
         return (KORE_RESULT_ERROR);
     }
 
-    strcat (path, file->filename);
+    strcat (Path, File->filename);
     
-    int fd = open (path, O_CREAT | O_TRUNC | O_WRONLY, 0644);
+    int fd = open (Path, O_CREAT | O_TRUNC | O_WRONLY, 0644);
     
     if (fd == -1)
     {
@@ -365,7 +353,7 @@ int UploadFile (struct HttpRequest *Req, char *Name, char *SubPath)
     
     for(;;)
     {
-        ret = http_file_read (file, buf, sizeof(buf));
+        ret = http_File_read (File, buf, sizeof(buf));
         
         if (ret == -1)
         {
@@ -384,7 +372,7 @@ int UploadFile (struct HttpRequest *Req, char *Name, char *SubPath)
         {
             char tmpmsg [128] = "";
 	    strcpy (tmpmsg, "Write(%s): ");
-	    strcat (tmpmsg, file->filename);
+	    strcat (tmpmsg, File->Filename);
 	    strcat (tmpmsg, errno_s);
             HttpResponseJsonMsg (Req, KORE_RESULT_ERROR, tmpmsg);
             goto cleanup;
@@ -403,14 +391,14 @@ int UploadFile (struct HttpRequest *Req, char *Name, char *SubPath)
     cleanup:
         if (close (fd) == -1)
         {
-            kore_log (LOG_WARNING, "close(%s) %s", file->filename, errno_s);
+            kore_log (LOG_WARNING, "close(%s) %s", File->Filename, errno_s);
         }
         
         if (ret == KORE_RESULT_ERROR)
         {
-            if (unlink (file->filename) == -1)
+            if (unlink (File->Filename) == -1)
             {
-                kore_log (LOG_WARNING, "unlink(%s): %s", file->filename, errno_s);
+                kore_log (LOG_WARNING, "unlink(%s): %s", File->Filename, errno_s);
             }
             
             ret = KORE_RESULT_OK;
@@ -418,4 +406,20 @@ int UploadFile (struct HttpRequest *Req, char *Name, char *SubPath)
         return (KORE_RESULT_ERROR);
     
     return (KORE_RESULT_OK);
+}
+
+struct FuncResult FindFile (struct HttpRequest *Req, const char *Name, static HttpFile *File)
+{
+    struct FuncResult X;
+    
+    if ((File = HttpFileLookup (Req, Name)) == NULL)
+    {
+        X = NewFuncResult (KORE_RESULT_ERROR, "File not found");
+    }
+    else 
+    {
+        X = NewFuncResult (KORE_RESULT_OK, "File found");
+    }
+    
+    return X;
 }

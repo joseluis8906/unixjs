@@ -101,7 +101,7 @@ gusers.prototype.Guardar = function ()
 {
     var params = [
         new Gwt.Core.Parameter(Gwt.Core.PARAM_TYPE_FILE, this.avatar.GetData ()),
-        new Gwt.Core.Parameter(Gwt.Core.PARAM_TYPE_JSON, {"Name": "Data", "Data": [{"DocumentType": this.doc_type.GetText(), "DocumentNum": this.doc_num.GetText(), "Name": this.name.GetText(), "LastName": this.last_name.GetText(), "Phone": this.phone.GetText(), "Email": this.email.GetText (), "Address": this.address.GetText ()}]})
+        new Gwt.Core.Parameter(Gwt.Core.PARAM_TYPE_JSON, {"Name": "Data", "Data": [{"Avatar": this.avatar.GetText (), "DocumentType": this.doc_type.GetText(), "DocumentNum": this.doc_num.GetText(), "Name": this.name.GetText(), "LastName": this.last_name.GetText(), "Phone": this.phone.GetText(), "Email": this.email.GetText (), "Address": this.address.GetText ()}]})
     ];
     
     new Gwt.Core.Request ("/backend/gusers/save/", function(response){console.log(response)}, params);

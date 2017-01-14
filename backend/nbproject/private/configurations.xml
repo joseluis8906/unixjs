@@ -13,37 +13,33 @@
       <df name="sql">
       </df>
       <df name="src">
-        <df name="controller">
+        <df name="controllers">
           <in>gusers_controller.c</in>
           <in>gusers_controller.h</in>
-          <in>report_controller.c</in>
-          <in>report_controller.h</in>
           <in>root_controller.c</in>
           <in>root_controller.h</in>
         </df>
-        <df name="model">
+        <df name="models">
           <df name="accounting">
             <in>accou_account_model.c</in>
             <in>accou_account_model.h</in>
           </df>
           <df name="contrib">
+            <in>auth_group_model.c</in>
+            <in>auth_group_model.h</in>
+            <in>auth_user_model.c</in>
+            <in>auth_user_model.h</in>
             <in>media_model.c</in>
             <in>media_model.h</in>
             <in>variable_model.c</in>
             <in>variable_model.h</in>
           </df>
           <df name="gusers">
-            <in>auth_group_model.c</in>
-            <in>auth_group_model.h</in>
-            <in>auth_password_model.c</in>
-            <in>auth_password_model.h</in>
-            <in>auth_user_model.c</in>
-            <in>auth_user_model.h</in>
           </df>
           <in>database.c</in>
           <in>database.h</in>
         </df>
-        <df name="view">
+        <df name="views">
           <df name="acounting">
             <in>cedeg_view.c</in>
             <in>cedeg_view.h</in>

@@ -2,10 +2,11 @@
 
 #include "auth_user_model.h"
 
-struct AuthUserModel  NewAuthUserModel (char *DocumentType, char *DocumentNum, char *Password, char *Name, char *LastName, char *Phone, char *Email, char *Address)
+struct AuthUserModel  NewAuthUserModel (char *Avatar, char *DocumentType, char *DocumentNum, char *Password, char *Name, char *LastName, char *Phone, char *Email, char *Address)
 {
     struct AuthUserModel X;
      
+    strcpy (X.Avatar, Avatar);
     strcpy (X.DocumentType, DocumentType);
     strcpy (X.DocumentNum, DocumentNum);
     strcpy (X.Password, Password);
@@ -24,6 +25,7 @@ struct AuthUserModel NewVoidAuthUserModel (void)
 {
     struct AuthUserModel X;
     
+    strcpy (X.Avatar, "");
     strcpy (X.DocumentType, "");
     strcpy (X.DocumentNum, "");
     strcpy (X.Password, "");
@@ -31,7 +33,7 @@ struct AuthUserModel NewVoidAuthUserModel (void)
     strcpy (X.LastName, "");
     strcpy (X.Phone, "");
     strcpy (X.Email, "");
-    strcpy (X.Address, "");        
+    strcpy (X.Address, "");
     
     return X;
 }
@@ -53,6 +55,7 @@ int AuthUserModelsToJson (struct AuthUserModelArray *Users, JsonObject *X)
     {
         Y = JsonObjectNewObject ();
         
+        JsonObjectObjectAdd (Y, "Avatar", JsonObjectNewString (Users->At[i].Avatar));
         JsonObjectObjectAdd (Y, "DocumentType", JsonObjectNewString (Users->At[i].DocumentType));
         JsonObjectObjectAdd (Y, "DocumentNum", JsonObjectNewString (Users->At[i].DocumentNum));
         JsonObjectObjectAdd (Y, "Password", JsonObjectNewString (Users->At[i].Password));
@@ -90,7 +93,11 @@ int JsonToAuthUserModels (char *Data, struct AuthUserModelArray *X)
         
         JsonObjectObjectForeach (jobj, Key, Val)
         {          
-            if (strcmp (Key, "DocumentType") == 0)
+            if (strcmp (Key, "Avatar") == 0)
+            {   
+                strcpy (X->At[i].Avatar, JsonObjectGetString (Val));
+            }
+            else if (strcmp (Key, "DocumentType") == 0)
             {   
                 strcpy (X->At[i].DocumentType, JsonObjectGetString (Val));
             }

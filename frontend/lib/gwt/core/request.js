@@ -8,6 +8,7 @@ Gwt.Core.Request = function (Url, Func, Params)
     this.Params = Params;
     
     this.XHR.onreadystatechange = this.Ready.bind(this);
+    this.XHR.overrideMimeType("application/json");
     this.XHR.open ("POST", this.Url, true);
     this.Send ();
 }

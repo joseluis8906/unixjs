@@ -7,6 +7,7 @@
 //auth_user_model
 struct AuthUserModel
 {
+    char avatar[256];
     char DocumentType[8];
     char DocumentNum[16];
     char Password[256];

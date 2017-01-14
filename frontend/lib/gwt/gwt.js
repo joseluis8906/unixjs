@@ -37,6 +37,7 @@ Gwt.Core.Request = function (Url, Func, Params)
     this.Params = Params;
     
     this.XHR.onreadystatechange = this.Ready.bind(this);
+    this.XHR.overrideMimeType("application/json");
     this.XHR.open ("POST", this.Url, true);
     this.Send ();
 }
@@ -2616,6 +2617,11 @@ Gwt.Gui.Avatar.prototype.GetEditor = function ()
 Gwt.Gui.Avatar.prototype.GetData = function ()
 {
     return {Name: this.Name, FileName: this.FileName, Type: this.Type, Data: this.Image.GetSrc().replace(/^[^,]+,/, '')};
+}
+
+Gwt.Gui.Avatar.prototype.GetText = function ()
+{
+    return this.Name;
 }
 //Ends Gwt::Gui::Avatar
 //##################################################################################################

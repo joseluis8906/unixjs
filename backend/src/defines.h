@@ -1,6 +1,9 @@
 #ifndef _DEFINES_H_
 #define _DEFINES_H_
 
+#include <kore/http.h>
+
+
 #define LowArraySize 256
 #define MidArraySize 512
 #define HightArraySize 1024
@@ -10,6 +13,7 @@
 #define HttpResponse http_response
 #define HttpFile http_file
 //functions
+#define HttpFileLookup http_file_lookup
 #define HttpPopulatePost http_populate_post
 #define HttpPopulateMultipartForm http_populate_multipart_form
 

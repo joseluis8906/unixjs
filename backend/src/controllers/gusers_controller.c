@@ -1,5 +1,5 @@
 #include "gusers_controller.h"
-#include "model/gusers/auth_user_model.h"
+#include "models/contrib/auth_user_model.h"
 
 //gusers save
 int GusersControllerSave (struct HttpRequest *Req)
@@ -10,31 +10,14 @@ int GusersControllerSave (struct HttpRequest *Req)
     {
         return (KORE_RESULT_OK);
     }
-    
-    
-    char EncryptedPwd[89];
-    
-    StringEncrypt("8318", EncryptedPwd);
-    
-    char res[2];
-    sprintf (res, "%d", CheckEncrypted("8318", EncryptedPwd));
-    
-    HttpResponseJsonMsg (Req, KORE_RESULT_OK, res);
-    /*
+        
     struct AuthUserModelArray Users;
     
     JsonToAuthUserModels(Data, &Users);
 
-    JsonObject *Res = NULL;
-    Res = JsonObjectNewArray ();
+    char Res[16] = "Users Saved";
     
-    AuthUserModelsToJson (&Users, Res);
-    
-    HttpResponseJsonArray (Req, KORE_RESULT_OK, Res);
-    
-    JsonObjectPut (Res);
-    Res = NULL;
-    */
+    HttpResponseJsonMsg (Req, KORE_RESULT_OK, Res);
     
     return (KORE_RESULT_OK);
 }
