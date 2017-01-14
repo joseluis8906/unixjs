@@ -14,6 +14,7 @@
 #define HttpFile http_file
 //functions
 #define HttpFileLookup http_file_lookup
+#define HttpFileRead http_file_read
 #define HttpPopulatePost http_populate_post
 #define HttpPopulateMultipartForm http_populate_multipart_form
 

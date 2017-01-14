@@ -7,7 +7,7 @@
 //auth_user_model
 struct AuthUserModel
 {
-    char avatar[256];
+    char Avatar[256];
     char DocumentType[8];
     char DocumentNum[16];
     char Password[256];
@@ -24,7 +24,7 @@ struct AuthUserModelArray
     int Length;
 };
 
-struct AuthUserModel  NewAuthUserModel (char *, char *, char *, char *, char *, char *, char *, char *);
+struct AuthUserModel  NewAuthUserModel (char *, char *, char *, char *, char *, char *, char *, char *, char *);
 struct AuthUserModel  NewVoidAuthUserModel (void);
 struct AuthUserModelArray NewAuthUserModelArray (void);
 int AuthUserModelsToJson (struct AuthUserModelArray *, JsonObject *);

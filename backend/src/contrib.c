@@ -216,8 +216,9 @@ float PxToMm (float px)
 struct FuncResult NewFuncResult (int Result, const char *Msg)
 {
     struct FuncResult X;
+    
     X.Result = Result;
-    X.Msg = Msg;
+    strcpy (X.Msg, Msg);
     
     return X;
 }
@@ -253,7 +254,7 @@ int SessionValidate (struct HttpRequest *Req, char *Data)
 
 
 //upload_File
-int UploadFile (struct HttpFile *File, char *Name, char *SubPath)
+struct FuncResult UploadFile (struct HttpFile *File, char *Name, char *SubPath)
 {
     char *DocumentsExt[] = {"txt", "pdf", "ps", "rtf", "wps", "xml", "xps", "odt", "doc", "docm", "docx", "dot", "dotm", "dotx", "csv", "dbf", "DIF", "ods", "prn", "xla", "xlam", "xls", "xlsb", "xlsm", "xlsl", "xlsx", "xlt", "xltm", "xltx", "xlw", "xps", "pot", "potm", "potx", "ppa", "ppam", "pps", "ppsm", "ppsx", "ppt", "pptm", "pptx"};
     size_t LengthDocumentsExt = sizeof (DocumentsExt) / sizeof (DocumentsExt[0]);
@@ -330,10 +331,13 @@ int UploadFile (struct HttpFile *File, char *Name, char *SubPath)
         }
     }
     
+    struct FuncResult Res = NewFuncResult (KORE_RESULT_OK, "File Upload"); ;
+    
     if (!TypeFound)
     {
-        HttpResponseJsonMsg (Req, KORE_RESULT_ERROR, "File Type Not Supported");
-        return (KORE_RESULT_ERROR);
+        Res.Result = KORE_RESULT_ERROR;
+        strcpy (Res.Msg, "File Type Not Supported");
+        return Res;
     }
 
     strcat (Path, File->filename);
@@ -342,8 +346,8 @@ int UploadFile (struct HttpFile *File, char *Name, char *SubPath)
     
     if (fd == -1)
     {
-        HttpResponseJsonMsg (Req, KORE_RESULT_ERROR, "Error Open File Descriptor");
-        return (KORE_RESULT_ERROR);
+        
+        return Res;
     }
     
     u_int8_t            buf[BUFSIZ];
@@ -353,11 +357,12 @@ int UploadFile (struct HttpFile *File, char *Name, char *SubPath)
     
     for(;;)
     {
-        ret = http_File_read (File, buf, sizeof(buf));
+        ret = HttpFileRead (File, buf, sizeof(buf));
         
         if (ret == -1)
         {
-            HttpResponseJsonMsg (Req, KORE_RESULT_ERROR, "Failed To Read From File");
+            Res.Result = KORE_RESULT_ERROR;
+            strcpy (Res.Msg, "Failed To Read From File");
             goto cleanup;            
         }
         
@@ -372,16 +377,18 @@ int UploadFile (struct HttpFile *File, char *Name, char *SubPath)
         {
             char tmpmsg [128] = "";
 	    strcpy (tmpmsg, "Write(%s): ");
-	    strcat (tmpmsg, File->Filename);
+	    strcat (tmpmsg, File->filename);
 	    strcat (tmpmsg, errno_s);
-            HttpResponseJsonMsg (Req, KORE_RESULT_ERROR, tmpmsg);
+            Res.Result = KORE_RESULT_ERROR;
+            strcpy (Res.Msg, tmpmsg);
             goto cleanup;
         }
         
         
         if (written != ret)
         {
-            HttpResponseJsonMsg (Req, KORE_RESULT_ERROR, "Partial Write On File");
+            Res.Result = KORE_RESULT_ERROR;
+            strcpy (Res.Msg, "Partial Write On File");
             goto cleanup;
         }
     }
@@ -391,24 +398,26 @@ int UploadFile (struct HttpFile *File, char *Name, char *SubPath)
     cleanup:
         if (close (fd) == -1)
         {
-            kore_log (LOG_WARNING, "close(%s) %s", File->Filename, errno_s);
+            kore_log (LOG_WARNING, "close(%s) %s", File->filename, errno_s);
         }
         
         if (ret == KORE_RESULT_ERROR)
         {
-            if (unlink (File->Filename) == -1)
+            if (unlink (File->filename) == -1)
             {
-                kore_log (LOG_WARNING, "unlink(%s): %s", File->Filename, errno_s);
+                kore_log (LOG_WARNING, "unlink(%s): %s", File->filename, errno_s);
             }
             
             ret = KORE_RESULT_OK;
         }
-        return (KORE_RESULT_ERROR);
+        
+        Res.Result = KORE_RESULT_ERROR;
+        strcpy (Res.Msg, "Error Cleaning");
     
-    return (KORE_RESULT_OK);
+    return Res;
 }
 
-struct FuncResult FindFile (struct HttpRequest *Req, const char *Name, static HttpFile *File)
+struct FuncResult FindFile (struct HttpRequest *Req, const char *Name, struct HttpFile *File)
 {
     struct FuncResult X;
     

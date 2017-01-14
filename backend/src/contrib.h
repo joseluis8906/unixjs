@@ -20,7 +20,7 @@ enum RequestType {
 struct FuncResult
 {
     int Result;
-    const char *Msg;
+    char Msg[256];
 };
 
 
@@ -41,6 +41,6 @@ int SessionValidate (struct HttpRequest *, char *);
 
 struct FuncResult FindFile (struct HttpRequest *, const char *, struct HttpFile *);
 
-int UploadFile (struct HttpFile *, char *, char *);
+struct FuncResult UploadFile (struct HttpFile *, char *, char *);
 
 #endif
