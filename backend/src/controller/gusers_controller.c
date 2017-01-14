@@ -11,17 +11,20 @@ int GusersControllerSave (struct HttpRequest *Req)
         return (KORE_RESULT_OK);
     }
     
-    char *Pwd = "8181";
-    char EncryptedPwd[88];
     
-    StringEncrypt(Pwd, &EncryptedPwd);
+    char EncryptedPwd[89];
     
-    kore_log (LOG_INFO, EncryptedPwd);
+    StringEncrypt("8318", EncryptedPwd);
     
+    char res[2];
+    sprintf (res, "%d", CheckEncrypted("8318", EncryptedPwd));
+    
+    HttpResponseJsonMsg (Req, KORE_RESULT_OK, res);
+    /*
     struct AuthUserModelArray Users;
     
     JsonToAuthUserModels(Data, &Users);
-    
+
     JsonObject *Res = NULL;
     Res = JsonObjectNewArray ();
     
@@ -31,7 +34,8 @@ int GusersControllerSave (struct HttpRequest *Req)
     
     JsonObjectPut (Res);
     Res = NULL;
-
+    */
+    
     return (KORE_RESULT_OK);
 }
 

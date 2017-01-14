@@ -13,58 +13,45 @@
 //encrypt
 int StringEncrypt (const char *Src, char *Dest)
 {
-    if (sizeof(Dest)/sizeof(char) < 88)
-    {
-        return (KORE_RESULT_ERROR);
-    }
-    
     time_t Seconds;
     time (&Seconds);	
     srand ((unsigned int) Seconds);
 	
-    char *PtrAlpha = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    char Alpha[] = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
     int Index = rand () % 62;
 	
-    char Character[1];
-    Character[0] = PtrAlpha[Index];
-	
-    const unsigned char *PtrCharacter = NULL;
-    PtrCharacter = (const unsigned char*)Character;
+    char Character[2];
+    Character[0] = Alpha[Index];
     
     unsigned char Hash[SHA256_DIGEST_LENGTH];
 
-    SHA256 (PtrCharacter, strlen (Character), Hash);
+    SHA256 ((unsigned char*)Character, strlen (Character), Hash);
 	
-    char RandomDigest[SHA256_DIGEST_LENGTH * 2];
-    char *PtrRandomDigest = NULL;
-    PtrRandomDigest = RandomDigest;
-    
-    for (int i = 0; i < SHA256_DIGEST_LENGTH; i++)
+    char RandomDigest[(SHA256_DIGEST_LENGTH * 2) + 1];
+    int i = 0;
+    for (i = 0; i < SHA256_DIGEST_LENGTH; i++)
     {
-        sprintf (PtrRandomDigest + (i * 2), "%02x", (int)Hash[i]);
+        sprintf (RandomDigest + (i * 2), "%02x", (int)Hash[i]);
     }
     
-    char Salt[16];
-    snprintf (Salt, sizeof (Salt) + 1, RandomDigest);
+    char Salt[17];
+    snprintf (Salt, 17, RandomDigest);
     
-    Salt[7] = Character[0];
+    Salt[6] = Character[0];
     
-    int SrcLength = strlen(Src);
-    char SrcModified[SrcLength + 1];
-    strcpy (SrcModified, Src);
-    SrcModified[SrcLength] = Character[0];
-    
-    const unsigned char *PtrSrcModified = (const unsigned char*)SrcModified;
-    
-    SHA256 (PtrSrcModified, strlen(SrcModified), Hash);
-    
-    char DigestSrcModified[SHA256_DIGEST_LENGTH * 2];
+    char SrcModified[64];
+    strncpy (SrcModified, Src, 64);
+    SrcModified[4] = Character[0];
+     
+    SHA256 ((unsigned char*)SrcModified, strlen (SrcModified), Hash);
 
-    for (int i = 0; i < SHA256_DIGEST_LENGTH; i++)
+    char DigestSrcModified[(SHA256_DIGEST_LENGTH * 2) + 1];
+    
+    for (i = 0; i < SHA256_DIGEST_LENGTH; i++)
     {
         sprintf (DigestSrcModified + (i * 2), "%02x", (int)Hash[i]);
     }
-    
+
     strcpy (Dest, "sha256$");
     strcat (Dest, Salt);
     strcat (Dest, "$");
@@ -77,8 +64,56 @@ int StringEncrypt (const char *Src, char *Dest)
 
 int CheckEncrypted (const char *Original, const char *Crypted)
 {
+    char Character[2];
+    snprintf (Character, sizeof(char)+1, (Crypted+13));
     
-    return (KORE_RESULT_OK);
+    unsigned char Hash[SHA256_DIGEST_LENGTH];
+
+    SHA256 ((unsigned char*)Character, strlen (Character), Hash);
+	
+    char RandomDigest[(SHA256_DIGEST_LENGTH * 2) + 1];
+    int i = 0;
+    for (i = 0; i < SHA256_DIGEST_LENGTH; i++)
+    {
+        sprintf (RandomDigest + (i * 2), "%02x", (int)Hash[i]);
+    }
+    
+    char Salt[17];
+    snprintf (Salt, 17, RandomDigest);
+    
+    Salt[6] = Character[0];
+    
+    char SrcModified[64];
+    strncpy (SrcModified, Original, 64);
+    SrcModified[4] = Character[0];
+     
+    SHA256 ((unsigned char*)SrcModified, strlen (SrcModified), Hash);
+
+    char DigestSrcModified[(SHA256_DIGEST_LENGTH * 2) + 1];
+    
+    for (i = 0; i < SHA256_DIGEST_LENGTH; i++)
+    {
+        sprintf (DigestSrcModified + (i * 2), "%02x", (int)Hash[i]);
+    }
+    
+    char Result[88];
+    
+    strcpy (Result, "sha256$");
+    strcat (Result, Salt);
+    strcat (Result, "$");
+    strcat (Result, DigestSrcModified);
+
+    int Ret;
+    if (strcmp (Result, Crypted) == 0)
+    {
+        Ret = KORE_RESULT_OK;
+    }
+    else
+    {
+        Ret = KORE_RESULT_ERROR;
+    }
+    
+    return Ret;
 }
 
 
