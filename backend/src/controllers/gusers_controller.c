@@ -14,7 +14,24 @@ int GusersControllerSave (struct HttpRequest *Req)
     struct AuthUserModelArray Users;
     
     JsonToAuthUserModels(Data, &Users);
-
+    
+    int i = 0;
+    struct HttpFile *File;
+    char FileName[32];
+    
+    for (i = 0; i < Users.Length; i++)
+    {    
+        struct FuncResult Ret = FindFile (Req, Users.At[i].Avatar, &File);
+        
+        if (Ret.Result == KORE_RESULT_OK)
+        {
+            strcpy (FileName, Users.At[i].DocumentType);
+            strcat (FileName, "_");
+            strcat (FileName, Users.At[i].DocumentNum);
+            UploadFile (File, FileName, "images/profile/");
+        }
+    }
+    
     char Res[16] = "Users Saved";
     
     HttpResponseJsonMsg (Req, KORE_RESULT_OK, Res);

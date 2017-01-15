@@ -1,14 +1,4 @@
-#include <kore/kore.h>
-#include <kore/http.h>
-#include <json-c/json.h>
 #include "contrib.h"
-#include "defines.h"
-#include <openssl/sha.h>
-#include <math.h>
-#include <time.h>
-#include <stdlib.h>
-#include <string.h>
-#include <stdio.h>
 
 //encrypt
 int StringEncrypt (const char *Src, char *Dest)
@@ -268,15 +258,26 @@ struct FuncResult UploadFile (struct HttpFile *File, char *Name, char *SubPath)
     char *VideosExt[] = {"mpeg", "vob", "3gp", "mov", "mp4", "webm", "flv", "mkv", "avi", "ogm"};
     size_t LengthVideosExt = sizeof (VideosExt) / sizeof (VideosExt[0]);
     
-    char Path[4095];
+    char Path[4096];
     
     strcpy (Path, "../share/");
     strcat (Path, SubPath); 
-
+    
+    struct stat St = {0};
+    
+    kore_log (LOG_INFO, Path);
+        
+    if (stat(Path, &St) == -1) 
+    {
+        mkdir (Path, 0755);
+    }
+    
     unsigned int i = 0;
     char ext[8] = ".";
     char *type = NULL;
     int TypeFound = 0;
+    
+    kore_log (LOG_INFO, File->filename);
     
     for (i = 0; i < LengthDocumentsExt; i++)
     {
@@ -332,16 +333,17 @@ struct FuncResult UploadFile (struct HttpFile *File, char *Name, char *SubPath)
     }
     
     struct FuncResult Res = NewFuncResult (KORE_RESULT_OK, "File Upload"); ;
-    
+
     if (!TypeFound)
     {
         Res.Result = KORE_RESULT_ERROR;
         strcpy (Res.Msg, "File Type Not Supported");
         return Res;
     }
-
-    strcat (Path, File->filename);
-    
+        
+    strcat (Path, Name);
+    strcat (Path, ext);
+    kore_log (LOG_INFO, File->filename);
     int fd = open (Path, O_CREAT | O_TRUNC | O_WRONLY, 0644);
     
     if (fd == -1)
@@ -417,18 +419,15 @@ struct FuncResult UploadFile (struct HttpFile *File, char *Name, char *SubPath)
     return Res;
 }
 
-struct FuncResult FindFile (struct HttpRequest *Req, const char *Name, struct HttpFile *File)
+struct FuncResult FindFile (struct HttpRequest *Req, const char *Name, struct HttpFile **File)
 {
-    struct FuncResult X;
+    struct FuncResult X = NewFuncResult (KORE_RESULT_OK, "File found");
     
-    if ((File = HttpFileLookup (Req, Name)) == NULL)
+    if ((*File = HttpFileLookup (Req, Name)) == NULL)
     {
-        X = NewFuncResult (KORE_RESULT_ERROR, "File not found");
+        X.Result = KORE_RESULT_ERROR;
+        strcpy (X.Msg, "File not found");
     }
-    else 
-    {
-        X = NewFuncResult (KORE_RESULT_OK, "File found");
-    }
-    
+
     return X;
 }

@@ -31,7 +31,7 @@ int AuthUserModelsToJson (struct AuthUserModelArray *, JsonObject *);
 int JsonToAuthUserModels (char *, struct AuthUserModelArray *);
 
 //struct SqlState  AuthUserModelSelect (struct AuthUserModel[], int);
-struct SqlState  AuthUserModelInsert (struct AuthUserModel[], int);
+struct FuncResult  AuthUserModelInsert (struct AuthUserModel[], int);
 //struct SqlState  AuthUserModelUpdate (struct AuthUserModelTuple[], int);
 //struct SqlState  AuthUserModelDelete (struct AuthUserModel[], int);
 

@@ -1,16 +1,18 @@
 //########################################################################################
 //Class Gwt::Gui::Avatar
-Gwt.Gui.Avatar = function (Name)
+Gwt.Gui.Avatar = function (Name, Format, Width, Height)
 {
     Gwt.Gui.Frame.call (this);
     
     //instance props
     this.File = new Gwt.Gui.File (this.SetImage.bind(this));
     this.Image = new Gwt.Gui.Image (Gwt.Core.Contrib.Images+"appbar.camera.switch.svg");
-    this.Editor =  new Gwt.Gui.Croppie ();
+    this.FileName_ = null;
     this.Name = Name;
-    this.FileName = null;
-    this.Type = null;
+    this.FileWidth = Width ||  240;
+    this.FileHeight = Height || 240;
+    this.Type = Format || "png";
+    this.Editor =  new Gwt.Gui.Croppie (this.Type, this.FileWidth, this.FileHeight);
     
     //init
     this.SetClassName ("Gwt_Gui_Avatar");
@@ -56,9 +58,16 @@ Gwt.Gui.Avatar.prototype.SetImage = function (Image)
 }
 
 Gwt.Gui.Avatar.prototype.ChangeImage = function (FileName, MimeType, FileSize, Image)
-{
-    this.FileName = FileName;
-    this.Type = "image/jpeg";
+{  
+    var Ext = ["jpg", "jpeg", "bmp", "gif", "pcx", "png", "tga", "tiff", "wmp"];
+    for (var i = 0; i < Ext.length; i++)
+    {
+        if (FileName.endsWith (Ext[i]))
+        {
+            this.FileName = FileName.replace (Ext[i], this.Type);
+            break;
+        }
+    }
     
     this.Editor.SetImage (Image);
     this.Editor.Enable ();

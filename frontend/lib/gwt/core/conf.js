@@ -13,7 +13,7 @@ Gwt.Core.Contrib.Host = Gwt.Core.Contrib.Protocol + "//"+Gwt.Core.Contrib.HostNa
 Gwt.Core.Contrib.Backend = Gwt.Core.Contrib.Host + "backend/";
 Gwt.Core.Contrib.Frontend = Gwt.Core.Contrib.Host + "frontend/";
 Gwt.Core.Contrib.Share = /*Gwt.Core.Contrib.Host*/ "../share/";
-Gwt.Core.Contrib.Images = Gwt.Core.Contrib.Share + "images/";
+Gwt.Core.Contrib.Images = Gwt.Core.Contrib.Share + "images/system/";
 
 Gwt.Core.Math = {};
 Gwt.Core.Math.Round = function (value, decimals) 

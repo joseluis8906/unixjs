@@ -3,9 +3,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/types.h>
+#include <sys/stat.h>
 #include <fcntl.h>
 #include <unistd.h>
+#include <math.h>
+#include <time.h>
 #include <json-c/json.h>
+#include <openssl/sha.h>
 #include "defines.h"
 
 #ifndef _CONTRIB_H_
@@ -39,7 +44,7 @@ struct FuncResult NewFuncResult (int, const char *);
 int ParamsEnabled (struct HttpRequest *, char *);
 int SessionValidate (struct HttpRequest *, char *);
 
-struct FuncResult FindFile (struct HttpRequest *, const char *, struct HttpFile *);
+struct FuncResult FindFile (struct HttpRequest *, const char *, struct HttpFile **);
 
 struct FuncResult UploadFile (struct HttpFile *, char *, char *);
 

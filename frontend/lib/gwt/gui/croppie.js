@@ -1,6 +1,6 @@
 //########################################################################################
 //Class Gwt::Gui::Croppie
-Gwt.Gui.Croppie = function ()
+Gwt.Gui.Croppie = function (Format, Width, Height)
 {
     Gwt.Gui.Frame.call (this);
  
@@ -8,6 +8,9 @@ Gwt.Gui.Croppie = function ()
     this.Vanilla = new Croppie (this.GetHtml());
     this.BtnFinish = new Gwt.Gui.Button(Gwt.Core.Contrib.Images + "appbar.cabinet.out.svg", "Subir");
     this.Image = null;
+    this.FileFormat = Format || "png";
+    this.FileWidth = Width || 240;
+    this.FileHeight = Height || 240;
     this.Callback = null;
     
     //init
@@ -41,6 +44,9 @@ Gwt.Gui.Croppie.prototype._Croppie = function ()
     
     this.Vanilla = null;
     this.Image = null;
+    this.FileFormat = null;
+    this.FileWidth = null;
+    this.FileHeight = null;
     this.Callback = null
     
     this._Frame ();
@@ -88,7 +94,7 @@ Gwt.Gui.Croppie.prototype.SetHeight = function (Height)
 
 Gwt.Gui.Croppie.prototype.Result = function ()
 {
-    this.Vanilla.result({type: 'base64', size: {width: 640, height: 640},  format: "jpeg"}).then(this.Upload.bind(this));
+    this.Vanilla.result({type: 'base64', size: {width: this.FileWidth, height: this.FileHeight},  format: this.FileFormat, quality: 1, circle: false}).then(this.Upload.bind(this));
     this.Disable();
 }
 

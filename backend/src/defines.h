@@ -1,8 +1,8 @@
+#include <kore/http.h>
+#include <kore/kore.h>
+
 #ifndef _DEFINES_H_
 #define _DEFINES_H_
-
-#include <kore/http.h>
-
 
 #define LowArraySize 256
 #define MidArraySize 512

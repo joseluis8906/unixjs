@@ -18,7 +18,7 @@ Gwt.Core.Contrib.Host = Gwt.Core.Contrib.Protocol + "//"+Gwt.Core.Contrib.HostNa
 Gwt.Core.Contrib.Backend = Gwt.Core.Contrib.Host + "backend/";
 Gwt.Core.Contrib.Frontend = Gwt.Core.Contrib.Host + "frontend/";
 Gwt.Core.Contrib.Share = /*Gwt.Core.Contrib.Host*/ "../share/";
-Gwt.Core.Contrib.Images = Gwt.Core.Contrib.Share + "images/";
+Gwt.Core.Contrib.Images = Gwt.Core.Contrib.Share + "images/system/";
 
 Gwt.Core.Math = {};
 Gwt.Core.Math.Round = function (value, decimals) 
@@ -2425,7 +2425,7 @@ Gwt.Gui.Image.prototype.SetRounded = function ()
 //##################################################################################################
 //########################################################################################
 //Class Gwt::Gui::Croppie
-Gwt.Gui.Croppie = function ()
+Gwt.Gui.Croppie = function (Format, Width, Height)
 {
     Gwt.Gui.Frame.call (this);
  
@@ -2433,6 +2433,9 @@ Gwt.Gui.Croppie = function ()
     this.Vanilla = new Croppie (this.GetHtml());
     this.BtnFinish = new Gwt.Gui.Button(Gwt.Core.Contrib.Images + "appbar.cabinet.out.svg", "Subir");
     this.Image = null;
+    this.FileFormat = Format || "png";
+    this.FileWidth = Width || 240;
+    this.FileHeight = Height || 240;
     this.Callback = null;
     
     //init
@@ -2466,6 +2469,9 @@ Gwt.Gui.Croppie.prototype._Croppie = function ()
     
     this.Vanilla = null;
     this.Image = null;
+    this.FileFormat = null;
+    this.FileWidth = null;
+    this.FileHeight = null;
     this.Callback = null
     
     this._Frame ();
@@ -2513,7 +2519,7 @@ Gwt.Gui.Croppie.prototype.SetHeight = function (Height)
 
 Gwt.Gui.Croppie.prototype.Result = function ()
 {
-    this.Vanilla.result({type: 'base64', size: {width: 640, height: 640},  format: "jpeg"}).then(this.Upload.bind(this));
+    this.Vanilla.result({type: 'base64', size: {width: this.FileWidth, height: this.FileHeight},  format: this.FileFormat, quality: 1, circle: false}).then(this.Upload.bind(this));
     this.Disable();
 }
 
@@ -2540,17 +2546,19 @@ Gwt.Gui.Croppie.prototype.SetCallbackResult = function (Callback)
 //##################################################################################################
 //########################################################################################
 //Class Gwt::Gui::Avatar
-Gwt.Gui.Avatar = function (Name)
+Gwt.Gui.Avatar = function (Name, Format, Width, Height)
 {
     Gwt.Gui.Frame.call (this);
     
     //instance props
     this.File = new Gwt.Gui.File (this.SetImage.bind(this));
     this.Image = new Gwt.Gui.Image (Gwt.Core.Contrib.Images+"appbar.camera.switch.svg");
-    this.Editor =  new Gwt.Gui.Croppie ();
+    this.FileName_ = null;
     this.Name = Name;
-    this.FileName = null;
-    this.Type = null;
+    this.FileWidth = Width ||  240;
+    this.FileHeight = Height || 240;
+    this.Type = Format || "png";
+    this.Editor =  new Gwt.Gui.Croppie (this.Type, this.FileWidth, this.FileHeight);
     
     //init
     this.SetClassName ("Gwt_Gui_Avatar");
@@ -2596,9 +2604,16 @@ Gwt.Gui.Avatar.prototype.SetImage = function (Image)
 }
 
 Gwt.Gui.Avatar.prototype.ChangeImage = function (FileName, MimeType, FileSize, Image)
-{
-    this.FileName = FileName;
-    this.Type = "image/jpeg";
+{  
+    var Ext = ["jpg", "jpeg", "bmp", "gif", "pcx", "png", "tga", "tiff", "wmp"];
+    for (var i = 0; i < Ext.length; i++)
+    {
+        if (FileName.endsWith (Ext[i]))
+        {
+            this.FileName = FileName.replace (Ext[i], this.Type);
+            break;
+        }
+    }
     
     this.Editor.SetImage (Image);
     this.Editor.Enable ();
