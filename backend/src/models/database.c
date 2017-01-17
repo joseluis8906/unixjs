@@ -1,17 +1,17 @@
 #include "database.h"
 
-static URL_T url;
-static ConnectionPool_T pool;
+static URL_T Url;
+static ConnectionPool_T Pool;
 
 //defined function to open and close pools
-int open_pool (void)
+int DbOpenPool (void)
 {
-    if (url == NULL)
+    if (Url == NULL)
     {
-        url = URL_new ("postgresql://localhost:5432/unixjs?user=unixjs&password=K3J9 8LMN 02F3 B3LW");
-        pool = ConnectionPool_new (url);
-        ConnectionPool_setReaper (pool, 2);
-        ConnectionPool_start (pool);
+        Url = URL_new ("postgresql://localhost:5432/unixjs?user=unixjs&password=K3J9 8LMN 02F3 B3LW");
+        Pool = ConnectionPool_new (Url);
+        ConnectionPool_setReaper (Pool, 2);
+        ConnectionPool_start (Pool);
     }
     else
     {
@@ -21,36 +21,36 @@ int open_pool (void)
     return 0;
 }
 
-int close_pool (void)
+int DbClosePool (void)
 {
-    if (url != NULL)
+    if (Url != NULL)
     {
-        int conns =  ConnectionPool_reapConnections(pool);
-        kore_log (LOG_INFO, "connections closed: %d", conns);
-        ConnectionPool_free (&pool);
-        URL_free (&url);
+        int Conns =  ConnectionPool_reapConnections(Pool);
+        kore_log (LOG_INFO, "Connections closed: %d", Conns);
+        ConnectionPool_free (&Pool);
+        URL_free (&Url);
     }
     else
     {
-        kore_log (LOG_INFO, "url not opened");
+        kore_log (LOG_INFO, "Url not opened");
     }
 
     return 0;
 }
 
-Connection_T get_connection ()
+Connection_T DbGetConnection ()
 {
-    Connection_T conn;
+    Connection_T Conn;
 
-    if (url != NULL)
+    if (Url != NULL)
     {
-        conn = ConnectionPool_getConnection (pool);
+        Conn = ConnectionPool_getConnection (Pool);
     }
     else 
     {
-        if (!open_pool ())
+        if (!DbOpenPool ())
         {
-            conn = ConnectionPool_getConnection (pool);
+            Conn = ConnectionPool_getConnection (Pool);
         }
         else
         {
@@ -58,5 +58,5 @@ Connection_T get_connection ()
         }
     }
     
-    return conn;
+    return Conn;
 }

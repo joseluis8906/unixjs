@@ -25,5 +25,15 @@ Gwt.Gui.IconEntry.prototype.GetText = function ()
 {
     return this.Control.GetText ();
 }
+
+Gwt.Gui.IconEntry.prototype.ChangeToPassword = function ()
+{
+    this.Control.ChangeToPassword ();
+}
+
+Gwt.Gui.IconEntry.prototype.ChangeToText = function ()
+{
+    this.Control.ChangeToText ();
+}
 //Ends Gwt::Gui::IconEntry
 //##################################################################################################

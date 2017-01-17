@@ -6,12 +6,12 @@ Gwt.Gui.Avatar = function (Name, Format, Width, Height)
     
     //instance props
     this.File = new Gwt.Gui.File (this.SetImage.bind(this));
-    this.Image = new Gwt.Gui.Image (Gwt.Core.Contrib.Images+"appbar.camera.switch.svg");
+    this.Image = new Gwt.Gui.Image (Gwt.Core.Contrib.Images+"appbar.camera.switch.invert.svg");
     this.FileName_ = null;
     this.Name = Name;
     this.FileWidth = Width ||  240;
     this.FileHeight = Height || 240;
-    this.Type = Format || "png";
+    this.Type = Format === "jpg" ? "jpeg" : Format ;
     this.Editor =  new Gwt.Gui.Croppie (this.Type, this.FileWidth, this.FileHeight);
     
     //init

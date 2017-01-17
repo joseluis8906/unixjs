@@ -1,12 +1,15 @@
 #include <kore/http.h>
 #include <kore/kore.h>
+#include <json-c/json.h>
+#include <zdb/zdb.h>
 
 #ifndef _DEFINES_H_
 #define _DEFINES_H_
 
-#define LowArraySize 256
-#define MidArraySize 512
-#define HightArraySize 1024
+#define LOW_ARRAY_SIZE 256
+#define MID_ARRAY_SIZE 512
+#define HIGHT_ARRAY_SIZE 1024
+
 //redefines kore lib defines
 //types
 #define HttpRequest http_request

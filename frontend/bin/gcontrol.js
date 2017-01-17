@@ -6,22 +6,23 @@ function gcontrol ()
 {
     Gwt.Gui.Window.call (this);
 
-    this.layout = new Gwt.Gui.VBox(5);
-    this.icons = [
+    this.Layout = new Gwt.Gui.VBox(5);
+    this.Icons = [
         new Gwt.Gui.IconDesktop (Gwt.Core.Contrib.Images + "preferences-desktop-user.png", "Usuarios", function(){window.gcontrol.close(); window.gusers.open();})
     ];    
     
+    this.DisableTitleBar ();
     this.SetSize (512, 512);
     this.SetPosition (Gwt.Gui.WIN_POS_CENTER);
-    this.DisableTitleBar ();
-
-    this.layout.SetSize (this.GetWidth(), this.GetHeight());
-    this.Add (this.layout);
     this.SetBorderSpacing (12);
     
-    for (var i = 0; i < this.icons.length; i++)
+    this.Layout.SetSize (this.GetAvailableWidth(), this.GetAvailableHeight());
+    this.SetLayout (this.Layout);
+    
+    
+    for (var i = 0; i < this.Icons.length; i++)
     {
-        this.layout.Add (this.icons[i]);
+        this.Layout.Add (this.Icons[i]);
     }
 }
 
@@ -30,14 +31,14 @@ gcontrol.prototype.constructor = gcontrol;
 
 gcontrol.prototype._App = function ()
 {
-    for (var i = 0; i < this.icons.length; i++)
+    for (var i = 0; i < this.Icons.length; i++)
     {
-        this.icons[i]._IconDesktop ();
+        this.Icons[i]._IconDesktop ();
     }
-    this.layout._VBox ();
+    this.Layout._VBox ();
     
-    this.layout = null;
-    this.icons  = null;
+    this.Layout = null;
+    this.Icons  = null;
 }
 
 return new function ()

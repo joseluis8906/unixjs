@@ -6,7 +6,7 @@ Gwt.Gui.Croppie = function (Format, Width, Height)
  
     //instance props
     this.Vanilla = new Croppie (this.GetHtml());
-    this.BtnFinish = new Gwt.Gui.Button(Gwt.Core.Contrib.Images + "appbar.cabinet.out.svg", "Subir");
+    this.BtnFinish = new Gwt.Gui.Button(Gwt.Core.Contrib.Images + "appbar.cabinet.out.svg", "Guardar");
     this.Image = null;
     this.FileFormat = Format || "png";
     this.FileWidth = Width || 240;
@@ -27,7 +27,7 @@ Gwt.Gui.Croppie = function (Format, Width, Height)
     this.Vanilla.options.showZoomer = true;
     this.Vanilla.options.enableOrientation = false;
     
-    this.BtnFinish.SetWidth (72);
+    this.BtnFinish.SetWidth (90);
     this.BtnFinish.SetMarginLeft (12);
     this.BtnFinish.AddEvent (Gwt.Gui.Event.Mouse.Click, this.Result.bind(this));
     
@@ -94,7 +94,7 @@ Gwt.Gui.Croppie.prototype.SetHeight = function (Height)
 
 Gwt.Gui.Croppie.prototype.Result = function ()
 {
-    this.Vanilla.result({type: 'base64', size: {width: this.FileWidth, height: this.FileHeight},  format: this.FileFormat, quality: 1, circle: false}).then(this.Upload.bind(this));
+    this.Vanilla.result({type: 'base64', size: {width: this.FileWidth, height: this.FileHeight},  format: this.FileFormat, quality: 0.666, circle: false}).then(this.Upload.bind(this));
     this.Disable();
 }
 

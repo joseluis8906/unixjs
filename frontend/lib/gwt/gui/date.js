@@ -23,16 +23,16 @@ Gwt.Gui.Date = function (placeholder)
     var years_items = [];
     for (var i=y; i>=range; i--)
     {
-        years_items.push ({"text": i, "value": i});
+        years_items.push ({"Text": i, "Value": i});
     }
     this.year = new Gwt.Gui.SelectBox ("Año", years_items);
     this.year.SetWidth (64);
-    
+        
     var months = ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"];
     var months_items = [];
     for (var i=1; i<=12; i++)
     {
-        months_items.push ({"text": months[i-1], "value": i});
+        months_items.push ({"Text": months[i-1], "Value": i});
     }
     this.month = new Gwt.Gui.SelectBox ("Mes", months_items);
     this.month.SetWidth (48);
@@ -42,11 +42,11 @@ Gwt.Gui.Date = function (placeholder)
     {
         if (i<10)
         {
-            days_items.push ({"text": "0".concat(i), "value": i});
+            days_items.push ({"Text": "0".concat(i), "Value": i});
         }
         else
         {
-            days_items.push ({"text": String(i), "value": i});
+            days_items.push ({"Text": String(i), "Value": i});
         }
     }
     

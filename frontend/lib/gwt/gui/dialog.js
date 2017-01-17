@@ -20,9 +20,7 @@ Gwt.Gui.Dialog = function (Parent)
     this.SetZIndex (900000);
     
     this.DialogBox.SetSize (256, 256);
-    var color2 = new Gwt.Gui.Contrib.Color (Gwt.Gui.Contrib.Colors.DarkSlateGray);
-    color2.SetAlpha (0.9);
-    this.DialogBox.SetBackgroundColor (color2);
+    this.DialogBox.SetBackgroundColor (new Gwt.Gui.Contrib.Color (50, 50, 50, 0.9));
     var colorBorde = new Gwt.Gui.Contrib.Color (Gwt.Gui.Contrib.Colors.Azure);
     colorBorde.SetAlpha (0.33);
     this.DialogBox.SetBorderColor (colorBorde);

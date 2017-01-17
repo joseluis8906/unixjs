@@ -20,7 +20,7 @@ Gwt.Gui.SelectBox = function (Placeholder, options)
 
     this.Add (this.StaticText);
 	
-    options = [{"text": this.Placeholder, "value": ""}].concat(options);
+    options = [{"Text": this.Placeholder, "Value": ""}].concat(options);
     for (var i = 0; i < options.length; i++)
     {
         if (i === 0)
@@ -29,9 +29,9 @@ Gwt.Gui.SelectBox = function (Placeholder, options)
         }
         else
         {
-            this.Options [i] = new Gwt.Gui.SelectBoxItem (options[i].text, options[i].value);
+            this.Options [i] = new Gwt.Gui.SelectBoxItem (options[i].Text, options[i].Value);
         }
-	this.Options [i].AddEvent (Gwt.Gui.Event.Mouse.Click, this.SetValueListener.bind(this, Event, options[i].text, options[i].value));
+	this.Options [i].AddEvent (Gwt.Gui.Event.Mouse.Click, this.SetValueListener.bind(this, Event, options[i].Text, options[i].Value));
     }
     
     this.SetValue("");

@@ -6,8 +6,9 @@ function gusers ()
 {
     Gwt.Gui.Window.call (this, "Usuarios");
 	
-    this.SetSize (320, 440);
+    this.SetSize (320, 548);
     this.SetPosition (Gwt.Gui.WIN_POS_CENTER);
+    this.SetBorderSpacing (12);
    
     this.EnableMenu ();
     this.AddMenuItem (Gwt.Core.Contrib.Images + "appbar.magnify.svg", "Buscar", this.Buscar.bind(this));
@@ -16,41 +17,51 @@ function gusers ()
     this.AddMenuItem (Gwt.Core.Contrib.Images + "appbar.delete.svg", "Eliminar", this.Eliminar.bind(this));
     this.AddMenuItem (Gwt.Core.Contrib.Images + "appbar.power.svg", "Salir", function(){window.gusers.close(); window.gcontrol.open();}, Gwt.Gui.MENU_QUIT_APP);
     
-    this.layout = new Gwt.Gui.VBox ();
-    this.layout.SetAlignment(Gwt.Gui.ALIGN_CENTER);
-    this.Add (this.layout);
-    this.SetBorderSpacing (12);
-	
-    this.avatar = new Gwt.Gui.Avatar ("Avatar", "jpg", 480, 480);
-    this.avatar.SetSizeEditor (this.GetWidth(), this.GetHeight()-32);
-    this.title = new Gwt.Gui.StaticText ("Datos:");
-    this.doc_type = new Gwt.Gui.IconSelectBox (Gwt.Core.Contrib.Images+"appbar.notification.star.svg", "Tipo de Documento", [{"text": "Tarjeta de Identidad", "value": "T.I"}, {"text": "Cédula de Ciudadanía", "value": "C.C"}, {"text": "Registro Civil", "value": "R.C"}, {"text": "Cédula Extranjera", "value": "C.E"}, {"text": "Pasaporte", "value": "PS"}, {"text": "Libreta Militar", "value": "L.M"}]);
-    this.doc_num = new Gwt.Gui.IconEntry(Gwt.Core.Contrib.Images+"appbar.notification.svg", "Número de Documento");
-    this.name = new Gwt.Gui.IconEntry(Gwt.Core.Contrib.Images+"appbar.user.tie.svg", "Nombre");
-    this.last_name = new Gwt.Gui.IconEntry(Gwt.Core.Contrib.Images+"appbar.user.add.svg", "Apellidos");
-    this.phone = new Gwt.Gui.IconEntry(Gwt.Core.Contrib.Images+"appbar.phone.svg", "Teléfono");
-    this.email = new Gwt.Gui.IconEntry(Gwt.Core.Contrib.Images+"appbar.email.minimal.svg", "Correo Electrónico");
-    this.address = new Gwt.Gui.IconEntry(Gwt.Core.Contrib.Images+"appbar.home.location.round.svg", "Dirección de Residencia");
+    this.Layout = new Gwt.Gui.VBox ();
+    this.Layout.SetAlignment(Gwt.Gui.ALIGN_CENTER);
+    this.SetLayout (this.Layout);
+    
+    this.Avatar = new Gwt.Gui.Avatar ("Avatar", "jpg",480, 480);
+    this.Avatar.SetSizeEditor (this.GetAvailableWidth(), this.GetAvailableHeight());
+    this.Title = new Gwt.Gui.StaticText ("Datos:");
+    this.UserName = new Gwt.Gui.IconEntry(Gwt.Core.Contrib.Images+"appbar.user.tie.svg", "Usuario");
+    this.Password = new Gwt.Gui.IconEntry(Gwt.Core.Contrib.Images+"appbar.lock.svg", "Contraseña");
+    this.Password.ChangeToPassword ();
+    this.Password.SetMaxLength(4);
+    this.DocType = new Gwt.Gui.IconSelectBox (Gwt.Core.Contrib.Images+"appbar.notification.star.svg", "Tipo de Documento", [{"Text": "Tarjeta de Identidad", "Value": "T.I"}, {"Text": "Cédula de Ciudadanía", "Value": "C.C"}, {"Text": "Registro Civil", "Value": "R.C"}, {"Text": "Cédula Extranjera", "Value": "C.E"}, {"Text": "Pasaporte", "Value": "PS"}, {"Text": "Libreta Militar", "Value": "L.M"}]);
+    this.DocNum = new Gwt.Gui.IconEntry(Gwt.Core.Contrib.Images+"appbar.notification.svg", "Número de Documento");
+    this.Country = new Gwt.Gui.IconSelectBox (Gwt.Core.Contrib.Images+"appbar.globe.svg", "País", Gwt.Core.Contrib.COUNTRIES_ISO);
+    this.Name = new Gwt.Gui.IconEntry(Gwt.Core.Contrib.Images+"appbar.user.svg", "Nombre");
+    this.LastName = new Gwt.Gui.IconEntry(Gwt.Core.Contrib.Images+"appbar.user.add.svg", "Apellidos");
+    this.Phone = new Gwt.Gui.IconEntry(Gwt.Core.Contrib.Images+"appbar.phone.svg", "Teléfono");
+    this.Email = new Gwt.Gui.IconEntry(Gwt.Core.Contrib.Images+"appbar.at.svg", "Correo Electrónico");
+    this.Address = new Gwt.Gui.IconEntry(Gwt.Core.Contrib.Images+"appbar.home.location.round.svg", "Dirección de Residencia");
         
-    this.layout.Add (this.avatar);
-    this.layout.Add (this.title);
-    this.layout.Add (this.doc_type);
-    this.layout.Add (this.doc_num);
-    this.layout.Add (this.name);
-    this.layout.Add (this.last_name);
-    this.layout.Add (this.phone);
-    this.layout.Add (this.email);
-    this.layout.Add (this.address);
+    this.Layout.Add (this.Avatar);
+    this.Layout.Add (this.Title);
+    this.Layout.Add (this.UserName);
+    this.Layout.Add (this.Password);
+    this.Layout.Add (this.DocType);
+    this.Layout.Add (this.DocNum);
+    this.Layout.Add (this.Country);
+    this.Layout.Add (this.Name);
+    this.Layout.Add (this.LastName);
+    this.Layout.Add (this.Phone);
+    this.Layout.Add (this.Email);
+    this.Layout.Add (this.Address);
     
-    this.doc_type.SetTabIndex(1)
-    this.doc_num.SetTabIndex(2);
-    this.name.SetTabIndex(3);
-    this.last_name.SetTabIndex(4);
-    this.phone.SetTabIndex(5);
-    this.email.SetTabIndex(6);
-    this.address.SetTabIndex(7);
+    this.UserName.SetTabIndex(1);
+    this.Password.SetTabIndex(2);
+    this.DocType.SetTabIndex(3);
+    this.DocNum.SetTabIndex(4);
+    this.Country.SetTabIndex(5);
+    this.Name.SetTabIndex(6);
+    this.LastName.SetTabIndex(7);
+    this.Phone.SetTabIndex(8);
+    this.Email.SetTabIndex(9);
+    this.Address.SetTabIndex(10);
     
-    this.Add (this.avatar.GetEditor ());
+    this.Add (this.Avatar.GetEditor ());
 }
 
 gusers.prototype = new Gwt.Gui.Window ();
@@ -58,38 +69,33 @@ gusers.prototype.constructor = gusers;
 
 gusers.prototype._app = function ()
 {
-    this.layout.FinalizeVBox ();
-    this.layout = null;
+    this.Avatar._Avatar ();
+    this.Title._StaticText ();
+    this.UserName._IconEntry ();
+    this.Password._IconEntry ();
+    this.DocType._IconSelectBox ();
+    this.DocNum._IconEntry ();
+    this.Country._IconSelectBox ();
+    this.Name._IconEntry ();
+    this.LastName._IconEntry ();
+    this.Phone._IconEntry ();
+    this.Email._IconEntry ();
+    this.Address._IconEntry ();
+    this.Layout._VBox ();
     
-    this.avatar.FinalizeAvatar ();
-    this.avatar = null;
-    
-    this.croppie.FinalizeAvatar ();
-    this.croppie = null;
-    
-    this.title.FinalizeStaticText ();
-    this.title = null;
-    
-    this.doc_type.FinalizeIconSelectBox ();
-    this.doc_type = null;
-    
-    this.doc_num.FinalizeIconEntry ();
-    this.doc_num = null;
-    
-    this.name.FinalizeIconEntry ();
-    this.name = null;
-    
-    this.last_name.FinalizeIconEntry ();
-    this.last_name = null;
-    
-    this.phone.FinalizeIconEntry ();
-    this.phone = null;
-    
-    this.email.FinalizeIconEntry ();
-    this.email = null;
-    
-    this.address.FinalizeIconEntry ();
-    this.address = null;
+    this.Avatar = null;
+    this.Title = null;
+    this.UserName = null;
+    this.Password = null;
+    this.DocType = null;
+    this.DocNum = null;
+    this.Country = null;
+    this.Name = null;
+    this.LastName = null;
+    this.Phone = null;
+    this.Email = null;
+    this.Address = null;
+    this.Layout = null;
 }
 
 gusers.prototype.Buscar = function ()
@@ -99,9 +105,13 @@ gusers.prototype.Buscar = function ()
 
 gusers.prototype.Guardar = function ()
 {
+    var Data = [
+        {"UserName": this.UserName.GetText(), "Password": this.Password.GetText(),  "DocumentType": this.DocType.GetText(), "DocumentNum": this.DocNum.GetText(), "Country" : this.Country.GetText(), "Avatar": this.Avatar.GetText (), "Name": this.Name.GetText(), "LastName": this.LastName.GetText(), "Phone": this.Phone.GetText(), "Email": this.Email.GetText (), "Address": this.Address.GetText ()}
+    ];
+    
     var params = [
-        new Gwt.Core.Parameter(Gwt.Core.PARAM_TYPE_FILE, this.avatar.GetData ()),
-        new Gwt.Core.Parameter(Gwt.Core.PARAM_TYPE_JSON, {"Name": "Data", "Data": [{"Avatar": this.avatar.GetText (), "DocumentType": this.doc_type.GetText(), "DocumentNum": this.doc_num.GetText(), "Name": this.name.GetText(), "LastName": this.last_name.GetText(), "Phone": this.phone.GetText(), "Email": this.email.GetText (), "Address": this.address.GetText ()}]})
+        new Gwt.Core.Parameter(Gwt.Core.PARAM_TYPE_FILE, this.Avatar.GetData ()),
+        new Gwt.Core.Parameter(Gwt.Core.PARAM_TYPE_JSON, {"Name": "Params", "Data": Data})
     ];
     
     new Gwt.Core.Request ("/backend/gusers/save/", function(response){console.log(response)}, params);

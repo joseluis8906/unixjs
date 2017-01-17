@@ -28,9 +28,19 @@ struct FuncResult
     char Msg[256];
 };
 
+struct HttpFileArray
+{
+    struct HttpFile *At[LOW_ARRAY_SIZE];
+    int Length;
+};
 
+struct StringArray 
+{
+    char At[LOW_ARRAY_SIZE][64];
+    int Lenght;
+};
 
-int StringEncrypt (const char *, char *);
+int StringEncrypt (const char *Src, char *Dest);
 int CheckEncrypted (const char *, const char *);
 int VerifyRequest (struct HttpRequest *, char **, int);
 int HttpResponseJsonMsg (struct HttpRequest *, int, const char *);
@@ -44,8 +54,9 @@ struct FuncResult NewFuncResult (int, const char *);
 int ParamsEnabled (struct HttpRequest *, char *);
 int SessionValidate (struct HttpRequest *, char *);
 
-struct FuncResult FindFile (struct HttpRequest *, const char *, struct HttpFile **);
+struct FuncResult FindFiles (struct HttpRequest *, struct StringArray *, struct HttpFileArray *);
 
 struct FuncResult UploadFile (struct HttpFile *, char *, char *);
 
+int StringArrayPush (struct StringArray *, const char *);
 #endif

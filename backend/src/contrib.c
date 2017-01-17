@@ -135,10 +135,10 @@ int VerifyRequest (struct HttpRequest *Req, char **Data, int Type)
         HttpPopulateMultipartForm (Req);
     }
     
-    if (http_argument_get_string (Req, "Data", Data) == KORE_RESULT_ERROR)
+    if (http_argument_get_string (Req, "Params", Data) == KORE_RESULT_ERROR)
     {
         JsonObjectObjectAdd (JsonMsg, "Result", JsonObjectNewInt (KORE_RESULT_ERROR));
-        JsonObjectObjectAdd (JsonMsg, "Message", JsonObjectNewString ("parameter data not found"));
+        JsonObjectObjectAdd (JsonMsg, "Message", JsonObjectNewString ("Argument 'Params' not found"));
         Msg = JsonObjectToJsonString(JsonMsg);
         HttpResponse (Req, 200, Msg,  strlen(Msg));
         
@@ -264,8 +264,6 @@ struct FuncResult UploadFile (struct HttpFile *File, char *Name, char *SubPath)
     strcat (Path, SubPath); 
     
     struct stat St = {0};
-    
-    kore_log (LOG_INFO, Path);
         
     if (stat(Path, &St) == -1) 
     {
@@ -276,8 +274,6 @@ struct FuncResult UploadFile (struct HttpFile *File, char *Name, char *SubPath)
     char ext[8] = ".";
     char *type = NULL;
     int TypeFound = 0;
-    
-    kore_log (LOG_INFO, File->filename);
     
     for (i = 0; i < LengthDocumentsExt; i++)
     {
@@ -343,7 +339,7 @@ struct FuncResult UploadFile (struct HttpFile *File, char *Name, char *SubPath)
         
     strcat (Path, Name);
     strcat (Path, ext);
-    kore_log (LOG_INFO, File->filename);
+
     int fd = open (Path, O_CREAT | O_TRUNC | O_WRONLY, 0644);
     
     if (fd == -1)
@@ -419,15 +415,31 @@ struct FuncResult UploadFile (struct HttpFile *File, char *Name, char *SubPath)
     return Res;
 }
 
-struct FuncResult FindFile (struct HttpRequest *Req, const char *Name, struct HttpFile **File)
+struct FuncResult FindFiles (struct HttpRequest *Req, struct StringArray *Names, struct HttpFileArray *Files)
 {
     struct FuncResult X = NewFuncResult (KORE_RESULT_OK, "File found");
     
-    if ((*File = HttpFileLookup (Req, Name)) == NULL)
+    int i = 0;
+    for (i = 0; i < Names->Lenght; i++)
     {
-        X.Result = KORE_RESULT_ERROR;
-        strcpy (X.Msg, "File not found");
+        if ((Files->At[i] = HttpFileLookup (Req, Names->At[i])) == NULL)
+        {
+            X.Result = KORE_RESULT_ERROR;
+            strcpy (X.Msg, "File not found");
+            return X;
+        }
     }
-
     return X;
+}
+
+int StringArrayPush (struct StringArray *X, const char *String)
+{
+    if (X->Lenght == LOW_ARRAY_SIZE)
+    {
+        return KORE_RESULT_ERROR;
+    }
+    strcpy (X->At[X->Lenght], String);
+    X->Lenght++;
+    
+    return KORE_RESULT_OK;
 }

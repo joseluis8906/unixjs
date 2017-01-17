@@ -20,5 +20,11 @@ Gwt.Core.Math.Round = function (value, decimals)
 {
   return Number(Math.round(value+'e'+decimals)+'e-'+decimals);
 }
+
+Gwt.Core.Contrib.COUNTRIES_ISO = [
+    {"Text" : "Afghanistan", "Value" : "AF"},
+    {"Text" : "Colombia", "Value" : "CO"},
+    {"Text" : "Aland Islands", "Value" : "AX"}
+];
 //End Gwt::Core::Contrib
 //###########################################################################
