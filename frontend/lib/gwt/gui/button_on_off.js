@@ -7,7 +7,6 @@ Gwt.Gui.ButtonOnOff = function ()
     //instance props
     this.Canvas = new Gwt.Graphic.Svg.Canvas ();
     this.Circle = new Gwt.Graphic.Svg.Circle ();
-    this.Status = 0;
     
     //init
     this.SetClassName ("Gwt_Gui_Button_on_off");
@@ -25,14 +24,12 @@ Gwt.Gui.ButtonOnOff = function ()
 	
     this.Canvas.SetSize (24, 24);
     this.Canvas.SetViewBox (0, 0, this.Canvas.GetWidth(), this.Canvas.GetHeight());
-    this.Add (this.Graphic);
+    this.Add (this.Canvas);
 
     this.Circle.SetFill ("Azure");
     this.Circle.SetCx (12);
     this.Circle.SetCy (12);
     this.Canvas.Add (this.Circle);
-	
-    this.AddEvent (Gwt.Gui.Event.Mouse.Click, this.Click.bind(this));
 }
 
 Gwt.Gui.ButtonOnOff.prototype = new Gwt.Gui.Frame ();
@@ -49,26 +46,20 @@ Gwt.Gui.ButtonOnOff.prototype._ButtonOnOff = function ()
     this._Frame ();
 }
 
-Gwt.Gui.ButtonOnOff.prototype.Click = function ()
+Gwt.Gui.ButtonOnOff.prototype.SetOn = function ()
 {
-    if (this.Status === 0)
-    {
-        this.Canvas.SetPosition (24,0);
-        var colorbackground = new Gwt.Gui.Contrib.Color (0,102,255);
-        colorbackground.SetAlpha (0.3);
-        this.SetBackgroundColor(colorbackground);
-        this.Status = 1;
-    }
-    else
-    {
-        this.Canvas.SetPosition (0,0);
-        var colorbackground = new Gwt.Gui.Contrib.Color (25,25,25);
-        colorbackground.SetAlpha (0.25);
-        this.SetBackgroundColor(colorbackground);
-        this.Status = 0;
-    }
+    this.Canvas.SetPosition (24,0);
+    var colorbackground = new Gwt.Gui.Contrib.Color (0,102,255);
+    colorbackground.SetAlpha (0.3);
+    this.SetBackgroundColor(colorbackground);
 }
 
-
+Gwt.Gui.ButtonOnOff.prototype.SetOff = function ()
+{
+    this.Canvas.SetPosition (0,0);
+    var colorbackground = new Gwt.Gui.Contrib.Color (25,25,25);
+    colorbackground.SetAlpha (0.25);
+    this.SetBackgroundColor(colorbackground);
+}
 //Ends Gwt::Gui::ButtonOnOff
 //##################################################################################################

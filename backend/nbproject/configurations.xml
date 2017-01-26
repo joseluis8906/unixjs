@@ -8,6 +8,9 @@
           <in>root_controller.c</in>
         </df>
         <df name="models">
+          <df name="contrib">
+            <in>auth_session.h</in>
+          </df>
           <in>database.c</in>
         </df>
         <in>backend.c</in>
@@ -93,6 +96,8 @@
         </cTool>
       </item>
       <item path="src/defines.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/models/contrib/auth_session.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="src/models/database.c" ex="false" tool="0" flavor2="3">
         <cTool flags="0">

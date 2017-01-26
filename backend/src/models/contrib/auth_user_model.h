@@ -29,11 +29,11 @@ struct AuthUserModelArray
 struct AuthUserModel NewAuthUserModel (char *UserName, char *Password, char *DocumentType, char *DocumentNum, char *Country, char *Avatar, char *Name, char *LastName, char *Phone, char *Email, char *Address);
 struct AuthUserModel NewVoidAuthUserModel (void);
 struct AuthUserModelArray NewAuthUserModelArray (void);
-int AuthUserModelsToJson (struct AuthUserModelArray *, JsonObject *);
-int JsonToAuthUserModels (char *, struct AuthUserModelArray *);
+int AuthUserModelsToJson (const struct AuthUserModelArray *, JsonObject *);
+int JsonToAuthUserModels (const char *, struct AuthUserModelArray *);
 
 //struct SqlState  AuthUserModelSelect (struct AuthUserModel[], int);
-struct FuncResult  AuthUserModelInsert (struct AuthUserModelArray *);
+struct FuncResult  AuthUserModelInsert (const struct AuthUserModelArray *Users);
 //struct SqlState  AuthUserModelUpdate (struct AuthUserModelTuple[], int);
 //struct SqlState  AuthUserModelDelete (struct AuthUserModel[], int);
 

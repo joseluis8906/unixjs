@@ -1,13 +1,23 @@
-/*
-#ifndef _MEDIA_MODEL_
-#define _MEDIA_MODEL_
+#include "../../contrib.h"
 
-typedef struct {
-    char name[32];
-    char type[8];
-} media_model_t;
+#ifndef _MEDIA_MODEL_H_
+#define _MEDIA_MODEL_H_
 
-media_model_t   new_media_model (void);
+struct MediaModel {
+    char Name[256];
+    char Type[8];
+};
+
+struct MediaModelArray
+{
+    struct MediaModel At[LOW_ARRAY_SIZE];
+    int Length;
+};
+
+int MediaModelArrayPush (struct MediaModelArray *Medias, const struct MediaModel *Media);
+struct MediaModelArray NewMediaModelArray (void);
+
+struct FuncResult MediaModelInsert (struct MediaModelArray *Medias);
 
 #endif
-*/
+

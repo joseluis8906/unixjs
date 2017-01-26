@@ -27,14 +27,11 @@
           <df name="contrib">
             <in>auth_group_model.c</in>
             <in>auth_group_model.h</in>
+            <in>auth_session.h</in>
             <in>auth_user_model.c</in>
             <in>auth_user_model.h</in>
             <in>media_model.c</in>
             <in>media_model.h</in>
-            <in>variable_model.c</in>
-            <in>variable_model.h</in>
-          </df>
-          <df name="gusers">
           </df>
           <in>database.c</in>
           <in>database.h</in>

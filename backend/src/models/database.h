@@ -1,4 +1,3 @@
-#include "../contrib.h"
 #include <zdb/zdb.h>
 
 #ifndef _DATABASE_H_

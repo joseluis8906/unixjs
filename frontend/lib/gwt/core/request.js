@@ -1,16 +1,25 @@
 //###################################################################################################
 //Gwt::Core::Request
-Gwt.Core.Request = function (Url, Func, Params)
+Gwt.Core.Request = function (Url, Func, Params, Method)
 {
     this.XHR = new XMLHttpRequest ();			
     this.Url = Url;
     this.Func = Func;
     this.Params = Params;
+    this.Method = Method || Gwt.Core.REQUEST_METHOD_POST;
     
     this.XHR.onreadystatechange = this.Ready.bind(this);
     this.XHR.overrideMimeType("application/json");
     this.XHR.open ("POST", this.Url, true);
-    this.Send ();
+    
+    if (this.Method===Gwt.Core.REQUEST_METHOD_POST)
+    {
+        this.Send ();
+    }
+    else
+    {
+        this.XHR.send ();
+    }
 }
 
 Gwt.Core.Request.prototype._Request = function ()
@@ -82,24 +91,15 @@ Gwt.Core.Request.prototype.SendMultipartFormData =  function ()
     }
     
     this.XHR.send (Uint8Data);
-    
-    //var ContentDispositionDocumentType = "Content-Disposition: form-data; name=\"user_info\"; filename=\"document_type.txt\"\r\nContent-Type: \"txt\"\r\n\r\n";
-
-    //this.Multipart.push ("\r\n--"+this.Boundary+"\r\n");
-    //var ContentDispositionFile = "Content-Disposition: form-data; name=\"userfile\"; filename=\""+ this.Data.userfile.Name + "\"\r\nContent-Type: " + this.Data.userfile.Type + "\r\n\r\n";
-    //this.Multipart.push (ContentDispositionFile);
-    
-    //this.Multipart.push (atob (this.Data.userfile.Data));
-    
 }
 
 Gwt.Core.Request.prototype.SendApplicationXWWWFormUrlEncoded = function ()
 {
     this.XHR.setRequestHeader("Content-Type", "application\/x-www-form-urlencoded");
+    
+    var RawData = "Data="+JSON.stringify(this.Params);
 	
-    var RawData = "data="+JSON.stringify(this.Data);
-	
-    //this.XHR.send (RawData);
+    this.XHR.send (RawData);
 }
 
 Gwt.Core.Request.prototype.Ready = function ()

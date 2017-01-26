@@ -1,7 +1,8 @@
 #include "contrib.h"
+#include "models/contrib/media_model.h"
 
 //encrypt
-int StringEncrypt (const char *Src, char *Dest)
+int PasswordEncrypt (const char *Src, char *Dest)
 {
     time_t Seconds;
     time (&Seconds);	
@@ -52,7 +53,7 @@ int StringEncrypt (const char *Src, char *Dest)
 
 
 
-int CheckEncrypted (const char *Original, const char *Crypted)
+int CheckPassword (const char *Original, const char *Crypted)
 {
     char Character[2];
     snprintf (Character, sizeof(char)+1, (Crypted+13));
@@ -159,8 +160,8 @@ int HttpResponseJsonMsg (struct HttpRequest *Req, int Result, const char *Msg)
     JsonObject *JsonMsg = NULL;
     JsonMsg  = JsonObjectNewObject ();
     
-    JsonObjectObjectAdd (JsonMsg, "result", JsonObjectNewInt (Result));
-    JsonObjectObjectAdd (JsonMsg, "data", JsonObjectNewString (Msg));
+    JsonObjectObjectAdd (JsonMsg, "Result", JsonObjectNewInt (Result));
+    JsonObjectObjectAdd (JsonMsg, "Data", JsonObjectNewString (Msg));
     Resp = JsonObjectToJsonString(JsonMsg);
     HttpResponse (Req, 200, Resp, strlen(Resp));
     
@@ -202,7 +203,7 @@ float PxToMm (float px)
 
 
 
-//SQL state
+//Func Result
 struct FuncResult NewFuncResult (int Result, const char *Msg)
 {
     struct FuncResult X;
@@ -272,14 +273,14 @@ struct FuncResult UploadFile (struct HttpFile *File, char *Name, char *SubPath)
     
     unsigned int i = 0;
     char ext[8] = ".";
-    char *type = NULL;
+    char type[8];
     int TypeFound = 0;
     
     for (i = 0; i < LengthDocumentsExt; i++)
     {
         if (strstr (File->filename, strcat (ext, DocumentsExt[i])) != NULL)
         {
-            type = DocumentsExt [i];
+            strcpy (type, DocumentsExt [i]);
             TypeFound = 1;
             break;
         }
@@ -292,7 +293,7 @@ struct FuncResult UploadFile (struct HttpFile *File, char *Name, char *SubPath)
         {
             if (strstr (File->filename, strcat (ext, MusicExt[i])) != NULL)
             {
-                type = MusicExt [i];
+                strcpy (type, MusicExt [i]);
                 TypeFound = 1;
                 break;
             }
@@ -306,7 +307,7 @@ struct FuncResult UploadFile (struct HttpFile *File, char *Name, char *SubPath)
         {
             if (strstr (File->filename, strcat (ext, PicturesExt[i])) != NULL)
             {
-                type = PicturesExt [i];
+                strcpy(type, PicturesExt [i]);
                 TypeFound = 1;
                 break;
             }
@@ -320,7 +321,7 @@ struct FuncResult UploadFile (struct HttpFile *File, char *Name, char *SubPath)
         {
             if (strstr (File->filename, strcat (ext, VideosExt[i])) != NULL)
             {
-                type = VideosExt [i];
+                strcpy (type, VideosExt [i]);
                 TypeFound = 1;
                 break;
             }
@@ -336,9 +337,28 @@ struct FuncResult UploadFile (struct HttpFile *File, char *Name, char *SubPath)
         strcpy (Res.Msg, "File Type Not Supported");
         return Res;
     }
-        
+    
     strcat (Path, Name);
     strcat (Path, ext);
+    
+    struct MediaModel Media;
+    strcpy (Media.Name, Name);
+    strcpy (Media.Type, ext);
+    struct MediaModelArray Medias = NewMediaModelArray ();
+    MediaModelArrayPush (&Medias, &Media);
+    
+    
+    struct FuncResult Ret;
+    
+    Ret = MediaModelInsert (&Medias);
+    
+    if (Ret.Result == KORE_RESULT_ERROR)
+    {
+        Res.Result = KORE_RESULT_ERROR;
+        strcpy (Res.Msg, Ret.Msg);
+        return Res;
+    }
+    
 
     int fd = open (Path, O_CREAT | O_TRUNC | O_WRONLY, 0644);
     
@@ -411,16 +431,18 @@ struct FuncResult UploadFile (struct HttpFile *File, char *Name, char *SubPath)
         
         Res.Result = KORE_RESULT_ERROR;
         strcpy (Res.Msg, "Error Cleaning");
-    
+        
     return Res;
 }
+
+
 
 struct FuncResult FindFiles (struct HttpRequest *Req, struct StringArray *Names, struct HttpFileArray *Files)
 {
     struct FuncResult X = NewFuncResult (KORE_RESULT_OK, "File found");
     
     int i = 0;
-    for (i = 0; i < Names->Lenght; i++)
+    for (i = 0; i < Names->Length; i++)
     {
         if ((Files->At[i] = HttpFileLookup (Req, Names->At[i])) == NULL)
         {
@@ -432,14 +454,98 @@ struct FuncResult FindFiles (struct HttpRequest *Req, struct StringArray *Names,
     return X;
 }
 
-int StringArrayPush (struct StringArray *X, const char *String)
+
+
+int StringArrayPush (struct StringArray *Array, const char *String)
 {
-    if (X->Lenght == LOW_ARRAY_SIZE)
+    if (Array->Length == LOW_ARRAY_SIZE)
     {
         return KORE_RESULT_ERROR;
     }
-    strcpy (X->At[X->Lenght], String);
-    X->Lenght++;
+    strcpy (Array->At[Array->Length], String);
+    Array->Length++;
     
     return KORE_RESULT_OK;
+}
+
+
+
+int Base64Encode(const char* Original, char* Encoded) //Encodes a string to base64
+{
+    BIO *bmem, *b64;
+    BUF_MEM *bptr;
+
+    b64 = BIO_new(BIO_f_base64());
+    bmem = BIO_new(BIO_s_mem());
+    b64 = BIO_push(b64, bmem);
+    BIO_write(b64, Original, strlen(Original));
+    BIO_flush(b64);
+    BIO_get_mem_ptr(b64, &bptr);
+
+    memcpy (Encoded, bptr->data, bptr->length-1);
+    Encoded [bptr->length-1] = '\0';
+
+    BIO_free_all(b64);
+
+    return (KORE_RESULT_OK); //success
+}
+
+
+
+struct FuncResult GetMediaName (char *Name)
+{
+    struct FuncResult S;
+    
+    Connection_T Conn = DbGetConnection ();
+        
+    if (!Connection_ping (Conn))
+    {   
+        S.Result = KORE_RESULT_ERROR;
+        strcpy (S.Msg,  "Error not database connection");
+        return S;
+    }   
+    
+    int64_t LastId = 0;
+    
+    TRY
+    {   
+        ResultSet_T R = Connection_executeQuery (Conn, "SELECT \"Id\" FROM \"Media\" ORDER BY \"Id\" DESC;");
+
+        if (ResultSet_next (R))
+        {
+            LastId = ResultSet_getLLongByName(R, "Id");
+        }
+        else
+        {
+            LastId = 0;
+        }
+        
+        S.Result = KORE_RESULT_OK;
+        strcpy (S.Msg, "Media Found");
+    }
+    CATCH (SQLException)
+    {    
+        S.Result = KORE_RESULT_ERROR;
+        strcpy (S.Msg, Exception_frame.message);
+    }
+    FINALLY
+    {
+    }
+    END_TRY;
+    
+    Connection_close (Conn);
+    
+    char Encoded [256];
+    char Original [128];
+    char Num [64];
+
+    strcpy (Original, Name);
+    sprintf (Num, "_%d_%lld_", (int)time(NULL), LastId);
+    strcat (Original, Num);
+
+    Base64Encode (Original, Encoded);
+    
+    strcpy (Name, Encoded);
+    
+    return S;
 }

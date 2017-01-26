@@ -37,7 +37,7 @@ Gwt.Gui.VBox.prototype.Add = function (Element)
     
     if (!(Element instanceof Gwt.Gui.HBox))
     {
-        Element.SetDisplay (Gwt.Gui.Contrib.Display.InlineBlock);
+        Element.SetDisplay (Gwt.Gui.Contrib.Display.Block);
 		
         if (Element.GetHtml () === this.GetHtml ().firstChild)
         {

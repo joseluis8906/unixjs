@@ -7,7 +7,9 @@ Gwt = new Object ();
 //Gwt::Core
 Gwt.Core = {
     PARAM_TYPE_JSON: 0,
-    PARAM_TYPE_FILE: 1
+    PARAM_TYPE_FILE: 1,
+    REQUEST_METHOD_GET : "GET",
+    REQUEST_METHOD_POST : "POST"
 };
 
 Gwt.Core.Contrib = new Object ();
@@ -26,26 +28,281 @@ Gwt.Core.Math.Round = function (value, decimals)
   return Number(Math.round(value+'e'+decimals)+'e-'+decimals);
 }
 
-Gwt.Core.Contrib.COUNTRIES_ISO = [
-    {"Text" : "Afghanistan", "Value" : "AF"},
-    {"Text" : "Colombia", "Value" : "CO"},
-    {"Text" : "Aland Islands", "Value" : "AX"}
+Gwt.Core.Contrib.COUNTRIES_ISO =  [
+    {"Text":  "Afghanistan",  "Value": "AF"},
+    {"Text":  "Albania",  "Value": "AL"},
+    {"Text":  "Algeria",  "Value": "DZ"},
+    {"Text":  "American Samoa",  "Value": "AS"},
+    {"Text":  "Andorra",  "Value": "AD"},
+    {"Text":  "Angola",  "Value": "AO"},
+    {"Text":  "Anguilla",  "Value": "AI"},
+    {"Text":  "Antarctica",  "Value": "AQ"},
+    {"Text":  "Antigua and Barbuda",  "Value": "AG"},
+    {"Text":  "Argentina",  "Value": "AR"},
+    {"Text":  "Armenia",  "Value": "AM"},
+    {"Text":  "Aruba",  "Value": "AW"},
+    {"Text":  "Australia",  "Value": "AU"},
+    {"Text":  "Austria",  "Value": "AT"},
+    {"Text":  "Azerbaijan",  "Value": "AZ"},
+    {"Text":  "Bahamas",  "Value": "BS"},
+    {"Text":  "Bahrain",  "Value": "BH"},
+    {"Text":  "Bangladesh",  "Value": "BD"},
+    {"Text":  "Barbados",  "Value": "BB"},
+    {"Text":  "Belarus",  "Value": "BY"},
+    {"Text":  "Belgium",  "Value": "BE"},
+    {"Text":  "Belize",  "Value": "BZ"},
+    {"Text":  "Benin",  "Value": "BJ"},
+    {"Text":  "Bermuda",  "Value": "BM"},
+    {"Text":  "Bhutan",  "Value": "BT"},
+    {"Text":  "Bolivia",  "Value": "BO"},
+    {"Text":  "Bonaire",  "Value": "BQ"},
+    {"Text":  "Bosnia and Herzegovina",  "Value": "BA"},
+    {"Text":  "Botswana",  "Value": "BW"},
+    {"Text":  "Bouvet Island",  "Value": "BV"},
+    {"Text":  "Brazil",  "Value": "BR"},
+    {"Text":  "British Indian Ocean Territory",  "Value": "IO"},
+    {"Text":  "Brunei Darussalam",  "Value": "BN"},
+    {"Text":  "Bulgaria",  "Value": "BG"},
+    {"Text":  "Burkina Faso",  "Value": "BF"},
+    {"Text":  "Burundi",  "Value": "BI"},
+    {"Text":  "Cambodia",  "Value": "KH"},
+    {"Text":  "Cameroon",  "Value": "CM"},
+    {"Text":  "Canada",  "Value": "CA"},
+    {"Text":  "Cape Verde",  "Value": "CV"},
+    {"Text":  "Cayman Islands",  "Value": "KY"},
+    {"Text":  "Central African Republic",  "Value": "CF"},
+    {"Text":  "Chad",  "Value": "TD"},
+    {"Text":  "Chile",  "Value": "CL"},
+    {"Text":  "China",  "Value": "CN"},
+    {"Text":  "Christmas Island",  "Value": "CX"},
+    {"Text":  "Cocos (Keeling) Islands",  "Value": "CC"},
+    {"Text":  "Colombia",  "Value": "CO"},
+    {"Text":  "Comoros",  "Value": "KM"},
+    {"Text":  "Congo",  "Value": "CG"},
+    {"Text":  "Democratic Republic of the Congo",  "Value": "CD"},
+    {"Text":  "Cook Islands",  "Value": "CK"},
+    {"Text":  "Costa Rica",  "Value": "CR"},
+    {"Text":  "Croatia",  "Value": "HR"},
+    {"Text":  "Cuba",  "Value": "CU"},
+    {"Text":  "Curasao",  "Value": "CW"},
+    {"Text":  "Cyprus",  "Value": "CY"},
+    {"Text":  "Czech Republic",  "Value": "CZ"},
+    {"Text":  "Cate d'Ivoire",  "Value": "CI"},
+    {"Text":  "Denmark",  "Value": "DK"},
+    {"Text":  "Djibouti",  "Value": "DJ"},
+    {"Text":  "Dominica",  "Value": "DM"},
+    {"Text":  "Dominican Republic",  "Value": "DO"},
+    {"Text":  "Ecuador",  "Value": "EC"},
+    {"Text":  "Egypt",  "Value": "EG"},
+    {"Text":  "El Salvador",  "Value": "SV"},
+    {"Text":  "Equatorial Guinea",  "Value": "GQ"},
+    {"Text":  "Eritrea",  "Value": "ER"},
+    {"Text":  "Estonia",  "Value": "EE"},
+    {"Text":  "Ethiopia",  "Value": "ET"},
+    {"Text":  "Falkland Islands (Malvinas)",  "Value": "FK"},
+    {"Text":  "Faroe Islands",  "Value": "FO"},
+    {"Text":  "Fiji",  "Value": "FJ"},
+    {"Text":  "Finland",  "Value": "FI"},
+    {"Text":  "France",  "Value": "FR"},
+    {"Text":  "French Guiana",  "Value": "GF"},
+    {"Text":  "French Polynesia",  "Value": "PF"},
+    {"Text":  "French Southern Territories",  "Value": "TF"},
+    {"Text":  "Gabon",  "Value": "GA"},
+    {"Text":  "Gambia",  "Value": "GM"},
+    {"Text":  "Georgia",  "Value": "GE"},
+    {"Text":  "Germany",  "Value": "DE"},
+    {"Text":  "Ghana",  "Value": "GH"},
+    {"Text":  "Gibraltar",  "Value": "GI"},
+    {"Text":  "Greece",  "Value": "GR"},
+    {"Text":  "Greenland",  "Value": "GL"},
+    {"Text":  "Grenada",  "Value": "GD"},
+    {"Text":  "Guadeloupe",  "Value": "GP"},
+    {"Text":  "Guam",  "Value": "GU"},
+    {"Text":  "Guatemala",  "Value": "GT"},
+    {"Text":  "Guernsey",  "Value": "GG"},
+    {"Text":  "Guinea",  "Value": "GN"},
+    {"Text":  "Guinea-Bissau",  "Value": "GW"},
+    {"Text":  "Guyana",  "Value": "GY"},
+    {"Text":  "Haiti",  "Value": "HT"},
+    {"Text":  "Heard Island and McDonald Mcdonald Islands",  "Value": "HM"},
+    {"Text":  "Holy See (Vatican City State)",  "Value": "VA"},
+    {"Text":  "Honduras",  "Value": "HN"},
+    {"Text":  "Hong Kong",  "Value": "HK"},
+    {"Text":  "Hungary",  "Value": "HU"},
+    {"Text":  "Iceland",  "Value": "IS"},
+    {"Text":  "India",  "Value": "IN"},
+    {"Text":  "Indonesia",  "Value": "ID"},
+    {"Text":  "Iran, Islamic Republic of",  "Value": "IR"},
+    {"Text":  "Iraq",  "Value": "IQ"},
+    {"Text":  "Ireland",  "Value": "IE"},
+    {"Text":  "Isle of Man",  "Value": "IM"},
+    {"Text":  "Israel",  "Value": "IL"},
+    {"Text":  "Italy",  "Value": "IT"},
+    {"Text":  "Jamaica",  "Value": "JM"},
+    {"Text":  "Japan",  "Value": "JP"},
+    {"Text":  "Jersey",  "Value": "JE"},
+    {"Text":  "Jordan",  "Value": "JO"},
+    {"Text":  "Kazakhstan",  "Value": "KZ"},
+    {"Text":  "Kenya",  "Value": "KE"},
+    {"Text":  "Kiribati",  "Value": "KI"},
+    {"Text":  "Korea, Democratic People's Republic of",  "Value": "KP"},
+    {"Text":  "Korea, Republic of",  "Value": "KR"},
+    {"Text":  "Kuwait",  "Value": "KW"},
+    {"Text":  "Kyrgyzstan",  "Value": "KG"},
+    {"Text":  "Lao People's Democratic Republic",  "Value": "LA"},
+    {"Text":  "Latvia",  "Value": "LV"},
+    {"Text":  "Lebanon",  "Value": "LB"},
+    {"Text":  "Lesotho",  "Value": "LS"},
+    {"Text":  "Liberia",  "Value": "LR"},
+    {"Text":  "Libya",  "Value": "LY"},
+    {"Text":  "Liechtenstein",  "Value": "LI"},
+    {"Text":  "Lithuania",  "Value": "LT"},
+    {"Text":  "Luxembourg",  "Value": "LU"},
+    {"Text":  "Macao",  "Value": "MO"},
+    {"Text":  "Macedonia, the Former Yugoslav Republic of",  "Value": "MK"},
+    {"Text":  "Madagascar",  "Value": "MG"},
+    {"Text":  "Malawi",  "Value": "MW"},
+    {"Text":  "Malaysia",  "Value": "MY"},
+    {"Text":  "Maldives",  "Value": "MV"},
+    {"Text":  "Mali",  "Value": "ML"},
+    {"Text":  "Malta",  "Value": "MT"},
+    {"Text":  "Marshall Islands",  "Value": "MH"},
+    {"Text":  "Martinique",  "Value": "MQ"},
+    {"Text":  "Mauritania",  "Value": "MR"},
+    {"Text":  "Mauritius",  "Value": "MU"},
+    {"Text":  "Mayotte",  "Value": "YT"},
+    {"Text":  "Mexico",  "Value": "MX"},
+    {"Text":  "Micronesia, Federated States of",  "Value": "FM"},
+    {"Text":  "Moldova, Republic of",  "Value": "MD"},
+    {"Text":  "Monaco",  "Value": "MC"},
+    {"Text":  "Mongolia",  "Value": "MN"},
+    {"Text":  "Montenegro",  "Value": "ME"},
+    {"Text":  "Montserrat",  "Value": "MS"},
+    {"Text":  "Morocco",  "Value": "MA"},
+    {"Text":  "Mozambique",  "Value": "MZ"},
+    {"Text":  "Myanmar",  "Value": "MN"},
+    {"Text":  "Namibia",  "Value": "NA"},
+    {"Text":  "Nauru",  "Value": "NR"},
+    {"Text":  "Nepal",  "Value": "NP"},
+    {"Text":  "Netherlands",  "Value": "NL"},
+    {"Text":  "New Caledonia",  "Value": "NC"},
+    {"Text":  "New Zealand",  "Value": "NZ"},
+    {"Text":  "Nicaragua",  "Value": "NI"},
+    {"Text":  "Niger",  "Value": "NE"},
+    {"Text":  "Nigeria",  "Value": "NG"},
+    {"Text":  "Niue",  "Value": "NU"},
+    {"Text":  "Norfolk Island",  "Value": "NF"},
+    {"Text":  "Northern Mariana Islands",  "Value": "NP"},
+    {"Text":  "Norway",  "Value": "NO"},
+    {"Text":  "Oman",  "Value": "OM"},
+    {"Text":  "Pakistan",  "Value": "PK"},
+    {"Text":  "Palau",  "Value": "PW"},
+    {"Text":  "Palestine, State of",  "Value": "PS"},
+    {"Text":  "Panama",  "Value": "PA"},
+    {"Text":  "Papua New Guinea",  "Value": "PG"},
+    {"Text":  "Paraguay",  "Value": "PY"},
+    {"Text":  "Peru",  "Value": "PE"},
+    {"Text":  "Philippines",  "Value": "PH"},
+    {"Text":  "Pitcairn",  "Value": "PN"},
+    {"Text":  "Poland",  "Value": "PL"},
+    {"Text":  "Portugal",  "Value": "PT"},
+    {"Text":  "Puerto Rico",  "Value": "PR"},
+    {"Text":  "Qatar",  "Value": "QR"},
+    {"Text":  "Romania",  "Value": "RO"},
+    {"Text":  "Russian Federation",  "Value": "RU"},
+    {"Text":  "Rwanda",  "Value": "RW"},
+    {"Text":  "Reunion",  "Value": "RE"},
+    {"Text":  "Saint Barthelemy",  "Value": "BL"},
+    {"Text":  "Saint Helena",  "Value": "SH"},
+    {"Text":  "Saint Kitts and Nevis",  "Value": "KN"},
+    {"Text":  "Saint Lucia",  "Value": "LC"},
+    {"Text":  "Saint Martin (French part)",  "Value": "MF"},
+    {"Text":  "Saint Pierre and Miquelon",  "Value": "PM"},
+    {"Text":  "Saint Vincent and the Grenadines",  "Value": "VC"},
+    {"Text":  "Samoa",  "Value": "WS"},
+    {"Text":  "San Marino",  "Value": "SM"},
+    {"Text":  "Sao Tome and Principe",  "Value": "ST"},
+    {"Text":  "Saudi Arabia",  "Value": "SA"},
+    {"Text":  "Senegal",  "Value": "SN"},
+    {"Text":  "Serbia",  "Value": "RS"},
+    {"Text":  "Seychelles",  "Value": "SC"},
+    {"Text":  "Sierra Leone",  "Value": "SL"},
+    {"Text":  "Singapore",  "Value": "SG"},
+    {"Text":  "Sint Maarten (Dutch part)",  "Value": "SX"},
+    {"Text":  "Slovakia",  "Value": "SK"},
+    {"Text":  "Slovenia",  "Value": "SI"},
+    {"Text":  "Solomon Islands",  "Value": "SB"},
+    {"Text":  "Somalia",  "Value": "SO"},
+    {"Text":  "South Africa",  "Value": "ZA"},
+    {"Text":  "South Georgia and the South Sandwich Islands",  "Value": "GS"},
+    {"Text":  "South Sudan",  "Value": "SS"},
+    {"Text":  "Spain",  "Value": "ES"},
+    {"Text":  "Sri Lanka",  "Value": "LK"},
+    {"Text":  "Sudan",  "Value": "SD"},
+    {"Text":  "Suriname",  "Value": "SR"},
+    {"Text":  "Svalbard and Jan Mayen",  "Value": "SJ"},
+    {"Text":  "Swaziland",  "Value": "SZ"},
+    {"Text":  "Sweden",  "Value": "SE"},
+    {"Text":  "Switzerland",  "Value": "CH"},
+    {"Text":  "Syrian Arab Republic",  "Value": "SY"},
+    {"Text":  "Taiwan, Province of China",  "Value": "TW"},
+    {"Text":  "Tajikistan",  "Value": "TJ"},
+    {"Text":  "United Republic of Tanzania",  "Value": "TZ"},
+    {"Text":  "Thailand",  "Value": "TH"},
+    {"Text":  "Timor-Leste",  "Value": "TL"},
+    {"Text":  "Togo",  "Value": "TG"},
+    {"Text":  "Tokelau",  "Value": "TK"},
+    {"Text":  "Tonga",  "Value": "TO"},
+    {"Text":  "Trinidad and Tobago",  "Value": "TT"},
+    {"Text":  "Tunisia",  "Value": "TN"},
+    {"Text":  "Turkey",  "Value": "TR"},
+    {"Text":  "Turkmenistan",  "Value": "TM"},
+    {"Text":  "Turks and Caicos Islands",  "Value": "TC"},
+    {"Text":  "Tuvalu",  "Value": "TV"},
+    {"Text":  "Uganda",  "Value": "UG"},
+    {"Text":  "Ukraine",  "Value": "UA"},
+    {"Text":  "United Arab Emirates",  "Value": "AE"},
+    {"Text":  "United Kingdom",  "Value": "GB"},
+    {"Text":  "United States",  "Value": "US"},
+    {"Text":  "United States Minor Outlying Islands",  "Value": "UM"},
+    {"Text":  "Uruguay",  "Value": "UY"},
+    {"Text":  "Uzbekistan",  "Value": "UZ"},
+    {"Text":  "Vanuatu",  "Value": "VU"},
+    {"Text":  "Venezuela",  "Value": "VE"},
+    {"Text":  "Viet Nam",  "Value": "VN"},
+    {"Text":  "British Virgin Islands",  "Value": "VG"},
+    {"Text":  "US Virgin Islands",  "Value": "VI"},
+    {"Text":  "Wallis and Futuna",  "Value": "WF"},
+    {"Text":  "Western Sahara",  "Value": "EH"},
+    {"Text":  "Yemen",  "Value": "YE"},
+    {"Text":  "Zambia",  "Value": "ZM"},
+    {"Text":  "Zimbabwe",  "Value": "ZW"},
+    {"Text":  "Aland Islands",  "Value": "AX"}
 ];
 //End Gwt::Core::Contrib
 //###########################################################################
 //###################################################################################################
 //Gwt::Core::Request
-Gwt.Core.Request = function (Url, Func, Params)
+Gwt.Core.Request = function (Url, Func, Params, Method)
 {
     this.XHR = new XMLHttpRequest ();			
     this.Url = Url;
     this.Func = Func;
     this.Params = Params;
+    this.Method = Method || Gwt.Core.REQUEST_METHOD_POST;
     
     this.XHR.onreadystatechange = this.Ready.bind(this);
     this.XHR.overrideMimeType("application/json");
     this.XHR.open ("POST", this.Url, true);
-    this.Send ();
+    
+    if (this.Method===Gwt.Core.REQUEST_METHOD_POST)
+    {
+        this.Send ();
+    }
+    else
+    {
+        this.XHR.send ();
+    }
 }
 
 Gwt.Core.Request.prototype._Request = function ()
@@ -117,24 +374,15 @@ Gwt.Core.Request.prototype.SendMultipartFormData =  function ()
     }
     
     this.XHR.send (Uint8Data);
-    
-    //var ContentDispositionDocumentType = "Content-Disposition: form-data; name=\"user_info\"; filename=\"document_type.txt\"\r\nContent-Type: \"txt\"\r\n\r\n";
-
-    //this.Multipart.push ("\r\n--"+this.Boundary+"\r\n");
-    //var ContentDispositionFile = "Content-Disposition: form-data; name=\"userfile\"; filename=\""+ this.Data.userfile.Name + "\"\r\nContent-Type: " + this.Data.userfile.Type + "\r\n\r\n";
-    //this.Multipart.push (ContentDispositionFile);
-    
-    //this.Multipart.push (atob (this.Data.userfile.Data));
-    
 }
 
 Gwt.Core.Request.prototype.SendApplicationXWWWFormUrlEncoded = function ()
 {
     this.XHR.setRequestHeader("Content-Type", "application\/x-www-form-urlencoded");
+    
+    var RawData = "Data="+JSON.stringify(this.Params);
 	
-    var RawData = "data="+JSON.stringify(this.Data);
-	
-    //this.XHR.send (RawData);
+    this.XHR.send (RawData);
 }
 
 Gwt.Core.Request.prototype.Ready = function ()
@@ -3223,7 +3471,7 @@ Gwt.Gui.VBox.prototype.Add = function (Element)
     
     if (!(Element instanceof Gwt.Gui.HBox))
     {
-        Element.SetDisplay (Gwt.Gui.Contrib.Display.InlineBlock);
+        Element.SetDisplay (Gwt.Gui.Contrib.Display.Block);
 		
         if (Element.GetHtml () === this.GetHtml ().firstChild)
         {
@@ -3633,7 +3881,6 @@ Gwt.Gui.ButtonOnOff = function ()
     //instance props
     this.Canvas = new Gwt.Graphic.Svg.Canvas ();
     this.Circle = new Gwt.Graphic.Svg.Circle ();
-    this.Status = 0;
     
     //init
     this.SetClassName ("Gwt_Gui_Button_on_off");
@@ -3651,14 +3898,12 @@ Gwt.Gui.ButtonOnOff = function ()
 	
     this.Canvas.SetSize (24, 24);
     this.Canvas.SetViewBox (0, 0, this.Canvas.GetWidth(), this.Canvas.GetHeight());
-    this.Add (this.Graphic);
+    this.Add (this.Canvas);
 
     this.Circle.SetFill ("Azure");
     this.Circle.SetCx (12);
     this.Circle.SetCy (12);
     this.Canvas.Add (this.Circle);
-	
-    this.AddEvent (Gwt.Gui.Event.Mouse.Click, this.Click.bind(this));
 }
 
 Gwt.Gui.ButtonOnOff.prototype = new Gwt.Gui.Frame ();
@@ -3675,27 +3920,21 @@ Gwt.Gui.ButtonOnOff.prototype._ButtonOnOff = function ()
     this._Frame ();
 }
 
-Gwt.Gui.ButtonOnOff.prototype.Click = function ()
+Gwt.Gui.ButtonOnOff.prototype.SetOn = function ()
 {
-    if (this.Status === 0)
-    {
-        this.Canvas.SetPosition (24,0);
-        var colorbackground = new Gwt.Gui.Contrib.Color (0,102,255);
-        colorbackground.SetAlpha (0.3);
-        this.SetBackgroundColor(colorbackground);
-        this.Status = 1;
-    }
-    else
-    {
-        this.Canvas.SetPosition (0,0);
-        var colorbackground = new Gwt.Gui.Contrib.Color (25,25,25);
-        colorbackground.SetAlpha (0.25);
-        this.SetBackgroundColor(colorbackground);
-        this.Status = 0;
-    }
+    this.Canvas.SetPosition (24,0);
+    var colorbackground = new Gwt.Gui.Contrib.Color (0,102,255);
+    colorbackground.SetAlpha (0.3);
+    this.SetBackgroundColor(colorbackground);
 }
 
-
+Gwt.Gui.ButtonOnOff.prototype.SetOff = function ()
+{
+    this.Canvas.SetPosition (0,0);
+    var colorbackground = new Gwt.Gui.Contrib.Color (25,25,25);
+    colorbackground.SetAlpha (0.25);
+    this.SetBackgroundColor(colorbackground);
+}
 //Ends Gwt::Gui::ButtonOnOff
 //##################################################################################################
 //##############################################################################################
@@ -4018,8 +4257,8 @@ Gwt.Gui.KnobThreeLevels = function ()
     this.Resource = new XMLHttpRequest ();
     this.Graphic = new Gwt.Gui.Frame ();
     this.Knob = new Gwt.Gui.Frame ();;
-    this.Angle = 0;
-    this.Direction = 0;
+    this.Level = 0;
+    this.Events = [];
     
     this.SetClassName ("Gwt_Gui_Knob_Three_Levels");
     this.SetSize (200, 200);
@@ -4035,8 +4274,12 @@ Gwt.Gui.KnobThreeLevels.prototype.constructor = Gwt.Gui.KnobThreeLevels;
 
 Gwt.Gui.KnobThreeLevels.prototype._KnobThreeLevels = function ()
 {
+    this.Knob._Frame ();
+    this.Graphic._Frame ();
+    
     this.Resource = null;
     this.Knob = null;
+    this.Level = null;
     
     this._Frame ();
 }
@@ -4047,41 +4290,42 @@ Gwt.Gui.KnobThreeLevels.prototype.Loaded = function ()
     {
         this.Graphic.SetHtml (this.Resource.responseXML.documentElement);        
         this.Knob.SetHtml (this.GetElement ("Knob"));
-        this.Knob.AddEvent (Gwt.Gui.Event.Mouse.Click, this.ChangeState.bind(this));
-
+        for (var i = 0; i < this.Events.length; i++)
+        {
+            this.Knob.AddEvent (this.Events[i].Event, this.Events[i].Callback);
+        }
         this.Graphic.SetSize (200, 200);
         this.Add (this.Graphic);
     }
 }
 
-Gwt.Gui.KnobThreeLevels.prototype.ChangeState = function ()
+Gwt.Gui.KnobThreeLevels.prototype.SetOff = function ()
 {
-    if (this.Direction === 0)
-    {
-        if (this.Angle >= (-45*2))
-        {
-            this.Angle -= 45;
-        }
-        else 
-        {
-            this.Angle += 45;
-            this.Direction = 1;
-        }
-    }
-    else
-    {
-        if (this.Angle <= (-45))
-        {
-            this.Angle += 45;
-        }
-        else 
-        {
-            this.Angle -= 45;
-            this.Direction = 0;
-        }
-    }
-    
-    this.SetRotation(this.Angle);
+    this.Level = 0;
+    this.SetRotation(0);
+}
+
+Gwt.Gui.KnobThreeLevels.prototype.SetOne = function ()
+{
+    this.Level = 1;
+    this.SetRotation(315);
+}
+
+Gwt.Gui.KnobThreeLevels.prototype.SetTwo = function ()
+{
+    this.Level = 2;
+    this.SetRotation(270);
+}
+
+Gwt.Gui.KnobThreeLevels.prototype.SetThree = function ()
+{
+    this.Level = 3;
+    this.SetRotation(225);
+}
+
+Gwt.Gui.KnobThreeLevels.prototype.GetLevel = function ()
+{
+    return this.Level;
 }
 
 Gwt.Gui.KnobThreeLevels.prototype.GetElement = function (Id)
@@ -4094,6 +4338,11 @@ Gwt.Gui.KnobThreeLevels.prototype.SetRotation = function (Angle)
     var Center = {'X': this.Graphic.GetHtml().getAttribute("width")/2, 'Y': this.Graphic.GetHtml().getAttribute("height")/2};
     var str = "rotate(%angle, %x, %y)".replace("%angle", Angle).replace ("%x", Center.X).replace ("%y", Center.Y);
     this.Knob.GetHtml().setAttribute ("transform", str);
+}
+
+Gwt.Gui.KnobThreeLevels.prototype.AddEvent = function (Event, Callback)
+{
+    this.Events.push({"Event": Event, "Callback": Callback});    
 }
 //#####################################################################################################
 //Class Gwt::Gui::KnobThreeLevels End

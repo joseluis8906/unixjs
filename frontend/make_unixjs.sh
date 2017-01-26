@@ -3,7 +3,7 @@
 #unixjs
 echo "making unixjs.js"
 
-cat lib/sha.min.js > unixjs.js
+#cat lib/sha.min.js > unixjs.js
 cat lib/croppie.min.js >> unixjs.js
 cd lib/gwt/
 ./make_gwt.sh

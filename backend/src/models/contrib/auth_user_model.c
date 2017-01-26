@@ -51,7 +51,7 @@ struct AuthUserModelArray NewAuthUserModelArray(void)
 
 
 
-int AuthUserModelsToJson (struct AuthUserModelArray *Users, JsonObject *X)
+int AuthUserModelsToJson (const struct AuthUserModelArray *Users, JsonObject *X)
 {   
     JsonObject *Y = NULL;
     for (int i = 0; i < Users->Length; i++)
@@ -81,7 +81,7 @@ int AuthUserModelsToJson (struct AuthUserModelArray *Users, JsonObject *X)
 
 
 
-int JsonToAuthUserModels (char *Data, struct AuthUserModelArray *X)
+int JsonToAuthUserModels (const char *Data, struct AuthUserModelArray *X)
 {
     JsonObject *jobjs = NULL;
     jobjs = JsonTokenerParse (Data);
@@ -107,7 +107,7 @@ int JsonToAuthUserModels (char *Data, struct AuthUserModelArray *X)
             else if (strcmp (Key, "Password") == 0)
             {
                 strcpy (Pwd, JsonObjectGetString (Val));
-                StringEncrypt(Pwd, X->At[i].Password);
+                PasswordEncrypt(Pwd, X->At[i].Password);
             }
             else if (strcmp (Key, "DocumentType") == 0)
             {   
@@ -171,7 +171,7 @@ int JsonToAuthUserModels (char *Data, struct AuthUserModelArray *X)
 
 
 //insert
-struct FuncResult AuthUserModelInsert (struct AuthUserModelArray *Users)
+struct FuncResult AuthUserModelInsert (const struct AuthUserModelArray *Users)
 {
     struct FuncResult S;
     

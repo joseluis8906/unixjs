@@ -11,7 +11,13 @@
 #include <time.h>
 #include <json-c/json.h>
 #include <openssl/sha.h>
+#include <openssl/hmac.h>
+#include <openssl/evp.h>
+#include <openssl/bio.h>
+#include <openssl/buffer.h>
+#include <hiredis/hiredis.h>
 #include "defines.h"
+#include "models/database.h"
 
 #ifndef _CONTRIB_H_
 #define _CONTRIB_H_
@@ -37,26 +43,30 @@ struct HttpFileArray
 struct StringArray 
 {
     char At[LOW_ARRAY_SIZE][64];
-    int Lenght;
+    int Length;
 };
 
-int StringEncrypt (const char *Src, char *Dest);
-int CheckEncrypted (const char *, const char *);
-int VerifyRequest (struct HttpRequest *, char **, int);
-int HttpResponseJsonMsg (struct HttpRequest *, int, const char *);
-int HttpResponseJsonArray (struct HttpRequest *, int, JsonObject *);
-float MmToPx (float);
-float PxToMm (float);
+int PasswordEncrypt (const char *Src, char *Dest);
+int CheckPassword (const char *Original, const char *Crypted);
+int VerifyRequest (struct HttpRequest *Req, char **Data, int Type);
+int HttpResponseJsonMsg (struct HttpRequest *Req, int Result, const char *Msg);
+int HttpResponseJsonArray (struct HttpRequest *Req, int Result, JsonObject *Array);
+float MmToPx (float mm);
+float PxToMm (float px);
 
-struct FuncResult NewFuncResult (int, const char *);
+struct FuncResult NewFuncResult (int Result, const char *Msg);
 
 //function to validate params
-int ParamsEnabled (struct HttpRequest *, char *);
-int SessionValidate (struct HttpRequest *, char *);
+int ParamsEnabled (struct HttpRequest *Req, char *Param);
+int SessionValidate (struct HttpRequest *Req, char *Data);
 
-struct FuncResult FindFiles (struct HttpRequest *, struct StringArray *, struct HttpFileArray *);
+struct FuncResult FindFiles (struct HttpRequest *Req, struct StringArray *Names, struct HttpFileArray *Files);
 
-struct FuncResult UploadFile (struct HttpFile *, char *, char *);
+struct FuncResult UploadFile (struct HttpFile *File, char *Name, char *SubPath);
 
-int StringArrayPush (struct StringArray *, const char *);
+int StringArrayPush (struct StringArray *Array, const char *String);
+
+int Base64Encode (const char *Original, char *Encoded);
+
+struct FuncResult GetMediaName (char *Name);
 #endif

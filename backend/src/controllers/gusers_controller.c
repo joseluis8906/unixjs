@@ -11,13 +11,13 @@ int GusersControllerSave (struct HttpRequest *Req)
         return (KORE_RESULT_OK);
     }
     
-    struct AuthUserModelArray Users;
+    struct AuthUserModelArray Users; //Array de estructura usuario
     
-    JsonToAuthUserModels(Data, &Users);
+    JsonToAuthUserModels(Data, &Users); //Conversion de objetos json a structura usuario
     
-    struct HttpFileArray Files;
+    struct HttpFileArray Files; //Array de structura HttpFile
     
-    struct StringArray Names;
+    struct StringArray Names; //Array de string de nombres de archivos media
     
     int i = 0;
     for (i = 0; i < Users.Length; i++)
@@ -25,12 +25,32 @@ int GusersControllerSave (struct HttpRequest *Req)
         StringArrayPush (&Names, Users.At[i].Avatar);
     }
         
-    struct FuncResult Ret = FindFiles (Req, &Names, &Files);
+    struct FuncResult Ret = FindFiles (Req, &Names, &Files); //Busqueda de archivos media
     
     if (Ret.Result == KORE_RESULT_ERROR)
     {
         HttpResponseJsonMsg(Req, KORE_RESULT_ERROR, Ret.Msg);
         return (KORE_RESULT_OK);
+    }
+    
+    for (i = 0; i < Users.Length; i++)
+    {    
+        strcpy (Users.At[i].Avatar, Users.At[i].DocumentType);
+        strcat (Users.At[i].Avatar, "_");
+        strcat (Users.At[i].Avatar, Users.At[i].DocumentNum);
+        
+        Ret = GetMediaName (Users.At[i].Avatar);
+        
+        if (Ret.Result == KORE_RESULT_OK)
+        {
+            UploadFile (Files.At[i], Users.At[i].Avatar, "images/profile/");
+            
+        }
+        else
+        {
+            HttpResponseJsonMsg(Req, KORE_RESULT_ERROR, Ret.Msg);
+            return (KORE_RESULT_OK);
+        }
     }
     
     Ret = AuthUserModelInsert (&Users);
@@ -39,16 +59,6 @@ int GusersControllerSave (struct HttpRequest *Req)
     {
         HttpResponseJsonMsg(Req, KORE_RESULT_ERROR, Ret.Msg);
         return (KORE_RESULT_OK);
-    }
-    
-    char FileName[32];
-    
-    for (i = 0; i < Users.Length; i++)
-    {    
-        strcpy (FileName, Users.At[i].DocumentType);
-        strcat (FileName, "_");
-        strcat (FileName, Users.At[i].DocumentNum);
-        UploadFile (Files.At[i], FileName, "images/profile/");
     }
     
     HttpResponseJsonMsg (Req, KORE_RESULT_OK, "Si");

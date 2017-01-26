@@ -7,8 +7,8 @@ Gwt.Gui.KnobThreeLevels = function ()
     this.Resource = new XMLHttpRequest ();
     this.Graphic = new Gwt.Gui.Frame ();
     this.Knob = new Gwt.Gui.Frame ();;
-    this.Angle = 0;
-    this.Direction = 0;
+    this.Level = 0;
+    this.Events = [];
     
     this.SetClassName ("Gwt_Gui_Knob_Three_Levels");
     this.SetSize (200, 200);
@@ -24,8 +24,12 @@ Gwt.Gui.KnobThreeLevels.prototype.constructor = Gwt.Gui.KnobThreeLevels;
 
 Gwt.Gui.KnobThreeLevels.prototype._KnobThreeLevels = function ()
 {
+    this.Knob._Frame ();
+    this.Graphic._Frame ();
+    
     this.Resource = null;
     this.Knob = null;
+    this.Level = null;
     
     this._Frame ();
 }
@@ -36,41 +40,42 @@ Gwt.Gui.KnobThreeLevels.prototype.Loaded = function ()
     {
         this.Graphic.SetHtml (this.Resource.responseXML.documentElement);        
         this.Knob.SetHtml (this.GetElement ("Knob"));
-        this.Knob.AddEvent (Gwt.Gui.Event.Mouse.Click, this.ChangeState.bind(this));
-
+        for (var i = 0; i < this.Events.length; i++)
+        {
+            this.Knob.AddEvent (this.Events[i].Event, this.Events[i].Callback);
+        }
         this.Graphic.SetSize (200, 200);
         this.Add (this.Graphic);
     }
 }
 
-Gwt.Gui.KnobThreeLevels.prototype.ChangeState = function ()
+Gwt.Gui.KnobThreeLevels.prototype.SetOff = function ()
 {
-    if (this.Direction === 0)
-    {
-        if (this.Angle >= (-45*2))
-        {
-            this.Angle -= 45;
-        }
-        else 
-        {
-            this.Angle += 45;
-            this.Direction = 1;
-        }
-    }
-    else
-    {
-        if (this.Angle <= (-45))
-        {
-            this.Angle += 45;
-        }
-        else 
-        {
-            this.Angle -= 45;
-            this.Direction = 0;
-        }
-    }
-    
-    this.SetRotation(this.Angle);
+    this.Level = 0;
+    this.SetRotation(0);
+}
+
+Gwt.Gui.KnobThreeLevels.prototype.SetOne = function ()
+{
+    this.Level = 1;
+    this.SetRotation(315);
+}
+
+Gwt.Gui.KnobThreeLevels.prototype.SetTwo = function ()
+{
+    this.Level = 2;
+    this.SetRotation(270);
+}
+
+Gwt.Gui.KnobThreeLevels.prototype.SetThree = function ()
+{
+    this.Level = 3;
+    this.SetRotation(225);
+}
+
+Gwt.Gui.KnobThreeLevels.prototype.GetLevel = function ()
+{
+    return this.Level;
 }
 
 Gwt.Gui.KnobThreeLevels.prototype.GetElement = function (Id)
@@ -83,6 +88,11 @@ Gwt.Gui.KnobThreeLevels.prototype.SetRotation = function (Angle)
     var Center = {'X': this.Graphic.GetHtml().getAttribute("width")/2, 'Y': this.Graphic.GetHtml().getAttribute("height")/2};
     var str = "rotate(%angle, %x, %y)".replace("%angle", Angle).replace ("%x", Center.X).replace ("%y", Center.Y);
     this.Knob.GetHtml().setAttribute ("transform", str);
+}
+
+Gwt.Gui.KnobThreeLevels.prototype.AddEvent = function (Event, Callback)
+{
+    this.Events.push({"Event": Event, "Callback": Callback});    
 }
 //#####################################################################################################
 //Class Gwt::Gui::KnobThreeLevels End
