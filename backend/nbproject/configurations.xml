@@ -8,14 +8,13 @@
           <in>root_controller.c</in>
         </df>
         <df name="models">
-          <df name="contrib">
-            <in>auth_session.h</in>
-          </df>
           <in>database.c</in>
         </df>
         <in>backend.c</in>
         <in>contrib.c</in>
         <in>defines.h</in>
+        <in>upload_file.c</in>
+        <in>upload_file.h</in>
       </df>
     </df>
     <logicalFolder name="ExternalFiles"
@@ -97,8 +96,6 @@
       </item>
       <item path="src/defines.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="src/models/contrib/auth_session.h" ex="false" tool="3" flavor2="0">
-      </item>
       <item path="src/models/database.c" ex="false" tool="0" flavor2="3">
         <cTool flags="0">
           <incDir>
@@ -109,6 +106,10 @@
             <pElem>.</pElem>
           </incDir>
         </cTool>
+      </item>
+      <item path="src/upload_file.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="src/upload_file.h" ex="false" tool="3" flavor2="0">
       </item>
     </conf>
   </confs>

@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <sys/types.h>
+#include <sys/syslog.h>
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <unistd.h>
@@ -16,6 +17,7 @@
 #include <openssl/bio.h>
 #include <openssl/buffer.h>
 #include <hiredis/hiredis.h>
+
 #include "defines.h"
 #include "models/database.h"
 
@@ -27,17 +29,10 @@ enum RequestType {
     FORM_MULTIPART
 };
 
-
 struct FuncResult
 {
     int Result;
     char Msg[256];
-};
-
-struct HttpFileArray
-{
-    struct HttpFile *At[LOW_ARRAY_SIZE];
-    int Length;
 };
 
 struct StringArray 
@@ -60,10 +55,10 @@ struct FuncResult NewFuncResult (int Result, const char *Msg);
 int ParamsEnabled (struct HttpRequest *Req, char *Param);
 int SessionValidate (struct HttpRequest *Req, char *Data);
 
-struct FuncResult FindFiles (struct HttpRequest *Req, struct StringArray *Names, struct HttpFileArray *Files);
 
-struct FuncResult UploadFile (struct HttpFile *File, char *Name, char *SubPath);
 
+//String array
+struct StringArray NewStringArray (void);
 int StringArrayPush (struct StringArray *Array, const char *String);
 
 int Base64Encode (const char *Original, char *Encoded);

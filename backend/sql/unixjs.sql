@@ -3,6 +3,14 @@
  * Created: Jan 2, 2017
  */
 
+CREATE TABLE IF NOT EXISTS "Media"
+(
+    "Id" BIGSERIAL PRIMARY KEY,
+    "Name" VARCHAR(256) NOT NULL,
+    "Type" VARCHAR(8) NOT NULL,
+    UNIQUE ("Name", "Type")
+);
+
 CREATE TABLE IF NOT EXISTS "AuthUser"
 (
     "Id" BIGSERIAL PRIMARY KEY,
@@ -32,7 +40,7 @@ CREATE TABLE IF NOT EXISTS "AuthUserComplementaryInfo"
     "Address" VARCHAR(64)
 );
 
-CREATE VIEW "AllAuthUserInfo" AS SELECT "UserName", "Password", "DocumentType", "DocumentNum", "Country", "Name", "LastName", "Avatar", "Phone", "Email", "Address" FROM "AuthUser" INNER JOIN "AuthUserBasicInfo" ON "AuthUser"."Id" = "AuthUserBasicInfo"."UserId" INNER JOIN "AuthUserComplementaryInfo" ON "AuthUser"."Id" = "AuthUserComplementaryInfo"."UserId";
+CREATE VIEW "AllAuthUserInfo" AS SELECT "UserName", "Password", "DocumentType", "DocumentNum", "Country", "AuthUserBasicInfo"."Name", "LastName", "Avatar", "Phone", "Email", "Address" FROM "AuthUser" INNER JOIN "AuthUserBasicInfo" ON "AuthUser"."Id" = "AuthUserBasicInfo"."UserId" INNER JOIN "AuthUserComplementaryInfo" ON "AuthUser"."Id" = "AuthUserComplementaryInfo"."UserId" INNER JOIN "Media" ON "Media"."Id" = "AuthUserComplementaryInfo"."Avatar";
        
 CREATE TABLE IF NOT EXISTS "AuthGroup"
 (
@@ -54,19 +62,3 @@ INSERT INTO "AuthGroup" ("Name") VALUES ('users');
 INSERT INTO "AuthUser" ("UserName", "Password") VALUES ('root', 'sha256$72dfcfL0c470ac25$b0ac6336ed6d81567abb146ffeb69b834c2552cab77043398cab9bced376337d');
 
 INSERT INTO "AuthUserGroup" ("UserId", "GroupId") SELECT "AuthUser"."Id" AS "UserId", "AuthGroup"."Id" AS "GroupId" FROM "AuthUser" INNER JOIN "AuthGroup" ON "AuthUser"."UserName"='root' AND "AuthGroup"."Name"='root' LIMIT 1;
-
-CREATE TABLE IF NOT EXISTS "Media"
-(
-    "Id" BIGSERIAL PRIMARY KEY,
-    "Name" VARCHAR(256) NOT NULL,
-    "Type" VARCHAR(8) NOT NULL,
-    UNIQUE ("Name", "Type")
-);
-
-CREATE TABLE IF NOT EXISTS "AuthSession"
-(
-    "Id" BIGSERIAL PRIMARY KEY,
-    "SessionKey" VARCHAR(255) UNIQUE NOT NULL,
-    "SessionData" VARCHAR(512),
-    "ExpireDate" DATE NOT NULL
-);

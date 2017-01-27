@@ -1,5 +1,5 @@
 #include "../../contrib.h"
-#include "../database.h"
+#include "media_model.h"
 
 #ifndef _AUTH_USER_MODEL_H_
 #define _AUTH_USER_MODEL_H_
@@ -14,7 +14,7 @@ struct AuthUserModel
     char Country[64];
     char Name[64];
     char LastName[64];
-    char Avatar[256];
+    struct MediaModel Avatar;
     char Phone[24];
     char Email[24];
     char Address[64];
@@ -26,14 +26,15 @@ struct AuthUserModelArray
     int Length;
 };
 
-struct AuthUserModel NewAuthUserModel (char *UserName, char *Password, char *DocumentType, char *DocumentNum, char *Country, char *Avatar, char *Name, char *LastName, char *Phone, char *Email, char *Address);
+struct AuthUserModel NewAuthUserModel (const char *UserName, const char *Password, const char *DocumentType, const char *DocumentNum, const char *Country,  const char *Name, const char *LastName, const struct MediaModel *Avatar, const char *Phone, const char *Email, char *Address);
 struct AuthUserModel NewVoidAuthUserModel (void);
 struct AuthUserModelArray NewAuthUserModelArray (void);
-int AuthUserModelsToJson (const struct AuthUserModelArray *, JsonObject *);
-int JsonToAuthUserModels (const char *, struct AuthUserModelArray *);
 
+struct FuncResult AuthUserModelsToJson (const struct AuthUserModelArray *Models, JsonObject *Jsons);
+struct FuncResult JsonToAuthUserModels (const char *Jsons, struct AuthUserModelArray *Models);
+
+struct FuncResult  AuthUserModelInsert (const struct AuthUserModelArray *Models);
 //struct SqlState  AuthUserModelSelect (struct AuthUserModel[], int);
-struct FuncResult  AuthUserModelInsert (const struct AuthUserModelArray *Users);
 //struct SqlState  AuthUserModelUpdate (struct AuthUserModelTuple[], int);
 //struct SqlState  AuthUserModelDelete (struct AuthUserModel[], int);
 

@@ -1,4 +1,6 @@
 #include <zdb/zdb.h>
+#include <kore/kore.h>
+#include <kore/http.h>
 
 #ifndef _DATABASE_H_
 #define _DATABASE_H_

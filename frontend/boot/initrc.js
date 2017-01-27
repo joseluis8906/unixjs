@@ -4,7 +4,6 @@ function init (event)
 {
 	desktop.open();
         gcontrol.open ();
-        //domotictrl.open ();
 	
 	/*if (typeof(session_env) != "undefined")
 	{

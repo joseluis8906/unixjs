@@ -1,5 +1,15 @@
 #include "media_model.h"
 
+struct MediaModel NewVoidMediaModel (void)
+{
+    struct MediaModel X;
+    strcpy (X.Name, "");
+    strcpy (X.Type, "");
+    
+    return X;
+}
+
+
 
 struct FuncResult MediaModelInsert (struct MediaModelArray *Medias)
 {
@@ -48,6 +58,8 @@ struct FuncResult MediaModelInsert (struct MediaModelArray *Medias)
     return S;
 }
 
+
+
 struct MediaModelArray NewMediaModelArray (void)
 {
     struct MediaModelArray X;
@@ -56,15 +68,23 @@ struct MediaModelArray NewMediaModelArray (void)
     return X;
 }
 
-int MediaModelArrayPush (struct MediaModelArray *Array, const struct MediaModel *Media)
+
+
+struct FuncResult MediaModelArrayPush (struct MediaModelArray *Array, const struct MediaModel *Media)
 {
+    struct FuncResult Ret;
     if (Array->Length == LOW_ARRAY_SIZE)
     {
-        return KORE_RESULT_ERROR;
+        Ret.Result = KORE_RESULT_ERROR;
+        strcpy (Ret.Msg, "Array Length Max");
+        return Ret;
     }
     
     memcpy (&(Array->At[Array->Length]), Media, sizeof(struct MediaModel));
     Array->Length++;
     
-    return KORE_RESULT_OK;
+    
+    Ret.Result = KORE_RESULT_OK;
+    strcpy (Ret.Msg, "");
+    return Ret;
 }

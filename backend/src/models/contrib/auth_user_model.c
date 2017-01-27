@@ -1,7 +1,6 @@
-#include <sys/syslog.h>
 #include "auth_user_model.h"
 
-struct AuthUserModel  NewAuthUserModel (char *UserName, char *Password, char *DocumentType, char *DocumentNum, char *Country, char *Avatar, char *Name, char *LastName, char *Phone, char *Email, char *Address)
+struct AuthUserModel  NewAuthUserModel (const char *UserName, const char *Password, const char *DocumentType, const char *DocumentNum, const char *Country,  const char *Name, const char *LastName, const struct MediaModel *Avatar, const char *Phone, const char *Email, char *Address)
 {
     struct AuthUserModel X;
      
@@ -10,9 +9,9 @@ struct AuthUserModel  NewAuthUserModel (char *UserName, char *Password, char *Do
     strcpy (X.DocumentType, DocumentType);
     strcpy (X.DocumentNum, DocumentNum);
     strcpy (X.Country, Country);
-    strcpy (X.Avatar, Avatar);
     strcpy (X.Name, Name);
     strcpy (X.LastName, LastName);
+    memcpy (&(X.Avatar), Avatar, sizeof (struct MediaModel));
     strcpy (X.Phone, Phone);
     strcpy (X.Email, Email);
     strcpy (X.Address, Address);
@@ -30,10 +29,10 @@ struct AuthUserModel NewVoidAuthUserModel (void)
     strcpy (X.Password, "");
     strcpy (X.DocumentType, "");
     strcpy (X.DocumentNum, "");
-    strcpy (X.Country, "");    
-    strcpy (X.Avatar, "");
+    strcpy (X.Country, "");
     strcpy (X.Name, "");
     strcpy (X.LastName, "");
+    X.Avatar = NewVoidMediaModel ();
     strcpy (X.Phone, "");
     strcpy (X.Email, "");
     strcpy (X.Address, "");
@@ -46,55 +45,66 @@ struct AuthUserModel NewVoidAuthUserModel (void)
 struct AuthUserModelArray NewAuthUserModelArray(void)
 {
     struct AuthUserModelArray X;
+    X.Length = 0;
+    
     return X;
 }
 
 
 
-int AuthUserModelsToJson (const struct AuthUserModelArray *Users, JsonObject *X)
+struct FuncResult AuthUserModelsToJson (const struct AuthUserModelArray *Models, JsonObject *Jsons)
 {   
     JsonObject *Y = NULL;
-    for (int i = 0; i < Users->Length; i++)
+    
+    char AvatarFullName[256+8];
+    
+    for (int i = 0; i < Models->Length; i++)
     {
         Y = JsonObjectNewObject ();
         
-        JsonObjectObjectAdd (Y, "UserName", JsonObjectNewString (Users->At[i].UserName));
-        JsonObjectObjectAdd (Y, "Password", JsonObjectNewString (Users->At[i].Password));
-        JsonObjectObjectAdd (Y, "DocumentType", JsonObjectNewString (Users->At[i].DocumentType));
-        JsonObjectObjectAdd (Y, "DocumentNum", JsonObjectNewString (Users->At[i].DocumentNum));
-        JsonObjectObjectAdd (Y, "Country", JsonObjectNewString (Users->At[i].Country));
-        JsonObjectObjectAdd (Y, "Avatar", JsonObjectNewString (Users->At[i].Avatar));
-        JsonObjectObjectAdd (Y, "Name", JsonObjectNewString (Users->At[i].Name));
-        JsonObjectObjectAdd (Y, "LastName", JsonObjectNewString (Users->At[i].LastName));
-        JsonObjectObjectAdd (Y, "Phone", JsonObjectNewString (Users->At[i].Phone));
-        JsonObjectObjectAdd (Y, "Email", JsonObjectNewString (Users->At[i].Email));
-        JsonObjectObjectAdd (Y, "Address", JsonObjectNewString (Users->At[i].Address));
+        JsonObjectObjectAdd (Y, "UserName", JsonObjectNewString (Models->At[i].UserName));
+        JsonObjectObjectAdd (Y, "Password", JsonObjectNewString (Models->At[i].Password));
+        JsonObjectObjectAdd (Y, "DocumentType", JsonObjectNewString (Models->At[i].DocumentType));
+        JsonObjectObjectAdd (Y, "DocumentNum", JsonObjectNewString (Models->At[i].DocumentNum));
+        JsonObjectObjectAdd (Y, "Country", JsonObjectNewString (Models->At[i].Country));
+        JsonObjectObjectAdd (Y, "Name", JsonObjectNewString (Models->At[i].Name));
+        JsonObjectObjectAdd (Y, "LastName", JsonObjectNewString (Models->At[i].LastName));
+        strcpy (AvatarFullName, Models->At[i].Avatar.Name);
+        strcat (AvatarFullName, Models->At[i].Avatar.Type);
+        JsonObjectObjectAdd (Y, "Avatar", JsonObjectNewString (AvatarFullName));
+        JsonObjectObjectAdd (Y, "Phone", JsonObjectNewString (Models->At[i].Phone));
+        JsonObjectObjectAdd (Y, "Email", JsonObjectNewString (Models->At[i].Email));
+        JsonObjectObjectAdd (Y, "Address", JsonObjectNewString (Models->At[i].Address));
         
-        JsonObjectArrayAdd (X, JsonObjectGet (Y));
+        JsonObjectArrayAdd (Jsons, JsonObjectGet (Y));
         
         JsonObjectPut (Y);
         Y = NULL;
     }
     
-    return (KORE_RESULT_OK);
+    struct FuncResult Ret;
+    Ret.Result = KORE_RESULT_OK;
+    strcpy (Ret.Msg, "");
+    return Ret;
 }
 
 
-
-int JsonToAuthUserModels (const char *Data, struct AuthUserModelArray *X)
+struct FuncResult JsonToAuthUserModels (const char *Jsons, struct AuthUserModelArray *Models)
 {
+    struct FuncResult Ret;
+    
     JsonObject *jobjs = NULL;
-    jobjs = JsonTokenerParse (Data);
+    jobjs = JsonTokenerParse (Jsons);
     int length = JsonObjectArrayLength (jobjs);
 
-    X->Length = length;
+    Models->Length = length;
     
-    for (int i = 0; i < X->Length; i++)
+    for (int i = 0; i < Models->Length; i++)
     {
         json_object *jobj = NULL;
         jobj = json_object_array_get_idx (jobjs, i);
         
-        X->At[i] = NewVoidAuthUserModel();
+        Models->At[i] = NewVoidAuthUserModel();
         
         char Pwd[256];
         
@@ -102,48 +112,48 @@ int JsonToAuthUserModels (const char *Data, struct AuthUserModelArray *X)
         {          
             if (strcmp (Key, "UserName") == 0)
             {   
-                strcpy (X->At[i].UserName, JsonObjectGetString (Val));
+                strcpy (Models->At[i].UserName, JsonObjectGetString (Val));
             }
             else if (strcmp (Key, "Password") == 0)
             {
                 strcpy (Pwd, JsonObjectGetString (Val));
-                PasswordEncrypt(Pwd, X->At[i].Password);
+                PasswordEncrypt(Pwd, Models->At[i].Password);
             }
             else if (strcmp (Key, "DocumentType") == 0)
             {   
-                strcpy (X->At[i].DocumentType, JsonObjectGetString (Val));
+                strcpy (Models->At[i].DocumentType, JsonObjectGetString (Val));
             }
             else if (strcmp (Key, "DocumentNum") == 0)
             {
-                strcpy (X->At[i].DocumentNum, JsonObjectGetString (Val));
+                strcpy (Models->At[i].DocumentNum, JsonObjectGetString (Val));
             }
             else if (strcmp (Key, "Country") == 0)
-            {   
-                strcpy (X->At[i].Country, JsonObjectGetString (Val));
-            }
-            else if (strcmp (Key, "Avatar") == 0)
-            {   
-                strcpy (X->At[i].Avatar, JsonObjectGetString (Val));
+            {
+                strcpy (Models->At[i].Country, JsonObjectGetString (Val));
             }
             else if (strcmp (Key, "Name") == 0)
             {
-                strcpy (X->At[i].Name, JsonObjectGetString (Val));
+                strcpy (Models->At[i].Name, JsonObjectGetString (Val));
             }
             else if (strcmp (Key, "LastName") == 0)
             {
-                strcpy (X->At[i].LastName, JsonObjectGetString (Val));
+                strcpy (Models->At[i].LastName, JsonObjectGetString (Val));
+            }
+            else if (strcmp (Key, "Avatar") == 0)
+            {   
+                strcpy (Models->At[i].Avatar.Name, JsonObjectGetString (Val));
             }
             else if (strcmp (Key, "Phone") == 0)
             {
-                strcpy (X->At[i].Phone, JsonObjectGetString (Val));
+                strcpy (Models->At[i].Phone, JsonObjectGetString (Val));
             }
             else if (strcmp (Key, "Email") == 0)
             {
-                strcpy (X->At[i].Email, JsonObjectGetString (Val));
+                strcpy (Models->At[i].Email, JsonObjectGetString (Val));
             }
             else if (strcmp (Key, "Address") == 0)
             {
-                strcpy (X->At[i].Address, JsonObjectGetString (Val));
+                strcpy (Models->At[i].Address, JsonObjectGetString (Val));
             }
             else
             {
@@ -153,7 +163,11 @@ int JsonToAuthUserModels (const char *Data, struct AuthUserModelArray *X)
                 json_object_put (jobjs);
                 jobjs = NULL;
                 
-                return (KORE_RESULT_ERROR);
+                
+                Ret.Result = KORE_RESULT_ERROR;
+                strcpy (Ret.Msg, "Key not found.");
+               
+                return Ret;
             }
             
         }
@@ -165,13 +179,17 @@ int JsonToAuthUserModels (const char *Data, struct AuthUserModelArray *X)
     json_object_put (jobjs);
     jobjs = NULL;
     
-    return (KORE_RESULT_OK);
+    
+    Ret.Result = KORE_RESULT_OK;
+    strcpy (Ret.Msg, "");
+    
+    return Ret;
 }
 
 
 
 //insert
-struct FuncResult AuthUserModelInsert (const struct AuthUserModelArray *Users)
+struct FuncResult AuthUserModelInsert (const struct AuthUserModelArray *Models)
 {
     struct FuncResult S;
     
@@ -191,20 +209,19 @@ struct FuncResult AuthUserModelInsert (const struct AuthUserModelArray *Users)
         PreparedStatement_T Stm; 
 
         int i = 0;
-        for (i = 0; i < Users->Length; i++)
+        for (i = 0; i < Models->Length; i++)
         {
-            Stm = Connection_prepareStatement (Conn, "WITH \"Ins1\" AS (INSERT INTO \"AuthUser\"(\"UserName\", \"Password\") VALUES(?, ?) RETURNING \"Id\"), \"Ins2\" AS (INSERT INTO \"AuthUserBasicInfo\"(\"UserId\", \"DocumentType\", \"DocumentNum\", \"Country\", \"Name\", \"LastName\") SELECT \"Id\", ?, ?, ?, ?, ? FROM \"Ins1\" RETURNING \"UserId\") INSERT INTO \"AuthUserComplementaryInfo\"(\"UserId\", \"Avatar\", \"Phone\", \"Email\", \"Address\") SELECT \"Id\", ?, ?, ?, ? FROM \"Ins1\";");
-            PreparedStatement_setString (Stm, 1, Users->At[i].UserName);
-            PreparedStatement_setString (Stm, 2, Users->At[i].Password);
-            PreparedStatement_setString (Stm, 3, Users->At[i].DocumentType);
-            PreparedStatement_setString (Stm, 4, Users->At[i].DocumentNum);
-            PreparedStatement_setString (Stm, 5, Users->At[i].Country);
-            PreparedStatement_setString (Stm, 6, Users->At[i].Name);
-            PreparedStatement_setString (Stm, 7, Users->At[i].LastName);
-            PreparedStatement_setString (Stm, 8, Users->At[i].Avatar);
-            PreparedStatement_setString (Stm, 9, Users->At[i].Phone);
-            PreparedStatement_setString (Stm, 10, Users->At[i].Email);
-            PreparedStatement_setString (Stm, 11, Users->At[i].Address);
+            Stm = Connection_prepareStatement (Conn, "WITH \"Ins1\" AS (INSERT INTO \"AuthUser\"(\"UserName\", \"Password\") VALUES(?, ?) RETURNING \"Id\" AS \"UserId\"), \"Ins2\" AS (INSERT INTO \"AuthUserBasicInfo\"(\"UserId\", \"DocumentType\", \"DocumentNum\", \"Country\", \"Name\", \"LastName\") SELECT \"UserId\", ?, ?, ?, ?, ? FROM \"Ins1\" RETURNING \"UserId\") INSERT INTO \"AuthUserComplementaryInfo\"(\"UserId\", \"Avatar\", \"Phone\", \"Email\", \"Address\") SELECT \"UserId\", \"Media\".\"Id\", ?, ?, ? FROM \"Ins1\" INNER JOIN \"Media\" ON \"Name\"='%s' AND \"Type\"='%s';", Models->At[i].Avatar.Name, Models->At[i].Avatar.Type);
+            PreparedStatement_setString (Stm, 1, Models->At[i].UserName);
+            PreparedStatement_setString (Stm, 2, Models->At[i].Password);
+            PreparedStatement_setString (Stm, 3, Models->At[i].DocumentType);
+            PreparedStatement_setString (Stm, 4, Models->At[i].DocumentNum);
+            PreparedStatement_setString (Stm, 5, Models->At[i].Country);
+            PreparedStatement_setString (Stm, 6, Models->At[i].Name);
+            PreparedStatement_setString (Stm, 7, Models->At[i].LastName);
+            PreparedStatement_setString (Stm, 8, Models->At[i].Phone);
+            PreparedStatement_setString (Stm, 9, Models->At[i].Email);
+            PreparedStatement_setString (Stm, 10, Models->At[i].Address);
             PreparedStatement_execute (Stm);
         }
         

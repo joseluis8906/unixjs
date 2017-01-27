@@ -1,5 +1,7 @@
 #include "gusers_controller.h"
 #include "models/contrib/auth_user_model.h"
+#include "models/contrib/media_model.h"
+#include "../upload_file.h"
 
 //gusers save
 int GusersControllerSave (struct HttpRequest *Req)
@@ -13,19 +15,24 @@ int GusersControllerSave (struct HttpRequest *Req)
     
     struct AuthUserModelArray Users; //Array de estructura usuario
     
-    JsonToAuthUserModels(Data, &Users); //Conversion de objetos json a structura usuario
+    struct FuncResult Ret = JsonToAuthUserModels(Data, &Users); //Conversion de objetos json a structura usuario
     
-    struct HttpFileArray Files; //Array de structura HttpFile
+    if (Ret.Result == KORE_RESULT_ERROR)
+    {
+        HttpResponseJsonMsg(Req, KORE_RESULT_ERROR, Ret.Msg);
+        return (KORE_RESULT_OK);
+    }
     
-    struct StringArray Names; //Array de string de nombres de archivos media
+    struct HttpFileArray Files = NewHttpFileArray(); //Array de structura HttpFile
+    struct StringArray Names = NewStringArray();
     
     int i = 0;
     for (i = 0; i < Users.Length; i++)
     {
-        StringArrayPush (&Names, Users.At[i].Avatar);
+        StringArrayPush (&Names, Users.At[i].Avatar.Name);
     }
         
-    struct FuncResult Ret = FindFiles (Req, &Names, &Files); //Busqueda de archivos media
+    Ret = FindFiles (Req, &Names, &Files); //Busqueda de archivos media
     
     if (Ret.Result == KORE_RESULT_ERROR)
     {
@@ -34,17 +41,14 @@ int GusersControllerSave (struct HttpRequest *Req)
     }
     
     for (i = 0; i < Users.Length; i++)
-    {    
-        strcpy (Users.At[i].Avatar, Users.At[i].DocumentType);
-        strcat (Users.At[i].Avatar, "_");
-        strcat (Users.At[i].Avatar, Users.At[i].DocumentNum);
+    {
+        strcpy (Users.At[i].Avatar.Name, Users.At[i].UserName);
         
-        Ret = GetMediaName (Users.At[i].Avatar);
+        Ret = GetMediaName (Users.At[i].Avatar.Name);
         
         if (Ret.Result == KORE_RESULT_OK)
         {
-            UploadFile (Files.At[i], Users.At[i].Avatar, "images/profile/");
-            
+            UploadFile (Files.At[i], &(Users.At[i].Avatar), "images/profile/");        
         }
         else
         {

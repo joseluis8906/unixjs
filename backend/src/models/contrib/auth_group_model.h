@@ -1,5 +1,4 @@
 /*
-#include <json-c/json.h>
 
 #ifndef _AUTH_GROUP_MODEL_
 #define _AUTH_GROUP_MODEL_

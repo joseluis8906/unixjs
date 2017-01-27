@@ -27,7 +27,6 @@
           <df name="contrib">
             <in>auth_group_model.c</in>
             <in>auth_group_model.h</in>
-            <in>auth_session.h</in>
             <in>auth_user_model.c</in>
             <in>auth_user_model.h</in>
             <in>media_model.c</in>
@@ -46,6 +45,8 @@
         <in>contrib.c</in>
         <in>contrib.h</in>
         <in>defines.h</in>
+        <in>upload_file.c</in>
+        <in>upload_file.h</in>
       </df>
       <df name="tmp_files">
       </df>
