@@ -1,4 +1,5 @@
 #include "root_controller.h"
+#include "auth_controller.h"
 
 //home
 int Home (struct HttpRequest *Req)
@@ -14,6 +15,11 @@ int Home (struct HttpRequest *Req)
 //test
 int Test (struct HttpRequest *Req)
 {
+    if (AuthControllerVerifySession (Req) == KORE_RESULT_ERROR)
+    {
+        const char *Msg = "Invalid Session!";
+        HttpResponse (Req, 200, Msg,  strlen(Msg));
+    }
     const char *Msg = "test!";
     HttpResponse (Req, 200, Msg,  strlen(Msg));
     return (KORE_RESULT_OK);

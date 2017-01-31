@@ -14,6 +14,11 @@ function block ()
     
     this.SetSize (250,330);
     this.SetPosition (Gwt.Gui.WIN_POS_CENTER);
+    this.SetBorderSpacing (12);
+    
+    this.layout.SetAlignment(Gwt.Gui.ALIGN_CENTER);
+    this.SetLayout (this.layout);
+    
 	
     var date = new Date ();
 
@@ -25,11 +30,7 @@ function block ()
     this.date.TextAlign ("center");
 
     this.unlock_button.SetWidth (120);
-
-    this.layout.SetAlignment(Gwt.Gui.ALIGN_CENTER);
-	
-    this.Add(this.layout);
-    this.SetBorderSpacing (12);
+    
     this.layout.Add(this.clock);
     this.layout.Add(this.date);
     this.layout.Add(this.unlock_button);

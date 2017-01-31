@@ -6,6 +6,7 @@
 #include <sys/types.h>
 #include <sys/syslog.h>
 #include <sys/stat.h>
+#include <sys/time.h>
 #include <fcntl.h>
 #include <unistd.h>
 #include <math.h>
@@ -55,8 +56,6 @@ struct FuncResult NewFuncResult (int Result, const char *Msg);
 int ParamsEnabled (struct HttpRequest *Req, char *Param);
 int SessionValidate (struct HttpRequest *Req, char *Data);
 
-
-
 //String array
 struct StringArray NewStringArray (void);
 int StringArrayPush (struct StringArray *Array, const char *String);
@@ -64,4 +63,6 @@ int StringArrayPush (struct StringArray *Array, const char *String);
 int Base64Encode (const char *Original, char *Encoded);
 
 struct FuncResult GetMediaName (char *Name);
+
+struct FuncResult GetJsonValue (const char *Json, const char *Key, char *Value);
 #endif

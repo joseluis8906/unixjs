@@ -16,7 +16,7 @@ struct MediaModelArray
 
 
 struct MediaModel NewVoidMediaModel (void);
-struct FuncResult MediaModelArrayPush (struct MediaModelArray *Medias, const struct MediaModel *Media);
+struct FuncResult MediaModelArrayPush (struct MediaModelArray *Array, const struct MediaModel *Element);
 struct MediaModelArray NewMediaModelArray (void);
 
 struct FuncResult MediaModelInsert (struct MediaModelArray *Medias);

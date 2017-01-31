@@ -6,6 +6,9 @@
 #ifndef _DEFINES_H_
 #define _DEFINES_H_
 
+#define REDIS_IP "127.0.0.1"
+#define REDIS_PORT 6379
+
 #define LOW_ARRAY_SIZE 256
 #define MID_ARRAY_SIZE 512
 #define HIGHT_ARRAY_SIZE 1024
@@ -14,6 +17,8 @@
 //types
 #define HttpRequest http_request
 #define HttpResponse http_response
+#define HttpRequestHeader http_request_header
+#define HttpResponseHeader http_response_header
 #define HttpFile http_file
 //functions
 #define HttpFileLookup http_file_lookup
@@ -51,6 +56,8 @@
 #define JsonObjectArrayLength json_object_array_length
 #define JsonObjectArrayAdd json_object_array_add
 #define JsonObjectGet json_object_get
+
+
 
 #endif 
 

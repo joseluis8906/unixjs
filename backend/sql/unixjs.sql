@@ -40,7 +40,7 @@ CREATE TABLE IF NOT EXISTS "AuthUserComplementaryInfo"
     "Address" VARCHAR(64)
 );
 
-CREATE VIEW "AllAuthUserInfo" AS SELECT "UserName", "Password", "DocumentType", "DocumentNum", "Country", "AuthUserBasicInfo"."Name", "LastName", "Avatar", "Phone", "Email", "Address" FROM "AuthUser" INNER JOIN "AuthUserBasicInfo" ON "AuthUser"."Id" = "AuthUserBasicInfo"."UserId" INNER JOIN "AuthUserComplementaryInfo" ON "AuthUser"."Id" = "AuthUserComplementaryInfo"."UserId" INNER JOIN "Media" ON "Media"."Id" = "AuthUserComplementaryInfo"."Avatar";
+CREATE VIEW "AuthUserAll" AS SELECT "UserName", "Password", "DocumentType", "DocumentNum", "Country", "AuthUserBasicInfo"."Name" AS "Name", "LastName", "Media"."Name" AS "AvatarName", "Media"."Type" AS "AvatarType", "Phone", "Email", "Address" FROM "AuthUser" INNER JOIN "AuthUserBasicInfo" ON "AuthUser"."Id" = "AuthUserBasicInfo"."UserId" INNER JOIN "AuthUserComplementaryInfo" ON "AuthUser"."Id" = "AuthUserComplementaryInfo"."UserId" INNER JOIN "Media" ON "Media"."Id" = "AuthUserComplementaryInfo"."Avatar";
        
 CREATE TABLE IF NOT EXISTS "AuthGroup"
 (
@@ -59,6 +59,6 @@ CREATE TABLE IF NOT EXISTS "AuthUserGroup"
 INSERT INTO "AuthGroup" ("Name") VALUES ('root');
 INSERT INTO "AuthGroup" ("Name") VALUES ('users');
 
-INSERT INTO "AuthUser" ("UserName", "Password") VALUES ('root', 'sha256$72dfcfL0c470ac25$b0ac6336ed6d81567abb146ffeb69b834c2552cab77043398cab9bced376337d');
+WITH "Ins1" AS (INSERT INTO "Media"("Name", "Type") VALUES ('cm9vdF8xMjczNjQ4NTc0XzBfCg==', 'png') RETURNING "Id" AS "MediaId"), "Ins2" AS (INSERT INTO "AuthUser"("UserName", "Password") VALUES('root', 'sha256$72dfcfL0c470ac25$b0ac6336ed6d81567abb146ffeb69b834c2552cab77043398cab9bced376337d') RETURNING "Id" AS "UserId"), "Ins3" AS (INSERT INTO "AuthUserBasicInfo"("UserId", "DocumentType", "DocumentNum", "Country", "Name", "LastName") SELECT "UserId", 'XX', 'XXXXXXXXXX', 'XXXXXX', 'XXX', 'XXX' FROM "Ins2" RETURNING "UserId") INSERT INTO "AuthUserComplementaryInfo"("UserId", "Avatar", "Phone", "Email", "Address") SELECT "UserId", "MediaId", 'XXX', 'XXX', 'XXX' FROM "Ins2", "Ins1";
 
 INSERT INTO "AuthUserGroup" ("UserId", "GroupId") SELECT "AuthUser"."Id" AS "UserId", "AuthGroup"."Id" AS "GroupId" FROM "AuthUser" INNER JOIN "AuthGroup" ON "AuthUser"."UserName"='root' AND "AuthGroup"."Name"='root' LIMIT 1;

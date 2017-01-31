@@ -42,7 +42,7 @@ struct AuthUserModel NewVoidAuthUserModel (void)
 
 
 
-struct AuthUserModelArray NewAuthUserModelArray(void)
+struct AuthUserModelArray NewAuthUserModelArray (void)
 {
     struct AuthUserModelArray X;
     X.Length = 0;
@@ -87,6 +87,7 @@ struct FuncResult AuthUserModelsToJson (const struct AuthUserModelArray *Models,
     strcpy (Ret.Msg, "");
     return Ret;
 }
+
 
 
 struct FuncResult JsonToAuthUserModels (const char *Jsons, struct AuthUserModelArray *Models)
@@ -188,6 +189,28 @@ struct FuncResult JsonToAuthUserModels (const char *Jsons, struct AuthUserModelA
 
 
 
+struct FuncResult AuthUserModelArrayPush (struct AuthUserModelArray *Array, const struct AuthUserModel *Element)
+{
+    struct FuncResult Ret;
+    
+    if (Array->Length == LOW_ARRAY_SIZE)
+    {
+        Ret.Result = KORE_RESULT_ERROR;
+        strcpy (Ret.Msg, "Array Length Max");
+        return Ret;
+    }
+    
+    memcpy (&(Array->At[Array->Length]), Element, sizeof(struct AuthUserModel));
+    Array->Length++;
+    
+    
+    Ret.Result = KORE_RESULT_OK;
+    strcpy (Ret.Msg, "");
+    return Ret;
+}
+
+
+
 //insert
 struct FuncResult AuthUserModelInsert (const struct AuthUserModelArray *Models)
 {
@@ -226,12 +249,19 @@ struct FuncResult AuthUserModelInsert (const struct AuthUserModelArray *Models)
         }
         
         Connection_commit (Conn);
+        
+        Connection_close (Conn);
+    
         S.Result = KORE_RESULT_OK;
         strcpy (S.Msg, "Users inserted");
+        
     }
     CATCH (SQLException)
     {    
-        //Connection_rollback (Conn);
+        Connection_rollback (Conn);
+        
+        Connection_close (Conn);
+        
         S.Result = KORE_RESULT_ERROR;
         strcpy (S.Msg, Exception_frame.message);
     }
@@ -240,9 +270,69 @@ struct FuncResult AuthUserModelInsert (const struct AuthUserModelArray *Models)
     }
     END_TRY;
     
-    Connection_close (Conn);
     return S;
 }
+
+
+
+struct FuncResult AuthUserModelSelect (const char *UserName, struct AuthUserModelArray *Models)
+{
+    struct FuncResult S;
+    
+    Connection_T Conn = DbGetConnection ();
+    
+    if (!Connection_ping (Conn))
+    {
+        S.Result = KORE_RESULT_ERROR;
+        strcpy (S.Msg,  "Error not database connection");
+        return S;
+    }
+
+    TRY
+    {   
+        ResultSet_T R = Connection_executeQuery (Conn, "SELECT \"UserName\", \"Password\", \"DocumentType\", \"DocumentNum\", \"Country\", \"AuthUserAll\".\"Name\" AS \"Name\", \"LastName\", \"Media\".\"Name\" AS \"AvatarName\", \"Media\".\"Type\" AS \"AvatarType\", \"Phone\", \"Email\", \"Address\" FROM \"AuthUserAll\" INNER JOIN \"Media\" ON \"UserName\"='%s';", UserName);
+        
+        struct AuthUserModel Tmp = NewVoidAuthUserModel ();
+        
+        while (ResultSet_next (R))
+        {
+            strcpy (Tmp.UserName, ResultSet_getStringByName (R, "UserName"));
+            strcpy (Tmp.Password, ResultSet_getStringByName (R, "Password"));
+            strcpy (Tmp.DocumentType, ResultSet_getStringByName (R, "DocumentType"));
+            strcpy (Tmp.DocumentNum, ResultSet_getStringByName (R, "DocumentNum"));
+            strcpy (Tmp.Country, ResultSet_getStringByName (R, "Country"));
+            strcpy (Tmp.Name, ResultSet_getStringByName (R, "Name"));
+            strcpy (Tmp.LastName, ResultSet_getStringByName (R, "LastName"));
+            strcpy (Tmp.Avatar.Name, ResultSet_getStringByName (R, "AvatarName"));
+            strcpy (Tmp.Avatar.Type, ResultSet_getStringByName (R, "AvatarType"));
+            strcpy (Tmp.Phone, ResultSet_getStringByName (R, "Phone"));
+            strcpy (Tmp.Email, ResultSet_getStringByName (R, "Email"));
+            strcpy (Tmp.Address, ResultSet_getStringByName (R, "Address"));
+            
+            AuthUserModelArrayPush (Models, &Tmp);
+        }
+        
+        Connection_close (Conn);
+        
+        S.Result = KORE_RESULT_OK;
+        strcpy (S.Msg,  "AuthUserModelSelect Success");
+        
+    }
+    CATCH (SQLException)
+    {
+        Connection_close (Conn);
+     
+        S.Result = KORE_RESULT_ERROR;
+        strcpy (S.Msg,  "AuthUserModelSelect Failed");
+    }
+    FINALLY
+    {
+    }
+    END_TRY;
+    
+    return S;
+}
+
 
 
 /*

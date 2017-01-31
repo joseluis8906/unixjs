@@ -30,11 +30,12 @@ struct AuthUserModel NewAuthUserModel (const char *UserName, const char *Passwor
 struct AuthUserModel NewVoidAuthUserModel (void);
 struct AuthUserModelArray NewAuthUserModelArray (void);
 
+struct FuncResult AuthUserModelArrayPush (struct AuthUserModelArray *Models, const struct AuthUserModel *Model);
 struct FuncResult AuthUserModelsToJson (const struct AuthUserModelArray *Models, JsonObject *Jsons);
 struct FuncResult JsonToAuthUserModels (const char *Jsons, struct AuthUserModelArray *Models);
 
 struct FuncResult  AuthUserModelInsert (const struct AuthUserModelArray *Models);
-//struct SqlState  AuthUserModelSelect (struct AuthUserModel[], int);
+struct FuncResult  AuthUserModelSelect (const char *UserName, struct AuthUserModelArray *Models);
 //struct SqlState  AuthUserModelUpdate (struct AuthUserModelTuple[], int);
 //struct SqlState  AuthUserModelDelete (struct AuthUserModel[], int);
 

@@ -293,14 +293,23 @@ Gwt.Core.Request = function (Url, Func, Params, Method)
     
     this.XHR.onreadystatechange = this.Ready.bind(this);
     this.XHR.overrideMimeType("application/json");
-    this.XHR.open ("POST", this.Url, true);
-    
+    var Cookie = this.GetCookie();;
     if (this.Method===Gwt.Core.REQUEST_METHOD_POST)
     {
+        this.XHR.open ("POST", this.Url, true);
+        if (Cookie!==null)
+        {
+            this.XHR.setRequestHeader("SessionId",  Cookie);
+        }
         this.Send ();
     }
     else
     {
+        this.XHR.open ("GET", this.Url, true);
+        if (Cookie!==null)
+        {
+            this.XHR.setRequestHeader("SessionId",  Cookie);
+        }
         this.XHR.send ();
     }
 }
@@ -380,17 +389,31 @@ Gwt.Core.Request.prototype.SendApplicationXWWWFormUrlEncoded = function ()
 {
     this.XHR.setRequestHeader("Content-Type", "application\/x-www-form-urlencoded");
     
-    var RawData = "Data="+JSON.stringify(this.Params);
-	
+    var RawData = "Params="+JSON.stringify (this.Params[0].GetData());
+    
     this.XHR.send (RawData);
 }
 
 Gwt.Core.Request.prototype.Ready = function ()
 {
-    if (this.XHR.readyState == 4 && this.XHR.status == 200)
+    if (this.XHR.readyState === 4 && this.XHR.status === 200)
     {
         this.Func(JSON.parse(this.XHR.response));
     }
+}
+
+Gwt.Core.Request.prototype.GetCookie = function ()
+{
+    var Cookies = document.cookie.split(";");
+    for (var i = 0; i < Cookies.length; i++)
+    {
+        var Tmp = Cookies[i].split("=");
+        if (Tmp[0]==="SessionId")
+        {
+            return Tmp[1];
+        }
+    }
+    return null;
 }
 //End of Gwt::Core::Request
 //##########################################################

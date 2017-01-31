@@ -56,9 +56,8 @@ function login ()
 
     //instace props
     this.imageLogin = new Gwt.Gui.Image(Gwt.Core.Contrib.Images+"connecting_world.svg");
-    this.title_label = new Gwt.Gui.StaticText ("Login");
-    this.id_type_select = new Gwt.Gui.SelectBox ("Tipo de Documento", [{"text": "Tarjeta de Identidad", "value": "T.I"}, {"text": "Cédula de Ciudadanía", "value": "C.C"}, {"text": "Registro Civil", "value": "R.C"}, {"text": "Cédula Extranjera", "value": "C.E"}, {"text": "Pasaporte", "value": "PS"}, {"text": "Libreta Militar", "value": "L.M"}, {"text": "Registro de Defunción", "value": "R.D"}, {"text": "Carnét de Salud", "value": "C.S"}, {"text": "Registro Mercantil", "value": "R.M"}]);
-    this.username_entry = new Gwt.Gui.Entry ("Número de Documento");
+    this.title_label = new Gwt.Gui.StaticText ("Login");    
+    this.username_entry = new Gwt.Gui.Entry ("Nombre De Usuario");
     this.password_entry = new Gwt.Gui.Entry ("Contraseña");
     this.send_button = new Gwt.Gui.Button (Gwt.Core.Contrib.Images+"appbar.arrow.right.svg", "Entrar");
     this.controls_container = new Gwt.Gui.VBox ();
@@ -78,7 +77,6 @@ function login ()
     this.Add (this.controls_container);
     
     this.controls_container.Add (this.title_label);
-    this.controls_container.Add (this.id_type_select);
     
     this.username_entry.SetFocus ();
     this.controls_container.Add (this.username_entry);
@@ -100,7 +98,6 @@ login.prototype._App = function ()
 {
     this.imageLogin._Image ();
     this.title_label._StaticText ();
-    this.id_type_select._SelectBox ();
     this.username_entry._Entry ();
     this.password_entry._Entry ();
     this.send_button._Button ();
@@ -108,7 +105,6 @@ login.prototype._App = function ()
     
     this.imageLogin = null;
     this.title_label = null;
-    this.id_type_select = null;
     this.username_entry = null;
     this.password_entry = null;
     this.send_button = null;
@@ -118,9 +114,12 @@ login.prototype._App = function ()
 login.prototype.send = function ()
 {
     if (this.username_entry.GetText () !== "" && this.password_entry.GetText () !== "")
-    {
-	var password = new jsSHA(this.password_entry.GetText (), "TEXT").getHash ("SHA-256", "HEX");
-	new Gwt.Core.Request ("/backend/auth/", {'username': this.username_entry.GetText (), 'password': password}, this.response.bind(this));
+    {        
+	var params = [
+            new Gwt.Core.Parameter(Gwt.Core.PARAM_TYPE_JSON, {"UserName": this.username_entry.GetText(), "Password": this.password_entry.GetText()})
+        ];
+    
+        new Gwt.Core.Request ("/backend/auth/login/", this.response.bind (this), params);
     }
     else
     {
@@ -128,18 +127,16 @@ login.prototype.send = function ()
     }
 }
 
-login.prototype.response = function (data)
+login.prototype.response = function (Res)
 {
-    if (data.status === "success")
+    if (Res.Result === 1)
     {
-        if (Boolean (Number (data.response)))
-	{
-            start_up_env (this.username_entry.GetText ());
-	}
+        window.login.close ();
+        window.start_session ();
     }
     else
     {
-	console.log (data);
+	console.log ("Error");
     }
 }
 	
@@ -184,6 +181,11 @@ function block ()
     
     this.SetSize (250,330);
     this.SetPosition (Gwt.Gui.WIN_POS_CENTER);
+    this.SetBorderSpacing (12);
+    
+    this.layout.SetAlignment(Gwt.Gui.ALIGN_CENTER);
+    this.SetLayout (this.layout);
+    
 	
     var date = new Date ();
 
@@ -195,11 +197,7 @@ function block ()
     this.date.TextAlign ("center");
 
     this.unlock_button.SetWidth (120);
-
-    this.layout.SetAlignment(Gwt.Gui.ALIGN_CENTER);
-	
-    this.Add(this.layout);
-    this.SetBorderSpacing (12);
+    
     this.layout.Add(this.clock);
     this.layout.Add(this.date);
     this.layout.Add(this.unlock_button);

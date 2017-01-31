@@ -163,6 +163,8 @@ int HttpResponseJsonMsg (struct HttpRequest *Req, int Result, const char *Msg)
     JsonObjectObjectAdd (JsonMsg, "Result", JsonObjectNewInt (Result));
     JsonObjectObjectAdd (JsonMsg, "Data", JsonObjectNewString (Msg));
     Resp = JsonObjectToJsonString(JsonMsg);
+    
+    HttpResponseHeader (Req, "content-type", "text/html");
     HttpResponse (Req, 200, Resp, strlen(Resp));
     
     JsonObjectPut (JsonMsg);
@@ -189,11 +191,15 @@ int HttpResponseJsonArray (struct HttpRequest *Req, int Result, JsonObject *Arra
     return KORE_RESULT_OK;
 }
 
+
+
 float MmToPx (float mm)
 {
     float px = (1 * mm) / 0.352777778f;
     return px;
 }
+
+
 
 float PxToMm (float px)
 {
@@ -346,4 +352,34 @@ struct StringArray NewStringArray (void)
     X.Length = 0;
     
     return X;
+}
+
+
+
+struct FuncResult GetJsonValue (const char *Json, const char *Key, char *Value)
+{
+    struct FuncResult Ret;
+    
+    JsonObject *Jobj = JsonTokenerParse (Json);
+    
+    JsonObjectObjectForeach (Jobj, K, V)
+    {          
+        if (strcmp (K, Key) == 0)
+        {   
+            strcpy (Value, JsonObjectGetString (V));
+            JsonObjectPut (Jobj);
+            
+            Ret.Result = KORE_RESULT_OK;
+            sprintf (Ret.Msg, "Key %s: Found ", Key);
+            
+            return Ret;
+        }
+    }
+    
+    JsonObjectPut (Jobj);
+    
+    Ret.Result = KORE_RESULT_ERROR;
+    sprintf (Ret.Msg, "Key %s: Not Found", Key);
+            
+    return Ret;
 }

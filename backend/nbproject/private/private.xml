@@ -10,10 +10,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/media/Datos/joseluis/Developments/unixjs/backend/src/upload_file.c</file>
-            <file>file:/media/Datos/joseluis/Developments/unixjs/backend/src/controllers/gusers_controller.c</file>
+            <file>file:/media/Datos/joseluis/Developments/unixjs/backend/src/controllers/auth_controller.h</file>
+            <file>file:/media/Datos/joseluis/Developments/unixjs/backend/conf/backend.conf</file>
             <file>file:/media/Datos/joseluis/Developments/unixjs/backend/src/contrib.c</file>
-            <file>file:/media/Datos/joseluis/Developments/unixjs/backend/src/models/contrib/auth_user_model.c</file>
+            <file>file:/media/Datos/joseluis/Developments/unixjs/backend/src/controllers/auth_controller.c</file>
+            <file>file:/media/Datos/joseluis/Developments/unixjs/backend/src/controllers/root_controller.c</file>
         </group>
     </open-files>
 </project-private>

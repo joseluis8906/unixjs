@@ -1,99 +1,74 @@
-window.addEventListener("load", init);
+window.addEventListener ("load", function () {InitRc();});
 
-function init (event)
+function InitRc ()
 {
-	desktop.open();
-        gcontrol.open ();
-	
-	/*if (typeof(session_env) != "undefined")
-	{
-		clearTimeout (session_env);
-		session_env = null;
-	}
-	
-	if (sessionStorage.hasOwnProperty ("session"))
-	{
-		switch (sessionStorage.getItem ("session"))
-		{
-			case "created":
-				login.open ();
-				break;
-	
-			case "block":
-				block_session ();
-				break;
+    desktop.open();
+    
+    if (sessionStorage.hasOwnProperty ("Session"))
+    {
+        switch (sessionStorage.getItem ("Session"))
+        {
+            case "Block":
+                block_session ();
+                break;
 				
-			case "active":
-				start_session ();
-		}
-	}
-	else 
-	{
-		sessionStorage.setItem ("session", "created");
-		login.open ();
-	}*/
+            case "Active":
+                start_session ();
+        }
+    }
+    else 
+    {
+        login.open ();
+    }
+    
 }
 
-function start_up_env (user)
-{
-	login.close ();
-	new Gwt.Core.Request ("/backend/sys/", {'action': "start_up_env", 'username': user}, function (data) {	sessionStorage.setItem ("session", "active"); sessionStorage.setItem ('group', data.response.group); sessionStorage.setItem ("user", data.response.user); start_session();});
-}
 
-function start_session (data)
-{
 
+function start_session ()
+{
+    gcontrol.open ();
 	
-	lancelot.open ();
-	
-	document.onmousemove = renueve_session;
-	document.onkeypress = renueve_session;
-	
-	if (typeof(session_env) != "undefined")
-	{
-		clearTimeout (session_env);
-	}
-	session_env = setTimeout (block_session, 60000);
+    sessionStorage.setItem ("Session", "Active");
+    
+    SessionRenueve = setInterval (function (){window.renueve_session();}, 60000 * 0.4);
+    
+    SessionEnv = setTimeout (function (){window.terminate_session();}, 60000);
 }
 
-function block_session ()
+
+
+function terminate_session ()
 {
-	sessionStorage.setItem ("session", "block");
-	lancelot.close ();
-	block.open ();
-	if (typeof(session_env) != "undefined")
-	{
-		clearTimeout (session_env);
-	}
-	session_env = setTimeout (close_session, 60000);
+    sessionStorage.setItem ("Session", "Block");
+    
+    gcontrol.close ();
+    block.open ();
+    
+    sessionStorage.clear ();
+    
+    new Gwt.Core.Request ("/backend/auth/terminatesession/", function (){}, null, Gwt.Core.REQUEST_METHOD_GET);
+    
+    clearTimeout(SessionEnv);
+    SessionEnv = undefined;
+    
+    clearInterval (SessionRenueve);
+    SessionRenueve = undefined;
 }
 
-function unlock_session ()
-{
-	clearTimeout (session_env);
-	session_env = null;
-	block.close ();
-	login.open ();
-}
+
 
 function renueve_session ()
 {
-	if (sessionStorage.hasOwnProperty ("session"))
-	{
-		if (sessionStorage.getItem ("session") != "block")
-		{
-			clearTimeout (session_env);
-			session_env = setTimeout (block_session, 60000);
-		}
-	}
+    new Gwt.Core.Request ("/backend/auth/renuevesession/", function (){}, null, Gwt.Core.REQUEST_METHOD_GET);
 }
 
-function close_session ()
+
+
+function unlock_session ()
 {
-	clearTimeout(session_env);
-	session_env = null;
-	new Gwt.Core.Request ("/backend/auth/", {'action': "logout"}, function (data) {console.log(data);});
-	sessionStorage.clear ();
-	block.close ();
-	login.open ();
+    block.close ();
+    login.open ();
 }
+
+

@@ -70,9 +70,10 @@ struct MediaModelArray NewMediaModelArray (void)
 
 
 
-struct FuncResult MediaModelArrayPush (struct MediaModelArray *Array, const struct MediaModel *Media)
+struct FuncResult MediaModelArrayPush (struct MediaModelArray *Array, const struct MediaModel *Element)
 {
     struct FuncResult Ret;
+    
     if (Array->Length == LOW_ARRAY_SIZE)
     {
         Ret.Result = KORE_RESULT_ERROR;
@@ -80,7 +81,7 @@ struct FuncResult MediaModelArrayPush (struct MediaModelArray *Array, const stru
         return Ret;
     }
     
-    memcpy (&(Array->At[Array->Length]), Media, sizeof(struct MediaModel));
+    memcpy (&(Array->At[Array->Length]), Element, sizeof(struct MediaModel));
     Array->Length++;
     
     

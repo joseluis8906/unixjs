@@ -4,10 +4,16 @@
     <df root="." name="0">
       <df name="src">
         <df name="controllers">
+          <in>auth_controller.c</in>
+          <in>auth_controller.h</in>
           <in>gusers_controller.c</in>
           <in>root_controller.c</in>
         </df>
         <df name="models">
+          <df name="contrib">
+            <in>auth_session_model.c</in>
+            <in>auth_session_model.h</in>
+          </df>
           <in>database.c</in>
         </df>
         <in>backend.c</in>
@@ -71,6 +77,10 @@
           </incDir>
         </cTool>
       </item>
+      <item path="src/controllers/auth_controller.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="src/controllers/auth_controller.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="src/controllers/gusers_controller.c"
             ex="false"
             tool="0"
@@ -95,6 +105,16 @@
         </cTool>
       </item>
       <item path="src/defines.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/models/contrib/auth_session_model.c"
+            ex="false"
+            tool="0"
+            flavor2="0">
+      </item>
+      <item path="src/models/contrib/auth_session_model.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
       </item>
       <item path="src/models/database.c" ex="false" tool="0" flavor2="3">
         <cTool flags="0">
