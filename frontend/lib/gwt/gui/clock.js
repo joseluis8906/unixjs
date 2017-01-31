@@ -5,9 +5,9 @@ Gwt.Gui.Clock = function ()
     Gwt.Gui.Frame.call (this);
 	
     this.resource = new XMLHttpRequest ();
-    this.seconds = null;
-    this.minutes = null;
-    this.hours = null;
+    this.seconds = 0;
+    this.minutes = 0;
+    this.hours = 0;
     this.seconds_bar = null;
     this.minutes_bar = null;
     this.hours_bar = null;
@@ -28,6 +28,8 @@ Gwt.Gui.Clock.prototype.constructor = Gwt.Gui.Clock;
 
 Gwt.Gui.Clock.prototype._Clock = function ()
 {
+    window.clearInterval (this.seconds_interval);
+    
     this.resource = null;
     this.seconds = null;
     this.minutes = null;
@@ -71,7 +73,7 @@ Gwt.Gui.Clock.prototype.UpdateSeconds = function ()
 	this.seconds += 1;
 	this.seconds_bar.setAttribute ("transform", "rotate("+(this.seconds*6)+", "+this.center.x+", "+this.center.y+")");
 	
-	if(this.seconds == 60)
+	if(this.seconds === 60)
 	{
 		this.seconds = 0;
 		this.UpdateMinutes ();
@@ -83,7 +85,7 @@ Gwt.Gui.Clock.prototype.UpdateMinutes = function ()
 	this.minutes += 1;
 	this.minutes_bar.setAttribute ("transform", "rotate("+(this.minutes*6)+", "+this.center.x+", "+this.center.y+")");
 	
-	if (this.minutes == 60)
+	if (this.minutes === 60)
 	{
 		this.minutes = 0;
 		this.UpdateHours ();
@@ -95,7 +97,7 @@ Gwt.Gui.Clock.prototype.UpdateHours = function ()
 	this.hours += 1;	
 	this.hours_bar.setAttribute ("transform", "rotate("+(this.hours*30)+", "+this.center.x+", "+this.center.y+")");
 	
-	if (this.hours == 24)
+	if (this.hours === 24)
 	{
 		this.hours = 0;
 	}

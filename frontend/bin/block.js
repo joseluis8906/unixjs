@@ -15,10 +15,10 @@ function block ()
     this.SetSize (250,330);
     this.SetPosition (Gwt.Gui.WIN_POS_CENTER);
     this.SetBorderSpacing (12);
+    this.DisableMenu ();
     
     this.layout.SetAlignment(Gwt.Gui.ALIGN_CENTER);
     this.SetLayout (this.layout);
-    
 	
     var date = new Date ();
 
@@ -34,7 +34,7 @@ function block ()
     this.layout.Add(this.clock);
     this.layout.Add(this.date);
     this.layout.Add(this.unlock_button);
-		
+    	
     this.unlock_button.AddEvent (Gwt.Gui.Event.Mouse.Click, this.unlock.bind(this));
 }
 

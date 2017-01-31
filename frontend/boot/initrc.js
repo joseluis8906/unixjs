@@ -3,12 +3,12 @@ window.addEventListener ("load", function () {InitRc();});
 function InitRc ()
 {
     desktop.open();
-    
+    login.open ();
     if (sessionStorage.hasOwnProperty ("Session"))
     {
         switch (sessionStorage.getItem ("Session"))
         {
-            case "Block":
+            case "Inactive":
                 block_session ();
                 break;
 				
@@ -16,31 +16,27 @@ function InitRc ()
                 start_session ();
         }
     }
-    else 
-    {
-        login.open ();
-    }
-    
 }
 
 
 
 function start_session ()
 {
+    login.close ();
     gcontrol.open ();
 	
     sessionStorage.setItem ("Session", "Active");
     
-    SessionRenueve = setInterval (function (){window.renueve_session();}, 60000 * 0.4);
+    SessionRenueve = setInterval (window.renueve_session, 60000 * 0.4);
     
-    SessionEnv = setTimeout (function (){window.terminate_session();}, 60000);
+    SessionEnv = setTimeout (window.terminate_session, 60000);
 }
 
 
 
 function terminate_session ()
 {
-    sessionStorage.setItem ("Session", "Block");
+    sessionStorage.setItem ("Session", "Inactive");
     
     gcontrol.close ();
     block.open ();
