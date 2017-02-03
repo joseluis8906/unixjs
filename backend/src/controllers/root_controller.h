@@ -3,10 +3,14 @@
 #ifndef _ROOT_CONTROLLER_H_
 #define _ROOT_CONTROLLER_H_
 //function to index site
-int Home (struct HttpRequest *);
+int Home (struct HttpRequest *Req);
 
 //test function
-int Test (struct HttpRequest *);
+int Test (struct HttpRequest *Req);
+
+
+//approles
+int AppRoles (struct HttpRequest *Req);
 
 
 //groups

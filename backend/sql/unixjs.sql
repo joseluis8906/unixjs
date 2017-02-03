@@ -47,7 +47,12 @@ CREATE TABLE IF NOT EXISTS "AuthGroup"
     "Id" BIGSERIAL PRIMARY KEY,
     "Name" VARCHAR(32) UNIQUE NOT NULL
 );
-        
+
+INSERT INTO "AuthGroup" ("Name") VALUES ('root');
+INSERT INTO "AuthGroup" ("Name") VALUES ('users');        
+
+WITH "Ins1" AS (INSERT INTO "Media"("Name", "Type") VALUES ('cm9vdF8xMjczNjQ4NTc0XzBfCg==', 'png') RETURNING "Id" AS "MediaId"), "Ins2" AS (INSERT INTO "AuthUser"("UserName", "Password") VALUES('root', 'sha256$72dfcfL0c470ac25$b0ac6336ed6d81567abb146ffeb69b834c2552cab77043398cab9bced376337d') RETURNING "Id" AS "UserId"), "Ins3" AS (INSERT INTO "AuthUserBasicInfo"("UserId", "DocumentType", "DocumentNum", "Country", "Name", "LastName") SELECT "UserId", 'XX', 'XXXXXXXXXX', 'XXXXXX', 'XXX', 'XXX' FROM "Ins2" RETURNING "UserId") INSERT INTO "AuthUserComplementaryInfo"("UserId", "Avatar", "Phone", "Email", "Address") SELECT "UserId", "MediaId", 'XXX', 'XXX', 'XXX' FROM "Ins2", "Ins1";
+
 CREATE TABLE IF NOT EXISTS "AuthUserGroup"
 (
     "Id" BIGSERIAL PRIMARY KEY,
@@ -56,9 +61,21 @@ CREATE TABLE IF NOT EXISTS "AuthUserGroup"
     UNIQUE ("UserId", "GroupId")
 );
 
-INSERT INTO "AuthGroup" ("Name") VALUES ('root');
-INSERT INTO "AuthGroup" ("Name") VALUES ('users');
-
-WITH "Ins1" AS (INSERT INTO "Media"("Name", "Type") VALUES ('cm9vdF8xMjczNjQ4NTc0XzBfCg==', 'png') RETURNING "Id" AS "MediaId"), "Ins2" AS (INSERT INTO "AuthUser"("UserName", "Password") VALUES('root', 'sha256$72dfcfL0c470ac25$b0ac6336ed6d81567abb146ffeb69b834c2552cab77043398cab9bced376337d') RETURNING "Id" AS "UserId"), "Ins3" AS (INSERT INTO "AuthUserBasicInfo"("UserId", "DocumentType", "DocumentNum", "Country", "Name", "LastName") SELECT "UserId", 'XX', 'XXXXXXXXXX', 'XXXXXX', 'XXX', 'XXX' FROM "Ins2" RETURNING "UserId") INSERT INTO "AuthUserComplementaryInfo"("UserId", "Avatar", "Phone", "Email", "Address") SELECT "UserId", "MediaId", 'XXX', 'XXX', 'XXX' FROM "Ins2", "Ins1";
-
 INSERT INTO "AuthUserGroup" ("UserId", "GroupId") SELECT "AuthUser"."Id" AS "UserId", "AuthGroup"."Id" AS "GroupId" FROM "AuthUser" INNER JOIN "AuthGroup" ON "AuthUser"."UserName"='root' AND "AuthGroup"."Name"='root' LIMIT 1;
+
+CREATE VIEW "AuthUserGroupAll" AS SELECT "AuthUser"."Id" AS "UserId", "AuthUser"."UserName" AS "UserName", "AuthGroup"."Id" AS "GroupId", "AuthGroup"."Name" AS "GroupName" FROM "AuthUserGroup" INNER JOIN "AuthUser" ON "AuthUser"."Id"="AuthUserGroup"."UserId" INNER JOIN "AuthGroup"  ON "AuthGroup"."Id"="AuthUserGroup"."GroupId";
+
+
+/*AppRole*/
+CREATE TABLE IF NOT EXISTS "AppRole"
+(
+    "Id" BIGSERIAL PRIMARY KEY,
+    "Image" VARCHAR(32) NOT NULL,
+    "Label" VARCHAR(16) NOT NULL,
+    "Name"  VARCHAR(16) UNIQUE NOT NULL,
+    "GroupId" BIGINT NOT NULL REFERENCES "AuthGroup" ("Id") ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+INSERT INTO "AppRole" ("Image", "Label", "Name", "GroupId") SELECT 'preferences-desktop-user.png', 'Ususarios', 'gusers', "AuthGroup"."Id" AS "GroupId" FROM "AuthGroup" WHERE "AuthGroup"."Name"='root'; 
+
+CREATE VIEW "AppRoleAll" AS SELECT "UserName" AS "User", "Image", "Label", "AppRole"."Name" FROM "AppRole" INNER JOIN "AuthUserGroupAll" ON "AppRole"."GroupId"="AuthUserGroupAll"."GroupId";

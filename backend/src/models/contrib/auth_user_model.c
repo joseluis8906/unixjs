@@ -275,7 +275,7 @@ struct FuncResult AuthUserModelInsert (const struct AuthUserModelArray *Models)
 
 
 
-struct FuncResult AuthUserModelSelect (const char *UserName, struct AuthUserModelArray *Models)
+struct FuncResult AuthUserModelSelect (struct AuthUserModelArray *Models, const char *UserName)
 {
     struct FuncResult S;
     

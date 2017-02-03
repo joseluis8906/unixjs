@@ -1,13 +1,13 @@
 //########################################################################################
 //Class Gwt::Gui::IconDesktop
-Gwt.Gui.IconDesktop = function (Image, Text, Callback)
+Gwt.Gui.IconDesktop = function (Image, Text, App)
 {
     Gwt.Gui.Frame.call (this);
         
     this.Layout = new Gwt.Gui.VBox (0);
     this.Image = new Gwt.Gui.Image (Image);
     this.Text = new Gwt.Gui.StaticText (Text);
-    this.Callback = Callback;
+    this.App = App;
 	
     this.SetSize (80, 80);
     this.SetBorderRadius (3);
@@ -26,7 +26,7 @@ Gwt.Gui.IconDesktop = function (Image, Text, Callback)
     this.Text.SetTextAlignment (Gwt.Gui.Contrib.TextAlign.Center);
     this.Layout.Add (this.Text);
 
-    this.AddEvent (Gwt.Gui.Event.Mouse.Click, this.Callback);
+    this.AddEvent (Gwt.Gui.Event.Mouse.Click, this.LaunchApp.bind(this));
     this.AddEvent (Gwt.Gui.Event.Mouse.MouseOver, this.MouseHover.bind(this));
     this.AddEvent (Gwt.Gui.Event.Mouse.MouseOut, this.MouseOut.bind(this));
 }
@@ -49,6 +49,12 @@ Gwt.Gui.IconDesktop.prototype.MouseOut = function ()
 {
     var Color0 = new Gwt.Gui.Contrib.Color (Gwt.Gui.Contrib.Colors.Transparent);
     this.SetBackgroundColor(Color0);
+}
+
+Gwt.Gui.IconDesktop.prototype.LaunchApp = function ()
+{
+    window.gcontrol.close ();
+    window.eval(this.App).open();
 }
 //Ends Gwt::Gui::IconDesktop
 //##################################################################################################

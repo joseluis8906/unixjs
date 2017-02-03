@@ -252,6 +252,80 @@ return new function ()
 }
 	
 })();
+/* 
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+gpanel = ( function ()
+{
+var instance;
+
+function gpanel () 
+{
+    Gwt.Gui.Window.call (this);
+
+    this.Layout = new Gwt.Gui.HBox(5);
+    this.BtnLogout = new Gwt.Gui.Image (Gwt.Core.Contrib.Images+"appbar.power.svg");
+    
+    this.DisableTitleBar ();
+    this.SetSize (Gwt.Gui.SCREEN_DEVICE_WIDTH-2, 32);
+    this.SetBorderRadius (0);
+    this.SetBorderLeft (0);
+    this.SetBorderTop (0);
+    this.SetBorderRight (0);
+    this.SetPosition (Gwt.Gui.WIN_POS_CENTER, Gwt.Gui.WIN_POS_TOP);
+    this.SetBorderSpacing (0);
+    this.DisableMenu ();
+    
+    this.SetLayout (this.Layout);
+    this.Layout.SetAlignment (Gwt.Gui.ALIGN_CENTER);
+    
+    this.BtnLogout.SetSize (24,24);    
+    this.BtnLogout.AddEvent(Gwt.Gui.Event.Mouse.Click, function (){window.terminate_session()});
+    
+    this.Layout.Add(this.BtnLogout);
+    
+}
+
+gpanel.prototype = new Gwt.Gui.Window ();
+gpanel.prototype.constructor = gpanel;
+
+gpanel.prototype._App = function ()
+{
+    this.BtnLogout._Image ();
+    this.Layout._HBox ();
+    
+    this.BtnLogout = null;
+    this.Layout = null;
+}
+
+return new function ()
+{
+    this.open = function ()
+    {
+        if (instance === undefined)
+        {
+            instance = new gpanel ();
+            instance.Open ();
+        }
+        else
+        {
+            console.log ("%app open".replace ("%app", instance.__proto__.constructor.name));
+        }
+    }
+	
+    this.close = function ()
+    {
+        if (instance !== undefined)
+        {
+            instance.Close ();
+            instance = undefined;
+        } 
+    }
+}
+	
+})();
 gcontrol = ( function ()
 {
 var instance;
@@ -261,9 +335,8 @@ function gcontrol ()
     Gwt.Gui.Window.call (this);
 
     this.Layout = new Gwt.Gui.VBox(5);
-    this.Icons = [
-        new Gwt.Gui.IconDesktop (Gwt.Core.Contrib.Images + "preferences-desktop-user.png", "Usuarios", function(){window.gcontrol.close(); window.gusers.open();})
-    ];    
+    this.Icons = [];
+        
     
     this.DisableTitleBar ();
     this.SetSize (512, 512);
@@ -273,11 +346,7 @@ function gcontrol ()
     this.Layout.SetSize (this.GetAvailableWidth(), this.GetAvailableHeight());
     this.SetLayout (this.Layout);
     
-    
-    for (var i = 0; i < this.Icons.length; i++)
-    {
-        this.Layout.Add (this.Icons[i]);
-    }
+    new Gwt.Core.Request ("/backend/approles/", this.LoadAppRoles.bind(this), null, Gwt.Core.REQUEST_METHOD_GET);
 }
 
 gcontrol.prototype = new Gwt.Gui.Window ();
@@ -294,6 +363,20 @@ gcontrol.prototype._App = function ()
     this.Layout = null;
     this.Icons  = null;
 }
+
+
+
+gcontrol.prototype.LoadAppRoles = function (Res)
+{
+    var Data = Res.Data;
+    for (var i = 0; i < Data.length; i++)
+    {
+        this.Icons.push (new Gwt.Gui.IconDesktop (Gwt.Core.Contrib.Images+Data[i].Image, Data[i].Label, Data[i].Name));
+        this.Layout.Add (this.Icons[i]);
+    }
+}
+
+
 
 return new function ()
 {
@@ -393,7 +476,7 @@ function gusers ()
 gusers.prototype = new Gwt.Gui.Window ();
 gusers.prototype.constructor = gusers;
 
-gusers.prototype._app = function ()
+gusers.prototype._App = function ()
 {
     this.Avatar._Avatar ();
     this.Title._StaticText ();
@@ -435,12 +518,12 @@ gusers.prototype.Guardar = function ()
         {"UserName": this.UserName.GetText(), "Password": this.Password.GetText(),  "DocumentType": this.DocType.GetText(), "DocumentNum": this.DocNum.GetText(), "Country" : this.Country.GetText(), "Avatar": this.Avatar.GetText (), "Name": this.Name.GetText(), "LastName": this.LastName.GetText(), "Phone": this.Phone.GetText(), "Email": this.Email.GetText (), "Address": this.Address.GetText ()}
     ];
     
-    var params = [
-        new Gwt.Core.Parameter(Gwt.Core.PARAM_TYPE_FILE, this.Avatar.GetData ()),
-        new Gwt.Core.Parameter(Gwt.Core.PARAM_TYPE_JSON, {"Name": "Params", "Data": Data})
+    var Params = [
+        new Gwt.Core.Parameter(Gwt.Core.PARAM_TYPE_FILE, "Avatar", this.Avatar.GetData ()),
+        new Gwt.Core.Parameter(Gwt.Core.PARAM_TYPE_JSON, "Params", Data)
     ];
     
-    new Gwt.Core.Request ("/backend/gusers/save/", function(response){console.log(response)}, params);
+    new Gwt.Core.Request ("/backend/gusers/save/", function(response){console.log(response)}, Params);
 }
 
 gusers.prototype.Actualizar = function ()
@@ -479,3 +562,91 @@ return new function ()
 }
 })();
 
+/* 
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+ggroups = ( function ()
+{
+var instance;
+
+function ggroups () 
+{
+    Gwt.Gui.Window.call (this, "Grupos");
+	
+    this.SetSize (256, 256);
+    this.SetPosition (Gwt.Gui.WIN_POS_CENTER);
+    this.SetBorderSpacing (12);
+    
+    this.EnableMenu ();
+    this.AddMenuItem (Gwt.Core.Contrib.Images + "appbar.magnify.svg", "Buscar", this.Buscar.bind(this));
+    this.AddMenuItem (Gwt.Core.Contrib.Images + "appbar.cabinet.in.svg", "Guardar", this.Guardar.bind(this));
+    this.AddMenuItem (Gwt.Core.Contrib.Images + "appbar.refresh.svg", "Actualizar", this.Actualizar.bind(this));
+    this.AddMenuItem (Gwt.Core.Contrib.Images + "appbar.delete.svg", "Eliminar", this.Eliminar.bind(this));
+    this.AddMenuItem (Gwt.Core.Contrib.Images + "appbar.power.svg", "Salir", function(){window.ggroups.close(); window.gcontrol.open();}, Gwt.Gui.MENU_QUIT_APP);
+    
+    this.Layout = new Gwt.Gui.VBox ();
+    this.Layout.SetAlignment(Gwt.Gui.ALIGN_CENTER);
+    this.SetLayout (this.Layout);
+    
+    this.Name = new Gwt.Gui.IconEntry(Gwt.Core.Contrib.Images+"appbar.group.svg", "Nombre");
+    this.Name.SetTabIndex(1);
+    
+    this.Layout.Add (this.Name);
+
+}
+
+ggroups.prototype = new Gwt.Gui.Window ();
+ggroups.prototype.constructor = ggroups;
+
+ggroups.prototype._App = function ()
+{
+}
+
+ggroups.prototype.Buscar = function ()
+{
+}
+
+ggroups.prototype.Guardar = function ()
+{
+    var Params = [
+        new Gwt.Core.Parameter(Gwt.Core.PARAM_TYPE_JSON, "Params", [{"Name": this.Name.GetText ()}])
+    ];
+    new Gwt.Core.Request ("/backend/ggroups/save/", function(response){console.log(response)}, Params);
+}
+
+ggroups.prototype.Actualizar = function ()
+{
+}
+
+ggroups.prototype.Eliminar = function ()
+{
+}
+
+return new function ()
+{
+    this.open = function ()
+    {
+        if (instance === undefined)
+        {
+            instance = new ggroups ();
+            instance.Open ();
+        }
+        else
+        {
+            console.log ("%app open".replace ("%app", instance.__proto__.constructor.name));
+        }
+    }
+		
+    this.close = function ()
+    {
+        if (instance !== undefined)
+        {
+            instance.Close ();
+            instance = undefined;
+        } 
+    }
+}
+})();

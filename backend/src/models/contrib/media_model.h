@@ -1,4 +1,5 @@
 #include "../../contrib.h"
+#include "../../database.h"
 
 #ifndef _MEDIA_MODEL_H_
 #define _MEDIA_MODEL_H_
@@ -18,6 +19,8 @@ struct MediaModelArray
 struct MediaModel NewVoidMediaModel (void);
 struct FuncResult MediaModelArrayPush (struct MediaModelArray *Array, const struct MediaModel *Element);
 struct MediaModelArray NewMediaModelArray (void);
+
+struct FuncResult GenerateMediaName (char *Name);
 
 struct FuncResult MediaModelInsert (struct MediaModelArray *Medias);
 

@@ -358,13 +358,13 @@ Gwt.Core.Request.prototype.SendMultipartFormData =  function ()
         Multipart.push ("\r\n--"+Boundary+"\r\n");
         if (this.Params[i].Type === Gwt.Core.PARAM_TYPE_JSON)
         {        
-            ContentDisposition = "Content-Disposition: form-data; name=\""+this.Params[i].GetData ().Name + "\"\r\nContent-Type: text/plain; charset=UTF-8\r\n\r\n";
+            ContentDisposition = "Content-Disposition: form-data; name=\""+this.Params[i].GetName () + "\"\r\nContent-Type: text/plain; charset=UTF-8\r\n\r\n";
             Multipart.push (ContentDisposition);
-            Multipart.push (unescape(encodeURIComponent(JSON.stringify(this.Params[i].GetData ().Data))));
+            Multipart.push (unescape(encodeURIComponent(JSON.stringify(this.Params[i].GetData ()))));
         }
         else
         {
-            ContentDisposition = "Content-Disposition: form-data; name=\""+this.Params[i].GetData ().Name+"\"; filename=\""+ this.Params[i].GetData ().FileName + "\"\r\nContent-Type: " + this.Params[i].GetData ().Type + "\r\n\r\n";
+            ContentDisposition = "Content-Disposition: form-data; name=\""+this.Params[i].GetName ()+"\"; filename=\""+ this.Params[i].GetData ().FileName + "\"\r\nContent-Type: " + this.Params[i].GetData ().Type + "\r\n\r\n";
             Multipart.push (ContentDisposition);
             Multipart.push (atob (this.Params[i].GetData ().Data));
         }
@@ -389,7 +389,7 @@ Gwt.Core.Request.prototype.SendApplicationXWWWFormUrlEncoded = function ()
 {
     this.XHR.setRequestHeader("Content-Type", "application\/x-www-form-urlencoded");
     
-    var RawData = "Params="+JSON.stringify (this.Params[0].GetData());
+    var RawData = this.Params[0].GetName ()+"="+JSON.stringify (this.Params[0].GetData());
     
     this.XHR.send (RawData);
 }
@@ -419,21 +419,28 @@ Gwt.Core.Request.prototype.GetCookie = function ()
 //##########################################################
 //###################################################################################################
 //Gwt::Core::Param
-Gwt.Core.Parameter = function (Type, Data)
+Gwt.Core.Parameter = function (Type, Name, Data)
 {
     this.Type = Type === Gwt.Core.PARAM_TYPE_JSON ? Type : Gwt.Core.PARAM_TYPE_FILE;
+    this.Name = Name;
     this.Data = Data;
 }
 
 Gwt.Core.Parameter.prototype._Parameter = function ()
 {
     this.Type = null;
+    this.Name = null;
     this.Data = null;
 }
 
 Gwt.Core.Parameter.prototype.GetType = function ()
 {
     return this.Type;
+}
+
+Gwt.Core.Parameter.prototype.GetName = function ()
+{
+    return this.Name;
 }
 
 Gwt.Core.Parameter.prototype.GetData = function ()
@@ -2849,7 +2856,7 @@ Gwt.Gui.Croppie.prototype.SetCallbackResult = function (Callback)
 //##################################################################################################
 //########################################################################################
 //Class Gwt::Gui::Avatar
-Gwt.Gui.Avatar = function (Name, Format, Width, Height)
+Gwt.Gui.Avatar = function (Format, Width, Height)
 {
     Gwt.Gui.Frame.call (this);
     
@@ -2857,7 +2864,6 @@ Gwt.Gui.Avatar = function (Name, Format, Width, Height)
     this.File = new Gwt.Gui.File (this.SetImage.bind(this));
     this.Image = new Gwt.Gui.Image (Gwt.Core.Contrib.Images+"appbar.camera.switch.invert.svg");
     this.FileName_ = null;
-    this.Name = Name;
     this.FileWidth = Width ||  240;
     this.FileHeight = Height || 240;
     this.Type = Format === "jpg" ? "jpeg" : Format ;
@@ -2894,7 +2900,6 @@ Gwt.Gui.Avatar.prototype._Avatar = function ()
     this.Image = null;
     this.File = null;
     this.Editor = null;
-    this.Name = null;
     this.FileName = null;
     this.Type = null;
     
@@ -2934,7 +2939,7 @@ Gwt.Gui.Avatar.prototype.GetEditor = function ()
 
 Gwt.Gui.Avatar.prototype.GetData = function ()
 {
-    return {Name: this.Name, FileName: this.FileName, Type: this.Type, Data: this.Image.GetSrc().replace(/^[^,]+,/, '')};
+    return {FileName: this.FileName, Type: this.Type, Data: this.Image.GetSrc().replace(/^[^,]+,/, '')};
 }
 
 Gwt.Gui.Avatar.prototype.GetText = function ()
@@ -4028,14 +4033,14 @@ Gwt.Gui.IconControl.prototype.SetTabIndex = function (TabIndex)
 //##################################################################################################
 //########################################################################################
 //Class Gwt::Gui::IconDesktop
-Gwt.Gui.IconDesktop = function (Image, Text, Callback)
+Gwt.Gui.IconDesktop = function (Image, Text, App)
 {
     Gwt.Gui.Frame.call (this);
         
     this.Layout = new Gwt.Gui.VBox (0);
     this.Image = new Gwt.Gui.Image (Image);
     this.Text = new Gwt.Gui.StaticText (Text);
-    this.Callback = Callback;
+    this.App = App;
 	
     this.SetSize (80, 80);
     this.SetBorderRadius (3);
@@ -4054,7 +4059,7 @@ Gwt.Gui.IconDesktop = function (Image, Text, Callback)
     this.Text.SetTextAlignment (Gwt.Gui.Contrib.TextAlign.Center);
     this.Layout.Add (this.Text);
 
-    this.AddEvent (Gwt.Gui.Event.Mouse.Click, this.Callback);
+    this.AddEvent (Gwt.Gui.Event.Mouse.Click, this.LaunchApp.bind(this));
     this.AddEvent (Gwt.Gui.Event.Mouse.MouseOver, this.MouseHover.bind(this));
     this.AddEvent (Gwt.Gui.Event.Mouse.MouseOut, this.MouseOut.bind(this));
 }
@@ -4077,6 +4082,12 @@ Gwt.Gui.IconDesktop.prototype.MouseOut = function ()
 {
     var Color0 = new Gwt.Gui.Contrib.Color (Gwt.Gui.Contrib.Colors.Transparent);
     this.SetBackgroundColor(Color0);
+}
+
+Gwt.Gui.IconDesktop.prototype.LaunchApp = function ()
+{
+    window.gcontrol.close ();
+    window.eval(this.App).open();
 }
 //Ends Gwt::Gui::IconDesktop
 //##################################################################################################

@@ -1,21 +1,30 @@
-/*
+#include "../../contrib.h"
+#include "../../database.h"
 
-#ifndef _AUTH_GROUP_MODEL_
-#define _AUTH_GROUP_MODEL_
+#ifndef _AUTH_GROUP_MODEL_H_
+#define _AUTH_GROUP_MODEL_H_
 
-typedef struct {
-    char name[32];
-} auth_group_model_t;
+struct AuthGroupModel
+{
+    char Name[32];
+};
 
 
-typedef struct {
-    auth_group_model_t old_group;
-    auth_group_model_t new_group;
-} auth_group_update_t;
+struct AuthGroupModelArray 
+{
+    struct AuthGroupModel At[LOW_ARRAY_SIZE];
+    int Length;    
+};
 
-auth_group_model_t new_auth_group_model (char *);
-auth_group_model_t new_void_auth_group_model (void);
-json_object* auth_group_model_to_json (auth_group_model_t*);
+struct AuthGroupModelArray NewAuthGroupModelArray (void);
+struct FuncResult AuthGroupModelArrayPush (struct AuthGroupModelArray *Array, const struct AuthGroupModel *Element);
+
+struct FuncResult AuthGroupModelsToJson (const struct AuthGroupModelArray *Models, JsonObject *Jsons);
+struct FuncResult JsonToAuthGroupModels (const char *Jsons, struct AuthGroupModelArray *Models);
+
+struct FuncResult AuthGroupModelInsert (const struct AuthGroupModelArray *Models);
+//auth_group_model_t new_auth_group_model (char *);
+//auth_group_model_t new_void_auth_group_model (void);
+//json_object* auth_group_model_to_json (auth_group_model_t*);
 
 #endif
-*/

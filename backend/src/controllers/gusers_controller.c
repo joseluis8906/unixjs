@@ -44,7 +44,7 @@ int GusersControllerSave (struct HttpRequest *Req)
     {
         strcpy (Users.At[i].Avatar.Name, Users.At[i].UserName);
         
-        Ret = GetMediaName (Users.At[i].Avatar.Name);
+        Ret = GenerateMediaName (Users.At[i].Avatar.Name);
         
         if (Ret.Result == KORE_RESULT_OK)
         {
@@ -65,7 +65,7 @@ int GusersControllerSave (struct HttpRequest *Req)
         return (KORE_RESULT_OK);
     }
     
-    HttpResponseJsonMsg (Req, KORE_RESULT_OK, "Si");
+    HttpResponseJsonMsg (Req, KORE_RESULT_OK, "Success");
     
     return (KORE_RESULT_OK);
 }

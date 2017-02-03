@@ -1,55 +1,53 @@
-window.addEventListener ("load", function () {InitRc();});
+window.addEventListener ("load", function () {Gwdm();});
 
-function InitRc ()
+function Gwdm ()
 {
     desktop.open();
     login.open ();
-    if (sessionStorage.hasOwnProperty ("Session"))
+    
+    if (sessionStorage.hasOwnProperty ("Session") && sessionStorage.getItem ("Session") === "Active")
     {
-        switch (sessionStorage.getItem ("Session"))
-        {
-            case "Inactive":
-                block_session ();
-                break;
-				
-            case "Active":
-                start_session ();
-        }
+        start_session ();
     }
 }
 
 
-
+//trasladar estas funciones a gwt
 function start_session ()
 {
     login.close ();
+    gpanel.open ();
     gcontrol.open ();
 	
     sessionStorage.setItem ("Session", "Active");
     
-    SessionRenueve = setInterval (window.renueve_session, 60000 * 0.4);
+    SessionRenueve = setInterval (window.renueve_session, 60000);
     
-    SessionEnv = setTimeout (window.terminate_session, 60000);
+    SessionEnv = setTimeout (window.terminate_session, 60000 * 5);
+    
+    window.addEventListener ("mousemove", function (){if (SessionEnv !== undefined) {clearTimeout (SessionEnv); SessionEnv = setTimeout (window.terminate_session, 60000 * 5); }});
+    window.addEventListener ("keypress", function (){if (SessionEnv !== undefined) {clearTimeout (SessionEnv); SessionEnv = setTimeout (window.terminate_session, 60000 * 5); }});
+    
+    renueve_session ();
 }
 
 
 
 function terminate_session ()
 {
-    sessionStorage.setItem ("Session", "Inactive");
-    
     gcontrol.close ();
+    gpanel.close ();
     block.open ();
-    
-    sessionStorage.clear ();
-    
-    new Gwt.Core.Request ("/backend/auth/terminatesession/", function (){}, null, Gwt.Core.REQUEST_METHOD_GET);
     
     clearTimeout(SessionEnv);
     SessionEnv = undefined;
     
     clearInterval (SessionRenueve);
     SessionRenueve = undefined;
+    
+    sessionStorage.clear ();
+    
+    new Gwt.Core.Request ("/backend/auth/terminatesession/", function (){}, null, Gwt.Core.REQUEST_METHOD_GET);    
 }
 
 

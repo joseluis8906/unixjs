@@ -40,6 +40,8 @@ struct FuncResult MediaModelInsert (struct MediaModelArray *Medias)
         }
         
         Connection_commit (Conn);
+        
+        Connection_close (Conn);
         S.Result = KORE_RESULT_OK;
         strcpy (S.Msg, "Medias inserted");
     }
@@ -54,7 +56,7 @@ struct FuncResult MediaModelInsert (struct MediaModelArray *Medias)
     }
     END_TRY;
     
-    Connection_close (Conn);
+    
     return S;
 }
 
@@ -88,4 +90,64 @@ struct FuncResult MediaModelArrayPush (struct MediaModelArray *Array, const stru
     Ret.Result = KORE_RESULT_OK;
     strcpy (Ret.Msg, "");
     return Ret;
+}
+
+
+
+struct FuncResult GenerateMediaName (char *Name)
+{
+    struct FuncResult S;
+    
+    Connection_T Conn = DbGetConnection ();
+        
+    if (!Connection_ping (Conn))
+    {   
+        S.Result = KORE_RESULT_ERROR;
+        strcpy (S.Msg,  "Error not database connection");
+        return S;
+    }   
+    
+    int64_t LastId = 0;
+    
+    TRY
+    {   
+        ResultSet_T R = Connection_executeQuery (Conn, "SELECT \"Id\" FROM \"Media\" ORDER BY \"Id\" DESC;");
+
+        if (ResultSet_next (R))
+        {
+            LastId = ResultSet_getLLongByName(R, "Id");
+        }
+        else
+        {
+            LastId = 0;
+        }
+        
+        S.Result = KORE_RESULT_OK;
+        strcpy (S.Msg, "Media Found");
+    }
+    CATCH (SQLException)
+    {    
+        S.Result = KORE_RESULT_ERROR;
+        strcpy (S.Msg, Exception_frame.message);
+    }
+    FINALLY
+    {
+    }
+    END_TRY;
+    
+    Connection_close (Conn);
+    
+    char Encoded [256];
+    char Original [128];
+    char Num [64];
+
+    strcpy (Original, Name);
+    sprintf (Num, "_%d_%lld_", (int)time(NULL), LastId);
+    strcat (Original, Num);
+
+    Base64Encode (Original, Encoded);
+    
+    strcpy (Name, Encoded);
+    
+    return S;
 }

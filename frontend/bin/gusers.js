@@ -67,7 +67,7 @@ function gusers ()
 gusers.prototype = new Gwt.Gui.Window ();
 gusers.prototype.constructor = gusers;
 
-gusers.prototype._app = function ()
+gusers.prototype._App = function ()
 {
     this.Avatar._Avatar ();
     this.Title._StaticText ();
@@ -109,12 +109,12 @@ gusers.prototype.Guardar = function ()
         {"UserName": this.UserName.GetText(), "Password": this.Password.GetText(),  "DocumentType": this.DocType.GetText(), "DocumentNum": this.DocNum.GetText(), "Country" : this.Country.GetText(), "Avatar": this.Avatar.GetText (), "Name": this.Name.GetText(), "LastName": this.LastName.GetText(), "Phone": this.Phone.GetText(), "Email": this.Email.GetText (), "Address": this.Address.GetText ()}
     ];
     
-    var params = [
-        new Gwt.Core.Parameter(Gwt.Core.PARAM_TYPE_FILE, this.Avatar.GetData ()),
-        new Gwt.Core.Parameter(Gwt.Core.PARAM_TYPE_JSON, {"Name": "Params", "Data": Data})
+    var Params = [
+        new Gwt.Core.Parameter(Gwt.Core.PARAM_TYPE_FILE, "Avatar", this.Avatar.GetData ()),
+        new Gwt.Core.Parameter(Gwt.Core.PARAM_TYPE_JSON, "Params", Data)
     ];
     
-    new Gwt.Core.Request ("/backend/gusers/save/", function(response){console.log(response)}, params);
+    new Gwt.Core.Request ("/backend/gusers/save/", function(response){console.log(response)}, Params);
 }
 
 gusers.prototype.Actualizar = function ()

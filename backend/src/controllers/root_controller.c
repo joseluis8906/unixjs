@@ -1,13 +1,13 @@
 #include "root_controller.h"
 #include "auth_controller.h"
+#include "models/contrib/app_role_model.h"
 
 //home
 int Home (struct HttpRequest *Req)
 {
     //sql_state r = init_database_system ();
     //kore_log (LOG_INFO, "%s", r.msg);
-    const char *Msg = "hello world!";
-    HttpResponse (Req, 200, Msg,  strlen(Msg));
+    HttpResponseJsonMsg(Req, KORE_RESULT_OK, "Hello World!");
     return (KORE_RESULT_OK);
 }
 
@@ -17,13 +17,55 @@ int Test (struct HttpRequest *Req)
 {
     if (AuthControllerVerifySession (Req) == KORE_RESULT_ERROR)
     {
-        const char *Msg = "Invalid Session!";
-        HttpResponse (Req, 200, Msg,  strlen(Msg));
+        return KORE_RESULT_OK;
     }
-    const char *Msg = "test!";
-    HttpResponse (Req, 200, Msg,  strlen(Msg));
+    
+    HttpResponseJsonMsg(Req, KORE_RESULT_OK, "Test");
     return (KORE_RESULT_OK);
 }
+
+
+
+//approles
+int AppRoles (struct HttpRequest *Req)
+{
+    struct FuncResult Ret;
+    char UserName[64];
+    
+    if (AuthControllerGetUserInfo(Req, UserName) == KORE_RESULT_ERROR)
+    {
+        return (KORE_RESULT_OK);
+    }
+    
+    struct AppRoleModelArray AppRoles = NewAppRoleModelArray ();
+    
+    Ret = AppRoleModelSelect (&AppRoles, UserName);
+
+    if (Ret.Result == KORE_RESULT_ERROR)
+    {
+        HttpResponseJsonMsg(Req, Ret.Result, Ret.Msg);
+        return KORE_RESULT_OK;
+    }
+    
+    JsonObject *Jobj = NULL;
+    Jobj = JsonObjectNewArray ();
+    
+    Ret = AppRoleModelsToJson(&AppRoles, Jobj);
+
+    if (Ret.Result == KORE_RESULT_ERROR)
+    {
+        HttpResponseJsonMsg(Req, Ret.Result, Ret.Msg);
+        return KORE_RESULT_OK;
+    }
+    
+    HttpResponseJsonArray(Req, KORE_RESULT_OK, Jobj);
+    
+    JsonObjectPut (Jobj);
+    Jobj = NULL;
+    
+    return KORE_RESULT_OK;
+}
+
 
 
 /*

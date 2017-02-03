@@ -1,4 +1,5 @@
 #include "../../contrib.h"
+#include "../../database.h"
 #include "media_model.h"
 
 #ifndef _AUTH_USER_MODEL_H_
@@ -30,12 +31,12 @@ struct AuthUserModel NewAuthUserModel (const char *UserName, const char *Passwor
 struct AuthUserModel NewVoidAuthUserModel (void);
 struct AuthUserModelArray NewAuthUserModelArray (void);
 
-struct FuncResult AuthUserModelArrayPush (struct AuthUserModelArray *Models, const struct AuthUserModel *Model);
+struct FuncResult AuthUserModelArrayPush (struct AuthUserModelArray *Array, const struct AuthUserModel *Element);
 struct FuncResult AuthUserModelsToJson (const struct AuthUserModelArray *Models, JsonObject *Jsons);
 struct FuncResult JsonToAuthUserModels (const char *Jsons, struct AuthUserModelArray *Models);
 
 struct FuncResult  AuthUserModelInsert (const struct AuthUserModelArray *Models);
-struct FuncResult  AuthUserModelSelect (const char *UserName, struct AuthUserModelArray *Models);
+struct FuncResult  AuthUserModelSelect (struct AuthUserModelArray *Models, const char *UserName);
 //struct SqlState  AuthUserModelUpdate (struct AuthUserModelTuple[], int);
 //struct SqlState  AuthUserModelDelete (struct AuthUserModel[], int);
 

@@ -6,6 +6,7 @@
 
 #include "auth_controller.h"
 #include "../models/contrib/auth_user_model.h"
+#include "../redis.h"
 
 int AuthControllerLogin (struct HttpRequest *Req)
 {
@@ -38,7 +39,7 @@ int AuthControllerLogin (struct HttpRequest *Req)
     struct AuthUserModelArray Users = NewAuthUserModelArray();
     
     
-    Ret = AuthUserModelSelect (UserName, &Users);
+    Ret = AuthUserModelSelect (&Users, UserName);
     
     if (Ret.Result == KORE_RESULT_ERROR)
     {
@@ -73,49 +74,29 @@ int AuthControllerLogin (struct HttpRequest *Req)
 
 
 int AuthControllerStartSession (struct HttpRequest *Req, const char *UserName)
-{
-    kore_log (LOG_INFO, "StartSession Called");
-    
-    redisContext *Ctx = redisConnect (REDIS_IP, REDIS_PORT);
-    
-    if (Ctx == NULL || Ctx->err)
-    {
-        if (Ctx)
-        {
-            kore_log (LOG_INFO, "Redis error: %s\n", Ctx->errstr);
-            redisFree (Ctx);
-        }
-        else
-        {
-            kore_log (LOG_INFO, "Redis can't allocate redis context\n");
-        }
-        return KORE_RESULT_ERROR;
-    }
-
-    redisReply *Reply = redisCommand (Ctx, "AUTH %s", "K3J9 8LMN 02F3 B3LW");
-    if (strcmp(Reply->str, "OK") != 0)
-    {
-        kore_log (LOG_INFO, "Redis Password Error\n");
-        return KORE_RESULT_ERROR;
-    }
-    
+{    
     char SessionId[64];
     char SessionIdCrypt[64];
     sprintf (SessionId, "_%d_%s_", (int)time(NULL), UserName);
     
     GenerateSessionId (SessionId, SessionIdCrypt);
     
-    Reply = redisCommand (Ctx, "HMSET SessionId:%s UserName %s", SessionIdCrypt, UserName);
-    if (strcmp(Reply->str, "OK") != 0)
+    char Tmp[256];
+    sprintf (Tmp, "HMSET SessionId:%s UserName %s", SessionIdCrypt, UserName);
+    
+    char Result[256];
+    
+    if (RedisCommandStr (Tmp, Result) == KORE_RESULT_ERROR)
     {
-        kore_log (LOG_INFO, "Imposible create session");
         return KORE_RESULT_ERROR;
     }
-
-    redisFree (Ctx);
-     
-    char Tmp[256];
-    sprintf (Tmp, "SessionId=%s; path=/; max-age=60"/* Secure; HttpOnly"*/, SessionIdCrypt);
+    
+    if (strcmp (Result, "OK") != 0)
+    {
+        return KORE_RESULT_ERROR;
+    }
+    
+    sprintf (Tmp, "SessionId=%s; path=/; max-age=300", SessionIdCrypt);
     
     HttpResponseHeader (Req, "set-cookie", Tmp);
     
@@ -130,13 +111,12 @@ int AuthControllerRenueveSession (struct HttpRequest *Req)
     
     if(HttpRequestHeader(Req, "SessionId", &SessionId) == KORE_RESULT_ERROR)
     {
-        kore_log (LOG_INFO, "Error renueve");
         HttpResponseJsonMsg(Req, KORE_RESULT_ERROR, "Renueve Session Failed");
         return KORE_RESULT_OK;
     }
        
     char Tmp[256];
-    sprintf (Tmp, "SessionId=%s; path=/; max-age=60"/* Secure; HttpOnly"*/, SessionId);
+    sprintf (Tmp, "SessionId=%s; path=/; max-age=300", SessionId);
     
     HttpResponseHeader (Req, "set-cookie", Tmp);
     
@@ -149,30 +129,6 @@ int AuthControllerRenueveSession (struct HttpRequest *Req)
 
 int AuthControllerTerminateSession (struct http_request *Req)
 {        
-    redisContext *Ctx = redisConnect (REDIS_IP, REDIS_PORT);
-    
-    if (Ctx == NULL || Ctx->err)
-    {
-        if (Ctx)
-        {
-            kore_log (LOG_INFO, "Redis error: %s\n", Ctx->errstr);
-            redisFree (Ctx);
-        }
-        else
-        {
-            kore_log (LOG_INFO, "Redis can't allocate redis context\n");
-        }
-        return KORE_RESULT_ERROR;
-    }
-
-    redisReply *Reply = redisCommand (Ctx, "AUTH %s", "K3J9 8LMN 02F3 B3LW");
-    
-    if (strcmp(Reply->str, "OK") != 0)
-    {
-        kore_log (LOG_INFO, "Redis Password Error\n");
-        return KORE_RESULT_ERROR;
-    }
-    
     char *SessionId;
     
     if(HttpRequestHeader(Req, "SessionId", &SessionId) == KORE_RESULT_ERROR)
@@ -181,39 +137,64 @@ int AuthControllerTerminateSession (struct http_request *Req)
         return KORE_RESULT_OK;
     }
     
-    Reply = redisCommand (Ctx, "DEL SessionId:%s", SessionId);
-    if (Reply->integer == 0)
+    char Tmp[256];
+    sprintf (Tmp, "DEL SessionId:%s", SessionId);
+    int64_t  Result;
+    RedisCommandInt (Tmp, &Result);
+    
+    if (Result == 0)
     {
-        kore_log (LOG_INFO, "Redis Error Deleting Session\n");
+        HttpResponseJsonMsg(Req, KORE_RESULT_ERROR, "Terminate Session Failed");
         return KORE_RESULT_OK;
     }
     
-    redisFree (Ctx);
-    
-    char Tmp[256];
-    sprintf (Tmp, "SessionId=%s; path=/; max-age=1"/* Secure; HttpOnly"*/, SessionId);
+    sprintf (Tmp, "SessionId=%s; path=/; max-age=1", SessionId);
     
     HttpResponseHeader (Req, "set-cookie", Tmp);
     HttpResponseJsonMsg(Req, KORE_RESULT_OK, "Terminate Session Success");
     
-    kore_log (LOG_INFO, "TerminateSession Called");
     return KORE_RESULT_OK;
 }
 
 
 
-int AuthControllerVerifySession (struct http_request *Req)
-{    
-    kore_log (LOG_INFO, "AuthVerifiSession called");
-      
+int AuthControllerVerifySession (struct HttpRequest *Req)
+{          
     char *SessionId;
     
     if(HttpRequestHeader(Req, "SessionId", &SessionId) == KORE_RESULT_ERROR)
     {
+        HttpResponseJsonMsg(Req, KORE_RESULT_ERROR, "Invalid Session");
         return KORE_RESULT_ERROR;
     }
     
-    kore_log (LOG_INFO, "Session is: %s", SessionId);
+    return KORE_RESULT_OK;
+}
+
+
+
+int AuthControllerGetUserInfo (struct HttpRequest *Req, char *UserName)
+{
+    char *SessionId;
+    
+    if(HttpRequestHeader(Req, "SessionId", &SessionId) == KORE_RESULT_ERROR)
+    {
+        HttpResponseJsonMsg(Req, KORE_RESULT_ERROR, "Invalid Session");
+        return KORE_RESULT_ERROR;
+    }
+    
+    char Tmp[256];
+    sprintf (Tmp, "HGET SessionId:%s UserName", SessionId);
+    
+    char Result[256];
+    
+    if (RedisCommandStr (Tmp, Result) == KORE_RESULT_ERROR)
+    {
+        HttpResponseJsonMsg(Req, KORE_RESULT_ERROR, "Redis Error Command");
+        return KORE_RESULT_ERROR;
+    }
+    
+    strcpy (UserName, Result);
     
     return KORE_RESULT_OK;
 }

@@ -7,9 +7,8 @@ function gcontrol ()
     Gwt.Gui.Window.call (this);
 
     this.Layout = new Gwt.Gui.VBox(5);
-    this.Icons = [
-        new Gwt.Gui.IconDesktop (Gwt.Core.Contrib.Images + "preferences-desktop-user.png", "Usuarios", function(){window.gcontrol.close(); window.gusers.open();})
-    ];    
+    this.Icons = [];
+        
     
     this.DisableTitleBar ();
     this.SetSize (512, 512);
@@ -19,11 +18,7 @@ function gcontrol ()
     this.Layout.SetSize (this.GetAvailableWidth(), this.GetAvailableHeight());
     this.SetLayout (this.Layout);
     
-    
-    for (var i = 0; i < this.Icons.length; i++)
-    {
-        this.Layout.Add (this.Icons[i]);
-    }
+    new Gwt.Core.Request ("/backend/approles/", this.LoadAppRoles.bind(this), null, Gwt.Core.REQUEST_METHOD_GET);
 }
 
 gcontrol.prototype = new Gwt.Gui.Window ();
@@ -40,6 +35,20 @@ gcontrol.prototype._App = function ()
     this.Layout = null;
     this.Icons  = null;
 }
+
+
+
+gcontrol.prototype.LoadAppRoles = function (Res)
+{
+    var Data = Res.Data;
+    for (var i = 0; i < Data.length; i++)
+    {
+        this.Icons.push (new Gwt.Gui.IconDesktop (Gwt.Core.Contrib.Images+Data[i].Image, Data[i].Label, Data[i].Name));
+        this.Layout.Add (this.Icons[i]);
+    }
+}
+
+
 
 return new function ()
 {

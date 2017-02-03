@@ -17,10 +17,7 @@
 #include <openssl/evp.h>
 #include <openssl/bio.h>
 #include <openssl/buffer.h>
-#include <hiredis/hiredis.h>
-
 #include "defines.h"
-#include "models/database.h"
 
 #ifndef _CONTRIB_H_
 #define _CONTRIB_H_
@@ -61,8 +58,6 @@ struct StringArray NewStringArray (void);
 int StringArrayPush (struct StringArray *Array, const char *String);
 
 int Base64Encode (const char *Original, char *Encoded);
-
-struct FuncResult GetMediaName (char *Name);
 
 struct FuncResult GetJsonValue (const char *Json, const char *Key, char *Value);
 #endif

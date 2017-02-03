@@ -3,6 +3,8 @@
 #unixjs
 echo "making unixjs.js"
 
+rm unixjs.js
+
 #cat lib/sha.min.js > unixjs.js
 cat lib/croppie.min.js >> unixjs.js
 cd lib/gwt/

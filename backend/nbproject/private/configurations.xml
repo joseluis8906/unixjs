@@ -16,6 +16,8 @@
         <df name="controllers">
           <in>auth_controller.c</in>
           <in>auth_controller.h</in>
+          <in>ggroups_controller.c</in>
+          <in>ggroups_controller.h</in>
           <in>gusers_controller.c</in>
           <in>gusers_controller.h</in>
           <in>root_controller.c</in>
@@ -27,17 +29,15 @@
             <in>accou_account_model.h</in>
           </df>
           <df name="contrib">
+            <in>app_role_model.c</in>
+            <in>app_role_model.h</in>
             <in>auth_group_model.c</in>
             <in>auth_group_model.h</in>
-            <in>auth_session_model.c</in>
-            <in>auth_session_model.h</in>
             <in>auth_user_model.c</in>
             <in>auth_user_model.h</in>
             <in>media_model.c</in>
             <in>media_model.h</in>
           </df>
-          <in>database.c</in>
-          <in>database.h</in>
         </df>
         <df name="views">
           <df name="acounting">
@@ -48,7 +48,11 @@
         <in>backend.c</in>
         <in>contrib.c</in>
         <in>contrib.h</in>
+        <in>database.c</in>
+        <in>database.h</in>
         <in>defines.h</in>
+        <in>redis.c</in>
+        <in>redis.h</in>
         <in>upload_file.c</in>
         <in>upload_file.h</in>
       </df>

@@ -20,6 +20,7 @@ int AuthControllerLogin (struct HttpRequest *Req);
 int AuthControllerLogout (struct HttpRequest *Req);
 
 int AuthControllerVerifySession (struct HttpRequest *Req);
+int AuthControllerGetUserInfo (struct HttpRequest *Req, char *UserName);
 
 int AuthControllerStartSession (struct HttpRequest *Req, const char *UserName);
 int AuthControllerRenueveSession (struct HttpRequest *Req);

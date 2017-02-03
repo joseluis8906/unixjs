@@ -1,5 +1,4 @@
 #include "contrib.h"
-#include "models/contrib/media_model.h"
 
 //encrypt
 int PasswordEncrypt (const char *Src, char *Dest)
@@ -180,8 +179,8 @@ int HttpResponseJsonArray (struct HttpRequest *Req, int Result, JsonObject *Arra
     JsonObject *JsonMsg = NULL;
     JsonMsg  = JsonObjectNewObject ();
     
-    JsonObjectObjectAdd (JsonMsg, "result", JsonObjectNewInt (Result));
-    JsonObjectObjectAdd (JsonMsg, "data", Array);
+    JsonObjectObjectAdd (JsonMsg, "Result", JsonObjectNewInt (Result));
+    JsonObjectObjectAdd (JsonMsg, "Data", Array);
     Resp = JsonObjectToJsonString (JsonMsg);
     HttpResponse (Req, 200, Resp, strlen(Resp));
     
@@ -282,66 +281,6 @@ int Base64Encode(const char* Original, char* Encoded) //Encodes a string to base
     BIO_free_all(b64);
 
     return (KORE_RESULT_OK); //success
-}
-
-
-
-struct FuncResult GetMediaName (char *Name)
-{
-    struct FuncResult S;
-    
-    Connection_T Conn = DbGetConnection ();
-        
-    if (!Connection_ping (Conn))
-    {   
-        S.Result = KORE_RESULT_ERROR;
-        strcpy (S.Msg,  "Error not database connection");
-        return S;
-    }   
-    
-    int64_t LastId = 0;
-    
-    TRY
-    {   
-        ResultSet_T R = Connection_executeQuery (Conn, "SELECT \"Id\" FROM \"Media\" ORDER BY \"Id\" DESC;");
-
-        if (ResultSet_next (R))
-        {
-            LastId = ResultSet_getLLongByName(R, "Id");
-        }
-        else
-        {
-            LastId = 0;
-        }
-        
-        S.Result = KORE_RESULT_OK;
-        strcpy (S.Msg, "Media Found");
-    }
-    CATCH (SQLException)
-    {    
-        S.Result = KORE_RESULT_ERROR;
-        strcpy (S.Msg, Exception_frame.message);
-    }
-    FINALLY
-    {
-    }
-    END_TRY;
-    
-    Connection_close (Conn);
-    
-    char Encoded [256];
-    char Original [128];
-    char Num [64];
-
-    strcpy (Original, Name);
-    sprintf (Num, "_%d_%lld_", (int)time(NULL), LastId);
-    strcat (Original, Num);
-
-    Base64Encode (Original, Encoded);
-    
-    strcpy (Name, Encoded);
-    
-    return S;
 }
 
 

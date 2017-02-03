@@ -75,13 +75,13 @@ Gwt.Core.Request.prototype.SendMultipartFormData =  function ()
         Multipart.push ("\r\n--"+Boundary+"\r\n");
         if (this.Params[i].Type === Gwt.Core.PARAM_TYPE_JSON)
         {        
-            ContentDisposition = "Content-Disposition: form-data; name=\""+this.Params[i].GetData ().Name + "\"\r\nContent-Type: text/plain; charset=UTF-8\r\n\r\n";
+            ContentDisposition = "Content-Disposition: form-data; name=\""+this.Params[i].GetName () + "\"\r\nContent-Type: text/plain; charset=UTF-8\r\n\r\n";
             Multipart.push (ContentDisposition);
-            Multipart.push (unescape(encodeURIComponent(JSON.stringify(this.Params[i].GetData ().Data))));
+            Multipart.push (unescape(encodeURIComponent(JSON.stringify(this.Params[i].GetData ()))));
         }
         else
         {
-            ContentDisposition = "Content-Disposition: form-data; name=\""+this.Params[i].GetData ().Name+"\"; filename=\""+ this.Params[i].GetData ().FileName + "\"\r\nContent-Type: " + this.Params[i].GetData ().Type + "\r\n\r\n";
+            ContentDisposition = "Content-Disposition: form-data; name=\""+this.Params[i].GetName ()+"\"; filename=\""+ this.Params[i].GetData ().FileName + "\"\r\nContent-Type: " + this.Params[i].GetData ().Type + "\r\n\r\n";
             Multipart.push (ContentDisposition);
             Multipart.push (atob (this.Params[i].GetData ().Data));
         }
@@ -106,7 +106,7 @@ Gwt.Core.Request.prototype.SendApplicationXWWWFormUrlEncoded = function ()
 {
     this.XHR.setRequestHeader("Content-Type", "application\/x-www-form-urlencoded");
     
-    var RawData = "Params="+JSON.stringify (this.Params[0].GetData());
+    var RawData = this.Params[0].GetName ()+"="+JSON.stringify (this.Params[0].GetData());
     
     this.XHR.send (RawData);
 }
