@@ -55,40 +55,45 @@ function login ()
     Gwt.Gui.Window.call (this);
 
     //instace props
+    this.Layout = new Gwt.Gui.HBox(48);
     this.imageLogin = new Gwt.Gui.Image(Gwt.Core.Contrib.Images+"connecting_world.svg");
     this.title_label = new Gwt.Gui.StaticText ("Login");    
     this.username_entry = new Gwt.Gui.Entry ("Nombre De Usuario");
     this.password_entry = new Gwt.Gui.Entry ("Contraseña");
     this.send_button = new Gwt.Gui.Button (Gwt.Core.Contrib.Images+"appbar.arrow.right.svg", "Entrar");
-    this.controls_container = new Gwt.Gui.VBox ();
+    this.controls_container = new Gwt.Gui.Frame ();
+    this.boxcontainer = new Gwt.Gui.VBox(12);
     
     //init
-    this.SetSize (Gwt.Gui.SCREEN_DEVICE_WIDTH - 50, Gwt.Gui.SCREEN_DEVICE_HEIGHT - 50);
+    this.SetSize (640, 480);
     this.SetPosition (Gwt.Gui.WIN_POS_CENTER);
+    this.SetBorderSpacing (24);
     this.DisableTitleBar ();
-	
-    this.imageLogin.SetSize (500, 350);
-    this.imageLogin.SetPosition (170, 180);
-    this.imageLogin.SetPositionType (Gwt.Gui.Contrib.PositionType.Absolute);
-    this.Add (this.imageLogin);
     
-    this.controls_container.SetSize (180, 170);
-    this.controls_container.SetPosition ((this.GetWidth()*70)/100, ((this.GetHeight()*50)/100)-(this.controls_container.GetHeight()/2));
-    this.Add (this.controls_container);
+    this.SetLayout (this.Layout);
+    this.Layout.SetAlignment (Gwt.Gui.ALIGN_CENTER);
     
-    this.controls_container.Add (this.title_label);
+    this.imageLogin.SetSize (320, 240);
+    this.Layout.Add (this.imageLogin);
+    
+    this.controls_container.SetSize (140, 160);
+    this.Layout.Add (this.controls_container);
+    
+    this.boxcontainer.SetSize (this.controls_container.GetWidth (), this.controls_container.GetHeight ());
+    this.controls_container.Add(this.boxcontainer);
+    
+    this.boxcontainer.Add (this.title_label);
     
     this.username_entry.SetFocus ();
-    this.controls_container.Add (this.username_entry);
+    this.boxcontainer.Add (this.username_entry);
     
     this.password_entry.ChangeToPassword ();
     this.password_entry.SetMaxLength (4);
-    this.controls_container.Add (this.password_entry);
+    this.boxcontainer.Add (this.password_entry);
 	
     this.send_button.SetWidth (80);
     this.send_button.AddEvent (Gwt.Gui.Event.Mouse.Click, this.send.bind (this));
-    this.controls_container.Add (this.send_button);
-
+    this.boxcontainer.Add (this.send_button);
 }
 
 login.prototype = new Gwt.Gui.Window ();
@@ -101,7 +106,8 @@ login.prototype._App = function ()
     this.username_entry._Entry ();
     this.password_entry._Entry ();
     this.send_button._Button ();
-    this.controls_container._VBox ();
+    this.boxcontainer._VBox ();
+    this.controls_container._Frame ();
     
     this.imageLogin = null;
     this.title_label = null;
@@ -116,7 +122,7 @@ login.prototype.send = function ()
     if (this.username_entry.GetText () !== "" && this.password_entry.GetText () !== "")
     {        
 	var params = [
-            new Gwt.Core.Parameter(Gwt.Core.PARAM_TYPE_JSON, {"UserName": this.username_entry.GetText(), "Password": this.password_entry.GetText()})
+            new Gwt.Core.Parameter(Gwt.Core.PARAM_TYPE_JSON, "Params", {"UserName": this.username_entry.GetText(), "Password": this.password_entry.GetText()})
         ];
     
         new Gwt.Core.Request ("/backend/auth/login/", this.response.bind (this), params);
@@ -335,16 +341,18 @@ function gcontrol ()
     Gwt.Gui.Window.call (this);
 
     this.Layout = new Gwt.Gui.VBox(5);
+    this.Row1 = new Gwt.Gui.HBox(8);
     this.Icons = [];
         
-    
     this.DisableTitleBar ();
-    this.SetSize (512, 512);
+    this.SetSize (544, 544);
     this.SetPosition (Gwt.Gui.WIN_POS_CENTER);
     this.SetBorderSpacing (12);
     
     this.Layout.SetSize (this.GetAvailableWidth(), this.GetAvailableHeight());
     this.SetLayout (this.Layout);
+    
+    this.Layout.Add (this.Row1);
     
     new Gwt.Core.Request ("/backend/approles/", this.LoadAppRoles.bind(this), null, Gwt.Core.REQUEST_METHOD_GET);
 }
@@ -358,6 +366,7 @@ gcontrol.prototype._App = function ()
     {
         this.Icons[i]._IconDesktop ();
     }
+    this.Row1._HBox ();
     this.Layout._VBox ();
     
     this.Layout = null;
@@ -372,7 +381,7 @@ gcontrol.prototype.LoadAppRoles = function (Res)
     for (var i = 0; i < Data.length; i++)
     {
         this.Icons.push (new Gwt.Gui.IconDesktop (Gwt.Core.Contrib.Images+Data[i].Image, Data[i].Label, Data[i].Name));
-        this.Layout.Add (this.Icons[i]);
+        this.Row1.Add (this.Icons[i]);
     }
 }
 
@@ -581,9 +590,7 @@ function ggroups ()
     this.SetBorderSpacing (12);
     
     this.EnableMenu ();
-    this.AddMenuItem (Gwt.Core.Contrib.Images + "appbar.magnify.svg", "Buscar", this.Buscar.bind(this));
     this.AddMenuItem (Gwt.Core.Contrib.Images + "appbar.cabinet.in.svg", "Guardar", this.Guardar.bind(this));
-    this.AddMenuItem (Gwt.Core.Contrib.Images + "appbar.refresh.svg", "Actualizar", this.Actualizar.bind(this));
     this.AddMenuItem (Gwt.Core.Contrib.Images + "appbar.delete.svg", "Eliminar", this.Eliminar.bind(this));
     this.AddMenuItem (Gwt.Core.Contrib.Images + "appbar.power.svg", "Salir", function(){window.ggroups.close(); window.gcontrol.open();}, Gwt.Gui.MENU_QUIT_APP);
     
@@ -595,7 +602,6 @@ function ggroups ()
     this.Name.SetTabIndex(1);
     
     this.Layout.Add (this.Name);
-
 }
 
 ggroups.prototype = new Gwt.Gui.Window ();
@@ -632,6 +638,190 @@ return new function ()
         if (instance === undefined)
         {
             instance = new ggroups ();
+            instance.Open ();
+        }
+        else
+        {
+            console.log ("%app open".replace ("%app", instance.__proto__.constructor.name));
+        }
+    }
+		
+    this.close = function ()
+    {
+        if (instance !== undefined)
+        {
+            instance.Close ();
+            instance = undefined;
+        } 
+    }
+}
+})();
+/* 
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+gusersgroups = ( function ()
+{
+var instance;
+
+function gusersgroups () 
+{
+    Gwt.Gui.Window.call (this, "Usuarios y Grupos");
+	
+    this.SetSize (256, 256);
+    this.SetPosition (Gwt.Gui.WIN_POS_CENTER);
+    this.SetBorderSpacing (12);
+    
+    this.AddMenuItem (Gwt.Core.Contrib.Images + "appbar.cabinet.in.svg", "Guardar", this.Guardar.bind(this));
+    this.AddMenuItem (Gwt.Core.Contrib.Images + "appbar.delete.svg", "Eliminar", this.Eliminar.bind(this));
+    this.AddMenuItem (Gwt.Core.Contrib.Images + "appbar.power.svg", "Salir", function(){window.gusersgroups.close(); window.gcontrol.open();}, Gwt.Gui.MENU_QUIT_APP);
+    
+    this.Layout = new Gwt.Gui.VBox ();
+    this.Layout.SetAlignment(Gwt.Gui.ALIGN_CENTER);
+    this.SetLayout (this.Layout);
+    
+    this.UserName = new Gwt.Gui.IconEntry(Gwt.Core.Contrib.Images+"appbar.user.svg", "Nombre De Usuario");
+    this.UserName.SetTabIndex(1);
+    
+    this.GroupName = new Gwt.Gui.IconEntry(Gwt.Core.Contrib.Images+"appbar.group.svg", "Nombre De Grupo");
+    this.GroupName.SetTabIndex(2);
+    
+    this.Layout.Add (this.UserName);
+    this.Layout.Add (this.GroupName);
+}
+
+gusersgroups.prototype = new Gwt.Gui.Window ();
+gusersgroups.prototype.constructor = gusersgroups;
+
+gusersgroups.prototype._App = function ()
+{
+}
+
+gusersgroups.prototype.Buscar = function ()
+{
+}
+
+gusersgroups.prototype.Guardar = function ()
+{
+    var Params = [
+        new Gwt.Core.Parameter(Gwt.Core.PARAM_TYPE_JSON, "Params", [{"User": this.UserName.GetText (), "Group": this.GroupName.GetText ()}])
+    ];
+    new Gwt.Core.Request ("/backend/gusersgroups/save/", function(response){console.log(response)}, Params);
+}
+
+gusersgroups.prototype.Actualizar = function ()
+{
+}
+
+gusersgroups.prototype.Eliminar = function ()
+{
+}
+
+return new function ()
+{
+    this.open = function ()
+    {
+        if (instance === undefined)
+        {
+            instance = new gusersgroups ();
+            instance.Open ();
+        }
+        else
+        {
+            console.log ("%app open".replace ("%app", instance.__proto__.constructor.name));
+        }
+    }
+		
+    this.close = function ()
+    {
+        if (instance !== undefined)
+        {
+            instance.Close ();
+            instance = undefined;
+        } 
+    }
+}
+})();
+/* 
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+gapprole = ( function ()
+{
+var instance;
+
+function gapprole () 
+{
+    Gwt.Gui.Window.call (this, "App Y Grupo");
+	
+    this.SetSize (256, 256);
+    this.SetPosition (Gwt.Gui.WIN_POS_CENTER);
+    this.SetBorderSpacing (12);
+    
+    this.AddMenuItem (Gwt.Core.Contrib.Images + "appbar.cabinet.in.svg", "Guardar", this.Guardar.bind(this));
+    this.AddMenuItem (Gwt.Core.Contrib.Images + "appbar.delete.svg", "Eliminar", this.Eliminar.bind(this));
+    this.AddMenuItem (Gwt.Core.Contrib.Images + "appbar.power.svg", "Salir", function(){window.gapprole.close(); window.gcontrol.open();}, Gwt.Gui.MENU_QUIT_APP);
+    
+    this.Layout = new Gwt.Gui.VBox ();
+    this.Layout.SetAlignment(Gwt.Gui.ALIGN_CENTER);
+    this.SetLayout (this.Layout);
+    
+    this.Image = new Gwt.Gui.IconEntry(Gwt.Core.Contrib.Images+"appbar.image.svg", "Nombre De Imagen");
+    this.Image.SetTabIndex(1);
+    
+    this.Label = new Gwt.Gui.IconEntry(Gwt.Core.Contrib.Images+"appbar.closedcaption.svg", "Etiqueta");
+    this.Label.SetTabIndex(2);
+    
+    this.Name = new Gwt.Gui.IconEntry(Gwt.Core.Contrib.Images+"appbar.console.svg", "Nombre Del App");
+    this.Name.SetTabIndex(2);
+    
+    this.Group = new Gwt.Gui.IconEntry(Gwt.Core.Contrib.Images+"appbar.group.svg", "Grupo");
+    this.Group.SetTabIndex(2);
+    
+    this.Layout.Add (this.Image);
+    this.Layout.Add (this.Label);
+    this.Layout.Add (this.Name);
+    this.Layout.Add (this.Group);
+}
+
+gapprole.prototype = new Gwt.Gui.Window ();
+gapprole.prototype.constructor = gapprole;
+
+gapprole.prototype._App = function ()
+{
+}
+
+gapprole.prototype.Buscar = function ()
+{
+}
+
+gapprole.prototype.Guardar = function ()
+{
+    var Params = [
+        new Gwt.Core.Parameter(Gwt.Core.PARAM_TYPE_JSON, "Params", [{"Image": this.Image.GetText (), "Label": this.Label.GetText (), "Name": this.Name.GetText (), "Group": this.Group.GetText ()}])
+    ];
+    new Gwt.Core.Request ("/backend/gapprole/save/", function(response){console.log(response)}, Params);
+}
+
+gapprole.prototype.Actualizar = function ()
+{
+}
+
+gapprole.prototype.Eliminar = function ()
+{
+}
+
+return new function ()
+{
+    this.open = function ()
+    {
+        if (instance === undefined)
+        {
+            instance = new gapprole ();
             instance.Open ();
         }
         else

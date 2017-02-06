@@ -1,6 +1,6 @@
 #include "root_controller.h"
 #include "auth_controller.h"
-#include "models/contrib/app_role_model.h"
+#include "../../models/contrib/app_role_model.h"
 
 //home
 int Home (struct HttpRequest *Req)

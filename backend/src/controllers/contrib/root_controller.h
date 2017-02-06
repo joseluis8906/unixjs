@@ -1,4 +1,4 @@
-#include "../contrib.h"
+#include "../../contrib.h"
 
 #ifndef _ROOT_CONTROLLER_H_
 #define _ROOT_CONTROLLER_H_

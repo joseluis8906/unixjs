@@ -11,7 +11,7 @@
  * Created on January 27, 2017, 7:49 PM
  */
 
-#include "../contrib.h"
+#include "../../contrib.h"
 
 #ifndef _AUTH_CONTROLLER_H_
 #define _AUTH_CONTROLLER_H_

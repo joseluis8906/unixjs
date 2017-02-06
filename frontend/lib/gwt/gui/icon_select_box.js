@@ -13,7 +13,8 @@ Gwt.Gui.IconSelectBox.prototype.constructor = Gwt.Gui.IconSelectBox;
 
 Gwt.Gui.IconSelectBox.prototype._IconSelectBox = function ()
 {
-    this._IconSelectBox ();
+    this.Control._SelectBox ();
+    this._IconControl ();
 }
 
 Gwt.Gui.IconSelectBox.prototype.GetText = function ()

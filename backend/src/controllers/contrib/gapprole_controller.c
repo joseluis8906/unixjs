@@ -4,10 +4,10 @@
  * and open the template in the editor.
  */
 
-#include "ggroups_controller.h"
-#include "../models/contrib/auth_group_model.h"
+#include "gapprole_controller.h"
+#include "../../models/contrib/app_role_model.h"
 
-int GgroupsControllerSave (struct HttpRequest *Req)
+int GappRoleControllerSave (struct HttpRequest *Req)
 {
     char *Data = NULL;
     
@@ -15,10 +15,10 @@ int GgroupsControllerSave (struct HttpRequest *Req)
     {
         return (KORE_RESULT_OK);
     }
-        
-    struct AuthGroupModelArray Groups;
     
-    struct FuncResult Ret = JsonToAuthGroupModels (Data, &Groups);
+    struct AppRoleModelArray AppRoles;
+    
+    struct FuncResult Ret = JsonToAppRoleModels (Data, &AppRoles);
     
     if (Ret.Result == KORE_RESULT_ERROR)
     {
@@ -26,7 +26,7 @@ int GgroupsControllerSave (struct HttpRequest *Req)
         return (KORE_RESULT_OK);
     }
     
-    Ret = AuthGroupModelInsert (&Groups);
+    Ret = AppRoleModelInsert (&AppRoles);
     
     if (Ret.Result == KORE_RESULT_ERROR)
     {
@@ -35,6 +35,6 @@ int GgroupsControllerSave (struct HttpRequest *Req)
     }
     
     HttpResponseJsonMsg (Req, KORE_RESULT_OK, "Success");
-    
-    return (KORE_RESULT_OK);
+
+    return KORE_RESULT_OK;
 }

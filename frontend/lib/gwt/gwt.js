@@ -1079,7 +1079,7 @@ Gwt.Gui.Frame = function ()
 
 Gwt.Gui.Frame.prototype._Frame = function ()
 {
-    if (this.GetHtml() !== null)
+    if (this.GetHtml().parentNode !== null && this.GetHtml().parentNode !== undefined)
     {
         try
         {
@@ -1087,6 +1087,7 @@ Gwt.Gui.Frame.prototype._Frame = function ()
         }
         catch (e)
         {
+            console.log("agui");
             console.log(e.message);
         }
     }
@@ -1898,7 +1899,7 @@ Gwt.Gui.Window.prototype.SetWidth = function (Width)
         this.Title_.SetWidth (this.TitleBar_.GetWidth());
     }
     this.Body_.SetWidth (this.GetWidth());
-    this.SetBorderSpacing ();
+    this.SetBorderSpacing (this.BorderSpacing_);
 }
 
 Gwt.Gui.Window.prototype.SetHeight = function (Height)
@@ -1910,7 +1911,7 @@ Gwt.Gui.Window.prototype.SetHeight = function (Height)
     
     this.HaveTitleBar_ ? this.Body_.SetHeight (this.GetHeight () - 32) : this.Body_.SetHeight (this.GetHeight ()) ;
     
-    this.SetBorderSpacing ();
+    this.SetBorderSpacing (this.BorderSpacing_);
 }
 
 Gwt.Gui.Window.prototype.GetAvailableWidth = function ()
@@ -1942,16 +1943,14 @@ Gwt.Gui.Window.prototype.EnableTitleBar = function ()
 {
     this.HaveTitleBar = true;
     this.TitleBar_.SetDisplay (Gwt.Gui.Contrib.Display.Block);
-    this.Body_.SetHeight (this.GetHeight () - 32);
-    this.SetBorderSpacing ();
+    this.SetHeight(this.GetHeight ());
 }
 
 Gwt.Gui.Window.prototype.DisableTitleBar = function ()
 {
     this.HaveTitleBar_ = false;
     this.TitleBar_.SetDisplay (Gwt.Gui.Contrib.Display.None);
-    this.Body_.SetHeight (this.GetHeight () + 32);
-    this.SetBorderSpacing();
+    this.SetHeight (this.GetHeight ());
 }
 
 Gwt.Gui.Window.prototype.AddMenuItem = function (Image, Text, Callback, Flag)
@@ -1993,6 +1992,7 @@ Gwt.Gui.Dialog = function (Parent)
     this.SetPositionType (Gwt.Gui.Contrib.PositionType.Absolute);
     this.SetParent (Parent);
     this.AddEvent (Gwt.Gui.Event.Mouse.Click, this.Close.bind (this));
+    
     this.SetSize (Gwt.Gui.SCREEN_DEVICE_WIDTH, Gwt.Gui.SCREEN_DEVICE_HEIGHT);
     this.SetPosition (Gwt.Gui.WIN_POS_TOP, Gwt.Gui.WIN_POS_LEFT);
     var color = new Gwt.Gui.Contrib.Color (Gwt.Gui.Contrib.Colors.Grey);
@@ -2018,13 +2018,17 @@ Gwt.Gui.Dialog.prototype.constructor = Gwt.Gui.Dialog;
 
 Gwt.Gui.Dialog.prototype._Dialog = function ()
 {
-    if(this.DialogBox !== null)
+    if (this.DialogBox !== null)
     {
         this.DialogBox._Frame ();
     }
+    
     this.DialogBox = null;
     
-    this._Frame ();
+    if(this.GetHtml () !== null)
+    {
+        this._Frame ();
+    }
 }
 
 Gwt.Gui.Dialog.prototype.Open = function ()
@@ -3176,11 +3180,10 @@ Gwt.Gui.SelectBoxDialog.prototype.constructor = Gwt.Gui.SelectBoxDialog;
 Gwt.Gui.SelectBoxDialog.prototype._SelectBoxDialog = function ()
 {
     this.LayoutDialog._VBox();
-    this.LayoutDialog = null;
-    
     this.Container._VBox();
-    this.Container = null;
     
+    this.Container = null;
+    this.LayoutDialog = null;
     this.items = null;
     
     this._Dialog ();
@@ -3275,22 +3278,22 @@ Gwt.Gui.SelectBox.prototype._SelectBox = function ()
 {
     this.StaticText._StaticText ();
     
-    if(this.SelectDialogBox !== null)
-    {
-        this.SelectDialogBox._SelectDialogBox ();
-        this.SelectDialogBox = null;
-    }
-
-    for (var i=0; i<this.Options.length; i++)
+    for (var i=0; i < this.Options.length; i++)
     {
         this.Options[i]._SelectBoxItem ();
         this.Options[i] = null;
     }
     
+    if(this.SelectDialogBox !== null && this.SelectDialogBox !== undefined)
+    {
+        this.SelectDialogBox._SelectBoxDialog ();
+    }
+   
     this.StaticText = null;
     this.Placeholder = null;
     this.Options = null;
-
+    this.SelectDialogBox = null;
+    
     this._Frame ();
 }
 
@@ -3998,8 +4001,11 @@ Gwt.Gui.IconControl.prototype.constructor = Gwt.Gui.IconControl;
 
 Gwt.Gui.IconControl.prototype._IconControl = function ()
 {
+    this.Icon._Image ();
+    
     this.Icon = null;
     this.Control = null;
+    
     this._Frame ();
 }
 
@@ -4042,7 +4048,7 @@ Gwt.Gui.IconDesktop = function (Image, Text, App)
     this.Text = new Gwt.Gui.StaticText (Text);
     this.App = App;
 	
-    this.SetSize (80, 80);
+    this.SetSize (96, 96);
     this.SetBorderRadius (3);
     this.SetBorderStyle (Gwt.Gui.Contrib.BorderStyle.Solid);
     
@@ -4050,11 +4056,12 @@ Gwt.Gui.IconDesktop = function (Image, Text, App)
     this.Layout.SetAlignment(Gwt.Gui.ALIGN_CENTER);
     this.Add (this.Layout);
 
-    this.Image.SetSize (56, 56);
+    this.Image.SetSize (64, 64);
     this.Image.SetMarginTop (3);
+    this.Image.SetMarginBottom (6);
     this.Layout.Add (this.Image);
     
-    this.Text.SetSize (this.Layout.GetWidth(), 16);
+    this.Text.SetSize (this.Layout.GetWidth(), 32);
     this.Text.SetFontSize (10);
     this.Text.SetTextAlignment (Gwt.Gui.Contrib.TextAlign.Center);
     this.Layout.Add (this.Text);
@@ -4106,6 +4113,7 @@ Gwt.Gui.IconEntry.prototype.constructor = Gwt.Gui.IconEntry;
 
 Gwt.Gui.IconEntry.prototype._IconEntry = function ()
 {
+    this.Control._Entry ();
     this._IconControl ();
 }
 
@@ -4145,7 +4153,8 @@ Gwt.Gui.IconSelectBox.prototype.constructor = Gwt.Gui.IconSelectBox;
 
 Gwt.Gui.IconSelectBox.prototype._IconSelectBox = function ()
 {
-    this._IconSelectBox ();
+    this.Control._SelectBox ();
+    this._IconControl ();
 }
 
 Gwt.Gui.IconSelectBox.prototype.GetText = function ()

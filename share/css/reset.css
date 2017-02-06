@@ -170,3 +170,10 @@ select{
     -webkit-appearance: none;
     -moz-appearance: none;
 }
+
+@page
+{
+    size: letter portrait;
+    margin: 0mm 0mm 0mm 0mm;
+    padding: 0mm 0mm 0mm 0mm;
+}

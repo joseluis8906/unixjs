@@ -82,7 +82,7 @@ Gwt.Gui.Frame = function ()
 
 Gwt.Gui.Frame.prototype._Frame = function ()
 {
-    if (this.GetHtml() !== null)
+    if (this.GetHtml().parentNode !== null && this.GetHtml().parentNode !== undefined)
     {
         try
         {
@@ -90,6 +90,7 @@ Gwt.Gui.Frame.prototype._Frame = function ()
         }
         catch (e)
         {
+            console.log("agui");
             console.log(e.message);
         }
     }

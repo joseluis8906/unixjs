@@ -16,10 +16,14 @@
         <df name="controllers">
           <in>auth_controller.c</in>
           <in>auth_controller.h</in>
+          <in>gapprole_controller.c</in>
+          <in>gapprole_controller.h</in>
           <in>ggroups_controller.c</in>
           <in>ggroups_controller.h</in>
           <in>gusers_controller.c</in>
           <in>gusers_controller.h</in>
+          <in>gusersgroups_controller.c</in>
+          <in>gusersgroups_controller.h</in>
           <in>root_controller.c</in>
           <in>root_controller.h</in>
         </df>
@@ -33,6 +37,8 @@
             <in>app_role_model.h</in>
             <in>auth_group_model.c</in>
             <in>auth_group_model.h</in>
+            <in>auth_user_group_model.c</in>
+            <in>auth_user_group_model.h</in>
             <in>auth_user_model.c</in>
             <in>auth_user_model.h</in>
             <in>media_model.c</in>

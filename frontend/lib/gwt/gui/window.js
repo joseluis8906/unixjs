@@ -139,7 +139,7 @@ Gwt.Gui.Window.prototype.SetWidth = function (Width)
         this.Title_.SetWidth (this.TitleBar_.GetWidth());
     }
     this.Body_.SetWidth (this.GetWidth());
-    this.SetBorderSpacing ();
+    this.SetBorderSpacing (this.BorderSpacing_);
 }
 
 Gwt.Gui.Window.prototype.SetHeight = function (Height)
@@ -151,7 +151,7 @@ Gwt.Gui.Window.prototype.SetHeight = function (Height)
     
     this.HaveTitleBar_ ? this.Body_.SetHeight (this.GetHeight () - 32) : this.Body_.SetHeight (this.GetHeight ()) ;
     
-    this.SetBorderSpacing ();
+    this.SetBorderSpacing (this.BorderSpacing_);
 }
 
 Gwt.Gui.Window.prototype.GetAvailableWidth = function ()
@@ -183,16 +183,14 @@ Gwt.Gui.Window.prototype.EnableTitleBar = function ()
 {
     this.HaveTitleBar = true;
     this.TitleBar_.SetDisplay (Gwt.Gui.Contrib.Display.Block);
-    this.Body_.SetHeight (this.GetHeight () - 32);
-    this.SetBorderSpacing ();
+    this.SetHeight(this.GetHeight ());
 }
 
 Gwt.Gui.Window.prototype.DisableTitleBar = function ()
 {
     this.HaveTitleBar_ = false;
     this.TitleBar_.SetDisplay (Gwt.Gui.Contrib.Display.None);
-    this.Body_.SetHeight (this.GetHeight () + 32);
-    this.SetBorderSpacing();
+    this.SetHeight (this.GetHeight ());
 }
 
 Gwt.Gui.Window.prototype.AddMenuItem = function (Image, Text, Callback, Flag)

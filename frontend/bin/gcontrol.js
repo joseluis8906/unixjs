@@ -7,16 +7,18 @@ function gcontrol ()
     Gwt.Gui.Window.call (this);
 
     this.Layout = new Gwt.Gui.VBox(5);
+    this.Row1 = new Gwt.Gui.HBox(8);
     this.Icons = [];
         
-    
     this.DisableTitleBar ();
-    this.SetSize (512, 512);
+    this.SetSize (544, 544);
     this.SetPosition (Gwt.Gui.WIN_POS_CENTER);
     this.SetBorderSpacing (12);
     
     this.Layout.SetSize (this.GetAvailableWidth(), this.GetAvailableHeight());
     this.SetLayout (this.Layout);
+    
+    this.Layout.Add (this.Row1);
     
     new Gwt.Core.Request ("/backend/approles/", this.LoadAppRoles.bind(this), null, Gwt.Core.REQUEST_METHOD_GET);
 }
@@ -30,6 +32,7 @@ gcontrol.prototype._App = function ()
     {
         this.Icons[i]._IconDesktop ();
     }
+    this.Row1._HBox ();
     this.Layout._VBox ();
     
     this.Layout = null;
@@ -44,7 +47,7 @@ gcontrol.prototype.LoadAppRoles = function (Res)
     for (var i = 0; i < Data.length; i++)
     {
         this.Icons.push (new Gwt.Gui.IconDesktop (Gwt.Core.Contrib.Images+Data[i].Image, Data[i].Label, Data[i].Name));
-        this.Layout.Add (this.Icons[i]);
+        this.Row1.Add (this.Icons[i]);
     }
 }
 

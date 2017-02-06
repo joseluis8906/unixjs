@@ -9,7 +9,7 @@ Gwt.Gui.IconDesktop = function (Image, Text, App)
     this.Text = new Gwt.Gui.StaticText (Text);
     this.App = App;
 	
-    this.SetSize (80, 80);
+    this.SetSize (96, 96);
     this.SetBorderRadius (3);
     this.SetBorderStyle (Gwt.Gui.Contrib.BorderStyle.Solid);
     
@@ -17,11 +17,12 @@ Gwt.Gui.IconDesktop = function (Image, Text, App)
     this.Layout.SetAlignment(Gwt.Gui.ALIGN_CENTER);
     this.Add (this.Layout);
 
-    this.Image.SetSize (56, 56);
+    this.Image.SetSize (64, 64);
     this.Image.SetMarginTop (3);
+    this.Image.SetMarginBottom (6);
     this.Layout.Add (this.Image);
     
-    this.Text.SetSize (this.Layout.GetWidth(), 16);
+    this.Text.SetSize (this.Layout.GetWidth(), 32);
     this.Text.SetFontSize (10);
     this.Text.SetTextAlignment (Gwt.Gui.Contrib.TextAlign.Center);
     this.Layout.Add (this.Text);

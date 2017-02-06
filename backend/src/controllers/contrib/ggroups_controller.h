@@ -10,7 +10,7 @@
  *
  * Created on February 2, 2017, 7:45 PM
  */
-#include "../contrib.h"
+#include "../../contrib.h"
 
 #ifndef _GGROUPS_CONTROLLER_H_
 #define _GGROUPS_CONTROLLER_H_

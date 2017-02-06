@@ -30,11 +30,10 @@ Gwt.Gui.SelectBoxDialog.prototype.constructor = Gwt.Gui.SelectBoxDialog;
 Gwt.Gui.SelectBoxDialog.prototype._SelectBoxDialog = function ()
 {
     this.LayoutDialog._VBox();
-    this.LayoutDialog = null;
-    
     this.Container._VBox();
-    this.Container = null;
     
+    this.Container = null;
+    this.LayoutDialog = null;
     this.items = null;
     
     this._Dialog ();

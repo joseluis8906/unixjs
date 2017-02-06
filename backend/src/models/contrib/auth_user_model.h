@@ -29,9 +29,10 @@ struct AuthUserModelArray
 
 struct AuthUserModel NewAuthUserModel (const char *UserName, const char *Password, const char *DocumentType, const char *DocumentNum, const char *Country,  const char *Name, const char *LastName, const struct MediaModel *Avatar, const char *Phone, const char *Email, char *Address);
 struct AuthUserModel NewVoidAuthUserModel (void);
-struct AuthUserModelArray NewAuthUserModelArray (void);
 
+struct AuthUserModelArray NewAuthUserModelArray (void);
 struct FuncResult AuthUserModelArrayPush (struct AuthUserModelArray *Array, const struct AuthUserModel *Element);
+
 struct FuncResult AuthUserModelsToJson (const struct AuthUserModelArray *Models, JsonObject *Jsons);
 struct FuncResult JsonToAuthUserModels (const char *Jsons, struct AuthUserModelArray *Models);
 

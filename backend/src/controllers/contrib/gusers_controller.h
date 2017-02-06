@@ -1,4 +1,4 @@
-#include "../contrib.h"
+#include "../../contrib.h"
 
 #ifndef _GUSERS_CONTROLLER_H_
 #define _GUSERS_CONTROLLER_H_

@@ -38,6 +38,7 @@ struct AppRoleModelArray NewAppRoleModelArray (void);
 struct FuncResult AppRoleModelArrayPush (struct AppRoleModelArray *Array, const struct AppRoleModel *Element);
 
 struct FuncResult AppRoleModelSelect (struct AppRoleModelArray *Models, const char *UserName);
+struct FuncResult AppRoleModelInsert (struct AppRoleModelArray *Models);
 
 #endif
 

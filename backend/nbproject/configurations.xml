@@ -6,15 +6,21 @@
         <df name="controllers">
           <in>auth_controller.c</in>
           <in>auth_controller.h</in>
+          <in>gapprole_controller.c</in>
+          <in>gapprole_controller.h</in>
           <in>ggroups_controller.c</in>
           <in>ggroups_controller.h</in>
           <in>gusers_controller.c</in>
+          <in>gusersgroups_controller.c</in>
+          <in>gusersgroups_controller.h</in>
           <in>root_controller.c</in>
         </df>
         <df name="models">
           <df name="contrib">
             <in>app_role_model.c</in>
             <in>app_role_model.h</in>
+            <in>auth_user_group_model.c</in>
+            <in>auth_user_group_model.h</in>
           </df>
         </df>
         <in>backend.c</in>
@@ -85,6 +91,16 @@
       </item>
       <item path="src/controllers/auth_controller.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="src/controllers/gapprole_controller.c"
+            ex="false"
+            tool="0"
+            flavor2="0">
+      </item>
+      <item path="src/controllers/gapprole_controller.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
       <item path="src/controllers/ggroups_controller.c"
             ex="false"
             tool="0"
@@ -106,6 +122,16 @@
             <pElem>.</pElem>
           </incDir>
         </cTool>
+      </item>
+      <item path="src/controllers/gusersgroups_controller.c"
+            ex="false"
+            tool="0"
+            flavor2="0">
+      </item>
+      <item path="src/controllers/gusersgroups_controller.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
       </item>
       <item path="src/controllers/root_controller.c" ex="false" tool="0" flavor2="3">
         <cTool flags="0">
@@ -137,6 +163,16 @@
             flavor2="0">
       </item>
       <item path="src/models/contrib/app_role_model.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="src/models/contrib/auth_user_group_model.c"
+            ex="false"
+            tool="0"
+            flavor2="0">
+      </item>
+      <item path="src/models/contrib/auth_user_group_model.h"
             ex="false"
             tool="3"
             flavor2="0">

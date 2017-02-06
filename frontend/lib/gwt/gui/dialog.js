@@ -12,6 +12,7 @@ Gwt.Gui.Dialog = function (Parent)
     this.SetPositionType (Gwt.Gui.Contrib.PositionType.Absolute);
     this.SetParent (Parent);
     this.AddEvent (Gwt.Gui.Event.Mouse.Click, this.Close.bind (this));
+    
     this.SetSize (Gwt.Gui.SCREEN_DEVICE_WIDTH, Gwt.Gui.SCREEN_DEVICE_HEIGHT);
     this.SetPosition (Gwt.Gui.WIN_POS_TOP, Gwt.Gui.WIN_POS_LEFT);
     var color = new Gwt.Gui.Contrib.Color (Gwt.Gui.Contrib.Colors.Grey);
@@ -37,13 +38,17 @@ Gwt.Gui.Dialog.prototype.constructor = Gwt.Gui.Dialog;
 
 Gwt.Gui.Dialog.prototype._Dialog = function ()
 {
-    if(this.DialogBox !== null)
+    if (this.DialogBox !== null)
     {
         this.DialogBox._Frame ();
     }
+    
     this.DialogBox = null;
     
-    this._Frame ();
+    if(this.GetHtml () !== null)
+    {
+        this._Frame ();
+    }
 }
 
 Gwt.Gui.Dialog.prototype.Open = function ()

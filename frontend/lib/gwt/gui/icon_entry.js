@@ -13,6 +13,7 @@ Gwt.Gui.IconEntry.prototype.constructor = Gwt.Gui.IconEntry;
 
 Gwt.Gui.IconEntry.prototype._IconEntry = function ()
 {
+    this.Control._Entry ();
     this._IconControl ();
 }
 

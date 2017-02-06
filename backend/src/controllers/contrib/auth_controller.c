@@ -5,8 +5,8 @@
  */
 
 #include "auth_controller.h"
-#include "../models/contrib/auth_user_model.h"
-#include "../redis.h"
+#include "../../models/contrib/auth_user_model.h"
+#include "../../redis.h"
 
 int AuthControllerLogin (struct HttpRequest *Req)
 {

@@ -29,8 +29,11 @@ Gwt.Gui.IconControl.prototype.constructor = Gwt.Gui.IconControl;
 
 Gwt.Gui.IconControl.prototype._IconControl = function ()
 {
+    this.Icon._Image ();
+    
     this.Icon = null;
     this.Control = null;
+    
     this._Frame ();
 }
 

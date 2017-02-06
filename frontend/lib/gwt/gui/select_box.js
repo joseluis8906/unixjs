@@ -45,22 +45,22 @@ Gwt.Gui.SelectBox.prototype._SelectBox = function ()
 {
     this.StaticText._StaticText ();
     
-    if(this.SelectDialogBox !== null)
-    {
-        this.SelectDialogBox._SelectDialogBox ();
-        this.SelectDialogBox = null;
-    }
-
-    for (var i=0; i<this.Options.length; i++)
+    for (var i=0; i < this.Options.length; i++)
     {
         this.Options[i]._SelectBoxItem ();
         this.Options[i] = null;
     }
     
+    if(this.SelectDialogBox !== null && this.SelectDialogBox !== undefined)
+    {
+        this.SelectDialogBox._SelectBoxDialog ();
+    }
+   
     this.StaticText = null;
     this.Placeholder = null;
     this.Options = null;
-
+    this.SelectDialogBox = null;
+    
     this._Frame ();
 }
 
