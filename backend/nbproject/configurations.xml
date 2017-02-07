@@ -4,16 +4,18 @@
     <df root="." name="0">
       <df name="src">
         <df name="controllers">
-          <in>auth_controller.c</in>
-          <in>auth_controller.h</in>
-          <in>gapprole_controller.c</in>
-          <in>gapprole_controller.h</in>
-          <in>ggroups_controller.c</in>
-          <in>ggroups_controller.h</in>
-          <in>gusers_controller.c</in>
-          <in>gusersgroups_controller.c</in>
-          <in>gusersgroups_controller.h</in>
-          <in>root_controller.c</in>
+          <df name="contrib">
+            <in>auth_controller.c</in>
+            <in>auth_controller.h</in>
+            <in>gapprole_controller.c</in>
+            <in>gapprole_controller.h</in>
+            <in>ggroups_controller.c</in>
+            <in>ggroups_controller.h</in>
+            <in>gusers_controller.c</in>
+            <in>gusersgroups_controller.c</in>
+            <in>gusersgroups_controller.h</in>
+            <in>root_controller.c</in>
+          </df>
         </df>
         <df name="models">
           <df name="contrib">
@@ -87,31 +89,37 @@
           </incDir>
         </cTool>
       </item>
-      <item path="src/controllers/auth_controller.c" ex="false" tool="0" flavor2="0">
-      </item>
-      <item path="src/controllers/auth_controller.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/controllers/gapprole_controller.c"
+      <item path="src/controllers/contrib/auth_controller.c"
             ex="false"
             tool="0"
             flavor2="0">
       </item>
-      <item path="src/controllers/gapprole_controller.h"
+      <item path="src/controllers/contrib/auth_controller.h"
             ex="false"
             tool="3"
             flavor2="0">
       </item>
-      <item path="src/controllers/ggroups_controller.c"
+      <item path="src/controllers/contrib/gapprole_controller.c"
             ex="false"
             tool="0"
             flavor2="0">
       </item>
-      <item path="src/controllers/ggroups_controller.h"
+      <item path="src/controllers/contrib/gapprole_controller.h"
             ex="false"
             tool="3"
             flavor2="0">
       </item>
-      <item path="src/controllers/gusers_controller.c"
+      <item path="src/controllers/contrib/ggroups_controller.c"
+            ex="false"
+            tool="0"
+            flavor2="0">
+      </item>
+      <item path="src/controllers/contrib/ggroups_controller.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="src/controllers/contrib/gusers_controller.c"
             ex="false"
             tool="0"
             flavor2="3">
@@ -123,17 +131,20 @@
           </incDir>
         </cTool>
       </item>
-      <item path="src/controllers/gusersgroups_controller.c"
+      <item path="src/controllers/contrib/gusersgroups_controller.c"
             ex="false"
             tool="0"
             flavor2="0">
       </item>
-      <item path="src/controllers/gusersgroups_controller.h"
+      <item path="src/controllers/contrib/gusersgroups_controller.h"
             ex="false"
             tool="3"
             flavor2="0">
       </item>
-      <item path="src/controllers/root_controller.c" ex="false" tool="0" flavor2="3">
+      <item path="src/controllers/contrib/root_controller.c"
+            ex="false"
+            tool="0"
+            flavor2="3">
         <cTool flags="0">
           <incDir>
             <pElem>src</pElem>

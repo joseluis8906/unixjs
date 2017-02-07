@@ -10,7 +10,7 @@ function desktop ()
 	this.SetSize (Gwt.Gui.SCREEN_DEVICE_WIDTH, Gwt.Gui.SCREEN_DEVICE_HEIGHT);
 	this.SetMargin (0);
 	this.SetPadding (0);
-	this.SetBackgroundImage (Gwt.Core.Contrib.Images+"dark1.jpeg");
+	this.SetBackgroundImage (Gwt.Core.Contrib.Images+"wallpaper1.jpeg");
 	this.SetBackgroundAttachment (Gwt.Gui.Contrib.BackgroundAttachment.Fixed);
 	this.SetBackgroundClip (Gwt.Gui.Contrib.BackgroundClip.ContentBox);
 	this.SetBackgroundRepeat (Gwt.Gui.Contrib.BackgroundRepeat.NoRepeat, Gwt.Gui.Contrib.BackgroundRepeat.NoRepeat);

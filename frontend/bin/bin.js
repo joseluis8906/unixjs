@@ -10,7 +10,7 @@ function desktop ()
 	this.SetSize (Gwt.Gui.SCREEN_DEVICE_WIDTH, Gwt.Gui.SCREEN_DEVICE_HEIGHT);
 	this.SetMargin (0);
 	this.SetPadding (0);
-	this.SetBackgroundImage (Gwt.Core.Contrib.Images+"dark1.jpeg");
+	this.SetBackgroundImage (Gwt.Core.Contrib.Images+"wallpaper1.jpeg");
 	this.SetBackgroundAttachment (Gwt.Gui.Contrib.BackgroundAttachment.Fixed);
 	this.SetBackgroundClip (Gwt.Gui.Contrib.BackgroundClip.ContentBox);
 	this.SetBackgroundRepeat (Gwt.Gui.Contrib.BackgroundRepeat.NoRepeat, Gwt.Gui.Contrib.BackgroundRepeat.NoRepeat);
@@ -272,10 +272,12 @@ function gpanel ()
     Gwt.Gui.Window.call (this);
 
     this.Layout = new Gwt.Gui.HBox(5);
+    this.Task = new Gwt.Gui.Frame();
+    this.TxtName = new Gwt.Gui.StaticText ("Usuario: ");
     this.BtnLogout = new Gwt.Gui.Image (Gwt.Core.Contrib.Images+"appbar.power.svg");
     
     this.DisableTitleBar ();
-    this.SetSize (Gwt.Gui.SCREEN_DEVICE_WIDTH-2, 32);
+    this.SetSize (Gwt.Gui.SCREEN_DEVICE_WIDTH-2, 24);
     this.SetBorderRadius (0);
     this.SetBorderLeft (0);
     this.SetBorderTop (0);
@@ -287,9 +289,15 @@ function gpanel ()
     this.SetLayout (this.Layout);
     this.Layout.SetAlignment (Gwt.Gui.ALIGN_CENTER);
     
-    this.BtnLogout.SetSize (24,24);    
-    this.BtnLogout.AddEvent(Gwt.Gui.Event.Mouse.Click, function (){window.terminate_session()});
+    this.Task.SetSize (this.GetWidth () - 28, 20);
+    this.Layout.Add (this.Task);
     
+    this.TxtName.SetFontSize (10);
+    this.TxtName.SetHeight (20);
+    this.Task.Add (this.TxtName);
+    
+    this.BtnLogout.SetSize (20, 20);
+    this.BtnLogout.AddEvent(Gwt.Gui.Event.Mouse.Click, function (){window.terminate_session()});
     this.Layout.Add(this.BtnLogout);
     
 }
