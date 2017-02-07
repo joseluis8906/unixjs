@@ -16,6 +16,8 @@ function desktop ()
 	this.SetBackgroundRepeat (Gwt.Gui.Contrib.BackgroundRepeat.NoRepeat, Gwt.Gui.Contrib.BackgroundRepeat.NoRepeat);
 	this.SetBackgroundSize (Gwt.Gui.Contrib.BackgroundSize.Cover);
 	this.SetBorder (0);
+        
+        this.AddEvent (Gwt.Gui.Event.Form.ContextMenu, function (e){e.preventDefault();});
 }
 	
 desktop.prototype = new Gwt.Gui.Frame ();
