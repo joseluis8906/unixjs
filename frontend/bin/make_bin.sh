@@ -1,15 +1,11 @@
 #!/bin/sh
 
 echo "making bin.js"
-cat desktop.js > bin.js
-cat login.js >> bin.js
-cat block.js >> bin.js
-cat gpanel.js >> bin.js
-cat gcontrol.js >> bin.js
-cat gusers.js >> bin.js
-cat ggroups.js >> bin.js
-cat gusersgroups.js >> bin.js
-cat gapprole.js >> bin.js
+cat src/desktop.js > bin.js
+cat src/login.js >> bin.js
+cat src/block.js >> bin.js
+cat src/gpanel.js >> bin.js
+cat src/gcontrol.js >> bin.js
 #cat domotictrl.js >> bin.js
 
 yuicompressor.sh bin.js

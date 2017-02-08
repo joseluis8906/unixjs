@@ -21,7 +21,7 @@ function gusers ()
     this.Layout.SetAlignment(Gwt.Gui.ALIGN_CENTER);
     this.SetLayout (this.Layout);
     
-    this.Avatar = new Gwt.Gui.Avatar ("Avatar", "jpg",480, 480);
+    this.Avatar = new Gwt.Gui.Avatar ("jpg",480, 480);
     this.Avatar.SetSizeEditor (this.GetAvailableWidth(), this.GetAvailableHeight());
     this.Title = new Gwt.Gui.StaticText ("Datos:");
     this.UserName = new Gwt.Gui.IconEntry(Gwt.Core.Contrib.Images+"appbar.user.tie.svg", "Usuario");

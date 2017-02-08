@@ -2870,7 +2870,7 @@ Gwt.Gui.Avatar = function (Format, Width, Height)
     this.FileName_ = null;
     this.FileWidth = Width ||  240;
     this.FileHeight = Height || 240;
-    this.Type = Format === "jpg" ? "jpeg" : Format ;
+    this.Type = Format === "jpg" ? "jpeg" : Format === "png" ? Format : "png" ;
     this.Editor =  new Gwt.Gui.Croppie (this.Type, this.FileWidth, this.FileHeight);
     
     //init
@@ -2926,7 +2926,7 @@ Gwt.Gui.Avatar.prototype.ChangeImage = function (FileName, MimeType, FileSize, I
             break;
         }
     }
-    
+
     this.Editor.SetImage (Image);
     this.Editor.Enable ();
 }   
@@ -2946,10 +2946,6 @@ Gwt.Gui.Avatar.prototype.GetData = function ()
     return {FileName: this.FileName, Type: this.Type, Data: this.Image.GetSrc().replace(/^[^,]+,/, '')};
 }
 
-Gwt.Gui.Avatar.prototype.GetText = function ()
-{
-    return this.Name;
-}
 //Ends Gwt::Gui::Avatar
 //##################################################################################################
 //##################################################################################################

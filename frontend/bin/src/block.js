@@ -4,12 +4,12 @@ var instance;
 
 function block ()
 {
-    Gwt.Gui.Window.call (this, "Sessión Bloqueada");
+    Gwt.Gui.Window.call (this, "Sessión Terminada");
 
     //instance props
     this.clock = new Gwt.Gui.Clock ();
     this.date = null;
-    this.unlock_button = new Gwt.Gui.Button (Gwt.Core.Contrib.Images+"document-decrypt.svg", "Desbloquear");
+    this.unlock_button = new Gwt.Gui.Button (Gwt.Core.Contrib.Images+"document-decrypt.svg", "Entrar");
     this.layout = new Gwt.Gui.VBox();
     
     this.SetSize (250,330);
@@ -29,7 +29,7 @@ function block ()
     this.date.SetWidth (180);
     this.date.TextAlign ("center");
 
-    this.unlock_button.SetWidth (120);
+    this.unlock_button.SetWidth (78);
     
     this.layout.Add(this.clock);
     this.layout.Add(this.date);

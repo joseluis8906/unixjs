@@ -65,4 +65,3 @@ function unlock_session ()
     login.open ();
 }
 
-

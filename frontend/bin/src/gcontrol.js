@@ -48,7 +48,20 @@ gcontrol.prototype.LoadAppRoles = function (Res)
     {
         this.Icons.push (new Gwt.Gui.IconDesktop (Gwt.Core.Contrib.Images+Data[i].Image, Data[i].Label, Data[i].Name));
         this.Row1.Add (this.Icons[i]);
+        this.LoadApp (Data[i].Name);
     }
+}
+
+
+
+gcontrol.prototype.LoadApp = function (App) 
+{
+    var s = document.createElement('script');
+    s.type = 'text/javascript';
+    s.async = true;
+    s.src = "/frontend/bin/"+App+".min.js";
+    var x = document.getElementsByTagName('head')[0];
+    x.appendChild(s);
 }
 
 
