@@ -35,18 +35,19 @@ function start_session ()
 
 function terminate_session ()
 {
+    
     gcontrol.close ();
     gpanel.close ();
     block.open ();
+    
+    sessionStorage.clear ();
     
     clearTimeout(SessionEnv);
     SessionEnv = undefined;
     
     clearInterval (SessionRenueve);
     SessionRenueve = undefined;
-    
-    sessionStorage.clear ();
-    
+
     new Gwt.Core.Request ("/backend/auth/terminatesession/", function (){}, null, Gwt.Core.REQUEST_METHOD_GET);    
 }
 
