@@ -35,11 +35,11 @@ function start_session ()
 
 function terminate_session ()
 {
-    
     gcontrol.close ();
     gpanel.close ();
     block.open ();
     
+    sessionStorage.removeItem ("Session");
     sessionStorage.clear ();
     
     clearTimeout(SessionEnv);
