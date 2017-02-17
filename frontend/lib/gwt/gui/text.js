@@ -9,7 +9,7 @@ Gwt.Gui.Text  = function (Placeholder)
     this.SetExpand (true);
     this.SetPadding (0);
     this.SetBorderRadius(5);
-    this.SetPlaceholder (Placeholder || "Text multi-line");
+    this.SetPlaceholder (Placeholder || "Text Multiline");
     this.SetFontSize (11);
     this.SetHeight (80);
     this.SetAlign ();
@@ -26,7 +26,7 @@ Gwt.Gui.Text.prototype._Text = function ()
 
 Gwt.Gui.Text.prototype.SetPlaceholder = function (Text)
 {
-	this.Html.Placeholder = Text;
+	this.Html.placeholder = Text;
 }
 
 Gwt.Gui.Text.prototype.ChangeToPassword = function ()

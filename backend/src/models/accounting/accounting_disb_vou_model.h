@@ -52,6 +52,7 @@ struct FuncResult AccountingDisbVouModelsToJson (const struct AccountingDisbVouM
 struct FuncResult JsonToAccountingDisbVouModels (const char *Jsons, struct AccountingDisbVouModelArray *Models);
 
 struct FuncResult AccountingDisbVouModelInsert (const struct AccountingDisbVouModelArray *Models);
+struct FuncResult AccountingDisbVouModelNextNumber (int64_t *Number);
 
 #endif /* ACCOUNTING_DISB_VOU_H */
 

@@ -38,3 +38,26 @@ int CedegControllerSave (struct HttpRequest *Req)
     
     return (KORE_RESULT_OK);
 }
+
+
+int CedegControllerNextNumber (struct HttpRequest *Req)
+{    
+    int64_t NextNumber = 0;
+    
+    struct FuncResult Ret = AccountingDisbVouModelNextNumber (&NextNumber);
+    
+    if (Ret.Result == KORE_RESULT_ERROR)
+    {
+        HttpResponseJsonMsg(Req, KORE_RESULT_ERROR, Ret.Msg);
+        return (KORE_RESULT_OK);
+    }
+    
+    JsonObject *Res = NULL;
+    Res = JsonObjectNewObject ();
+    JsonObjectObjectAdd (Res, "Number", JsonObjectNewInt64 (NextNumber));
+    HttpResponseJsonObject (Req, KORE_RESULT_OK, Res);
+    JsonObjectPut (Res);
+    Res = NULL;
+    
+    return (KORE_RESULT_OK);
+}

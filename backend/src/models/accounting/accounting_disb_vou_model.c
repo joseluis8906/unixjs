@@ -306,3 +306,52 @@ struct FuncResult AccountingDisbVouModelInsert (const struct AccountingDisbVouMo
     
     return S;
 }
+
+
+
+struct FuncResult AccountingDisbVouModelNextNumber (int64_t *Number)
+{
+     struct FuncResult S;
+    
+    Connection_T Conn = DbGetConnection ();
+        
+    if (!Connection_ping (Conn))
+    {   
+        S.Result = KORE_RESULT_ERROR;
+        strcpy (S.Msg,  "Error not database connection");
+        return S;
+    }        
+    
+    TRY
+    {   
+        *Number = 0;
+        
+        ResultSet_T R = Connection_executeQuery (Conn, "SELECT \"Number\" FROM \"AccountingDisbVou\" ORDER BY \"Number\" DESC LIMIT 1;");
+        
+        while (ResultSet_next (R))
+        {
+             *Number = ResultSet_getLLongByName (R, "Number");
+        }
+        
+        *Number += 1;
+        
+        Connection_close (Conn);
+    
+        S.Result = KORE_RESULT_OK;
+        strcpy (S.Msg, "Success");
+        
+    }
+    CATCH (SQLException)
+    {    
+        Connection_close (Conn);
+        
+        S.Result = KORE_RESULT_ERROR;
+        strcpy (S.Msg, Exception_frame.message);
+    }
+    FINALLY
+    {
+    }
+    END_TRY;
+    
+    return S;
+}

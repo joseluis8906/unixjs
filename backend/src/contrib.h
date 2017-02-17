@@ -43,7 +43,8 @@ int PasswordEncrypt (const char *Src, char *Dest);
 int CheckPassword (const char *Original, const char *Crypted);
 int VerifyRequest (struct HttpRequest *Req, char **Data, int Type);
 int HttpResponseJsonMsg (struct HttpRequest *Req, int Result, const char *Msg);
-int HttpResponseJsonArray (struct HttpRequest *Req, int Result, JsonObject *Array);
+int HttpResponseJsonObject (struct HttpRequest *Req, int Result, JsonObject *Object);
+
 float MmToPx (float mm);
 float PxToMm (float px);
 

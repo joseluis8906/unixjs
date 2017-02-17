@@ -58,7 +58,7 @@ int AppRoles (struct HttpRequest *Req)
         return KORE_RESULT_OK;
     }
     
-    HttpResponseJsonArray(Req, KORE_RESULT_OK, Jobj);
+    HttpResponseJsonObject (Req, KORE_RESULT_OK, Jobj);
     
     JsonObjectPut (Jobj);
     Jobj = NULL;

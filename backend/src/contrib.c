@@ -173,14 +173,14 @@ int HttpResponseJsonMsg (struct HttpRequest *Req, int Result, const char *Msg)
 }
 
 
-int HttpResponseJsonArray (struct HttpRequest *Req, int Result, JsonObject *Array)
+int HttpResponseJsonObject (struct HttpRequest *Req, int Result, JsonObject *Object)
 {
     const char *Resp = NULL;
     JsonObject *JsonMsg = NULL;
     JsonMsg  = JsonObjectNewObject ();
     
     JsonObjectObjectAdd (JsonMsg, "Result", JsonObjectNewInt (Result));
-    JsonObjectObjectAdd (JsonMsg, "Data", Array);
+    JsonObjectObjectAdd (JsonMsg, "Data", Object);
     Resp = JsonObjectToJsonString (JsonMsg);
     HttpResponse (Req, 200, Resp, strlen(Resp));
     
@@ -189,7 +189,6 @@ int HttpResponseJsonArray (struct HttpRequest *Req, int Result, JsonObject *Arra
     
     return KORE_RESULT_OK;
 }
-
 
 
 float MmToPx (float mm)

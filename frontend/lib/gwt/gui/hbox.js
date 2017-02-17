@@ -9,7 +9,7 @@ Gwt.Gui.HBox = function (Margin)
 	
     this.SetClassName ("Gwt_Gui_HBox");
     this.SetDisplay (Gwt.Gui.Contrib.Display.Block);
-    this.SetAlignment (Gwt.Gui.ALIGN_TOP);
+    this.SetAlignment (Gwt.Gui.ALIGN_CENTER);
 }
 
 Gwt.Gui.HBox.prototype = new Gwt.Gui.Frame ();

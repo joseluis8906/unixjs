@@ -16,6 +16,7 @@
 #define _CEDEG_CONTROLLER_H_
 
 int CedegControllerSave (struct HttpRequest *Req);
+int CedegControllerNextNumber (struct HttpRequest *Req);
 
 #endif /* ACCOUNTING_CEDEG_CONTROLLER_H */
 

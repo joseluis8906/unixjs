@@ -2,38 +2,44 @@ cedeg = (function ()
 {
 var instance;
 
-function record_widget ()
+function record_widget (Width, Heigth)
 {
     Gwt.Gui.HBox.call (this, 0);
-    
+    this.SetSize (Width, Heigth);
     this.SetClassName ("record_widget");
     
     this.code = new Gwt.Gui.Entry ("Código");
     this.name = new Gwt.Gui.StaticText ("Nombre");
     this.partial = new Gwt.Gui.Entry ("Parcial");
+    this.partial.SetExpand (false);
+    this.partial.SetWidth (110);
     this.partial.ChangeToMonetary();
     this.debit = new Gwt.Gui.Entry ("Debe");
+    this.debit.SetExpand (false);
+    this.debit.SetWidth (110);
     this.debit.ChangeToMonetary();
     this.credit = new Gwt.Gui.Entry ("Haber");
+    this.credit.SetExpand (false);
+    this.credit.SetWidth (110);
     this.credit.ChangeToMonetary();
     
-    this.col1 = new Gwt.Gui.VBox (0);
-    this.col2 = new Gwt.Gui.VBox (0);
-    this.col3 = new Gwt.Gui.VBox (0);
-    this.col4 = new Gwt.Gui.VBox (0);
-    this.col5 = new Gwt.Gui.VBox (0);
+    //this.col1 = new Gwt.Gui.VBox (0);
+    //this.col2 = new Gwt.Gui.VBox (0);
+    //this.col3 = new Gwt.Gui.VBox (0);
+    //this.col4 = new Gwt.Gui.VBox (0);
+    //this.col5 = new Gwt.Gui.VBox (0);
         
-    this.Add (this.col1);
-    this.Add (this.col2);
-    this.Add (this.col3);
-    this.Add (this.col4);
-    this.Add (this.col5);
+    //this.Add (this.col1);
+    //this.Add (this.col2);
+    //this.Add (this.col3);
+    //this.Add (this.col4);
+    //this.Add (this.col5);
         
-    this.col1.Add (this.code);
-    this.col2.Add (this.name);
-    this.col3.Add (this.partial);
-    this.col4.Add (this.debit);
-    this.col5.Add (this.credit);
+    this.Add (this.code);
+    this.Add (this.name);
+    this.Add (this.partial);
+    this.Add (this.debit);
+    this.Add (this.credit);
     
     this.code.AddEvent (Gwt.Gui.Event.Keyboard.KeyPress, this.check_code.bind(this));
 }
@@ -105,7 +111,7 @@ function cedeg()
 {
     Gwt.Gui.Window.call (this, "Comprobante De Egreso");
           
-    this.SetSize (450, 460);
+    this.SetSize (720, 460);
     this.SetPosition (Gwt.Gui.WIN_POS_CENTER);
     this.SetBorderSpacing (12);
     
@@ -163,6 +169,8 @@ function cedeg()
             this.slider.AddSlotWidget (2, this.records[i]);
         }
     }
+    
+    this.number.AddEvent (Gwt.Gui.Event.Keyboard.KeyPress, this.CheckNumber.bind(this));
     
 }
 
@@ -264,6 +272,22 @@ cedeg.prototype.Reset = function ()
     {
         this.records[i].Reset ();
     }
+}
+
+cedeg.prototype.CheckNumber = function (Event)
+{
+    if(Event.keyCode === Gwt.Gui.Event.Keyboard.KeyCodes.Enter)
+    {
+        if (this.number.GetText () === "")
+        {
+            new Gwt.Core.Request("/backend/cedeg/nextnumber/", this.NextNumber.bind(this), null, Gwt.Core.REQUEST_METHOD_GET);
+        }
+    }
+}
+
+cedeg.prototype.NextNumber = function (Res)
+{
+    this.number.SetText(Res.Data.Number);
 }
 
 return new function ()

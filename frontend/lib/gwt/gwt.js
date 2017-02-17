@@ -2490,7 +2490,7 @@ Gwt.Gui.Text  = function (Placeholder)
     this.SetExpand (true);
     this.SetPadding (0);
     this.SetBorderRadius(5);
-    this.SetPlaceholder (Placeholder || "Text multi-line");
+    this.SetPlaceholder (Placeholder || "Text Multiline");
     this.SetFontSize (11);
     this.SetHeight (80);
     this.SetAlign ();
@@ -2507,7 +2507,7 @@ Gwt.Gui.Text.prototype._Text = function ()
 
 Gwt.Gui.Text.prototype.SetPlaceholder = function (Text)
 {
-	this.Html.Placeholder = Text;
+	this.Html.placeholder = Text;
 }
 
 Gwt.Gui.Text.prototype.ChangeToPassword = function ()
@@ -2579,7 +2579,7 @@ Gwt.Gui.HBox = function (Margin)
 	
     this.SetClassName ("Gwt_Gui_HBox");
     this.SetDisplay (Gwt.Gui.Contrib.Display.Block);
-    this.SetAlignment (Gwt.Gui.ALIGN_TOP);
+    this.SetAlignment (Gwt.Gui.ALIGN_CENTER);
 }
 
 Gwt.Gui.HBox.prototype = new Gwt.Gui.Frame ();
