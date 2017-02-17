@@ -59,5 +59,8 @@ int StringArrayPush (struct StringArray *Array, const char *String);
 
 int Base64Encode (const char *Original, char *Encoded);
 
-struct FuncResult GetJsonValue (const char *Json, const char *Key, char *Value);
+struct FuncResult GetJsonString (const char *Json, const char *Key, char *Value);
+struct FuncResult GetJsonInt (const char *Json, const char *Key, int *Value);
+struct FuncResult GetJsonInt64 (const char *Json, const char *Key, int64_t *Value);
+struct FuncResult GetJsonDouble (const char *Json, const char *Key, double *Value);
 #endif

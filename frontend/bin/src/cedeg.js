@@ -34,7 +34,8 @@ function record_widget ()
     this.col3.Add (this.partial);
     this.col4.Add (this.debit);
     this.col5.Add (this.credit);
-
+    
+    this.code.AddEvent (Gwt.Gui.Event.Keyboard.KeyPress, this.check_code.bind(this));
 }
 
 record_widget.prototype = new Gwt.Gui.HBox ();
@@ -72,6 +73,30 @@ record_widget.prototype.Reset = function ()
     this.partial.Reset ();
     this.debit.Reset ();
     this.credit.Reset ();
+}
+
+
+
+record_widget.prototype.check_code = function (event)
+{
+    if(event.keyCode === Gwt.Gui.Event.Keyboard.KeyCodes.Enter)
+    {
+        new Gwt.Core.Request("/backend/cuentas/select/", this.autocomplete.bind(this), [new Gwt.Core.Parameter(Gwt.Core.PARAM_TYPE_JSON, "Params", {"Code": this.code.GetText ()})]);
+    }
+}
+
+
+
+record_widget.prototype.autocomplete = function (Res)
+{
+    if (Res.Data.length === 1)
+    {
+        this.name.SetText (Res.Data[0].Name);
+    }
+    else
+    {
+        this.name.SetText ("Nombre");
+    }
 }
 
 
@@ -213,6 +238,8 @@ cedeg.prototype.Guardar = function ()
     
     new Gwt.Core.Request("/backend/cedeg/save/", function(response){console.log(response);}, [new Gwt.Core.Parameter(Gwt.Core.PARAM_TYPE_JSON, "Params", Data)]);
     
+    window.open("/share/documents/cedeg.html?number=%0".replace("%0", this.number.GetText()));
+    
     this.Reset ();
 }
 
@@ -232,7 +259,6 @@ cedeg.prototype.Reset = function ()
     this.check.SetText ("");
     this.checking_account.SetText ("");
     this.concept.SetText ("");
-    this.slider.SetText ("");
     
     for(var i = 0; i < this.records.length; i++)
     {

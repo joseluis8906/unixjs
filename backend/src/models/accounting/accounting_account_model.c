@@ -121,6 +121,56 @@ struct FuncResult JsonToAccountingAccountModels (const char *Jsons, struct Accou
 
 
 
+struct FuncResult AccountingAccountModelSelect (struct AccountingAccountModelArray *Models, const char *Code)
+{
+    struct FuncResult S;
+    
+    Connection_T Conn = DbGetConnection ();
+    
+    if (!Connection_ping (Conn))
+    {
+        S.Result = KORE_RESULT_ERROR;
+        strcpy (S.Msg,  "Error not database connection");
+        return S;
+    }
+
+    TRY
+    {   
+        ResultSet_T R = Connection_executeQuery (Conn, "SELECT \"Code\", \"Name\" FROM \"AccountingAccount\" WHERE \"Code\"='%s';", Code);
+        
+        struct AccountingAccountModel Tmp;
+        
+        while (ResultSet_next (R))
+        {
+            strcpy (Tmp.Code, ResultSet_getStringByName (R, "Code"));
+            strcpy (Tmp.Name, ResultSet_getStringByName (R, "Name"));
+            
+            AccountingAccountModelArrayPush (Models, &Tmp);
+        }
+        
+        Connection_close (Conn);
+        
+        S.Result = KORE_RESULT_OK;
+        strcpy (S.Msg,  "AccountingAccountModelSelect Success");
+        
+    }
+    CATCH (SQLException)
+    {
+        Connection_close (Conn);
+     
+        S.Result = KORE_RESULT_ERROR;
+        strcpy (S.Msg,  "AccountingAccountModelSelect Failed");
+    }
+    FINALLY
+    {
+    }
+    END_TRY;
+    
+    return S;
+}
+
+
+
 struct FuncResult AccountingAccountModelInsert (const struct AccountingAccountModelArray *Models)
 {
     struct FuncResult S;

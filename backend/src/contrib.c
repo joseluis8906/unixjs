@@ -224,12 +224,12 @@ struct FuncResult NewFuncResult (int Result, const char *Msg)
 //enable parameters
 int ParamsEnabled (struct HttpRequest *Req, char *Param)
 {
-	if (1)
-	{
-		return (KORE_RESULT_OK);
-	}
+    if (1)
+    {
+	return (KORE_RESULT_OK);
+    }
 
-	return (KORE_RESULT_ERROR);
+    return (KORE_RESULT_ERROR);
 }
 
 
@@ -295,7 +295,7 @@ struct StringArray NewStringArray (void)
 
 
 
-struct FuncResult GetJsonValue (const char *Json, const char *Key, char *Value)
+struct FuncResult GetJsonString (const char *Json, const char *Key, char *Value)
 {
     struct FuncResult Ret;
     
@@ -306,6 +306,96 @@ struct FuncResult GetJsonValue (const char *Json, const char *Key, char *Value)
         if (strcmp (K, Key) == 0)
         {   
             strcpy (Value, JsonObjectGetString (V));
+            JsonObjectPut (Jobj);
+            
+            Ret.Result = KORE_RESULT_OK;
+            sprintf (Ret.Msg, "Key %s: Found ", Key);
+            
+            return Ret;
+        }
+    }
+    
+    JsonObjectPut (Jobj);
+    
+    Ret.Result = KORE_RESULT_ERROR;
+    sprintf (Ret.Msg, "Key %s: Not Found", Key);
+            
+    return Ret;
+}
+
+
+
+struct FuncResult GetJsonInt (const char *Json, const char *Key, int *Value)
+{
+    struct FuncResult Ret;
+    
+    JsonObject *Jobj = JsonTokenerParse (Json);
+    
+    JsonObjectObjectForeach (Jobj, K, V)
+    {          
+        if (strcmp (K, Key) == 0)
+        {   
+            *Value = JsonObjectGetInt (V);
+            JsonObjectPut (Jobj);
+            
+            Ret.Result = KORE_RESULT_OK;
+            sprintf (Ret.Msg, "Key %s: Found ", Key);
+            
+            return Ret;
+        }
+    }
+    
+    JsonObjectPut (Jobj);
+    
+    Ret.Result = KORE_RESULT_ERROR;
+    sprintf (Ret.Msg, "Key %s: Not Found", Key);
+            
+    return Ret;
+}
+
+
+
+struct FuncResult GetJsonInt64 (const char *Json, const char *Key, int64_t *Value)
+{
+    struct FuncResult Ret;
+    
+    JsonObject *Jobj = JsonTokenerParse (Json);
+    
+    JsonObjectObjectForeach (Jobj, K, V)
+    {          
+        if (strcmp (K, Key) == 0)
+        {   
+            *Value = JsonObjectGetInt64 (V);
+            JsonObjectPut (Jobj);
+            
+            Ret.Result = KORE_RESULT_OK;
+            sprintf (Ret.Msg, "Key %s: Found ", Key);
+            
+            return Ret;
+        }
+    }
+    
+    JsonObjectPut (Jobj);
+    
+    Ret.Result = KORE_RESULT_ERROR;
+    sprintf (Ret.Msg, "Key %s: Not Found", Key);
+            
+    return Ret;
+}
+
+
+
+struct FuncResult GetJsonDouble (const char *Json, const char *Key, double *Value)
+{
+    struct FuncResult Ret;
+    
+    JsonObject *Jobj = JsonTokenerParse (Json);
+    
+    JsonObjectObjectForeach (Jobj, K, V)
+    {          
+        if (strcmp (K, Key) == 0)
+        {   
+            *Value = JsonObjectGetDouble (V);
             JsonObjectPut (Jobj);
             
             Ret.Result = KORE_RESULT_OK;

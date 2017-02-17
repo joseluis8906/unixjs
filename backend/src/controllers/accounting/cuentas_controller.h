@@ -15,6 +15,7 @@
 #ifndef _CUENTAS_CONTROLLER_H_
 #define _CUENTAS_CONTROLLER_H_
 
+int CuentasControllerSelect (struct HttpRequest *Req);
 int CuentasControllerSave (struct HttpRequest *Req);
 
 #endif /* CUENTAS_CONTROLLER_H */

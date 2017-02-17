@@ -20,7 +20,7 @@ int AuthControllerLogin (struct HttpRequest *Req)
     char UserName[64];
     char Password[256];
 
-    struct FuncResult Ret = GetJsonValue (Data, "UserName", UserName);
+    struct FuncResult Ret = GetJsonString (Data, "UserName", UserName);
     
     if (Ret.Result == KORE_RESULT_ERROR)
     {
@@ -28,7 +28,7 @@ int AuthControllerLogin (struct HttpRequest *Req)
         return (KORE_RESULT_OK);
     }
     
-    Ret = GetJsonValue (Data, "Password", Password);
+    Ret = GetJsonString (Data, "Password", Password);
     
     if (Ret.Result == KORE_RESULT_ERROR)
     {

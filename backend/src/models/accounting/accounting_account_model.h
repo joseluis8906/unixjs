@@ -34,6 +34,7 @@ struct FuncResult AccountingAccountModelArrayPush (struct AccountingAccountModel
 struct FuncResult AccountingAccountModelsToJson (const struct AccountingAccountModelArray *Models, JsonObject *Jsons);
 struct FuncResult JsonToAccountingAccountModels (const char *Jsons, struct AccountingAccountModelArray *Models);
 
+struct FuncResult AccountingAccountModelSelect (struct AccountingAccountModelArray *Models, const char *Code);
 struct FuncResult AccountingAccountModelInsert (const struct AccountingAccountModelArray *Models);
 
 #endif /* ACCOUNTING_ACCOUNT_H */
