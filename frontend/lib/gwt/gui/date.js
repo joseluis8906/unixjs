@@ -53,9 +53,9 @@ Gwt.Gui.Date = function (placeholder)
     this.day = new Gwt.Gui.SelectBox ("Día", days_items);
     this.day.SetWidth (48);
     
-    this.container.Add (this.day);
-    this.container.Add (this.month);
     this.container.Add (this.year);
+    this.container.Add (this.month);
+    this.container.Add (this.day);
 }
 
 Gwt.Gui.Date.prototype = new Gwt.Gui.Frame ();
@@ -76,7 +76,7 @@ Gwt.Gui.Date.prototype._Date = function (placeholder)
 
 Gwt.Gui.Date.prototype.GetDate = function ()
 {
-    return "%D-%M-%Y".replace ("%D", this.day.GetValue()).replace ("%M", this.month.GetValue()).replace ("%Y", this.year.GetValue());
+    return "%Y-%M-%D".replace ("%Y", this.year.GetText ()).replace ("%M", this.month.GetText ()).replace ("%D", this.day.GetText ());
 }
 
 Gwt.Gui.Date.prototype.SetDate = function (year, month, day)
@@ -104,9 +104,9 @@ Gwt.Gui.Date.prototype.SetDate = function (year, month, day)
 
 Gwt.Gui.Date.prototype.Reset = function ()
 {
-	this.day.Reset ();
-	this.month.Reset ();
-	this.year.Reset ();
+    this.year.Reset ();	    
+    this.month.Reset ();
+    this.day.Reset ();
 }
 
 Gwt.Gui.Date.prototype.Now = function ()
@@ -117,7 +117,7 @@ Gwt.Gui.Date.prototype.Now = function ()
 
 Gwt.Gui.Date.prototype.GetString = function ()
 {
-	return this.year.GetValue()+"-"+this.month.GetValue()+"-"+this.day.GetValue();
+	return this.year.GetText ()+"-"+this.month.GetText ()+"-"+this.day.GetText ();
 }
 //Ends Gwt::Gui::Image
 //##################################################################################################

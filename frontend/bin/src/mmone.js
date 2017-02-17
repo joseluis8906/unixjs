@@ -73,8 +73,9 @@ function mmone ()
 
     this.layout = new Gwt.Gui.VBox ();
     this.layout.SetAlignment(Gwt.Gui.ALIGN_CENTER);
-    this.Add (this.layout);
     this.SetBorderSpacing (12);
+    this.SetLayout (this.layout);
+    
     
     this.slider = new Gwt.Gui.Slider (4);
     this.slider.SetSize (this.layout.GetWidth (), this.layout.GetHeight ());

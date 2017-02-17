@@ -11,7 +11,7 @@ Gwt.Gui.Text  = function (Placeholder)
     this.SetBorderRadius(5);
     this.SetPlaceholder (Placeholder || "Text multi-line");
     this.SetFontSize (11);
-    this.SetHeight (96);
+    this.SetHeight (80);
     this.SetAlign ();
     this.SetMaxLength (185);
 }

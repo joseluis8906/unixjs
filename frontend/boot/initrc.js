@@ -12,6 +12,7 @@ function Gwdm ()
 }
 
 
+
 //trasladar estas funciones a gwt
 function start_session ()
 {
@@ -66,3 +67,28 @@ function unlock_session ()
     login.open ();
 }
 
+
+
+function LoadApp (App) 
+{
+    var TagScript = document.createElement('script');
+    TagScript.type = 'text/javascript';
+    TagScript.async = true;
+    TagScript.src = "/frontend/bin/"+App+".min.js";
+    var Head = document.head;
+    
+    var Insert = true;
+    
+    for (var i = 0; i < Head.childNodes.length; i++)
+    {
+        if (Head.childNodes[i].src === TagScript.src)
+        {
+            Insert = false;
+        }
+    }
+    
+    if (Insert === true)
+    {
+        Head.appendChild(TagScript);
+    }
+}

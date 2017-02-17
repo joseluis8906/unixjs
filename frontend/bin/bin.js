@@ -400,12 +400,26 @@ gcontrol.prototype.LoadAppRoles = function (Res)
 
 gcontrol.prototype.LoadApp = function (App) 
 {
-    var s = document.createElement('script');
-    s.type = 'text/javascript';
-    s.async = true;
-    s.src = "/frontend/bin/"+App+".min.js";
-    var x = document.getElementsByTagName('head')[0];
-    x.appendChild(s);
+    var TagScript = document.createElement('script');
+    TagScript.type = 'text/javascript';
+    TagScript.async = true;
+    TagScript.src = "/frontend/bin/"+App+".min.js";
+    var Head = document.head;
+    
+    var Insert = true;
+    
+    for (var i = 0; i < Head.childNodes.length; i++)
+    {
+        if (Head.childNodes[i].src === TagScript.src)
+        {
+            Insert = false;
+        }
+    }
+    
+    if (Insert === true)
+    {
+        Head.appendChild(TagScript);
+    }
 }
 
 

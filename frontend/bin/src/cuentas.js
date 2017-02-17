@@ -8,105 +8,62 @@ function cuentas()
     Gwt.Gui.Window.call (this, "Cuentas");
     this.SetSize (200, 170);
     this.SetPosition (Gwt.Gui.WIN_POS_CENTER);
+    this.SetBorderSpacing (12);
+    
+    this.EnableMenu ();
+    this.AddMenuItem (Gwt.Core.Contrib.Images + "appbar.cabinet.in.svg", "Guardar", this.Guardar.bind(this));
+    this.AddMenuItem (Gwt.Core.Contrib.Images + "appbar.delete.svg", "Eliminar", this.Eliminar.bind(this));
+    this.AddMenuItem (Gwt.Core.Contrib.Images + "appbar.power.svg", "Salir", function(){window.cuentas.close(); window.gcontrol.open();}, Gwt.Gui.MENU_QUIT_APP);
     
     //this.title_label.SetWidth ();
     this.code = new Gwt.Gui.Entry ("Código");
     this.name = new Gwt.Gui.Entry ("Nombre");
-    this.save_button = new Gwt.Gui.ButtonSvUpDl ();
-    
     this.layout = new Gwt.Gui.VBox ();
 	
-    this.Add (this.layout);
-    this.SetBorderSpacing (12);
+    this.SetLayout (this.layout);
     
     this.layout.Add (this.code);
     this.layout.Add (this.name);
-    this.layout.Add (this.save_button);
     
-    this.save_button.AddEvent (Gwt.Gui.Event.Mouse.Click, this.action.bind (this));
-    this.code.attach_event (Gwt.Gui.Event.Keyboard.KeyUp, this.check_id.bind (this));
-	
-    this.update = false;
-    this.id_update_delete = null;
 }
 
 cuentas.prototype = new Gwt.Gui.Window ();
 cuentas.prototype.constructor = cuentas;
 
-cuentas.prototype.action = function (event)
+cuentas.prototype._App = function ()
 {
-    var row;
-    if (!this.update)
-    {
-        if(this.code.GetText () !== "" && this.name.GetText () !== "")
-        {
-            var nueva_cuenta = [{"code": this.code.GetText (), "name": this.name.GetText ()}];
-            new Gwt.Core.Request("/backend/acounting/acount/new/", function(data){console.log (data);}, nueva_cuenta);
-            this.code.SetText ("");
-            this.name.SetText ("");
-        }
-    }
-    else
-    {
-        if (!event.ctrlKey)
-        {
-            row = new row_cuenta (this.id_update_delete, this.code.GetText (), this.name.GetText ());
-            this.table.update (row);
-            this.code.SetText ("");
-            this.name.SetText ("");
-            this.id_update_delete = null;
-            this.save_button.set_update (false);
-            this.update = false;
-        }
-        else
-        {
-            row = new row_cuenta (this.id_update_delete, this.code.GetText (), this.name.GetText ());
-            this.table.delete (row);
-            this.id_update_delete = null;
-            this.code.SetText ("");
-            this.name.SetText ("");
-            this.save_button.set_update (false);
-            this.update = false;
-        }
-    }
+    this.code._Entry ();
+    this.name._Entry ();
+    this.layout._VBox ();
+    
+    this.code = null;
+    this.name = null;
+    this.layout = null;
 }
 
-cuentas.prototype.check_id = function (event)
+cuentas.prototype.Guardar = function ()
 {
-    //console.log (event);
-    if (event.keyCode != Gwt.Gui.Event.Keyboard.KeyCodes.Ctrl)
-    {
-        var row = new row_cuenta (this.id_update_delete, this.code.GetText (), this.name.GetText ());
-        this.table.select (row, this.check_id_response.bind(this));
-    }
+    var Data = [
+        {
+            "Code": this.code.GetText (),
+            "Name": this.name.GetText ()
+        }
+    ];
+    
+    new Gwt.Core.Request("/backend/cuentas/save/", function(response){console.log(response)}, [new Gwt.Core.Parameter (Gwt.Core.PARAM_TYPE_JSON, "Params", Data)]);
+    
+    this.Reset ();
 }
 
-cuentas.prototype.check_id_response = function (rows)
+cuentas.prototype.Eliminar = function ()
 {
-    if (rows instanceof Array)
-    {
-        if (rows.length === 0)
-        {
-            this.name.SetText ("");
-            this.save_button.set_update (false);
-            this.update = false;
-        }
-	
-        else
-        {
-            for (var i=0; i<rows.length; i++)
-            {
-                if (rows[i].code === this.code.GetText())
-                {
-                    this.name.SetText (rows[i].name);
-                    this.id_update_delete = rows[i].id;
-                    this.save_button.set_update (true);
-                    this.update = true;
-                    break;
-                }
-            }
-        }
-    }
+    
+}
+
+cuentas.prototype.Reset = function ()
+{
+    this.code.SetText ("");
+    this.name.SetText ("");
 }
 
 return new function ()

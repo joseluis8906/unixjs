@@ -2,27 +2,20 @@ cedeg = (function ()
 {
 var instance;
 
-function row_cuentas (id, code, name)
-{
-    return {"id": id, "code": code, "name": name};
-}
-
-function row_records (id, cuenta, parcial, debe, haber)
-{
-    return {"cuenta": cuenta, "parcial": parcial, "debe": debe, "haber": haber};
-}
-
-function record_widget (width, height)
+function record_widget ()
 {
     Gwt.Gui.HBox.call (this, 0);
+    
     this.SetClassName ("record_widget");
-    this.SetSize (width, height);
     
     this.code = new Gwt.Gui.Entry ("Código");
     this.name = new Gwt.Gui.StaticText ("Nombre");
     this.partial = new Gwt.Gui.Entry ("Parcial");
-    this.debe = new Gwt.Gui.Entry ("Debe");
-    this.haber = new Gwt.Gui.Entry ("Haber");
+    this.partial.ChangeToMonetary();
+    this.debit = new Gwt.Gui.Entry ("Debe");
+    this.debit.ChangeToMonetary();
+    this.credit = new Gwt.Gui.Entry ("Haber");
+    this.credit.ChangeToMonetary();
     
     this.col1 = new Gwt.Gui.VBox (0);
     this.col2 = new Gwt.Gui.VBox (0);
@@ -39,51 +32,37 @@ function record_widget (width, height)
     this.col1.Add (this.code);
     this.col2.Add (this.name);
     this.col3.Add (this.partial);
-    this.col4.Add (this.debe);
-    this.col5.Add (this.haber);
-    
-    this.cuenta_existe = false;
-    this.cuenta_db = new row_cuentas (null, this.code.GetText (), "");
-    
-    this.code.AddEvent (Gwt.Gui.Event.Keyboard.KeyUp, this.check_id.bind (this));
+    this.col4.Add (this.debit);
+    this.col5.Add (this.credit);
+
 }
 
 record_widget.prototype = new Gwt.Gui.HBox ();
 record_widget.prototype.constructor = record_widget;
 
-record_widget.prototype.finalize_record_widget = function ()
+record_widget.prototype._record_widget = function ()
 {
-    this.code.FinalizeEntry();
-    this.code = null;
-        
-    this.name.FinalizeStaticText();
-    this.name = null;
-        
-    this.partial.FinalizeEntry();
+    this.code._Entry();
+    this.name._StaticText();
+    this.partial._Entry();
+    this.debit._Entry();
+    this.credit._Entry();
+    this.col1._VBox();
+    this.col2._VBox();
+    this.col3._VBox();
+    this.col4._VBox();
+    this.col5._VBox();
+    
+    this.code = null;    
+    this.name = null;    
     this.partial = null;
-        
-    this.debe.FinalizeEntry();
-    this.debe = null;
-        
-    this.haber.FinalizeEntry();
-    this.haber = null;
-        
-    this.col1.FinalizeVBox();
+    this.debit = null;
+    this.credit = null;
     this.col1 = null;
-        
-    this.col2.FinalizeVBox();
     this.col2 = null;
-        
-    this.col3.FinalizeVBox();
     this.col3 = null;
-        
-    this.col4.FinalizeVBox();
     this.col4 = null;
-        
-    this.col5.FinalizeVBox();
     this.col5 = null;
-        
-    this.cuenta_existe = null;
 }
     
 record_widget.prototype.Reset = function ()
@@ -91,219 +70,66 @@ record_widget.prototype.Reset = function ()
     this.code.Reset ();
     this.name.SetText ("Nombre");
     this.partial.Reset ();
-    this.debe.Reset ();
-    this.haber.Reset ();
+    this.debit.Reset ();
+    this.credit.Reset ();
 }
 
-record_widget.prototype.is_savable = function ()
-{
-    if (this.cuenta_existe && this.partial.GetText () !== "" && (this.haber.GetText () !== "" || this.debe.GetText () !== ""))
-    {
-        return true;
-    }
-    return false;
-}
 
-record_widget.prototype.check_id = function (event)
-{
-    if (event.keyCode !== 17)
-    {
-        var row = new row_cuentas (null, this.code.GetText (), this.name.GetText ());
-    }
-}
-
-record_widget.prototype.check_id_response = function (rows)
-{
-    if (rows instanceof Array)
-    {
-        if (rows.length === 0)
-        {
-            this.cuenta_db.id = null;
-            this.cuenta_db.name = "";
-            this.cuenta_existe = false;
-            //Gui reset
-            this.name.SetText ("Nombre");
-            this.partial.Reset ();
-            this.debe.Reset ();
-            this.haber.Reset ();
-        }
-        else
-        {
-            for (var i=0; i<rows.length; i++)
-            {
-                if (rows[i].code === this.code.GetText())
-                {
-                    this.id = rows[i].id;
-                    this.cuenta_db.id = rows[i].id;
-                    this.cuenta_db.code = rows[i].code;
-                    this.cuenta_db.name = rows[i].name;
-                    this.name.SetText (this.cuenta_db.name);
-                    this.cuenta_existe = true;
-                    break;
-                }
-            }
-        }
-    }
-}
-
-record_widget.prototype.get_data = function ()
-{
-    return new row_records (null, this.cuenta_db, this.partial.GetText(), this.debe.GetText(), this.haber.GetText ());
-}
-
-record_widget.prototype.copy = function (obj)
-{
-    this.code.SetText (obj.cuenta.code);
-    this.name.SetText (obj.cuenta.name);
-    this.partial.SetText (obj.parcial);
-    this.debe.SetText (obj.debe);
-    this.haber.SetText (obj.haber);
-}
-    
-function row_cedeg (id, number, city, date, holder, cost, bank, cheque, acount, concept, records)
-{
-    return {
-        "id": id,
-        "number": Number(number),
-        "city": city,
-        "date": date,
-        "holder": holder,
-        "cost": cost,
-        "bank": bank,
-        "cheque": cheque,
-        "acount": acount,
-        "concept": concept,
-        "records": records
-    };
-}
 
 function cedeg()
 {
     Gwt.Gui.Window.call (this, "Comprobante De Egreso");
-        
-    this.layout = null;
-    this.number = null;
-    this.city = null;
-    this.date = null;
-    this.holder = null;
-    this.cost = null;
-    this.bank = null;
-    this.cheque = null;
-    this.acount = null;
-    this.concept = null;
-    this.records = null;
-    this.slider = null;
-    this.save_button = null;
-    this.update = null;
-    this.id_update_delete = null;
-        
-    this.init_cedeg ();
-}
-
-cedeg.prototype = new Gwt.Gui.Window ();
-cedeg.prototype.constructor = cedeg;
-    
-cedeg.prototype.finalize_cedeg = function ()
-{
-    this.layout.FinalizeVBox ();
-    this.layout = null;
-        
-    this.number.FinalizeEntry ();
-    this.number = null;
-        
-    this.city.FinalizeEntry ();
-    this.city = null;
-        
-    this.date.FinalizeDate ();
-    this.date = null;
-        
-    this.holder.FinalizeEntry ();
-    this.holder = null;
-        
-    this.cost.FinalizeEntry ();
-    this.cost = null;
-        
-    this.bank.FinalizeEntry ();
-    this.bank = null;
-        
-    this.cheque.FinalizeEntry ();
-    this.cheque = null;
-        
-    this.acount.FinalizeEntry ();
-    this.acount = null;
-        
-    this.concept.FinalizeText ();
-    this.concept = null;
-        
-    this.slider.FinalizeSlider ();
-    this.slider = null;
-        
-    this.save_button.FinalizeButtonSvUpDl ();
-    this.save_button = null;
-        
-    this.update = null;
-    this.id_update_delete = null;
-        
-    for(var i = 0; i < this.records.length; i++)
-    {
-        this.records[i].finalize_record_widget();
-        this.records[i] = null;
-    }
-        
-    this.records = null;
-}
-    
-cedeg.prototype.init_cedeg = function ()
-{
-    this.SetSize (450, 450);
+          
+    this.SetSize (450, 460);
     this.SetPosition (Gwt.Gui.WIN_POS_CENTER);
+    this.SetBorderSpacing (12);
+    
+    this.EnableMenu ();
+    this.AddMenuItem (Gwt.Core.Contrib.Images + "appbar.cabinet.in.svg", "Guardar", this.Guardar.bind(this));
+    this.AddMenuItem (Gwt.Core.Contrib.Images + "appbar.delete.svg", "Eliminar", this.Eliminar.bind(this));
+    this.AddMenuItem (Gwt.Core.Contrib.Images + "appbar.power.svg", "Salir", function(){window.cedeg.close(); window.gcontrol.open();}, Gwt.Gui.MENU_QUIT_APP);
          
     this.layout = new Gwt.Gui.VBox ();
-    this.Add (this.layout);
-    this.SetBorderSpacing (6);
+    this.SetLayout (this.layout);
      
     this.slider = new Gwt.Gui.Slider (3);
-    this.slider.SetSize (this.layout.GetWidth (), this.layout.GetHeight ()*0.85);
+    this.slider.SetSize (this.layout.GetWidth (), this.layout.GetHeight ());
     this.slider.Setup ();
-    
-    this.save_button = new Gwt.Gui.ButtonSvUpDl ();
-    this.save_button.AddEvent ("click", this.action.bind (this));
         
     this.number = new Gwt.Gui.Entry ("Número");
-    this.number.AddEvent ("keyup", this.check_id.bind (this));
-    this.city = new Gwt.Gui.Entry ("Lugar");
+    this.place = new Gwt.Gui.Entry ("Lugar");
     this.date = new Gwt.Gui.Date ("Creación");
     this.date.Now ();
     this.holder = new Gwt.Gui.Entry ("A Favor De");
-    this.cost = new Gwt.Gui.Entry ("Valor");
+    this.amount = new Gwt.Gui.Entry ("Valor");
+    this.amount.ChangeToMonetary();
     this.bank = new Gwt.Gui.Entry ("Banco");
-    this.cheque = new Gwt.Gui.Entry ("Cheque");
-    this.acount = new Gwt.Gui.Entry ("Cuenta");
+    this.check = new Gwt.Gui.Entry ("Cheque");
+    this.checking_account = new Gwt.Gui.Entry ("Cuenta");
     this.concept = new Gwt.Gui.Text ("Concepto");
     this.records = [];
     this.update = false;
         
     this.layout.Add (this.slider);
-    this.layout.Add (this.save_button);
         
-    for (var i = 0; i < 15; i++)
+    for (var i = 0; i < 20; i++)
     {
         this.records[i] = new record_widget (this.slider.GetWidth (), 24);
     }
          
     this.slider.AddSlotWidget (0, this.number);
-    this.slider.AddSlotWidget (0, this.city);
+    this.slider.AddSlotWidget (0, this.place);
     this.slider.AddSlotWidget (0, this.date);
     this.slider.AddSlotWidget (0, this.holder);
-    this.slider.AddSlotWidget (0, this.cost);
+    this.slider.AddSlotWidget (0, this.amount);
     this.slider.AddSlotWidget (0, this.bank);
-    this.slider.AddSlotWidget (0, this.cheque);
-    this.slider.AddSlotWidget (0, this.acount);
-    this.slider.AddSlotWidget (1, this.concept);
+    this.slider.AddSlotWidget (0, this.check);
+    this.slider.AddSlotWidget (0, this.checking_account);
+    this.slider.AddSlotWidget (0, this.concept);
         
     for (var i=0; i<this.records.length; i++)
     {
-        if (i<=5)
+        if (i<=9)
         {
             this.slider.AddSlotWidget (1, this.records[i]);
         }
@@ -312,120 +138,106 @@ cedeg.prototype.init_cedeg = function ()
             this.slider.AddSlotWidget (2, this.records[i]);
         }
     }
-}
     
-cedeg.prototype.check_id = function (event)
-{
-    if (event.keyCode !== 17)
-    {
-        var row = new row_cedeg (this.id_update_delete, this.number.GetText (), this.city.GetText (), this.date.get_string (), this.holder.GetText (), this.cost.GetText (), this.bank.GetText (), this.cheque.GetText (), this.acount.GetText (), this.concept.GetText (), null);
-    }
 }
-    
-cedeg.prototype.check_id_response = function (rows)
-{
-    if (rows instanceof Array)
-    {
-        if (rows.length === 0)
-        {
-            this.city.Reset ();
-            this.date.now ();
-            this.holder.Reset ();
-            this.cost.Reset ();
-            this.bank.Reset ();
-            this.cheque.Reset ();
-            this.acount.Reset ();
-            this.concept.Reset ();
-        }       
-        for (var i=0; i<this.records.length; i++)
-        {
-            this.records[i].Reset ();
-        }
-              
-        this.save_button.SetUpdate (false);
-        this.update = false;
-    }
-    else
-    {
-        for (var i=0; i<rows.length; i++)
-        {
-            this.city.SetText (rows[i].city);
-            this.date.set_date (rows[i].date);
-            this.holder.SetText (rows[i].holder);
-            this.cost.SetText (rows[i].cost);
-            this.bank.SetText (rows[i].bank);
-            this.cheque.SetText (rows[i].cheque);
-            this.acount.SetText (rows[i].acount);
-            this.concept.SetText (rows[i].concept);
-                    
-            for (var j=0; j<rows[i].records.length; j++)
-            {
-                this.records[j].copy (rows[i].records[j]);
-            }
-                    
-            this.id_update_delete = rows[i].id;
-            this.save_button.SetUpdate (true);
-            this.update = true;
-            break;
-        }
-    }
-} 
 
-cedeg.prototype.action = function ()
+cedeg.prototype = new Gwt.Gui.Window ();
+cedeg.prototype.constructor = cedeg;
+    
+cedeg.prototype._App = function ()
 {
-    /*
-    if (!this.update)
+    this.number._Entry ();
+    this.place._Entry ();
+    this.date._Date ();
+    this.holder._Entry ();
+    this.amount._Entry ();
+    this.bank._Entry ();
+    this.check._Entry ();
+    this.checking_account._Entry ();
+    this.concept._Text ();
+    this.slider._Slider ();
+    
+    this.number = null;
+    this.place = null;
+    this.date = null;
+    this.holder = null;
+    this.amount = null;
+    this.bank = null;
+    this.check = null;
+    this.checking_account = null;
+    this.concept = null;
+    this.slider = null;
+        
+    for(var i = 0; i < this.records.length; i++)
     {
-        if(this.number.GetText () !== "" && this.holder.GetText () !== "" && this.cost.GetText () !== "")
-        {
-            var records = [];
-            for (var i=0; i<this.records.length; i++)
-            {
-                if (this.records[i].is_savable ())
-                {
-                    records[i]=this.records[i].get_data ();
-                }
-            }
-            var row = new row_cedeg (null, this.number.GetText (), this.city.GetText (), this.date.get_date (), this.holder.GetText (), this.cost.GetText (), this.bank.GetText (), this.cheque.GetText (), this.acount.GetText (), this.concept.GetText (), records);
-        }
+        this.records[i]._record_widget();
+        this.records[i] = null;
     }
-    else
+    this.records = null;
+    
+    this.layout._VBox ();
+    this.layout = null;
+}
+
+cedeg.prototype.Guardar = function ()
+{
+    var Records = [];
+    for (var i=0; i < this.records.length; i++)
     {
-        if (!event.ctrlKey)
+        if (this.records[i].code.GetText() !== "")
         {
-            var row = new row_cedeg (this.id_update_delete, this.number.GetText (), this.city.GetText (), this.date.get_date (), this.holder.GetText (), this.cost.GetText (), this.bank.GetText (), this.cheque.GetText (), this.acount.GetText (), this.concept.GetText (), this.records);
-            
-            this.id_update_delete = null;
-            this.save_button.SetUpdate (false);
-            this.update = false;
-        }
-        else
-        {
-            var row = new row_cedeg (this.id_update_delete, this.number.GetText (), this.city.GetText (), this.date.get_date (), this.holder.GetText (), this.cost.GetText (), this.bank.GetText (), this.cheque.GetText (), this.acount.GetText (), this.concept.GetText (), this.records);
-		
-            this.id_update_delete = null;
-            this.save_button.SetUpdate (false);
-            this.update = false;
+            Records.push({
+                "Code": this.records[i].code.GetText (),
+                "Name": this.records[i].name.GetText (),
+                "Partial": this.records[i].partial.GetText (),
+                "Debit": this.records[i].debit.GetText (),
+                "Credit": this.records[i].credit.GetText()
+            });
         }
     }
     
-    this.city.Reset ();
-    this.date.now ();
-    this.holder.Reset ();
-    this.cost.Reset ();
-    this.bank.Reset ();
-    this.cheque.Reset ();
-    this.acount.Reset ();
-    this.concept.Reset ();
-        
-    for (var i=0; i<this.records.length; i++)
+    var Data = [
+        {
+            "Number": this.number.GetText (),
+            "Place": this.place.GetText (),
+            "Date": this.date.GetDate (),
+            "Holder": this.holder.GetText (),
+            "Amount": this.amount.GetText (),
+            "Bank": this.bank.GetText (),
+            "Check": this.check.GetText (),
+            "CheckingAccount": this.checking_account.GetText (),
+            "Concept": this.concept.GetText (),
+            "Records": Records
+        }
+    ];
+    
+    new Gwt.Core.Request("/backend/cedeg/save/", function(response){console.log(response);}, [new Gwt.Core.Parameter(Gwt.Core.PARAM_TYPE_JSON, "Params", Data)]);
+    
+    this.Reset ();
+}
+
+cedeg.prototype.Eliminar = function ()
+{
+    
+}
+
+cedeg.prototype.Reset = function ()
+{
+    this.number.SetText ("");
+    this.place.SetText ("");
+    this.date.Now ();
+    this.holder.SetText ("");
+    this.amount.SetText ("");
+    this.bank.SetText ("");
+    this.check.SetText ("");
+    this.checking_account.SetText ("");
+    this.concept.SetText ("");
+    this.slider.SetText ("");
+    
+    for(var i = 0; i < this.records.length; i++)
     {
         this.records[i].Reset ();
     }
-    */
-    
-    window.open ("/backend/report/cedeg/");
-    
 }
 
 return new function ()
@@ -447,7 +259,6 @@ return new function ()
     {
         if(instance !== undefined)
         {
-            instance.finalize_cedeg();
             instance.Close();
             instance = undefined;
         }

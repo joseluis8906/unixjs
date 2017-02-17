@@ -2,8 +2,17 @@
 <configurationDescriptor version="100">
   <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
     <df root="." name="0">
+      <df name="sql">
+        <in>puc.sql</in>
+      </df>
       <df name="src">
         <df name="controllers">
+          <df name="accounting">
+            <in>cedeg_controller.c</in>
+            <in>cedeg_controller.h</in>
+            <in>cuentas_controller.c</in>
+            <in>cuentas_controller.h</in>
+          </df>
           <df name="contrib">
             <in>auth_controller.c</in>
             <in>auth_controller.h</in>
@@ -18,6 +27,12 @@
           </df>
         </df>
         <df name="models">
+          <df name="accounting">
+            <in>accounting_account_model.c</in>
+            <in>accounting_account_model.h</in>
+            <in>accounting_disb_vou_model.c</in>
+            <in>accounting_disb_vou_model.h</in>
+          </df>
           <df name="contrib">
             <in>app_role_model.c</in>
             <in>app_role_model.h</in>
@@ -71,6 +86,8 @@
           <preBuildCommand></preBuildCommand>
         </preBuild>
       </makefileType>
+      <item path="sql/puc.sql" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="src/backend.c" ex="false" tool="0" flavor2="3">
         <cTool flags="0">
           <incDir>
@@ -88,6 +105,26 @@
             <pElem>.</pElem>
           </incDir>
         </cTool>
+      </item>
+      <item path="src/controllers/accounting/cedeg_controller.c"
+            ex="false"
+            tool="0"
+            flavor2="0">
+      </item>
+      <item path="src/controllers/accounting/cedeg_controller.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="src/controllers/accounting/cuentas_controller.c"
+            ex="false"
+            tool="0"
+            flavor2="0">
+      </item>
+      <item path="src/controllers/accounting/cuentas_controller.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
       </item>
       <item path="src/controllers/contrib/auth_controller.c"
             ex="false"
@@ -167,6 +204,26 @@
         </cTool>
       </item>
       <item path="src/defines.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/models/accounting/accounting_account_model.c"
+            ex="false"
+            tool="0"
+            flavor2="0">
+      </item>
+      <item path="src/models/accounting/accounting_account_model.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="src/models/accounting/accounting_disb_vou_model.c"
+            ex="false"
+            tool="0"
+            flavor2="0">
+      </item>
+      <item path="src/models/accounting/accounting_disb_vou_model.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
       </item>
       <item path="src/models/contrib/app_role_model.c"
             ex="false"

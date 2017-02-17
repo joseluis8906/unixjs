@@ -55,6 +55,7 @@
 #define JsonTokenerParse json_tokener_parse
 #define JsonObjectArrayLength json_object_array_length
 #define JsonObjectArrayAdd json_object_array_add
+#define JsonObjectArrayGetIdx json_object_array_get_idx
 #define JsonObjectGet json_object_get
 
 

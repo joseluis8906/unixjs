@@ -3,6 +3,7 @@
 Gwt.Gui.Entry  = function (Placeholder)
 {
 	Gwt.Gui.Frame.call (this);
+        this.Format = "Text";
         
         //init
 	this.SetHtml ("input");
@@ -41,7 +42,14 @@ Gwt.Gui.Entry.prototype.ChangeToText = function ()
 
 Gwt.Gui.Entry.prototype.GetText = function ()
 {
-    return this.Html.value;
+    if (this.Format === "Text")
+    {
+        return this.Html.value;
+    }
+    else
+    {
+        return this.Html.value.replace("$", "").split(".").join("");
+    }
 }
 
 Gwt.Gui.Entry.prototype.SetText = function (Text)
@@ -58,5 +66,86 @@ Gwt.Gui.Entry.prototype.Reset = function ()
 {
     this.SetText ("");
 }
+
+Gwt.Gui.Entry.prototype.ChangeToMonetary = function ()
+{
+    this.SetMaxLength(12);
+    this.AddEvent (Gwt.Gui.Event.Keyboard.KeyUp, this.MonetaryFormat.bind (this));
+    this.Format = "Monetary";
+}
+
+Gwt.Gui.Entry.prototype.MonetaryFormat = function ()
+{
+    var Prefix = "$";
+    var OriginalStr = this.GetText();
+    var Result = "";
+    
+    if(OriginalStr.length === 0)
+    {
+        this.SetText ("");
+    }
+    else if(OriginalStr.length > 0 && OriginalStr.length <= 3)
+    {
+        Result = Prefix+OriginalStr;
+        this.SetText (Result);
+        this.SetCaretPosition (Result.length);
+    }
+    
+    else if(OriginalStr.length === 4)
+    {
+        Result = Prefix+OriginalStr[0]+"."+OriginalStr.substr(1,OriginalStr.length-1);
+        this.SetText (Result);
+        this.SetCaretPosition (Result.length);
+    }
+    
+    else if(OriginalStr.length === 5)
+    {
+        Result = Prefix+OriginalStr.substr(0,2)+"."+OriginalStr.substr(2,OriginalStr.length-1);
+        this.SetText (Result);
+        this.SetCaretPosition (Result.length);
+    }
+    else if(OriginalStr.length === 6)
+    {
+        Result = Prefix+OriginalStr.substr(0,3)+"."+OriginalStr.substr(3,OriginalStr.length-1);
+        this.SetText (Result);
+        this.SetCaretPosition (Result.length);
+    }
+    else if(OriginalStr.length === 7)
+    {
+        Result = Prefix+OriginalStr[0]+"."+OriginalStr.substr(1,3)+"."+OriginalStr.substr(4,OriginalStr.length-1);
+        this.SetText (Result);
+        this.SetCaretPosition (Result.length);
+    }
+    else if(OriginalStr.length === 8)
+    {
+        Result = Prefix+OriginalStr.substr(0,2)+"."+OriginalStr.substr(2,3)+"."+OriginalStr.substr(5,OriginalStr.length-1);
+        this.SetText (Result);
+        this.SetCaretPosition (Result.length);
+    }
+    else if(OriginalStr.length === 9)
+    {
+        Result = Prefix+OriginalStr.substr(0,3)+"."+OriginalStr.substr(3,3)+"."+OriginalStr.substr(6,OriginalStr.length-1);
+        this.SetText (Result);
+        this.SetCaretPosition (Result.length);
+    }
+}
+
+Gwt.Gui.Entry.prototype.SetCaretPosition = function (Position)
+{
+    if (this.GetHtml().setSelectionRange)
+    {
+        this.GetHtml().focus();
+        this.GetHtml().setSelectionRange(Position, Position);
+    }
+    else if (this.GetHtml().createTextRange)
+    {
+        var range = this.GetHtml().createTextRange();
+        range.collapse(true);
+        range.moveEnd('character', Position);
+        range.moveStart('character', Position);
+        range.select();
+    }
+}
+
 //Ends Gwt::Gui::Entry
 //##################################################################################################

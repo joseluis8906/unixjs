@@ -2150,6 +2150,7 @@ Gwt.Gui.Button.prototype.SetFontSize = function (FontSize)
 Gwt.Gui.Entry  = function (Placeholder)
 {
 	Gwt.Gui.Frame.call (this);
+        this.Format = "Text";
         
         //init
 	this.SetHtml ("input");
@@ -2188,7 +2189,14 @@ Gwt.Gui.Entry.prototype.ChangeToText = function ()
 
 Gwt.Gui.Entry.prototype.GetText = function ()
 {
-    return this.Html.value;
+    if (this.Format === "Text")
+    {
+        return this.Html.value;
+    }
+    else
+    {
+        return this.Html.value.replace("$", "").split(".").join("");
+    }
 }
 
 Gwt.Gui.Entry.prototype.SetText = function (Text)
@@ -2205,6 +2213,87 @@ Gwt.Gui.Entry.prototype.Reset = function ()
 {
     this.SetText ("");
 }
+
+Gwt.Gui.Entry.prototype.ChangeToMonetary = function ()
+{
+    this.SetMaxLength(12);
+    this.AddEvent (Gwt.Gui.Event.Keyboard.KeyUp, this.MonetaryFormat.bind (this));
+    this.Format = "Monetary";
+}
+
+Gwt.Gui.Entry.prototype.MonetaryFormat = function ()
+{
+    var Prefix = "$";
+    var OriginalStr = this.GetText();
+    var Result = "";
+    
+    if(OriginalStr.length === 0)
+    {
+        this.SetText ("");
+    }
+    else if(OriginalStr.length > 0 && OriginalStr.length <= 3)
+    {
+        Result = Prefix+OriginalStr;
+        this.SetText (Result);
+        this.SetCaretPosition (Result.length);
+    }
+    
+    else if(OriginalStr.length === 4)
+    {
+        Result = Prefix+OriginalStr[0]+"."+OriginalStr.substr(1,OriginalStr.length-1);
+        this.SetText (Result);
+        this.SetCaretPosition (Result.length);
+    }
+    
+    else if(OriginalStr.length === 5)
+    {
+        Result = Prefix+OriginalStr.substr(0,2)+"."+OriginalStr.substr(2,OriginalStr.length-1);
+        this.SetText (Result);
+        this.SetCaretPosition (Result.length);
+    }
+    else if(OriginalStr.length === 6)
+    {
+        Result = Prefix+OriginalStr.substr(0,3)+"."+OriginalStr.substr(3,OriginalStr.length-1);
+        this.SetText (Result);
+        this.SetCaretPosition (Result.length);
+    }
+    else if(OriginalStr.length === 7)
+    {
+        Result = Prefix+OriginalStr[0]+"."+OriginalStr.substr(1,3)+"."+OriginalStr.substr(4,OriginalStr.length-1);
+        this.SetText (Result);
+        this.SetCaretPosition (Result.length);
+    }
+    else if(OriginalStr.length === 8)
+    {
+        Result = Prefix+OriginalStr.substr(0,2)+"."+OriginalStr.substr(2,3)+"."+OriginalStr.substr(5,OriginalStr.length-1);
+        this.SetText (Result);
+        this.SetCaretPosition (Result.length);
+    }
+    else if(OriginalStr.length === 9)
+    {
+        Result = Prefix+OriginalStr.substr(0,3)+"."+OriginalStr.substr(3,3)+"."+OriginalStr.substr(6,OriginalStr.length-1);
+        this.SetText (Result);
+        this.SetCaretPosition (Result.length);
+    }
+}
+
+Gwt.Gui.Entry.prototype.SetCaretPosition = function (Position)
+{
+    if (this.GetHtml().setSelectionRange)
+    {
+        this.GetHtml().focus();
+        this.GetHtml().setSelectionRange(Position, Position);
+    }
+    else if (this.GetHtml().createTextRange)
+    {
+        var range = this.GetHtml().createTextRange();
+        range.collapse(true);
+        range.moveEnd('character', Position);
+        range.moveStart('character', Position);
+        range.select();
+    }
+}
+
 //Ends Gwt::Gui::Entry
 //##################################################################################################
 //##############################################################################################
@@ -2403,7 +2492,7 @@ Gwt.Gui.Text  = function (Placeholder)
     this.SetBorderRadius(5);
     this.SetPlaceholder (Placeholder || "Text multi-line");
     this.SetFontSize (11);
-    this.SetHeight (96);
+    this.SetHeight (80);
     this.SetAlign ();
     this.SetMaxLength (185);
 }
@@ -4219,9 +4308,9 @@ Gwt.Gui.Date = function (placeholder)
     this.day = new Gwt.Gui.SelectBox ("Día", days_items);
     this.day.SetWidth (48);
     
-    this.container.Add (this.day);
-    this.container.Add (this.month);
     this.container.Add (this.year);
+    this.container.Add (this.month);
+    this.container.Add (this.day);
 }
 
 Gwt.Gui.Date.prototype = new Gwt.Gui.Frame ();
@@ -4242,7 +4331,7 @@ Gwt.Gui.Date.prototype._Date = function (placeholder)
 
 Gwt.Gui.Date.prototype.GetDate = function ()
 {
-    return "%D-%M-%Y".replace ("%D", this.day.GetValue()).replace ("%M", this.month.GetValue()).replace ("%Y", this.year.GetValue());
+    return "%Y-%M-%D".replace ("%Y", this.year.GetText ()).replace ("%M", this.month.GetText ()).replace ("%D", this.day.GetText ());
 }
 
 Gwt.Gui.Date.prototype.SetDate = function (year, month, day)
@@ -4270,9 +4359,9 @@ Gwt.Gui.Date.prototype.SetDate = function (year, month, day)
 
 Gwt.Gui.Date.prototype.Reset = function ()
 {
-	this.day.Reset ();
-	this.month.Reset ();
-	this.year.Reset ();
+    this.year.Reset ();	    
+    this.month.Reset ();
+    this.day.Reset ();
 }
 
 Gwt.Gui.Date.prototype.Now = function ()
@@ -4283,7 +4372,7 @@ Gwt.Gui.Date.prototype.Now = function ()
 
 Gwt.Gui.Date.prototype.GetString = function ()
 {
-	return this.year.GetValue()+"-"+this.month.GetValue()+"-"+this.day.GetValue();
+	return this.year.GetText ()+"-"+this.month.GetText ()+"-"+this.day.GetText ();
 }
 //Ends Gwt::Gui::Image
 //##################################################################################################
