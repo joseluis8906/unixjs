@@ -5,10 +5,16 @@
  */
 
 #include "cedeg_controller.h"
+#include "../contrib/auth_controller.h"
 #include "../../models/accounting/accounting_disb_vou_model.h"
 
 int CedegControllerSave (struct HttpRequest *Req)
 {
+    if (AuthControllerVerifySession(Req) == KORE_RESULT_ERROR)
+    {
+        return (KORE_RESULT_OK);
+    }
+    
     char *Data = NULL;
     
     if (VerifyRequest (Req, &Data, FORM_JSON) == KORE_RESULT_ERROR)
@@ -41,7 +47,12 @@ int CedegControllerSave (struct HttpRequest *Req)
 
 
 int CedegControllerNextNumber (struct HttpRequest *Req)
-{    
+{
+    if (AuthControllerVerifySession(Req) == KORE_RESULT_ERROR)
+    {
+        return (KORE_RESULT_OK);
+    }
+    
     int64_t NextNumber = 0;
     
     struct FuncResult Ret = AccountingDisbVouModelNextNumber (&NextNumber);

@@ -5,10 +5,16 @@
  */
 
 #include "gapprole_controller.h"
+#include "auth_controller.h"
 #include "../../models/contrib/app_role_model.h"
 
 int GappRoleControllerSave (struct HttpRequest *Req)
 {
+    if (AuthControllerVerifySession(Req) == KORE_RESULT_ERROR)
+    {
+        return (KORE_RESULT_OK);
+    }
+    
     char *Data = NULL;
     
     if (VerifyRequest (Req, &Data, FORM_JSON) == KORE_RESULT_ERROR)

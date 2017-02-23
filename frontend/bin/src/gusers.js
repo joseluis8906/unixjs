@@ -21,7 +21,7 @@ function gusers ()
     this.Layout.SetAlignment(Gwt.Gui.ALIGN_CENTER);
     this.SetLayout (this.Layout);
     
-    this.Avatar = new Gwt.Gui.Avatar ("jpg",480, 480);
+    this.Avatar = new Gwt.Gui.Avatar ("Avatar", "jpg", 480, 480);
     this.Avatar.SetSizeEditor (this.GetAvailableWidth(), this.GetAvailableHeight());
     this.Title = new Gwt.Gui.StaticText ("Datos:");
     this.UserName = new Gwt.Gui.IconEntry(Gwt.Core.Contrib.Images+"appbar.user.tie.svg", "Usuario");
@@ -96,12 +96,12 @@ gusers.prototype._App = function ()
     this.Email = null;
     this.Address = null;
     this.Layout = null;
-}
+};
 
 gusers.prototype.Buscar = function ()
 {
     console.log ("Buscar");
-}
+};
 
 gusers.prototype.Guardar = function ()
 {
@@ -110,22 +110,23 @@ gusers.prototype.Guardar = function ()
     ];
     
     var Params = [
-        new Gwt.Core.Parameter(Gwt.Core.PARAM_TYPE_FILE, "Avatar", this.Avatar.GetData ()),
-        new Gwt.Core.Parameter(Gwt.Core.PARAM_TYPE_JSON, "Params", Data)
+        new Gwt.Core.Parameter(Gwt.Core.PARAM_TYPE_JSON, "Params", Data),
+        new Gwt.Core.Parameter(Gwt.Core.PARAM_TYPE_FILE, "Avatar", this.Avatar.GetData ())
+        
     ];
     
-    new Gwt.Core.Request ("/backend/gusers/save/", function(response){console.log(response)}, Params);
-}
+    new Gwt.Core.Request ("/backend/gusers/save/", function(response){console.log(response);}, Params);
+};
 
 gusers.prototype.Actualizar = function ()
 {
     console.log ("Actualizar");
-}
+};
 
 gusers.prototype.Eliminar = function ()
 {
     console.log ("Eliminar");
-}
+};
 
 return new function ()
 {
@@ -140,7 +141,7 @@ return new function ()
         {
             console.log ("%app open".replace ("%app", instance.__proto__.constructor.name));
         }
-    }
+    };
 		
     this.close = function ()
     {
@@ -149,7 +150,7 @@ return new function ()
             instance.Close ();
             instance = undefined;
         } 
-    }
-}
+    };
+};
 })();
 

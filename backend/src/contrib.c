@@ -10,7 +10,7 @@ int PasswordEncrypt (const char *Src, char *Dest)
     char Alpha[] = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
     int Index = rand () % 62;
 	
-    char Character[2];
+    char Character[]="abcdefgh";
     Character[0] = Alpha[Index];
     
     unsigned char Hash[SHA256_DIGEST_LENGTH];
@@ -54,8 +54,8 @@ int PasswordEncrypt (const char *Src, char *Dest)
 
 int CheckPassword (const char *Original, const char *Crypted)
 {
-    char Character[2];
-    snprintf (Character, sizeof(char)+1, (Crypted+13));
+    char Character[]="abcdefgh";
+    Character[0] = *(Crypted+13);
     
     unsigned char Hash[SHA256_DIGEST_LENGTH];
 

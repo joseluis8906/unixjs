@@ -21,7 +21,7 @@ Gwt.Core.Math = {};
 Gwt.Core.Math.Round = function (value, decimals) 
 {
   return Number(Math.round(value+'e'+decimals)+'e-'+decimals);
-}
+};
 
 Gwt.Core.Contrib.COUNTRIES_ISO =  [
     {"Text":  "Afghanistan",  "Value": "AF"},
@@ -274,5 +274,172 @@ Gwt.Core.Contrib.COUNTRIES_ISO =  [
     {"Text":  "Zimbabwe",  "Value": "ZW"},
     {"Text":  "Aland Islands",  "Value": "AX"}
 ];
+
+Gwt.Core.Contrib.UNIDADES = [
+    '',
+    'UN ',
+    'DOS ',
+    'TRES ',
+    'CUATRO ',
+    'CINCO ',
+    'SEIS ',
+    'SIETE ',
+    'OCHO ',
+    'NUEVE ',
+    'DIEZ ',
+    'ONCE ',
+    'DOCE ',
+    'TRECE ',
+    'CATORCE ',
+    'QUINCE ',
+    'DIECISEIS ',
+    'DIECISIETE ',
+    'DIECIOCHO ',
+    'DIECINUEVE ',
+    'VEINTE '
+];
+
+Gwt.Core.Contrib.DECENAS = [
+    'VENTI',
+    'TREINTA ',
+    'CUARENTA ',
+    'CINCUENTA ',
+    'SESENTA ',
+    'SETENTA ',
+    'OCHENTA ',
+    'NOVENTA ',
+    'CIEN '
+];
+
+Gwt.Core.Contrib.CENTENAS = [
+    'CIENTO ',
+    'DOSCIENTOS ',
+    'TRESCIENTOS ',
+    'CUATROCIENTOS ',
+    'QUINIENTOS ',
+    'SEISCIENTOS ',
+    'SETECIENTOS ',
+    'OCHOCIENTOS ',
+    'NOVECIENTOS '
+];
+ 
+Gwt.Core.Contrib.NumberToHumanReadable = function (number)
+{
+    //Converts a number into string representation
+    
+    var converted = "";
+ 
+    if (!(0 < number < 999999999))
+    {
+        return "No es posible convertir el numero a letras";
+    }
+ 
+    var number_str = zfill(number, 9);
+    var millones = number_str.substr(0,3);
+    var miles = number_str.substr(3, 3);
+    var cientos = number_str.substr(6, number_str.length);
+ 
+    if(millones)
+    {
+        if(millones === "001")
+        {
+            converted += "UN MILLON ";
+        }
+        else if(Number(millones) > 0)
+        {
+            converted += "%sMILLONES ".replace ("%s", Gwt.Core.Contrib.__convertNumber(millones));
+        }
+    }
+ 
+    if(miles)
+    {
+        if(miles === "001")
+        {
+            converted += "MIL ";
+        }
+        else if(Number(miles) > 0)
+        {
+            converted += "%sMIL ".replace ("%s", Gwt.Core.Contrib.__convertNumber(miles));
+        }
+    }
+ 
+    if(cientos)
+    {
+        if(cientos === "001")
+        {       
+            converted += "UN ";
+        }
+        else if(Number (cientos) > 0)
+        {
+            converted += "%s".replace("%s", Gwt.Core.Contrib.__convertNumber(cientos));
+        }
+    }
+ 
+    return converted;
+};
+ 
+Gwt.Core.Contrib.__convertNumber = function (n)
+{
+    
+    //Max length must be 3 digits
+
+    var output = "";
+ 
+    if(n === "100")
+    {
+        output = "CIEN ";
+    }
+    else if(n[0] !== '0')
+    {
+        output = Gwt.Core.Contrib.CENTENAS[Number(n[0])-1];
+    }
+ 
+    var k = Number(n.substr(1, n.length));
+    if(k <= 20)
+    {
+        output += Gwt.Core.Contrib.UNIDADES[k];
+    }
+    else
+    {
+        if((k > 30) & (n[2] !== '0'))
+        {
+            output += "%s0Y %s1".replace ("%s0", Gwt.Core.Contrib.DECENAS[Number(n[1])-2]).replace ("%s1", Gwt.Core.Contrib.UNIDADES[Number(n[2])]);
+        }
+        else
+        {
+            output += "%s0%s1".replace("%s0", Gwt.Core.Contrib.DECENAS[Number(n[1])-2]).replace ("%s1", Gwt.Core.Contrib.UNIDADES[Number(n[2])]);
+        }
+    }
+    
+    return output;
+};
+
+Gwt.Core.Contrib.ClosePrint = function () {
+  document.body.removeChild(this.__container__);
+};
+
+Gwt.Core.Contrib.Print = function () {
+  this.contentWindow.__container__ = this;
+  this.contentWindow.onbeforeunload = Gwt.Core.Contrib.ClosePrint;
+  this.contentWindow.onafterprint = Gwt.Core.Contrib.ClosePrint;
+  this.contentWindow.focus(); // Required for IE
+  this.contentWindow.print();
+};
+
+Gwt.Core.Contrib.LoadDocument = function (sURL) 
+{
+  var oHiddFrame = document.createElement("iframe");
+  oHiddFrame.onload = Gwt.Core.Contrib.Print;
+  oHiddFrame.style.visibility = "hidden";
+  oHiddFrame.src = sURL;
+  document.body.appendChild(oHiddFrame);
+  return oHiddFrame;
+};
+
+function zfill (num, size) {
+    var s = num+"";
+    while (s.length < size) s = "0" + s;
+    return s;
+}
 //End Gwt::Core::Contrib
 //###########################################################################

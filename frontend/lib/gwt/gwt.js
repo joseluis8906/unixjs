@@ -26,7 +26,7 @@ Gwt.Core.Math = {};
 Gwt.Core.Math.Round = function (value, decimals) 
 {
   return Number(Math.round(value+'e'+decimals)+'e-'+decimals);
-}
+};
 
 Gwt.Core.Contrib.COUNTRIES_ISO =  [
     {"Text":  "Afghanistan",  "Value": "AF"},
@@ -279,6 +279,173 @@ Gwt.Core.Contrib.COUNTRIES_ISO =  [
     {"Text":  "Zimbabwe",  "Value": "ZW"},
     {"Text":  "Aland Islands",  "Value": "AX"}
 ];
+
+Gwt.Core.Contrib.UNIDADES = [
+    '',
+    'UN ',
+    'DOS ',
+    'TRES ',
+    'CUATRO ',
+    'CINCO ',
+    'SEIS ',
+    'SIETE ',
+    'OCHO ',
+    'NUEVE ',
+    'DIEZ ',
+    'ONCE ',
+    'DOCE ',
+    'TRECE ',
+    'CATORCE ',
+    'QUINCE ',
+    'DIECISEIS ',
+    'DIECISIETE ',
+    'DIECIOCHO ',
+    'DIECINUEVE ',
+    'VEINTE '
+];
+
+Gwt.Core.Contrib.DECENAS = [
+    'VENTI',
+    'TREINTA ',
+    'CUARENTA ',
+    'CINCUENTA ',
+    'SESENTA ',
+    'SETENTA ',
+    'OCHENTA ',
+    'NOVENTA ',
+    'CIEN '
+];
+
+Gwt.Core.Contrib.CENTENAS = [
+    'CIENTO ',
+    'DOSCIENTOS ',
+    'TRESCIENTOS ',
+    'CUATROCIENTOS ',
+    'QUINIENTOS ',
+    'SEISCIENTOS ',
+    'SETECIENTOS ',
+    'OCHOCIENTOS ',
+    'NOVECIENTOS '
+];
+ 
+Gwt.Core.Contrib.NumberToHumanReadable = function (number)
+{
+    //Converts a number into string representation
+    
+    var converted = "";
+ 
+    if (!(0 < number < 999999999))
+    {
+        return "No es posible convertir el numero a letras";
+    }
+ 
+    var number_str = zfill(number, 9);
+    var millones = number_str.substr(0,3);
+    var miles = number_str.substr(3, 3);
+    var cientos = number_str.substr(6, number_str.length);
+ 
+    if(millones)
+    {
+        if(millones === "001")
+        {
+            converted += "UN MILLON ";
+        }
+        else if(Number(millones) > 0)
+        {
+            converted += "%sMILLONES ".replace ("%s", Gwt.Core.Contrib.__convertNumber(millones));
+        }
+    }
+ 
+    if(miles)
+    {
+        if(miles === "001")
+        {
+            converted += "MIL ";
+        }
+        else if(Number(miles) > 0)
+        {
+            converted += "%sMIL ".replace ("%s", Gwt.Core.Contrib.__convertNumber(miles));
+        }
+    }
+ 
+    if(cientos)
+    {
+        if(cientos === "001")
+        {       
+            converted += "UN ";
+        }
+        else if(Number (cientos) > 0)
+        {
+            converted += "%s".replace("%s", Gwt.Core.Contrib.__convertNumber(cientos));
+        }
+    }
+ 
+    return converted;
+};
+ 
+Gwt.Core.Contrib.__convertNumber = function (n)
+{
+    
+    //Max length must be 3 digits
+
+    var output = "";
+ 
+    if(n === "100")
+    {
+        output = "CIEN ";
+    }
+    else if(n[0] !== '0')
+    {
+        output = Gwt.Core.Contrib.CENTENAS[Number(n[0])-1];
+    }
+ 
+    var k = Number(n.substr(1, n.length));
+    if(k <= 20)
+    {
+        output += Gwt.Core.Contrib.UNIDADES[k];
+    }
+    else
+    {
+        if((k > 30) & (n[2] !== '0'))
+        {
+            output += "%s0Y %s1".replace ("%s0", Gwt.Core.Contrib.DECENAS[Number(n[1])-2]).replace ("%s1", Gwt.Core.Contrib.UNIDADES[Number(n[2])]);
+        }
+        else
+        {
+            output += "%s0%s1".replace("%s0", Gwt.Core.Contrib.DECENAS[Number(n[1])-2]).replace ("%s1", Gwt.Core.Contrib.UNIDADES[Number(n[2])]);
+        }
+    }
+    
+    return output;
+};
+
+Gwt.Core.Contrib.ClosePrint = function () {
+  document.body.removeChild(this.__container__);
+};
+
+Gwt.Core.Contrib.Print = function () {
+  this.contentWindow.__container__ = this;
+  this.contentWindow.onbeforeunload = Gwt.Core.Contrib.ClosePrint;
+  this.contentWindow.onafterprint = Gwt.Core.Contrib.ClosePrint;
+  this.contentWindow.focus(); // Required for IE
+  this.contentWindow.print();
+};
+
+Gwt.Core.Contrib.LoadDocument = function (sURL) 
+{
+  var oHiddFrame = document.createElement("iframe");
+  oHiddFrame.onload = Gwt.Core.Contrib.Print;
+  oHiddFrame.style.visibility = "hidden";
+  oHiddFrame.src = sURL;
+  document.body.appendChild(oHiddFrame);
+  return oHiddFrame;
+};
+
+function zfill (num, size) {
+    var s = num+"";
+    while (s.length < size) s = "0" + s;
+    return s;
+}
 //End Gwt::Core::Contrib
 //###########################################################################
 //###################################################################################################
@@ -347,8 +514,6 @@ Gwt.Core.Request.prototype.SendMultipartFormData =  function ()
 {
     var Boundary = "---------------------------" + Date.now().toString(16);
     this.XHR.setRequestHeader("Content-Type", "multipart\/form-data; boundary=" + Boundary);
-    //this.XHR.setRequestHeader("document_type", this.Data.document_type.toString ());
-    //this.XHR.setRequestHeader("document", this.Data.document.toString ());
 	
     var Multipart = [];
     var ContentDisposition = "";
@@ -373,7 +538,7 @@ Gwt.Core.Request.prototype.SendMultipartFormData =  function ()
     Multipart.push ("\r\n--"+Boundary+"--");
     
     var RawData = Multipart.join ("");
-
+    
     this.XHR.setRequestHeader("Content-Length", RawData.length);
 	
     var NBytes = RawData.length, Uint8Data = new Uint8Array(NBytes);
@@ -629,32 +794,32 @@ Gwt.Gui.Contrib.Color = function (Arg1, Arg2, Arg3, Arg4)
 		this.Blue = Arg3;
 		this.Alpha = Arg4;
 	}
-}
+};
 
 Gwt.Gui.Contrib.Color.prototype.ToString = function ()
 {
 	return "rgba("+this.Red+","+this.Green+","+this.Blue+","+this.Alpha+")";
-}
+};
 
 Gwt.Gui.Contrib.Color.prototype.SetRed = function (Arg1)
 {
 	this.Red = Arg1;
-}
+};
 
 Gwt.Gui.Contrib.Color.prototype.SetGreen = function (Arg1)
 {
 	this.Green = Arg1;
-}
+};
 
 Gwt.Gui.Contrib.Color.prototype.SetBlue = function (Arg1)
 {
 	this.Blue = Arg1;
-}
+};
 
 Gwt.Gui.Contrib.Color.prototype.SetAlpha = function (Arg1)
 {
 	this.Alpha = Arg1;
-}
+};
 
 Gwt.Gui.Contrib.Colors =
 {
@@ -771,8 +936,8 @@ Gwt.Gui.Contrib.Colors =
 	White : [255,255,255,1],
 	WhiteSmoke: [245,245,245,1],
 	Yellow: [255,255,0,1],
-	YellowGreen: [154,205,50,1],
-}
+	YellowGreen: [154,205,50,1]
+};
 
 //Gwt Border Styles
 Gwt.Gui.Contrib.BorderStyle =
@@ -789,7 +954,7 @@ Gwt.Gui.Contrib.BorderStyle =
 	Outset: "outset",
 	Initial: "initial",
 	Inherit: "inherit"
-}
+};
 
 //Gwt position type
 Gwt.Gui.Contrib.PositionType =
@@ -798,7 +963,7 @@ Gwt.Gui.Contrib.PositionType =
 	Relative: "relative",
 	Fixed: "fixed",
 	Absolute: "absolute"
-}
+};
 
 //Gwt Display
 Gwt.Gui.Contrib.Display =
@@ -823,7 +988,7 @@ Gwt.Gui.Contrib.Display =
 	None: "none",
 	Initial: "initial",
 	Inherit: "inherit"
-}
+};
 
 //Gwt Overflow
 Gwt.Gui.Contrib.Overflow =
@@ -834,7 +999,7 @@ Gwt.Gui.Contrib.Overflow =
 	Auto: "auto",
 	Initial: "initial",
 	Inherit: "inherit"
-}
+};
 
 //Gwt Valign
 Gwt.Gui.Contrib.Valign =
@@ -851,7 +1016,7 @@ Gwt.Gui.Contrib.Valign =
 	TextBottom: "text-bottom",
 	Initial: "initial",
 	Inherit: "inherit"
-}
+};
 
 //Gwt Cursor
 Gwt.Gui.Contrib.Cursor =
@@ -895,7 +1060,7 @@ Gwt.Gui.Contrib.Cursor =
 	ZoomOut: "zoom-out",
 	Initial: "initial",
 	Inherit: "inherit"
-}
+};
 
 //Gwt Font Weight
 Gwt.Gui.Contrib.FontWeight =
@@ -906,7 +1071,7 @@ Gwt.Gui.Contrib.FontWeight =
 	Lighter: "lighter",
 	Initial: "initial",
 	Inherit: "inherit"
-}
+};
 
 // Gwt User Select
 Gwt.Gui.Contrib.UserSelect =
@@ -914,7 +1079,7 @@ Gwt.Gui.Contrib.UserSelect =
 	None: "none",
 	Text: "text",
 	All: "all"
-}
+};
 
 //Gwt Text Alignment
 Gwt.Gui.Contrib.TextAlign =
@@ -925,7 +1090,7 @@ Gwt.Gui.Contrib.TextAlign =
 	Justify: "justify",
 	Initial: "initial",
 	Inherit: "inherit"
-}
+};
 
 //Gwt Backgroud Attachment
 Gwt.Gui.Contrib.BackgroundAttachment =
@@ -935,7 +1100,7 @@ Gwt.Gui.Contrib.BackgroundAttachment =
 	Local: "local",
 	Initial: "initial",
 	Inherit: "inherit"
-}
+};
 
 //Gwt Background Clip
 Gwt.Gui.Contrib.BackgroundClip =
@@ -945,7 +1110,7 @@ Gwt.Gui.Contrib.BackgroundClip =
 	ContentBox: "content-box",
 	Initial: "initial",
 	Inherit: "inherit"
-}
+};
 
 //Gwt Background Repeat
 Gwt.Gui.Contrib.BackgroundRepeat =
@@ -956,7 +1121,7 @@ Gwt.Gui.Contrib.BackgroundRepeat =
 	NoRepeat: "no-repeat",
 	Initial: "initial",
 	Inherit: "inherit"
-}
+};
 
 //Gwt Background Size
 Gwt.Gui.Contrib.BackgroundSize =
@@ -967,7 +1132,7 @@ Gwt.Gui.Contrib.BackgroundSize =
 	Contain: "contain",
 	Initial: "initial",
 	Inherit: "inherit"
-}
+};
 
 //Gwt Background Position
 Gwt.Gui.Contrib.BackgroundPosition =
@@ -977,7 +1142,7 @@ Gwt.Gui.Contrib.BackgroundPosition =
 	Top: "top",
 	Bottom: "bottom",
 	Center: "center"
-}
+};
 
 // Gwt OutLine
 Gwt.Gui.Contrib.OutLine =
@@ -992,7 +1157,7 @@ Gwt.Gui.Contrib.OutLine =
 	Outset: "outset",
 	None: "none",
 	Hidden: "hidden"
-}
+};
 //###########################################################################################################
 
 //##################################################################################################
@@ -2158,6 +2323,7 @@ Gwt.Gui.Entry  = function (Placeholder)
 	this.SetClassName ("Gwt_Gui_Entry");
 	this.SetExpand (true);
         this.SetHeight (24);
+        this.SetValign (Gwt.Gui.Contrib.Valign.Sub);
 	this.SetPadding (0);
 	this.SetBorderRadius(5);
 	this.SetPlaceholder (Placeholder || "Entry text");
@@ -2949,13 +3115,14 @@ Gwt.Gui.Croppie.prototype.SetCallbackResult = function (Callback)
 //##################################################################################################
 //########################################################################################
 //Class Gwt::Gui::Avatar
-Gwt.Gui.Avatar = function (Format, Width, Height)
+Gwt.Gui.Avatar = function (Name, Format, Width, Height)
 {
     Gwt.Gui.Frame.call (this);
     
     //instance props
     this.File = new Gwt.Gui.File (this.SetImage.bind(this));
     this.Image = new Gwt.Gui.Image (Gwt.Core.Contrib.Images+"appbar.camera.switch.invert.svg");
+    this.Name = Name;
     this.FileName_ = null;
     this.FileWidth = Width ||  240;
     this.FileHeight = Height || 240;
@@ -2990,6 +3157,7 @@ Gwt.Gui.Avatar.prototype._Avatar = function ()
     this.File._File ();
     this.Editor._Croppie ();
     
+    this.Name = null;
     this.Image = null;
     this.File = null;
     this.Editor = null;
@@ -3033,6 +3201,11 @@ Gwt.Gui.Avatar.prototype.GetEditor = function ()
 Gwt.Gui.Avatar.prototype.GetData = function ()
 {
     return {FileName: this.FileName, Type: this.Type, Data: this.Image.GetSrc().replace(/^[^,]+,/, '')};
+}
+
+Gwt.Gui.Avatar.prototype.GetText = function ()
+{
+    return this.Name;
 }
 
 //Ends Gwt::Gui::Avatar
@@ -3474,11 +3647,12 @@ Gwt.Gui.StaticText = function (Text)
     this.Text = Text || "Default Text";
 
     //init
+    this.SetHtml ("p");
     this.SetClassName ("Gwt_Gui_Static_Text");
     this.SetText (this.Text);
     this.SetExpand (true);
     this.SetFontSize (11);
-    this.SetHeight (22);
+    this.SetHeight (24);
     //this.SetPaddingTop (2);
     this.SetColor (new Gwt.Gui.Contrib.Color (Gwt.Gui.Contrib.Colors.Azure));
     //this.SetTextShadow (0, 0, 1, new Gwt.Gui.Contrib.Color (Gwt.Gui.Contrib.Colors.DarkSlateGray));
@@ -4329,7 +4503,7 @@ Gwt.Gui.Date.prototype._Date = function (placeholder)
     this._Frame ();
 }
 
-Gwt.Gui.Date.prototype.GetDate = function ()
+Gwt.Gui.Date.prototype.GetText = function ()
 {
     return "%Y-%M-%D".replace ("%Y", this.year.GetText ()).replace ("%M", this.month.GetText ()).replace ("%D", this.day.GetText ());
 }
@@ -4410,6 +4584,7 @@ Gwt.Gui.KnobThreeLevels.prototype._KnobThreeLevels = function ()
     this.Resource = null;
     this.Knob = null;
     this.Level = null;
+    this.Events = null;
     
     this._Frame ();
 }

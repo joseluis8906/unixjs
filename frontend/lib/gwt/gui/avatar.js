@@ -1,12 +1,13 @@
 //########################################################################################
 //Class Gwt::Gui::Avatar
-Gwt.Gui.Avatar = function (Format, Width, Height)
+Gwt.Gui.Avatar = function (Name, Format, Width, Height)
 {
     Gwt.Gui.Frame.call (this);
     
     //instance props
     this.File = new Gwt.Gui.File (this.SetImage.bind(this));
     this.Image = new Gwt.Gui.Image (Gwt.Core.Contrib.Images+"appbar.camera.switch.invert.svg");
+    this.Name = Name;
     this.FileName_ = null;
     this.FileWidth = Width ||  240;
     this.FileHeight = Height || 240;
@@ -41,6 +42,7 @@ Gwt.Gui.Avatar.prototype._Avatar = function ()
     this.File._File ();
     this.Editor._Croppie ();
     
+    this.Name = null;
     this.Image = null;
     this.File = null;
     this.Editor = null;
@@ -84,6 +86,11 @@ Gwt.Gui.Avatar.prototype.GetEditor = function ()
 Gwt.Gui.Avatar.prototype.GetData = function ()
 {
     return {FileName: this.FileName, Type: this.Type, Data: this.Image.GetSrc().replace(/^[^,]+,/, '')};
+}
+
+Gwt.Gui.Avatar.prototype.GetText = function ()
+{
+    return this.Name;
 }
 
 //Ends Gwt::Gui::Avatar

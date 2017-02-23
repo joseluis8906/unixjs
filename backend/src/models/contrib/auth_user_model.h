@@ -17,7 +17,7 @@ struct AuthUserModel
     char LastName[64];
     struct MediaModel Avatar;
     char Phone[24];
-    char Email[24];
+    char Email[64];
     char Address[64];
 };
 

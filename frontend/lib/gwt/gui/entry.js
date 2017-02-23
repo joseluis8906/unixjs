@@ -11,6 +11,7 @@ Gwt.Gui.Entry  = function (Placeholder)
 	this.SetClassName ("Gwt_Gui_Entry");
 	this.SetExpand (true);
         this.SetHeight (24);
+        this.SetValign (Gwt.Gui.Contrib.Valign.Sub);
 	this.SetPadding (0);
 	this.SetBorderRadius(5);
 	this.SetPlaceholder (Placeholder || "Entry text");

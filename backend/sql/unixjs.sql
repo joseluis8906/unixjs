@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS "AuthUserComplementaryInfo"
     "UserId" BIGINT NOT NULL REFERENCES "AuthUser" ("Id") ON UPDATE CASCADE ON DELETE CASCADE,
     "Avatar" BIGINT REFERENCES "Media" ("Id") UNIQUE,
     "Phone" VARCHAR(24),
-    "Email" VARCHAR(24),
+    "Email" VARCHAR(64),
     "Address" VARCHAR(64)
 );
 

@@ -4,10 +4,16 @@
  * and open the template in the editor.
  */
 #include "gusersgroups_controller.h"
+#include "auth_controller.h"
 #include "../../models/contrib/auth_user_group_model.h"
 
 int GusersgroupsControllerSave (struct HttpRequest *Req)
 {
+    if (AuthControllerVerifySession(Req) == KORE_RESULT_ERROR)
+    {
+        return (KORE_RESULT_OK);
+    } 
+    
     char *Data = NULL;
     
     if (VerifyRequest (Req, &Data, FORM_JSON) == KORE_RESULT_ERROR)

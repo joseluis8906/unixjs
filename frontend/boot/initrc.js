@@ -3,12 +3,14 @@ window.addEventListener ("load", function () {Gwdm();});
 function Gwdm ()
 {
     desktop.open();
+    //domotictrl.open();
     login.open ();
     
     if (sessionStorage.hasOwnProperty ("Session") && sessionStorage.getItem ("Session") === "Active")
     {
         start_session ();
     }
+    
 }
 
 

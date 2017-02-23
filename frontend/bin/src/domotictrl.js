@@ -105,63 +105,40 @@ VentiladorCtrl.prototype.InitState = function (Res)
 
 VentiladorCtrl.prototype.EventKnobClick = function (Event)
 {
-    if (Event.which === 1)
+    if (this.Direccion === 0)
     {
-        if (this.Direccion === 0)
+        if(this.Knob.GetLevel () === 0)
         {
-            if(this.Knob.GetLevel () === 0)
-            {
-                this.Knob.SetOne ();
-                new Gwt.Core.Request('/ventiladorctrl/1', function (Res){console.log(Res);}, null, Gwt.Core.REQUEST_METHOD_GET);
-            }
-    
-            else if (this.Knob.GetLevel () === 1)
-            {
-                this.Knob.SetTwo ();
-                new Gwt.Core.Request('/ventiladorctrl/2', function (Res){console.log(Res);}, null, Gwt.Core.REQUEST_METHOD_GET);
-            }
-    
-            else if (this.Knob.GetLevel () === 2)
-            {
-                this.Knob.SetThree ();
-                new Gwt.Core.Request('/ventiladorctrl/3', function (Res){console.log(Res);}, null, Gwt.Core.REQUEST_METHOD_GET);
-                this.Direccion = 1;
-            }
-       
-            else
-            {
-                console.log ("Knob Status Not Defined");
-            }
+            this.Knob.SetOne ();
+            new Gwt.Core.Request('/ventiladorctrl/1', function (Res){console.log(Res);}, null, Gwt.Core.REQUEST_METHOD_GET);
         }
+    
+        else if (this.Knob.GetLevel () === 1)
+        {
+            this.Knob.SetTwo ();
+            new Gwt.Core.Request('/ventiladorctrl/2', function (Res){console.log(Res);}, null, Gwt.Core.REQUEST_METHOD_GET);
+        }
+    
+        else if (this.Knob.GetLevel () === 2)
+        {
+            this.Knob.SetThree ();
+            new Gwt.Core.Request('/ventiladorctrl/3', function (Res){console.log(Res);}, null, Gwt.Core.REQUEST_METHOD_GET);
+            this.Direccion = 1;
+        }
+        
+        else if (this.Knob.GetLevel () === 3)
+        {
+            this.Knob.SetTwo ();
+            new Gwt.Core.Request('/ventiladorctrl/2', function (Res){console.log(Res);}, null, Gwt.Core.REQUEST_METHOD_GET);
+            this.Direccion = 1;
+        }
+       
         else
         {
-            if(this.Knob.GetLevel () === 3)
-            {
-                this.Knob.SetTwo ();
-                new Gwt.Core.Request('/ventiladorctrl/2', function (Res){console.log(Res);}, null, Gwt.Core.REQUEST_METHOD_GET);
-            }
-    
-            else if (this.Knob.GetLevel () === 2)
-            {
-                this.Knob.SetOne ();
-                new Gwt.Core.Request('/ventiladorctrl/1', function (Res){console.log(Res);}, null, Gwt.Core.REQUEST_METHOD_GET);
-            }
-    
-            else if (this.Knob.GetLevel () === 1)
-            {
-                this.Knob.SetOff ();
-                new Gwt.Core.Request('/ventiladorctrl/0', function (Res){console.log(Res);}, null, Gwt.Core.REQUEST_METHOD_GET);
-                this.Direccion = 0;
-            }
-    
-            else
-            {
-                console.log ("Knob Status Not Defined");
-            }
+            console.log ("Knob Status Not Defined");
         }
     }
-    
-    else if (Event.which === 3)
+    else
     {
         if(this.Knob.GetLevel () === 3)
         {
@@ -179,17 +156,20 @@ VentiladorCtrl.prototype.EventKnobClick = function (Event)
         {
             this.Knob.SetOff ();
             new Gwt.Core.Request('/ventiladorctrl/0', function (Res){console.log(Res);}, null, Gwt.Core.REQUEST_METHOD_GET);
+            this.Direccion = 0;
+        }
+        
+        else if (this.Knob.GetLevel () === 0)
+        {
+            this.Knob.SetOne ();
+            new Gwt.Core.Request('/ventiladorctrl/1', function (Res){console.log(Res);}, null, Gwt.Core.REQUEST_METHOD_GET);
+            this.Direccion = 0;
         }
     
         else
         {
             console.log ("Knob Status Not Defined");
         }
-    }
-    
-    else
-    {
-        console.log ("Knob Click Not Supported");
     }
 }
 
@@ -327,19 +307,27 @@ function LuzCtrl ()
     this.BtnBulb4.AddEvent (Gwt.Gui.Event.Mouse.Click, this.Btn4Event.bind(this));
     this.BtnBulb5.AddEvent (Gwt.Gui.Event.Mouse.Click, this.Btn5Event.bind(this));
     
-     new Gwt.Core.Request('/serverstate', this.InitState.bind(this), null, Gwt.Core.REQUEST_METHOD_GET);
+    new Gwt.Core.Request('/serverstate', this.InitState.bind(this), null, Gwt.Core.REQUEST_METHOD_GET);
+     
+    clearInterval (window.LuzCtrlMonitor);
+    window.LuzCtrlMonitor = setInterval (this.LuzCtrlMonitor.bind (this), 2000);
 }
 
 LuzCtrl.prototype = new Gwt.Gui.Frame ();
 LuzCtrl.prototype.constructor = LuzCtrl;
 
+LuzCtrl.prototype.LuzCtrlMonitor = function ()
+{
+    new Gwt.Core.Request('/serverstate', this.InitState.bind(this), null, Gwt.Core.REQUEST_METHOD_GET);
+}
+
 LuzCtrl.prototype.InitState = function (Res)
 {
-    if (Res.Bombillo1 === 1) {this.BtnBulb1.SetOn (); this.Btn1State = true;}
-    if (Res.Bombillo2 === 1) {this.BtnBulb2.SetOn (); this.Btn2State = true;}
-    if (Res.Bombillo3 === 1) {this.BtnBulb3.SetOn (); this.Btn3State = true;}
-    if (Res.Bombillo4 === 1) {this.BtnBulb4.SetOn (); this.Btn4State = true;}
-    if (Res.Bombillo5 === 1) {this.BtnBulb5.SetOn (); this.Btn5State = true;}
+    if (Res.Bombillo1 === 1) {this.BtnBulb1.SetOn (); this.Btn1State = true;} else {this.BtnBulb1.SetOff (); this.Btn1State = false;}
+    if (Res.Bombillo2 === 1) {this.BtnBulb2.SetOn (); this.Btn2State = true;} else {this.BtnBulb2.SetOff (); this.Btn2State = false;}
+    if (Res.Bombillo3 === 1) {this.BtnBulb3.SetOn (); this.Btn3State = true;} else {this.BtnBulb3.SetOff (); this.Btn3State = false;}
+    if (Res.Bombillo4 === 1) {this.BtnBulb4.SetOn (); this.Btn4State = true;} else {this.BtnBulb4.SetOff (); this.Btn4State = false;}
+    if (Res.Bombillo5 === 1) {this.BtnBulb5.SetOn (); this.Btn5State = true;} else {this.BtnBulb5.SetOff (); this.Btn5State = false;}
 }
 
 LuzCtrl.prototype.Btn1Event = function ()
@@ -348,13 +336,13 @@ LuzCtrl.prototype.Btn1Event = function ()
     {
         this.BtnBulb1.SetOn ();
         this.Btn1State = true;
-        new Gwt.Core.Request('/bombillosctrl/1/on', function (Res){console.log(Res);}, null, Gwt.Core.REQUEST_METHOD_GET);
+        new Gwt.Core.Request('/bombillosctrl/1', function (Res){console.log(Res);}, null, Gwt.Core.REQUEST_METHOD_GET);
     }
     else
     {
         this.BtnBulb1.SetOff ();
         this.Btn1State = false;
-        new Gwt.Core.Request('/bombillosctrl/1/off', function (Res){console.log(Res);}, null, Gwt.Core.REQUEST_METHOD_GET);
+        new Gwt.Core.Request('/bombillosctrl/1', function (Res){console.log(Res);}, null, Gwt.Core.REQUEST_METHOD_GET);
     }
 }
 
@@ -364,13 +352,13 @@ LuzCtrl.prototype.Btn2Event = function ()
     {
         this.BtnBulb2.SetOn ();
         this.Btn2State = true;
-        new Gwt.Core.Request('/bombillosctrl/2/on', function (Res){console.log(Res);}, null, Gwt.Core.REQUEST_METHOD_GET);
+        new Gwt.Core.Request('/bombillosctrl/2', function (Res){console.log(Res);}, null, Gwt.Core.REQUEST_METHOD_GET);
     }
     else
     {
         this.BtnBulb2.SetOff ();
         this.Btn2State = false;
-        new Gwt.Core.Request('/bombillosctrl/2/off', function (Res){console.log(Res);}, null, Gwt.Core.REQUEST_METHOD_GET);
+        new Gwt.Core.Request('/bombillosctrl/2', function (Res){console.log(Res);}, null, Gwt.Core.REQUEST_METHOD_GET);
     }
 }
 
@@ -380,13 +368,13 @@ LuzCtrl.prototype.Btn3Event = function ()
     {
         this.BtnBulb3.SetOn ();
         this.Btn3State = true;
-        new Gwt.Core.Request('/bombillosctrl/3/on', function (Res){console.log(Res);}, null, Gwt.Core.REQUEST_METHOD_GET);
+        new Gwt.Core.Request('/bombillosctrl/3', function (Res){console.log(Res);}, null, Gwt.Core.REQUEST_METHOD_GET);
     }
     else
     {
         this.BtnBulb3.SetOff ();
         this.Btn3State = false;
-        new Gwt.Core.Request('/bombillosctrl/3/off', function (Res){console.log(Res);}, null, Gwt.Core.REQUEST_METHOD_GET);
+        new Gwt.Core.Request('/bombillosctrl/3', function (Res){console.log(Res);}, null, Gwt.Core.REQUEST_METHOD_GET);
     }
 }
 
@@ -396,13 +384,13 @@ LuzCtrl.prototype.Btn4Event = function ()
     {
         this.BtnBulb4.SetOn ();
         this.Btn4State = true;
-        new Gwt.Core.Request('/bombillosctrl/4/on', function (Res){console.log(Res);}, null, Gwt.Core.REQUEST_METHOD_GET);
+        new Gwt.Core.Request('/bombillosctrl/4', function (Res){console.log(Res);}, null, Gwt.Core.REQUEST_METHOD_GET);
     }
     else
     {
         this.BtnBulb4.SetOff ();
         this.Btn4State = false;
-        new Gwt.Core.Request('/bombillosctrl/4/off', function (Res){console.log(Res);}, null, Gwt.Core.REQUEST_METHOD_GET);
+        new Gwt.Core.Request('/bombillosctrl/4', function (Res){console.log(Res);}, null, Gwt.Core.REQUEST_METHOD_GET);
     }
 }
 
@@ -412,13 +400,13 @@ LuzCtrl.prototype.Btn5Event = function ()
     {
         this.BtnBulb5.SetOn ();
         this.Btn5State = true;
-        new Gwt.Core.Request('/bombillosctrl/5/on', function (Res){console.log(Res);}, null, Gwt.Core.REQUEST_METHOD_GET);
+        new Gwt.Core.Request('/bombillosctrl/5', function (Res){console.log(Res);}, null, Gwt.Core.REQUEST_METHOD_GET);
     }
     else
     {
         this.BtnBulb5.SetOff ();
         this.Btn5State = false;
-        new Gwt.Core.Request('/bombillosctrl/5/off', function (Res){console.log(Res);}, null, Gwt.Core.REQUEST_METHOD_GET);
+        new Gwt.Core.Request('/bombillosctrl/5', function (Res){console.log(Res);}, null, Gwt.Core.REQUEST_METHOD_GET);
     }
 }
 
@@ -568,7 +556,7 @@ domotictrl.prototype.constructor = domotictrl;
 
 domotictrl.prototype._app = function ()
 {
-    
+    clearInterval (window.LuzCtrlMonitor);
 }
 
 domotictrl.prototype.EventVentilador = function ()

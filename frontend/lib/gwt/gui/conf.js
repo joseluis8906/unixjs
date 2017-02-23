@@ -180,32 +180,32 @@ Gwt.Gui.Contrib.Color = function (Arg1, Arg2, Arg3, Arg4)
 		this.Blue = Arg3;
 		this.Alpha = Arg4;
 	}
-}
+};
 
 Gwt.Gui.Contrib.Color.prototype.ToString = function ()
 {
 	return "rgba("+this.Red+","+this.Green+","+this.Blue+","+this.Alpha+")";
-}
+};
 
 Gwt.Gui.Contrib.Color.prototype.SetRed = function (Arg1)
 {
 	this.Red = Arg1;
-}
+};
 
 Gwt.Gui.Contrib.Color.prototype.SetGreen = function (Arg1)
 {
 	this.Green = Arg1;
-}
+};
 
 Gwt.Gui.Contrib.Color.prototype.SetBlue = function (Arg1)
 {
 	this.Blue = Arg1;
-}
+};
 
 Gwt.Gui.Contrib.Color.prototype.SetAlpha = function (Arg1)
 {
 	this.Alpha = Arg1;
-}
+};
 
 Gwt.Gui.Contrib.Colors =
 {
@@ -322,8 +322,8 @@ Gwt.Gui.Contrib.Colors =
 	White : [255,255,255,1],
 	WhiteSmoke: [245,245,245,1],
 	Yellow: [255,255,0,1],
-	YellowGreen: [154,205,50,1],
-}
+	YellowGreen: [154,205,50,1]
+};
 
 //Gwt Border Styles
 Gwt.Gui.Contrib.BorderStyle =
@@ -340,7 +340,7 @@ Gwt.Gui.Contrib.BorderStyle =
 	Outset: "outset",
 	Initial: "initial",
 	Inherit: "inherit"
-}
+};
 
 //Gwt position type
 Gwt.Gui.Contrib.PositionType =
@@ -349,7 +349,7 @@ Gwt.Gui.Contrib.PositionType =
 	Relative: "relative",
 	Fixed: "fixed",
 	Absolute: "absolute"
-}
+};
 
 //Gwt Display
 Gwt.Gui.Contrib.Display =
@@ -374,7 +374,7 @@ Gwt.Gui.Contrib.Display =
 	None: "none",
 	Initial: "initial",
 	Inherit: "inherit"
-}
+};
 
 //Gwt Overflow
 Gwt.Gui.Contrib.Overflow =
@@ -385,7 +385,7 @@ Gwt.Gui.Contrib.Overflow =
 	Auto: "auto",
 	Initial: "initial",
 	Inherit: "inherit"
-}
+};
 
 //Gwt Valign
 Gwt.Gui.Contrib.Valign =
@@ -402,7 +402,7 @@ Gwt.Gui.Contrib.Valign =
 	TextBottom: "text-bottom",
 	Initial: "initial",
 	Inherit: "inherit"
-}
+};
 
 //Gwt Cursor
 Gwt.Gui.Contrib.Cursor =
@@ -446,7 +446,7 @@ Gwt.Gui.Contrib.Cursor =
 	ZoomOut: "zoom-out",
 	Initial: "initial",
 	Inherit: "inherit"
-}
+};
 
 //Gwt Font Weight
 Gwt.Gui.Contrib.FontWeight =
@@ -457,7 +457,7 @@ Gwt.Gui.Contrib.FontWeight =
 	Lighter: "lighter",
 	Initial: "initial",
 	Inherit: "inherit"
-}
+};
 
 // Gwt User Select
 Gwt.Gui.Contrib.UserSelect =
@@ -465,7 +465,7 @@ Gwt.Gui.Contrib.UserSelect =
 	None: "none",
 	Text: "text",
 	All: "all"
-}
+};
 
 //Gwt Text Alignment
 Gwt.Gui.Contrib.TextAlign =
@@ -476,7 +476,7 @@ Gwt.Gui.Contrib.TextAlign =
 	Justify: "justify",
 	Initial: "initial",
 	Inherit: "inherit"
-}
+};
 
 //Gwt Backgroud Attachment
 Gwt.Gui.Contrib.BackgroundAttachment =
@@ -486,7 +486,7 @@ Gwt.Gui.Contrib.BackgroundAttachment =
 	Local: "local",
 	Initial: "initial",
 	Inherit: "inherit"
-}
+};
 
 //Gwt Background Clip
 Gwt.Gui.Contrib.BackgroundClip =
@@ -496,7 +496,7 @@ Gwt.Gui.Contrib.BackgroundClip =
 	ContentBox: "content-box",
 	Initial: "initial",
 	Inherit: "inherit"
-}
+};
 
 //Gwt Background Repeat
 Gwt.Gui.Contrib.BackgroundRepeat =
@@ -507,7 +507,7 @@ Gwt.Gui.Contrib.BackgroundRepeat =
 	NoRepeat: "no-repeat",
 	Initial: "initial",
 	Inherit: "inherit"
-}
+};
 
 //Gwt Background Size
 Gwt.Gui.Contrib.BackgroundSize =
@@ -518,7 +518,7 @@ Gwt.Gui.Contrib.BackgroundSize =
 	Contain: "contain",
 	Initial: "initial",
 	Inherit: "inherit"
-}
+};
 
 //Gwt Background Position
 Gwt.Gui.Contrib.BackgroundPosition =
@@ -528,7 +528,7 @@ Gwt.Gui.Contrib.BackgroundPosition =
 	Top: "top",
 	Bottom: "bottom",
 	Center: "center"
-}
+};
 
 // Gwt OutLine
 Gwt.Gui.Contrib.OutLine =
@@ -543,6 +543,6 @@ Gwt.Gui.Contrib.OutLine =
 	Outset: "outset",
 	None: "none",
 	Hidden: "hidden"
-}
+};
 //###########################################################################################################
 

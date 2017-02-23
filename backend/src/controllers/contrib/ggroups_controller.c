@@ -5,10 +5,16 @@
  */
 
 #include "ggroups_controller.h"
+#include "auth_controller.h"
 #include "../../models/contrib/auth_group_model.h"
 
 int GgroupsControllerSave (struct HttpRequest *Req)
 {
+    if (AuthControllerVerifySession(Req) == KORE_RESULT_ERROR)
+    {
+        return (KORE_RESULT_OK);
+    }
+    
     char *Data = NULL;
     
     if (VerifyRequest (Req, &Data, FORM_JSON) == KORE_RESULT_ERROR)

@@ -30,6 +30,7 @@ Gwt.Gui.KnobThreeLevels.prototype._KnobThreeLevels = function ()
     this.Resource = null;
     this.Knob = null;
     this.Level = null;
+    this.Events = null;
     
     this._Frame ();
 }

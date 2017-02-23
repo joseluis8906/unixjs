@@ -64,8 +64,6 @@ Gwt.Core.Request.prototype.SendMultipartFormData =  function ()
 {
     var Boundary = "---------------------------" + Date.now().toString(16);
     this.XHR.setRequestHeader("Content-Type", "multipart\/form-data; boundary=" + Boundary);
-    //this.XHR.setRequestHeader("document_type", this.Data.document_type.toString ());
-    //this.XHR.setRequestHeader("document", this.Data.document.toString ());
 	
     var Multipart = [];
     var ContentDisposition = "";
@@ -90,7 +88,7 @@ Gwt.Core.Request.prototype.SendMultipartFormData =  function ()
     Multipart.push ("\r\n--"+Boundary+"--");
     
     var RawData = Multipart.join ("");
-
+    
     this.XHR.setRequestHeader("Content-Length", RawData.length);
 	
     var NBytes = RawData.length, Uint8Data = new Uint8Array(NBytes);

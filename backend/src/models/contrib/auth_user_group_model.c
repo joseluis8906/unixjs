@@ -140,7 +140,8 @@ struct FuncResult  AuthUserGroupModelInsert (const struct AuthUserGroupModelArra
         int i = 0;
         for (i = 0; i < Models->Length; i++)
         {
-            Stm = Connection_prepareStatement (Conn, "INSERT INTO \"AuthUserGroup\"(\"UserId\", \"GroupId\") SELECT  \"AuthUser\".\"Id\" AS \"UserId\", \"AutGroup\".\"Id\" AS \"GroupId\" FROM \"AuthUser\" INNER JOIN \"AuthGroup\" ON \"AuthUser\".\"Name\"=? AND \"AuthGroup\".\"Name\"=? LIMIT 1;");
+            
+            Stm = Connection_prepareStatement (Conn, "INSERT INTO \"AuthUserGroup\"(\"UserId\", \"GroupId\") SELECT \"AuthUser\".\"Id\" AS \"UserId\", \"AuthGroup\".\"Id\" AS \"GroupId\" FROM \"AuthUser\" INNER JOIN \"AuthGroup\" ON \"AuthUser\".\"UserName\"=? AND \"AuthGroup\".\"Name\"=? LIMIT 1;");
             PreparedStatement_setString (Stm, 1, Models->At[i].User.UserName);
             PreparedStatement_setString (Stm, 2, Models->At[i].Group.Name);
             
@@ -152,7 +153,7 @@ struct FuncResult  AuthUserGroupModelInsert (const struct AuthUserGroupModelArra
         Connection_close (Conn);
     
         S.Result = KORE_RESULT_OK;
-        strcpy (S.Msg, "Users inserted");
+        strcpy (S.Msg, "UsersGroups inserted");
         
     }
     CATCH (SQLException)

@@ -18,6 +18,7 @@ function gcontrol ()
     this.Layout.SetSize (this.GetAvailableWidth(), this.GetAvailableHeight());
     this.SetLayout (this.Layout);
     
+    this.Row1.SetAlignment (Gwt.Gui.ALIGN_TOP);
     this.Layout.Add (this.Row1);
     
     new Gwt.Core.Request ("/backend/approles/", this.LoadAppRoles.bind(this), null, Gwt.Core.REQUEST_METHOD_GET);

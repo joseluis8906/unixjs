@@ -9,31 +9,24 @@ function record_widget (Width, Heigth)
     this.SetClassName ("record_widget");
     
     this.code = new Gwt.Gui.Entry ("Código");
+    this.code.SetExpand (false);
+    this.code.SetWidth (120);
     this.name = new Gwt.Gui.StaticText ("Nombre");
+    this.name.SetExpand (false);
+    this.name.SetWidth (this.GetWidth() - 480);
+    this.name.SetValign (Gwt.Gui.Contrib.Valign.Middle);
     this.partial = new Gwt.Gui.Entry ("Parcial");
     this.partial.SetExpand (false);
-    this.partial.SetWidth (110);
+    this.partial.SetWidth (120);
     this.partial.ChangeToMonetary();
     this.debit = new Gwt.Gui.Entry ("Debe");
     this.debit.SetExpand (false);
-    this.debit.SetWidth (110);
+    this.debit.SetWidth (120);
     this.debit.ChangeToMonetary();
     this.credit = new Gwt.Gui.Entry ("Haber");
     this.credit.SetExpand (false);
-    this.credit.SetWidth (110);
+    this.credit.SetWidth (120);
     this.credit.ChangeToMonetary();
-    
-    //this.col1 = new Gwt.Gui.VBox (0);
-    //this.col2 = new Gwt.Gui.VBox (0);
-    //this.col3 = new Gwt.Gui.VBox (0);
-    //this.col4 = new Gwt.Gui.VBox (0);
-    //this.col5 = new Gwt.Gui.VBox (0);
-        
-    //this.Add (this.col1);
-    //this.Add (this.col2);
-    //this.Add (this.col3);
-    //this.Add (this.col4);
-    //this.Add (this.col5);
         
     this.Add (this.code);
     this.Add (this.name);
@@ -54,22 +47,12 @@ record_widget.prototype._record_widget = function ()
     this.partial._Entry();
     this.debit._Entry();
     this.credit._Entry();
-    this.col1._VBox();
-    this.col2._VBox();
-    this.col3._VBox();
-    this.col4._VBox();
-    this.col5._VBox();
-    
+        
     this.code = null;    
     this.name = null;    
     this.partial = null;
     this.debit = null;
     this.credit = null;
-    this.col1 = null;
-    this.col2 = null;
-    this.col3 = null;
-    this.col4 = null;
-    this.col5 = null;
 }
     
 record_widget.prototype.Reset = function ()
@@ -140,6 +123,7 @@ function cedeg()
     this.concept = new Gwt.Gui.Text ("Concepto");
     this.records = [];
     this.update = false;
+    this.Report = null;
         
     this.layout.Add (this.slider);
         
@@ -189,6 +173,7 @@ cedeg.prototype._App = function ()
     this.checking_account._Entry ();
     this.concept._Text ();
     this.slider._Slider ();
+    this.Report === null ? 0 : this.Report.close ();
     
     this.number = null;
     this.place = null;
@@ -210,7 +195,8 @@ cedeg.prototype._App = function ()
     
     this.layout._VBox ();
     this.layout = null;
-}
+    this.Report = null;
+};
 
 cedeg.prototype.Guardar = function ()
 {
@@ -233,7 +219,7 @@ cedeg.prototype.Guardar = function ()
         {
             "Number": this.number.GetText (),
             "Place": this.place.GetText (),
-            "Date": this.date.GetDate (),
+            "Date": this.date.GetText (),
             "Holder": this.holder.GetText (),
             "Amount": this.amount.GetText (),
             "Bank": this.bank.GetText (),
@@ -244,17 +230,13 @@ cedeg.prototype.Guardar = function ()
         }
     ];
     
-    new Gwt.Core.Request("/backend/cedeg/save/", function(response){console.log(response);}, [new Gwt.Core.Parameter(Gwt.Core.PARAM_TYPE_JSON, "Params", Data)]);
-    
-    window.open("/share/documents/cedeg.html?number=%0".replace("%0", this.number.GetText()));
-    
-    this.Reset ();
-}
+    new Gwt.Core.Request("/backend/cedeg/save/", this.SaveResponse.bind (this), [new Gwt.Core.Parameter(Gwt.Core.PARAM_TYPE_JSON, "Params", Data)]);
+};
 
 cedeg.prototype.Eliminar = function ()
 {
     
-}
+};
 
 cedeg.prototype.Reset = function ()
 {
@@ -272,7 +254,7 @@ cedeg.prototype.Reset = function ()
     {
         this.records[i].Reset ();
     }
-}
+};
 
 cedeg.prototype.CheckNumber = function (Event)
 {
@@ -283,12 +265,66 @@ cedeg.prototype.CheckNumber = function (Event)
             new Gwt.Core.Request("/backend/cedeg/nextnumber/", this.NextNumber.bind(this), null, Gwt.Core.REQUEST_METHOD_GET);
         }
     }
-}
+};
+
 
 cedeg.prototype.NextNumber = function (Res)
 {
     this.number.SetText(Res.Data.Number);
-}
+};
+
+
+cedeg.prototype.SaveResponse = function (Res)
+{
+    if (Res.Result === 1)
+    {
+        this.Report = Gwt.Core.Contrib.LoadDocument ("/share/documents/cedeg.html");
+        this.Report.addEventListener ("load", this.ReportLoad.bind (this));
+    }
+};
+
+
+cedeg.prototype.ReportLoad = function ()
+{
+    var doc = this.Report.contentWindow.document;
+    doc.getElementById ("Number").textContent = this.number.GetText();
+    doc.getElementById ("Place").textContent = this.place.GetText()+", "+this.date.GetText ();
+    doc.getElementById ("Holder").textContent = this.holder.GetText ();
+    doc.getElementById ("AmountHuman").textContent = Gwt.Core.Contrib.NumberToHumanReadable (this.amount.GetText())+"PESOS MTE";
+    doc.getElementById ("Bank").textContent = this.bank.GetText ();
+    doc.getElementById ("Check").textContent = this.check.GetText ();
+    doc.getElementById ("CheckingAccount").textContent = this.checking_account.GetText ();
+    doc.getElementById ("Concept").textContent = this.concept.GetText ();
+    doc.getElementById ("Amount").textContent = this.amount.GetText ();
+    
+    var Records = [];
+    for (var i=0; i < this.records.length; i++)
+    {
+        if (this.records[i].code.GetText() !== "")
+        {
+            Records.push({
+                "Code": this.records[i].code.GetText (),
+                "Name": this.records[i].name.GetText (),
+                "Partial": this.records[i].partial.GetText (),
+                "Debit": this.records[i].debit.GetText (),
+                "Credit": this.records[i].credit.GetText()
+            });
+        }
+    }
+    
+    for (var i=0; i < Records.length; i++)
+    {
+        doc.getElementById ("Code"+i).textContent = Records[i].Code;
+        doc.getElementById ("Name"+i).textContent = Records[i].Name;
+        doc.getElementById ("Partial"+i).textContent = Records[i].Partial;
+        doc.getElementById ("Debit"+i).textContent = Records[i].Debit;
+        doc.getElementById ("Credit"+i).textContent = Records[i].Credit;
+    }
+    
+    doc = undefined;
+    this.Report = null;
+};
+
 
 return new function ()
 {

@@ -1,29 +1,204 @@
-<html style="overflow: auto">
+<html>
   <head>
-    <title></title>
-    <meta charset="utf-8"></meta>
-	<link rel="stylesheet" type="text/css" href="/share/css/reset.css"></link>
-	
-	<script> 
-	function getTextWidth(text, font) 
-	{
-        // re-use canvas object for better performance
-        var canvas = getTextWidth.canvas || (getTextWidth.canvas =              document.createElement("canvas"));
-        var context = canvas.getContext("2d");
-        context.font = font;
-        var metrics = context.measureText(text);
-        return metrics.width;
-    } 
-    </script>
-	
+    <meta content="text/html; charset=UTF-8" http-equiv="content-type">
+    <link rel="stylesheet" type="text/css" href="/share/css/reset.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <style>
+        
+        @page
+        {
+            size: letter portrait;
+            margin: 0mm 0mm 0mm 0mm;
+            padding: 0mm 0mm 0mm 0mm;
+        }
+        h1
+        {
+            font-size: 20pt;
+            font-family: Calibri;
+        }
+        html
+        {
+            background-color: darkslategray;
+            overflow: scroll;
+        }
+      
+        body 
+        {
+            margin: auto;
+            font-family: Calibri;
+            background-color: white;
+            width: 215.9mm;
+            height: 279.4mm;
+            overflow: hidden;
+        }
+      
+        .Encabezado
+        {
+            height: 42mm;
+            /*border: black 1px solid;*/
+            margin: 5mm 5mm 0mm 5mm;
+            overflow: hidden;
+        }
+      
+        .Inf
+        {
+            height: 28mm;
+            overflow: hidden;
+            border: black 1px solid;
+            margin: 0mm 5mm 0mm 5mm;
+        }
+      
+        .Records
+        {
+            height: 148mm;
+            overflow: hidden;
+            border: black 1px solid;
+            margin: 2mm 5mm 0mm 5mm;
+        }
+      
+        .Paguese
+        {
+            height: 20mm;
+            border: black 1px solid;
+            margin: 2mm 5mm 0mm 5mm;
+        }
+      
+        .Recibi
+        {
+            height: 20mm;
+            border: black 1px solid;
+            margin: 2mm 5mm 0mm 5mm;
+        }
+        
+        .Label
+        {
+            font-family: Calibri;
+            font-size: 12pt;
+            display: inline-block;
+            margin: 0.5mm 1mm 0mm 1mm;
+        }
+        
+        .Entry
+        {
+            font-family: Calibri;
+            font-size: 12pt;
+            display: inline-block;
+            margin: 0.5mm 1mm 0mm 1mm;
+        }
+        p{
+            margin: 0;
+            padding: 0;
+            outline: 0;
+        }
+      
+    </style>
+    <title>Cedeg</title>
   </head>
-  <body style="background-color: white; width: auto; height: auto; overflow: auto; max-height: auto; max-width: auto;">
-  
-  <object id="cedeg" type="text/svg+xml" data="cedeg.svg" width="816" height="1056">
-   
-        <param name="src" value="cedeg.svg">
-  
-  </object>
+  <body>
+      
+    <div class="Encabezado"> 
+        <img alt="logo" src="../images/system/encabezadoCdi.png"  style="width: 192mm; height: 34mm;"> 
+        <h2 style="font-family: Calibri; margin: 2mm 0mm 0mm 68mm; display: inline-block;">COMPROBANTE DE EGRESO &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp Nº</h2>
+        <div id="Number" style="font-family: TimesNewRomanBold; font-size: 20pt; display: inline-block; color: red; width: 30.353mm; 
+            height: 8.358mm; border: 1px black solid;text-align: center; margin: 0mm 0 0 0;float:right;">0532</div>
+    </div>
+      
+      
+      
+    <div class="Inf" style="">
+        <div style="width: 100%; height: 20mm;">
+            <span class="Label" >Lugar Y Fecha:</span><span id="Place" class="Entry">Default</span><br>
+            <span class="Label" >A Favor De:</span><span id="Holder" class="Entry">Default</span><br>
+            <span class="Label" >La Suma De:</span><span id="AmountHuman" class="Entry">Default</span><br>
+        </div>      
+        <div style="display: table; width: 100%; border-top: 1px solid black; margin: 3mm 0 0 0;">
+            <div style="display: table-row; height: 6mm; hidden: overflow;">
+                <div style="display: table-cell; width: 33.33%"><span class="Label" >Banco:</span><span id="Bank" class="Entry">Default</span></div>
+                <div style="display: table-cell; width: 33.33%;border-left: 1px solid black;"><span class="Label" >Cheque:</span><span id="Check" class="Entry">Default</span></div>
+                <div style="display: table-cell; border-left: 1px solid black;"><span class="Label" >Cta Corriente:</span><span id="CheckingAccount" class="Entry">Default</span></div>
+            </div>
+        </div>
+    </div>
+    
+    
+    
+    <div class="Records" >
+
+        <div style="display: table; width: 100%;  overflow: hidden; border-bottom: 1px solid black;">
+            <div style="display: table-row; height: 5.5mm;">
+                <div style="display: table-cell; width: 75%; text-align: center; border-bottom: 1px solid black; vertical-align: middle;"><span class="Label" >Concepto</span></div>
+                <div style="display: table-cell; text-align: center; border-left: 1px solid black; border-bottom: 1px solid black; vertical-align: middle;"><span class="Label" >Valor</span></div>
+            </div>
+          
+              
+            <div style="display: table-row; height: 13mm; overflow: hidden">
+                <div style="display: table-cell; width: 75%; height: 100%; text-align: justify; vertical-align: top"><p id="Concept" class="Entry" style="width: 98.5%; height: 91%; font-size: 11pt;">Default</p></div>
+                <div style="display: table-cell; text-align: center; vertical-align: middle; border-left: 1px solid black;"><span id="Amount" class="Entry">Default</span></div>
+            </div>              
+        </div>
+          
+        <div style="display: table; width: 100%; height: 5.5mm; overflow: hidden; border-bottom: 1px solid black;">
+            <div style="display: table-row">
+                <div style="display: table-cell; text-align: center;"><span class="Label">CODIGOS CONTABLES</span></div>
+            </div>
+        </div>
+          
+        <div style="display: table; width: 100%; height: 5.5mm; overflow: hidden">
+            <div style="display: table-row">
+                <div style="display: table-cell; text-align: center; width: 33mm; height: 5.5mm; overflow: hidden;"><span class="Label">CODIGO</span></div>
+                <div style="display: table-cell; text-align: center; height: 5.5mm; overflow: hidden; border-left: 1px black solid;"><span class="Label">NOMBRE DE LA CUENTA</span></div>
+                <div style="display: table-cell; text-align: center; width: 33mm; height: 5.5mm; overflow: hidden; border-left: 1px black solid;"><span class="Label">PARCIAL</span></div>
+                <div style="display: table-cell; text-align: center; width: 33mm; height: 5.5mm; overflow: hidden; border-left: 1px black solid;"><span class="Label">DEBE</span></div>
+                <div style="display: table-cell; text-align: center; width: 33mm; height: 5.5mm; overflow: hidden; border-left: 1px black solid;"><span class="Label">HABER</span></div>
+            </div>
+        </div>
+        
+        <script type='text/javascript'>
+            for (var i=0; i<20; i++)
+            {
+                document.writeln('\
+                        <div style="display: table; width: 100%; height: 5mm; overflow: hidden; border-top: 1px solid black;">\
+                            <div style="display: table-row">\
+                                <div style="display: table-cell; text-align: right; width: 33mm; height: 5.5mm; overflow: hidden;"><span id="%s0" class="Entry" style="height: 5mm; overflow: hidden; font-size: 11pt;">Default</span></div>\
+                                <div style="display: table-cell; text-align: left; height: 5mm; overflow: hidden; border-left: 1px black solid;"><span id="%s1" class="Entry" style="height: 5mm; overflow: hidden; font-size: 11pt;">Default</span></div>\
+                                <div style="display: table-cell; text-align: right; width: 33mm; height: 5mm; overflow: hidden; border-left: 1px black solid;"><span id="%s2" class="Entry" style="height: 5mm; overflow: hidden; font-size: 11pt;">Default</div>\
+                                <div style="display: table-cell; text-align: right; width: 33mm; height: 5mm; overflow: hidden; border-left: 1px black solid;"><span id="%s3" class="Entry" style="height: 5mm; overflow: hidden; font-size: 11pt;">Default</span></div>\
+                                <div style="display: table-cell; text-align: right; width: 33mm; height: 5mm; overflow: hidden; border-left: 1px black solid;"><span id="%s4" class="Entry" style="height: 5mm; overflow: hidden; font-size: 11pt;">Default</span></div>\
+                            </div>\
+                        </div>\
+                '.replace("%s0", "Code"+i).replace ("%s1", "Name"+i).replace("%s2", "Partial"+i).replace("%s3", "Debit"+i).replace("%s4", "Credit"+i));
+            }
+        </script>
+    </div>
+    
+      
+      
+    <div class="Paguese">
+        <div style="width: 100%; height: 13mm;">
+            <span class="Label">PAGUESE</span>
+        </div>
+        
+        <div style="display: table; width: 100%;">
+            <div style="display: table-row; height: 6mm; hidden: overflow;">
+                <div style="display: table-cell; width: 40%; text-align: center;"><span class="Label" style="border-top: 1px solid black; width: 70%">REPRESENTANTE LEGAL</span></div>
+                <div style="display: table-cell; width: 40%; text-align: center; margin: 0mm 0mm 0mm 5%"><span class="Label" style="border-top: 1px solid black; width: 70%">TESORERO</span></div>
+            </div>
+        </div>
+    </div>
+    
+    
+    
+      <div class="Recibi">
+           <div style="width: 100%; height: 14mm;">
+            <span class="Label">RECIBÍ</span>
+        </div>
+        
+        <div style="display: table; width: 100%;">
+            <div style="display: table-row; height: 6mm; hidden: overflow;">
+                <div style="display: table-cell; width: 100%;"><span class="Label" style="border-top: 1px solid black; width: 100%; margin: 0;">C.C</span></div>
+            </div>
+        </div>
+      </div>
 
   </body>
 </html>

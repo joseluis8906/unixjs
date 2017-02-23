@@ -1,4 +1,5 @@
 #include "gusers_controller.h"
+#include "auth_controller.h"
 #include "../../models/contrib/auth_user_model.h"
 #include "../../models/contrib/media_model.h"
 #include "../../upload_file.h"
@@ -6,6 +7,11 @@
 //gusers save
 int GusersControllerSave (struct HttpRequest *Req)
 {
+    if (AuthControllerVerifySession(Req) == KORE_RESULT_ERROR)
+    {
+        return (KORE_RESULT_OK);
+    }
+    
     char *Data = NULL;
       
     if (VerifyRequest (Req, &Data, FORM_MULTIPART) == KORE_RESULT_ERROR)

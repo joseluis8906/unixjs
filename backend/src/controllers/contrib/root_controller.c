@@ -5,8 +5,6 @@
 //home
 int Home (struct HttpRequest *Req)
 {
-    //sql_state r = init_database_system ();
-    //kore_log (LOG_INFO, "%s", r.msg);
     HttpResponseJsonMsg(Req, KORE_RESULT_OK, "Hello World!");
     return (KORE_RESULT_OK);
 }
@@ -28,7 +26,7 @@ int Test (struct HttpRequest *Req)
 
 //approles
 int AppRoles (struct HttpRequest *Req)
-{
+{   
     struct FuncResult Ret;
     char UserName[64];
     

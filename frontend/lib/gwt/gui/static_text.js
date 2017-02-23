@@ -8,11 +8,12 @@ Gwt.Gui.StaticText = function (Text)
     this.Text = Text || "Default Text";
 
     //init
+    this.SetHtml ("p");
     this.SetClassName ("Gwt_Gui_Static_Text");
     this.SetText (this.Text);
     this.SetExpand (true);
     this.SetFontSize (11);
-    this.SetHeight (22);
+    this.SetHeight (24);
     //this.SetPaddingTop (2);
     this.SetColor (new Gwt.Gui.Contrib.Color (Gwt.Gui.Contrib.Colors.Azure));
     //this.SetTextShadow (0, 0, 1, new Gwt.Gui.Contrib.Color (Gwt.Gui.Contrib.Colors.DarkSlateGray));

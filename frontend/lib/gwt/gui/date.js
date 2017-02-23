@@ -74,7 +74,7 @@ Gwt.Gui.Date.prototype._Date = function (placeholder)
     this._Frame ();
 }
 
-Gwt.Gui.Date.prototype.GetDate = function ()
+Gwt.Gui.Date.prototype.GetText = function ()
 {
     return "%Y-%M-%D".replace ("%Y", this.year.GetText ()).replace ("%M", this.month.GetText ()).replace ("%D", this.day.GetText ());
 }

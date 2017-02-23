@@ -5,10 +5,16 @@
  */
 
 #include "cuentas_controller.h"
+#include "../contrib/auth_controller.h"
 #include "../../models/accounting/accounting_account_model.h"
 
 int CuentasControllerSelect (struct HttpRequest *Req)
 {
+    if (AuthControllerVerifySession(Req) == KORE_RESULT_ERROR)
+    {
+        return (KORE_RESULT_OK);
+    }
+    
     struct FuncResult Ret;
     char Code[16];
     
@@ -54,6 +60,11 @@ int CuentasControllerSelect (struct HttpRequest *Req)
 
 int CuentasControllerSave (struct HttpRequest *Req)
 {
+    if (AuthControllerVerifySession(Req) == KORE_RESULT_ERROR)
+    {
+        return (KORE_RESULT_OK);
+    }
+    
     char *Data = NULL;
     
     if (VerifyRequest (Req, &Data, FORM_JSON) == KORE_RESULT_ERROR)

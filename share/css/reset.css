@@ -1,22 +1,27 @@
 @font-face
 {
     font-family: Cantarell;
-    src: url("/share/fonts/Cantarell-Regular.woff");  
+    src: url("/share/fonts/Cantarell-Regular.ttf");  
 }
 @font-face
 {
     font-family: Calibri;
-    src: url("/share/fonts/Calibri.woff");
+    src: url("/share/fonts/Calibri.ttf");
 }
 @font-face
 {
     font-family: CalibriBold;
-    src: url("/share/fonts/Calibri-Bold.woff");
+    src: url("/share/fonts/Calibri-Bold.ttf");
 }
 @font-face
 {
     font-family: ComicSansMsBold;
-    src: url("/share/fonts/Comic-Sans-Ms-Bold.woff");
+    src: url("/share/fonts/Comic-Sans-Ms-Bold.ttf");
+}
+@font-face
+{
+    font-family: TimesNewRomanBold;
+    src: url("/share/fonts/timesbd.ttf");
 }
 html, body, div, span, applet, object, iframe, h1, 
 h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, 
@@ -129,24 +134,24 @@ optgroup
 }
 select option
 {
-	padding: none;
-	margin: none;
-	background: transparent;
+    padding: none;
+    margin: none;
+    background: transparent;
 }
 html
 {
-	width:100%;
-	height: 100%
+    width:100%;
+    height: 100%;
 }
 body *
 {
-	margin: 0;
-	padding: 0
+    margin: 0;
+    padding: 0;
 }
 body
 {
-	width: 100%;
-	height: 100%;
+    width: 100%;
+    height: 100%;
 }
 input[type=range], input[type=range]:focus, input[type=range]:active, input[type=range]:hover {
     outline: none;
@@ -169,11 +174,4 @@ input[type=range], input[type=range]:focus, input[type=range]:active, input[type
 select{
     -webkit-appearance: none;
     -moz-appearance: none;
-}
-
-@page
-{
-    size: letter portrait;
-    margin: 0mm 0mm 0mm 0mm;
-    padding: 0mm 0mm 0mm 0mm;
 }
