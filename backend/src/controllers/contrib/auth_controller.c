@@ -96,6 +96,18 @@ int AuthControllerStartSession (struct HttpRequest *Req, const char *UserName)
         return KORE_RESULT_ERROR;
     }
     
+    sprintf (Tmp, "EXPIRE SessionId:%s 300", SessionIdCrypt);
+    int64_t  IResult;
+    if (RedisCommandInt (Tmp, &IResult) == KORE_RESULT_ERROR)
+    {
+        return KORE_RESULT_ERROR;
+    }
+    
+    if (IResult != 1)
+    {
+        return KORE_RESULT_ERROR;
+    }
+    
     sprintf (Tmp, "SessionId=%s; path=/; max-age=300", SessionIdCrypt);
     
     HttpResponseHeader (Req, "set-cookie", Tmp);
@@ -114,8 +126,21 @@ int AuthControllerRenueveSession (struct HttpRequest *Req)
         HttpResponseJsonMsg(Req, KORE_RESULT_ERROR, "Renueve Session Failed");
         return KORE_RESULT_OK;
     }
-       
+    
     char Tmp[256];
+    
+    sprintf (Tmp, "EXPIRE SessionId:%s 300", SessionId);
+    int64_t  IResult;
+    if (RedisCommandInt (Tmp, &IResult) == KORE_RESULT_ERROR)
+    {
+        return KORE_RESULT_ERROR;
+    }
+    
+    if (IResult != 1)
+    {
+        return KORE_RESULT_ERROR;
+    }
+    
     sprintf (Tmp, "SessionId=%s; path=/; max-age=300", SessionId);
     
     HttpResponseHeader (Req, "set-cookie", Tmp);
@@ -138,6 +163,7 @@ int AuthControllerTerminateSession (struct http_request *Req)
     }
     
     char Tmp[256];
+    
     sprintf (Tmp, "DEL SessionId:%s", SessionId);
     int64_t  Result;
     RedisCommandInt (Tmp, &Result);

@@ -94,7 +94,7 @@ function cedeg()
 {
     Gwt.Gui.Window.call (this, "Comprobante De Egreso");
           
-    this.SetSize (720, 460);
+    this.SetSize (840, 460);
     this.SetPosition (Gwt.Gui.WIN_POS_CENTER);
     this.SetBorderSpacing (12);
     
@@ -321,8 +321,18 @@ cedeg.prototype.ReportLoad = function ()
         doc.getElementById ("Credit"+i).textContent = Records[i].Credit;
     }
     
+    for (i; i < this.records.length; i++)
+    {
+        doc.getElementById ("Code"+i).textContent = "";
+        doc.getElementById ("Name"+i).textContent = "";
+        doc.getElementById ("Partial"+i).textContent = "";
+        doc.getElementById ("Debit"+i).textContent = "";
+        doc.getElementById ("Credit"+i).textContent = "";
+    }
+    
     doc = undefined;
     this.Report = null;
+    this.Reset ();
 };
 
 
@@ -332,8 +342,9 @@ return new function ()
     {
         if(instance === undefined)
         {
-            instance = new cedeg ();
+            instance = new cedeg();
             instance.Open ();
+            Gwt.Core.Contrib.SetActiveApp (window.cedeg);
         }
         else
         {
@@ -347,6 +358,7 @@ return new function ()
         {
             instance.Close();
             instance = undefined;
+            Gwt.Core.Contrib.RemoveActiveApp ();
         }
     }
 }

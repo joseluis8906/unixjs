@@ -39,27 +39,48 @@ gusersgroups.prototype.constructor = gusersgroups;
 
 gusersgroups.prototype._App = function ()
 {
-}
+    this.UserName._IconEntry();
+    this.GroupName._IconEntry();
+    this.Layout._VBox();
+    
+    this.UserName = null;
+    this.GroupName = null;
+    this.Layout = null;
+};
 
 gusersgroups.prototype.Buscar = function ()
 {
-}
+};
 
 gusersgroups.prototype.Guardar = function ()
 {
     var Params = [
         new Gwt.Core.Parameter(Gwt.Core.PARAM_TYPE_JSON, "Params", [{"User": this.UserName.GetText (), "Group": this.GroupName.GetText ()}])
     ];
-    new Gwt.Core.Request ("/backend/gusersgroups/save/", function(response){console.log(response)}, Params);
-}
+    new Gwt.Core.Request ("/backend/gusersgroups/save/", this.ResponseSave.bind (this), Params);
+};
 
 gusersgroups.prototype.Actualizar = function ()
 {
-}
+};
 
 gusersgroups.prototype.Eliminar = function ()
 {
-}
+};
+
+gusersgroups.prototype.ResponseSave = function (Res)
+{
+    if (Res.Result === 1)
+    {
+        this.Reset ();
+    }
+};
+
+gusersgroups.prototype.Reset = function ()
+{
+    this.UserName.SetText ("");
+    this.GroupName.SetText ("");
+};
 
 return new function ()
 {
@@ -69,6 +90,7 @@ return new function ()
         {
             instance = new gusersgroups ();
             instance.Open ();
+            Gwt.Core.Contrib.SetActiveApp (window.gusersgroups);
         }
         else
         {
@@ -82,6 +104,7 @@ return new function ()
         {
             instance.Close ();
             instance = undefined;
+            Gwt.Core.Contrib.RemoveActiveApp ();
         } 
     }
 }

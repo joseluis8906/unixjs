@@ -47,27 +47,54 @@ gapprole.prototype.constructor = gapprole;
 
 gapprole.prototype._App = function ()
 {
-}
+    this.Image._IconEntry ();
+    this.Label._IconEntry ();
+    this.Name._IconEntry ();
+    this.Group._IconEntry ();
+    this.Layout._VBox ();
+    
+    this.Image = null;
+    this.Label = null;
+    this.Name = null;
+    this.Group = null;
+    this.Layout = null;
+};
 
 gapprole.prototype.Buscar = function ()
 {
-}
+};
 
 gapprole.prototype.Guardar = function ()
 {
     var Params = [
         new Gwt.Core.Parameter(Gwt.Core.PARAM_TYPE_JSON, "Params", [{"Image": this.Image.GetText (), "Label": this.Label.GetText (), "Name": this.Name.GetText (), "Group": this.Group.GetText ()}])
     ];
-    new Gwt.Core.Request ("/backend/gapprole/save/", function(response){console.log(response)}, Params);
-}
+    new Gwt.Core.Request ("/backend/gapprole/save/", this.ResponseSave.bind(this), Params);
+};
 
 gapprole.prototype.Actualizar = function ()
 {
-}
+};
 
 gapprole.prototype.Eliminar = function ()
 {
-}
+};
+
+gapprole.prototype.ResponseSave = function (Res)
+{
+    if (Res.Result === 1)
+    {
+        this.Reset ();
+    }
+};
+
+gapprole.prototype.Reset = function ()
+{
+    this.Image.SetText ("");
+    this.Label.SetText ("");
+    this.Name.SetText ("");
+    this.Group.SetText ("");
+};
 
 return new function ()
 {
@@ -77,6 +104,7 @@ return new function ()
         {
             instance = new gapprole ();
             instance.Open ();
+            Gwt.Core.Contrib.SetActiveApp (window.gapprole);
         }
         else
         {
@@ -88,8 +116,9 @@ return new function ()
     {
         if (instance !== undefined)
         {
-            instance.Close ();
+            instance.Close();
             instance = undefined;
+            Gwt.Core.Contrib.RemoveActiveApp ();
         } 
     }
 }

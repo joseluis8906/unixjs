@@ -115,7 +115,7 @@ gusers.prototype.Guardar = function ()
         
     ];
     
-    new Gwt.Core.Request ("/backend/gusers/save/", function(response){console.log(response);}, Params);
+    new Gwt.Core.Request ("/backend/gusers/save/", this.ResponseSave.bind(this), Params);
 };
 
 gusers.prototype.Actualizar = function ()
@@ -128,6 +128,29 @@ gusers.prototype.Eliminar = function ()
     console.log ("Eliminar");
 };
 
+gusers.prototype.ResponseSave = function (Res)
+{
+    if (Res.Result === 1)
+    {
+        this.Reset ();
+    }
+};
+
+gusers.prototype.Reset = function ()
+{
+    this.Avatar.Reset ();
+    this.UserName.SetText ("");
+    this.Password.SetText ("");
+    this.DocType.SetText ("");
+    this.DocNum.SetText ("");
+    this.Country.SetText ("");
+    this.Name.SetText ("");
+    this.LastName.SetText ("");
+    this.Phone.SetText ("");
+    this.Email.SetText ("");
+    this.Address.SetText ("");
+};
+
 return new function ()
 {
     this.open = function ()
@@ -136,6 +159,7 @@ return new function ()
         {
             instance = new gusers ();
             instance.Open ();
+            Gwt.Core.Contrib.SetActiveApp (window.gusers);
         }
         else
         {
@@ -149,6 +173,7 @@ return new function ()
         {
             instance.Close ();
             instance = undefined;
+            Gwt.Core.Contrib.RemoveActiveApp ();
         } 
     };
 };

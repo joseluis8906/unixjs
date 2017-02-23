@@ -22,6 +22,8 @@ Gwt.Core.Contrib.Frontend = Gwt.Core.Contrib.Host + "frontend/";
 Gwt.Core.Contrib.Share = /*Gwt.Core.Contrib.Host*/ "../share/";
 Gwt.Core.Contrib.Images = Gwt.Core.Contrib.Share + "images/system/";
 
+Gwt.Core.Contrib._ActiveApp = null;
+
 Gwt.Core.Math = {};
 Gwt.Core.Math.Round = function (value, decimals) 
 {
@@ -441,6 +443,35 @@ Gwt.Core.Contrib.LoadDocument = function (sURL)
   return oHiddFrame;
 };
 
+Gwt.Core.Contrib.GetSessionId = function ()
+{
+    var Cookies = document.cookie.split(";");
+    for (var i = 0; i < Cookies.length; i++)
+    {
+        var Tmp = Cookies[i].split("=");
+        if (Tmp[0]==="SessionId")
+        {
+            return Tmp[1];
+        }
+    }
+    return null;
+};
+
+Gwt.Core.Contrib.SetActiveApp = function (App)
+{
+    this._ActiveApp = App;
+};
+
+Gwt.Core.Contrib.CloseActiveApp = function ()
+{
+    this._ActiveApp.close ();
+};
+
+Gwt.Core.Contrib.RemoveActiveApp = function ()
+{
+    this._ActiveApp = null;
+};
+
 function zfill (num, size) {
     var s = num+"";
     while (s.length < size) s = "0" + s;
@@ -460,7 +491,7 @@ Gwt.Core.Request = function (Url, Func, Params, Method)
     
     this.XHR.onreadystatechange = this.Ready.bind(this);
     this.XHR.overrideMimeType("application/json");
-    var Cookie = this.GetCookie();;
+    var Cookie = Gwt.Core.Contrib.GetSessionId ();
     if (this.Method===Gwt.Core.REQUEST_METHOD_POST)
     {
         this.XHR.open ("POST", this.Url, true);
@@ -479,7 +510,7 @@ Gwt.Core.Request = function (Url, Func, Params, Method)
         }
         this.XHR.send ();
     }
-}
+};
 
 Gwt.Core.Request.prototype._Request = function ()
 {
@@ -487,7 +518,7 @@ Gwt.Core.Request.prototype._Request = function ()
     this.Url = null;
     this.Func = null;
     this.Params = null;
-}
+};
 
 Gwt.Core.Request.prototype.Send = function ()
 {
@@ -508,7 +539,7 @@ Gwt.Core.Request.prototype.Send = function ()
     {
         this.SendMultipartFormData ();
     }
-}
+};
 
 Gwt.Core.Request.prototype.SendMultipartFormData =  function ()
 {
@@ -548,7 +579,7 @@ Gwt.Core.Request.prototype.SendMultipartFormData =  function ()
     }
     
     this.XHR.send (Uint8Data);
-}
+};
 
 Gwt.Core.Request.prototype.SendApplicationXWWWFormUrlEncoded = function ()
 {
@@ -557,7 +588,7 @@ Gwt.Core.Request.prototype.SendApplicationXWWWFormUrlEncoded = function ()
     var RawData = this.Params[0].GetName ()+"="+JSON.stringify (this.Params[0].GetData());
     
     this.XHR.send (RawData);
-}
+};
 
 Gwt.Core.Request.prototype.Ready = function ()
 {
@@ -565,21 +596,7 @@ Gwt.Core.Request.prototype.Ready = function ()
     {
         this.Func(JSON.parse(this.XHR.response));
     }
-}
-
-Gwt.Core.Request.prototype.GetCookie = function ()
-{
-    var Cookies = document.cookie.split(";");
-    for (var i = 0; i < Cookies.length; i++)
-    {
-        var Tmp = Cookies[i].split("=");
-        if (Tmp[0]==="SessionId")
-        {
-            return Tmp[1];
-        }
-    }
-    return null;
-}
+};
 //End of Gwt::Core::Request
 //##########################################################
 //###################################################################################################
@@ -3165,12 +3182,12 @@ Gwt.Gui.Avatar.prototype._Avatar = function ()
     this.Type = null;
     
     this._Frame ();
-}
+};
 
 Gwt.Gui.Avatar.prototype.SetImage = function (Image)
 {
     this.Image.SetImage (Image);
-}
+};
 
 Gwt.Gui.Avatar.prototype.ChangeImage = function (FileName, MimeType, FileSize, Image)
 {  
@@ -3186,28 +3203,32 @@ Gwt.Gui.Avatar.prototype.ChangeImage = function (FileName, MimeType, FileSize, I
 
     this.Editor.SetImage (Image);
     this.Editor.Enable ();
-}   
+};   
         
 Gwt.Gui.Avatar.prototype.SetSizeEditor = function (Width, Height)
 {
     this.Editor.SetSize (Width, Height);
-}
+};
 
 Gwt.Gui.Avatar.prototype.GetEditor = function ()
 {
     return this.Editor;
-}
+};
 
 Gwt.Gui.Avatar.prototype.GetData = function ()
 {
     return {FileName: this.FileName, Type: this.Type, Data: this.Image.GetSrc().replace(/^[^,]+,/, '')};
-}
+};
 
 Gwt.Gui.Avatar.prototype.GetText = function ()
 {
     return this.Name;
-}
+};
 
+Gwt.Gui.Avatar.prototype.Reset = function ()
+{
+    this.Image.SetImage (Gwt.Core.Contrib.Images+"appbar.camera.switch.invert.svg");
+};
 //Ends Gwt::Gui::Avatar
 //##################################################################################################
 //##################################################################################################
@@ -3583,12 +3604,6 @@ Gwt.Gui.SelectBox.prototype.ShowDialog = function (event)
     }
 }
 
-Gwt.Gui.SelectBox.prototype.SetText = function (Text)
-{
-    this.Text = Text;
-    this.StaticText.SetText (this.Text);
-}
-
 Gwt.Gui.SelectBox.prototype.SetValueListener = function (Event, Text, Value)
 {
     for (var i = 0; i < this.Options.length; i++)
@@ -3599,7 +3614,8 @@ Gwt.Gui.SelectBox.prototype.SetValueListener = function (Event, Text, Value)
             this.Options [i].SetBackgroundRepeat (Gwt.Gui.Contrib.BackgroundRepeat.NoRepeat);
             this.Options [i].SetBackgroundPosition (Gwt.Gui.Contrib.BackgroundPosition.Right, Gwt.Gui.Contrib.BackgroundPosition.Center);
             
-            this.SetText(Text);
+            this.Text = Text;
+            this.StaticText.SetText (this.Text);
             this.Value=Value;
 	}
 	else
@@ -3619,7 +3635,8 @@ Gwt.Gui.SelectBox.prototype.SetValue = function (value)
             this.Options [i].SetBackgroundRepeat (Gwt.Gui.Contrib.BackgroundRepeat.NoRepeat);
             this.Options [i].SetBackgroundPosition (Gwt.Gui.Contrib.BackgroundPosition.Right, Gwt.Gui.Contrib.BackgroundPosition.Center);
 
-            this.SetText(this.Options[i].GetText());
+            this.Text = this.Options[i].GetText();
+            this.StaticText.SetText (this.Text);
             this.Value=this.Options[i].GetValue();
 	}
 	else
@@ -3632,6 +3649,27 @@ Gwt.Gui.SelectBox.prototype.SetValue = function (value)
 Gwt.Gui.SelectBox.prototype.GetText = function ()
 {
     return this.Value;
+}
+
+Gwt.Gui.SelectBox.prototype.SetText = function (value)
+{
+    for (var i = 0; i < this.Options.length; i++)
+    {
+	if(this.Options [i].GetValue () === value)
+	{
+            this.Options [i].SetBackgroundImage (Gwt.Core.Contrib.Images+"check_item.svg");
+            this.Options [i].SetBackgroundRepeat (Gwt.Gui.Contrib.BackgroundRepeat.NoRepeat);
+            this.Options [i].SetBackgroundPosition (Gwt.Gui.Contrib.BackgroundPosition.Right, Gwt.Gui.Contrib.BackgroundPosition.Center);
+
+            this.Text = this.Options[i].GetText();
+            this.StaticText.SetText (this.Text);
+            this.Value=this.Options[i].GetValue();
+	}
+	else
+	{
+            this.Options [i].SetBackgroundImage ("");
+	}
+    }
 }
 //Ends Gwt::Gui::Selectbox
 //##################################################################################################
@@ -4384,6 +4422,11 @@ Gwt.Gui.IconEntry.prototype.SetMaxLength = function (MaxLength)
 Gwt.Gui.IconEntry.prototype.GetText = function ()
 {
     return this.Control.GetText ();
+}
+
+Gwt.Gui.IconEntry.prototype.SetText = function (Text)
+{
+    return this.Control.SetText (Text);
 }
 
 Gwt.Gui.IconEntry.prototype.ChangeToPassword = function ()

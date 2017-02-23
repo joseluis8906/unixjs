@@ -17,6 +17,8 @@ Gwt.Core.Contrib.Frontend = Gwt.Core.Contrib.Host + "frontend/";
 Gwt.Core.Contrib.Share = /*Gwt.Core.Contrib.Host*/ "../share/";
 Gwt.Core.Contrib.Images = Gwt.Core.Contrib.Share + "images/system/";
 
+Gwt.Core.Contrib._ActiveApp = null;
+
 Gwt.Core.Math = {};
 Gwt.Core.Math.Round = function (value, decimals) 
 {
@@ -434,6 +436,35 @@ Gwt.Core.Contrib.LoadDocument = function (sURL)
   oHiddFrame.src = sURL;
   document.body.appendChild(oHiddFrame);
   return oHiddFrame;
+};
+
+Gwt.Core.Contrib.GetSessionId = function ()
+{
+    var Cookies = document.cookie.split(";");
+    for (var i = 0; i < Cookies.length; i++)
+    {
+        var Tmp = Cookies[i].split("=");
+        if (Tmp[0]==="SessionId")
+        {
+            return Tmp[1];
+        }
+    }
+    return null;
+};
+
+Gwt.Core.Contrib.SetActiveApp = function (App)
+{
+    this._ActiveApp = App;
+};
+
+Gwt.Core.Contrib.CloseActiveApp = function ()
+{
+    this._ActiveApp.close ();
+};
+
+Gwt.Core.Contrib.RemoveActiveApp = function ()
+{
+    this._ActiveApp = null;
 };
 
 function zfill (num, size) {

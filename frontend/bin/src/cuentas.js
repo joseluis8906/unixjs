@@ -6,7 +6,7 @@ var instance;
 function cuentas()
 {
     Gwt.Gui.Window.call (this, "Cuentas");
-    this.SetSize (200, 170);
+    this.SetSize (512, 256);
     this.SetPosition (Gwt.Gui.WIN_POS_CENTER);
     this.SetBorderSpacing (12);
     
@@ -50,21 +50,29 @@ cuentas.prototype.Guardar = function ()
         }
     ];
     
-    new Gwt.Core.Request("/backend/cuentas/save/", function(response){console.log(response)}, [new Gwt.Core.Parameter (Gwt.Core.PARAM_TYPE_JSON, "Params", Data)]);
+    new Gwt.Core.Request("/backend/cuentas/save/", this.ResponseSave.bind(this), [new Gwt.Core.Parameter (Gwt.Core.PARAM_TYPE_JSON, "Params", Data)]);
     
     this.Reset ();
-}
+};
 
 cuentas.prototype.Eliminar = function ()
 {
     
-}
+};
+
+cuentas.prototype.Reset = function (Res)
+{
+    if (Res.Result === 1)
+    {
+        this.Reset ();
+    }
+};
 
 cuentas.prototype.Reset = function ()
 {
     this.code.SetText ("");
     this.name.SetText ("");
-}
+};
 
 return new function ()
 {
@@ -74,12 +82,13 @@ return new function ()
         {
             instance = new cuentas();
             instance.Open ();
+            Gwt.Core.Contrib.SetActiveApp (window.cuentas);
         }
         else
         {
             console.log ("%app yet opened".replace("%app", instance.__proto__.constructor.name));
         }
-    }
+    };
 	
     this.close = function ()
     {
@@ -87,7 +96,8 @@ return new function ()
         {
             instance.Close();
             instance = undefined;
+            Gwt.Core.Contrib.RemoveActiveApp ();
         }
-    }
-}
+    };
+};
 })();

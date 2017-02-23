@@ -50,12 +50,12 @@ Gwt.Gui.Avatar.prototype._Avatar = function ()
     this.Type = null;
     
     this._Frame ();
-}
+};
 
 Gwt.Gui.Avatar.prototype.SetImage = function (Image)
 {
     this.Image.SetImage (Image);
-}
+};
 
 Gwt.Gui.Avatar.prototype.ChangeImage = function (FileName, MimeType, FileSize, Image)
 {  
@@ -71,27 +71,31 @@ Gwt.Gui.Avatar.prototype.ChangeImage = function (FileName, MimeType, FileSize, I
 
     this.Editor.SetImage (Image);
     this.Editor.Enable ();
-}   
+};   
         
 Gwt.Gui.Avatar.prototype.SetSizeEditor = function (Width, Height)
 {
     this.Editor.SetSize (Width, Height);
-}
+};
 
 Gwt.Gui.Avatar.prototype.GetEditor = function ()
 {
     return this.Editor;
-}
+};
 
 Gwt.Gui.Avatar.prototype.GetData = function ()
 {
     return {FileName: this.FileName, Type: this.Type, Data: this.Image.GetSrc().replace(/^[^,]+,/, '')};
-}
+};
 
 Gwt.Gui.Avatar.prototype.GetText = function ()
 {
     return this.Name;
-}
+};
 
+Gwt.Gui.Avatar.prototype.Reset = function ()
+{
+    this.Image.SetImage (Gwt.Core.Contrib.Images+"appbar.camera.switch.invert.svg");
+};
 //Ends Gwt::Gui::Avatar
 //##################################################################################################

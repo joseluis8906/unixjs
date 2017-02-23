@@ -92,12 +92,6 @@ Gwt.Gui.SelectBox.prototype.ShowDialog = function (event)
     }
 }
 
-Gwt.Gui.SelectBox.prototype.SetText = function (Text)
-{
-    this.Text = Text;
-    this.StaticText.SetText (this.Text);
-}
-
 Gwt.Gui.SelectBox.prototype.SetValueListener = function (Event, Text, Value)
 {
     for (var i = 0; i < this.Options.length; i++)
@@ -108,7 +102,8 @@ Gwt.Gui.SelectBox.prototype.SetValueListener = function (Event, Text, Value)
             this.Options [i].SetBackgroundRepeat (Gwt.Gui.Contrib.BackgroundRepeat.NoRepeat);
             this.Options [i].SetBackgroundPosition (Gwt.Gui.Contrib.BackgroundPosition.Right, Gwt.Gui.Contrib.BackgroundPosition.Center);
             
-            this.SetText(Text);
+            this.Text = Text;
+            this.StaticText.SetText (this.Text);
             this.Value=Value;
 	}
 	else
@@ -128,7 +123,8 @@ Gwt.Gui.SelectBox.prototype.SetValue = function (value)
             this.Options [i].SetBackgroundRepeat (Gwt.Gui.Contrib.BackgroundRepeat.NoRepeat);
             this.Options [i].SetBackgroundPosition (Gwt.Gui.Contrib.BackgroundPosition.Right, Gwt.Gui.Contrib.BackgroundPosition.Center);
 
-            this.SetText(this.Options[i].GetText());
+            this.Text = this.Options[i].GetText();
+            this.StaticText.SetText (this.Text);
             this.Value=this.Options[i].GetValue();
 	}
 	else
@@ -141,6 +137,27 @@ Gwt.Gui.SelectBox.prototype.SetValue = function (value)
 Gwt.Gui.SelectBox.prototype.GetText = function ()
 {
     return this.Value;
+}
+
+Gwt.Gui.SelectBox.prototype.SetText = function (value)
+{
+    for (var i = 0; i < this.Options.length; i++)
+    {
+	if(this.Options [i].GetValue () === value)
+	{
+            this.Options [i].SetBackgroundImage (Gwt.Core.Contrib.Images+"check_item.svg");
+            this.Options [i].SetBackgroundRepeat (Gwt.Gui.Contrib.BackgroundRepeat.NoRepeat);
+            this.Options [i].SetBackgroundPosition (Gwt.Gui.Contrib.BackgroundPosition.Right, Gwt.Gui.Contrib.BackgroundPosition.Center);
+
+            this.Text = this.Options[i].GetText();
+            this.StaticText.SetText (this.Text);
+            this.Value=this.Options[i].GetValue();
+	}
+	else
+	{
+            this.Options [i].SetBackgroundImage ("");
+	}
+    }
 }
 //Ends Gwt::Gui::Selectbox
 //##################################################################################################

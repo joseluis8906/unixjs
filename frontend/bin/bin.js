@@ -429,28 +429,28 @@ return new function ()
 {
 	this.open = function ()
 	{
-		if (instance === undefined)
-		{
-			instance = new gcontrol ();
-                        instance.Open ();
-		}
-		else
-		{
-			console.log ("%app open".replace ("%app", instance.__proto__.constructor.name));
-		}
+            if (instance === undefined)
+            {
+                instance = new gcontrol ();
+                instance.Open ();
+                Gwt.Core.Contrib.SetActiveApp (window.gcontrol);
+            }
+            else
+            {
+                console.log ("%app opened yet".replace ("%app", instance.__proto__.constructor.name));
+            }
                 
-	}
+	};
 		
 	this.close = function ()
 	{
-            
-		if (instance !== undefined)
-		{
-			instance.Close ();
-			instance = undefined;
-		} 
-                
-	}
-}
+            if (instance !== undefined)
+            {
+                instance.Close();
+                instance = undefined;
+                Gwt.Core.Contrib.RemoveActiveApp ();
+            }   
+	};
+};
 })();
 

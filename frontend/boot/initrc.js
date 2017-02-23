@@ -6,7 +6,7 @@ function Gwdm ()
     //domotictrl.open();
     login.open ();
     
-    if (sessionStorage.hasOwnProperty ("Session") && sessionStorage.getItem ("Session") === "Active")
+    if (Gwt.Core.Contrib.GetSessionId () !== null)
     {
         start_session ();
     }
@@ -21,8 +21,6 @@ function start_session ()
     login.close ();
     gpanel.open ();
     gcontrol.open ();
-	
-    sessionStorage.setItem ("Session", "Active");
     
     SessionRenueve = setInterval (window.renueve_session, 60000);
     
@@ -38,12 +36,10 @@ function start_session ()
 
 function terminate_session ()
 {
-    gcontrol.close ();
+    
+    Gwt.Core.Contrib.CloseActiveApp ();
     gpanel.close ();
     block.open ();
-    
-    sessionStorage.removeItem ("Session");
-    sessionStorage.clear ();
     
     clearTimeout(SessionEnv);
     SessionEnv = undefined;
@@ -58,7 +54,10 @@ function terminate_session ()
 
 function renueve_session ()
 {
-    new Gwt.Core.Request ("/backend/auth/renuevesession/", function (){}, null, Gwt.Core.REQUEST_METHOD_GET);
+    if (Gwt.Core.Contrib.GetSessionId () !== null)
+    {
+        new Gwt.Core.Request ("/backend/auth/renuevesession/", function (){}, null, Gwt.Core.REQUEST_METHOD_GET);
+    }
 }
 
 

@@ -36,27 +36,46 @@ ggroups.prototype.constructor = ggroups;
 
 ggroups.prototype._App = function ()
 {
-}
+    this.Name._IconEntry ();
+    this.Layout._VBox ();
+    
+    this.Name = null;
+    this.Layout = null;
+};
 
 ggroups.prototype.Buscar = function ()
 {
-}
+};
 
 ggroups.prototype.Guardar = function ()
 {
     var Params = [
         new Gwt.Core.Parameter(Gwt.Core.PARAM_TYPE_JSON, "Params", [{"Name": this.Name.GetText ()}])
     ];
-    new Gwt.Core.Request ("/backend/ggroups/save/", function(response){console.log(response)}, Params);
-}
+    new Gwt.Core.Request ("/backend/ggroups/save/", this.ResponseSave.bind (this), Params);
+};
 
 ggroups.prototype.Actualizar = function ()
 {
-}
+};
 
 ggroups.prototype.Eliminar = function ()
 {
-}
+};
+
+ggroups.prototype.ResponseSave = function (Res)
+{
+    if (Res.Result === 1)
+    {
+        this.Reset ();
+    }
+};
+
+ggroups.prototype.Reset = function ()
+{
+    this.Name.SetText ("");
+};
+
 
 return new function ()
 {
@@ -66,6 +85,7 @@ return new function ()
         {
             instance = new ggroups ();
             instance.Open ();
+             Gwt.Core.Contrib.SetActiveApp (window.ggroups);
         }
         else
         {
@@ -79,6 +99,7 @@ return new function ()
         {
             instance.Close ();
             instance = undefined;
+            Gwt.Core.Contrib.RemoveActiveApp ();
         } 
     }
 }
