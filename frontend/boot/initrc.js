@@ -69,7 +69,7 @@ function unlock_session ()
 }
 
 
-
+/*
 function LoadApp (App) 
 {
     var TagScript = document.createElement('script');
@@ -93,3 +93,4 @@ function LoadApp (App)
         Head.appendChild(TagScript);
     }
 }
+*/
