@@ -6,8 +6,8 @@
 int Home (struct HttpRequest *Req);
 
 //test function
-int Test (struct HttpRequest *Req);
-
+int Statement (struct HttpRequest *Req);
+int Query (struct HttpRequest *Req);
 
 //approles
 int AppRoles (struct HttpRequest *Req);

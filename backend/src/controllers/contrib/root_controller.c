@@ -13,7 +13,7 @@ int Home (struct HttpRequest *Req)
 
 
 //test
-int Test (struct HttpRequest *Req)
+int Statement (struct HttpRequest *Req)
 {
     /*if (AuthControllerVerifySession (Req) == KORE_RESULT_ERROR)
     {
@@ -26,7 +26,7 @@ int Test (struct HttpRequest *Req)
         return (KORE_RESULT_OK);
     }
     
-    char CliStm[512];
+    char CliStm[4096];
     
     struct FuncResult Ret = GetJsonString (Data, "Statement", CliStm);
     
@@ -74,6 +74,73 @@ int Test (struct HttpRequest *Req)
     return (KORE_RESULT_OK);
 }
 
+
+int Query (struct HttpRequest *Req)
+{
+    char *Data = NULL;
+    
+    if (VerifyRequest (Req, &Data, FORM_JSON) == KORE_RESULT_ERROR)
+    {
+        return (KORE_RESULT_OK);
+    }
+    
+    char Query[4096];
+    
+    struct FuncResult Ret = GetJsonString (Data, "Query", Query);
+    
+    if (Ret.Result == KORE_RESULT_ERROR)
+    {
+        HttpResponseJsonMsg(Req, Ret.Result, Ret.Msg);
+        return (KORE_RESULT_OK);
+    }
+    
+    Connection_T Conn = DbGetConnection ();
+    
+    if (!Connection_ping (Conn))
+    {
+        HttpResponseJsonMsg(Req, KORE_RESULT_ERROR, "No Database Connection");
+        return (KORE_RESULT_OK);
+    }
+
+    TRY
+    {   
+        JsonObject *Res = NULL;
+        Res = JsonObjectNewArray ();
+        JsonObject *Row = NULL;
+        
+        
+        ResultSet_T R = Connection_executeQuery (Conn, Query);
+        int i = 0;
+        int Cols = ResultSet_getColumnCount (R);
+        while (ResultSet_next (R))
+        {
+            Row = JsonObjectNewObject ();
+            for (i=0; i < Cols; i++)
+            {
+                JsonObjectObjectAdd (Row, ResultSet_getColumnName (R, i), JsonObjectNewString (ResultSet_getString (R, i)));
+            }
+            JsonObjectArrayAdd (Res, JsonObjectGet (Row));
+            JsonObjectPut (Row);
+            Row = NULL;
+        }
+        
+        HttpResponseJsonObject (Req, KORE_RESULT_OK, Res);
+        
+        JsonObjectPut (Res);
+        Res = NULL;
+    }
+    CATCH (SQLException)
+    {
+        HttpResponseJsonMsg(Req, KORE_RESULT_ERROR, Exception_frame.message);
+    }
+    FINALLY
+    {
+        Connection_close (Conn);
+    }
+    END_TRY;
+    
+    return (KORE_RESULT_OK);
+}
 
 
 //approles
