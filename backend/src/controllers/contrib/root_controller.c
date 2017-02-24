@@ -2,6 +2,7 @@
 #include "auth_controller.h"
 #include "../../models/contrib/app_role_model.h"
 #include "../../database.h"
+#include "../../contrib.h"
 
 //home
 int Home (struct HttpRequest *Req)
@@ -25,9 +26,8 @@ int Test (struct HttpRequest *Req)
         return (KORE_RESULT_OK);
     }
     
-    char CliStm[2048];
+    char CliStm[512];
     
-    kore_log (LOG_INFO, "aqui");
     struct FuncResult Ret = GetJsonString (Data, "Statement", CliStm);
     
     kore_log (LOG_INFO, "%s", CliStm);
