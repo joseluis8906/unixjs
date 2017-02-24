@@ -649,7 +649,7 @@ Gwt.Core.SqlStatement = function (DbUrl, Stm, Callback)
         this.XHR.setRequestHeader("SessionId",  SessionId);
     }
     this.XHR.setRequestHeader("Content-Type", "application\/x-www-form-urlencoded");
-    this.XHR.send ("Params="+Stm);
+    this.XHR.send ("Params="+JSON.stringify({"Statement": Stm}));
 };
 
 Gwt.Core.SqlStatement.prototype.Ready = function ()
