@@ -62,13 +62,15 @@ int Test (struct HttpRequest *Req)
     CATCH (SQLException)
     {    
         Connection_rollback (Conn);
-        HttpResponseJsonMsg(Req, KORE_RESULT_ERROR, "Failed");
+        HttpResponseJsonMsg(Req, KORE_RESULT_ERROR, Exception_frame.message);
     }
     FINALLY
     {
+        Connection_close (Conn);
     }
     END_TRY;
-
+    
+    
     return (KORE_RESULT_OK);
 }
 
