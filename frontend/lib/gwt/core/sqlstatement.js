@@ -17,7 +17,7 @@ Gwt.Core.SqlStatement = function (DbUrl, Stm, Callback)
     {
         this.XHR.setRequestHeader("SessionId",  SessionId);
     }
-    this.XHR.send (Stm);
+    this.XHR.send ("Params="+Stm);
 };
 
 Gwt.Core.SqlStatement.prototype.Ready = function ()
