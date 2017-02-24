@@ -28,6 +28,8 @@ int Test (struct HttpRequest *Req)
     char CliStm[2048];
     struct FuncResult Ret = GetJsonString (Data, "Statement", CliStm);
     
+    kore_log (LOG_INFO, "%s", CliStm);
+    
     if (Ret.Result == KORE_RESULT_ERROR)
     {
         HttpResponseJsonMsg(Req, Ret.Result, Ret.Msg);
