@@ -635,7 +635,6 @@ Gwt.Core.Parameter.prototype.GetData = function ()
  * and open the template in the editor.
  */
 
-
 Gwt.Core.SqlStatement = function (DbUrl, Stm, Callback)
 {
     this.XHR = new XMLHttpRequest ();
@@ -653,6 +652,32 @@ Gwt.Core.SqlStatement = function (DbUrl, Stm, Callback)
 };
 
 Gwt.Core.SqlStatement.prototype.Ready = function ()
+{
+    if (this.XHR.readyState === 4 && this.XHR.status === 200)
+    {
+        this.Callback (JSON.parse(this.XHR.response));
+    }
+};
+
+
+
+Gwt.Core.SqlQuery = function (DbUrl, Stm, Callback)
+{
+    this.XHR = new XMLHttpRequest ();
+    this.XHR.open ("POST", DbUrl, true);
+    this.XHR.onreadystatechange = this.Ready.bind(this);
+    this.XHR.overrideMimeType("application/json");
+    this.Callback = Callback;
+    var SessionId = Gwt.Core.Contrib.GetSessionId ();
+    if (SessionId !== null)
+    {
+        this.XHR.setRequestHeader("SessionId",  SessionId);
+    }
+    this.XHR.setRequestHeader("Content-Type", "application\/x-www-form-urlencoded");
+    this.XHR.send ("Params="+JSON.stringify({"Query": Stm}));
+};
+
+Gwt.Core.SqlQuery.prototype.Ready = function ()
 {
     if (this.XHR.readyState === 4 && this.XHR.status === 200)
     {
