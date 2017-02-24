@@ -115,7 +115,7 @@ int Query (struct HttpRequest *Req)
         while (ResultSet_next (R))
         {
             Row = JsonObjectNewObject ();
-            for (i = 1; i < Cols; i++)
+            for (i = 1; i <= Cols; i++)
             {
                 JsonObjectObjectAdd (Row, ResultSet_getColumnName (R, i), JsonObjectNewString (ResultSet_getString (R, i)));
             }
