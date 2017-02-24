@@ -9,6 +9,7 @@ cat conf.js > gwt.js
 cat core/conf.js >> gwt.js
 cat core/request.js >> gwt.js
 cat core/parameter.js >> gwt.js
+cat core/sqlstatement.js >> gwt.js
 
 #gui
 cat gui/conf.js >> gwt.js

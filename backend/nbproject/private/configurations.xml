@@ -68,6 +68,7 @@
       <df name="tmp_files">
       </df>
     </df>
+    <itemPath>sql/test.sql</itemPath>
   </logicalFolder>
   <projectmakefile></projectmakefile>
   <confs>

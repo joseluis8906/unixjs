@@ -10,22 +10,22 @@ Gwt.Core.Request = function (Url, Func, Params, Method)
     
     this.XHR.onreadystatechange = this.Ready.bind(this);
     this.XHR.overrideMimeType("application/json");
-    var Cookie = Gwt.Core.Contrib.GetSessionId ();
+    var SessionId = Gwt.Core.Contrib.GetSessionId ();
     if (this.Method===Gwt.Core.REQUEST_METHOD_POST)
     {
         this.XHR.open ("POST", this.Url, true);
-        if (Cookie!==null)
+        if (SessionId !== null)
         {
-            this.XHR.setRequestHeader("SessionId",  Cookie);
+            this.XHR.setRequestHeader("SessionId",  SessionId);
         }
         this.Send ();
     }
     else
     {
         this.XHR.open ("GET", this.Url, true);
-        if (Cookie!==null)
+        if (SessionId !== null)
         {
-            this.XHR.setRequestHeader("SessionId",  Cookie);
+            this.XHR.setRequestHeader("SessionId",  SessionId);
         }
         this.XHR.send ();
     }

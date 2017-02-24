@@ -491,22 +491,22 @@ Gwt.Core.Request = function (Url, Func, Params, Method)
     
     this.XHR.onreadystatechange = this.Ready.bind(this);
     this.XHR.overrideMimeType("application/json");
-    var Cookie = Gwt.Core.Contrib.GetSessionId ();
+    var SessionId = Gwt.Core.Contrib.GetSessionId ();
     if (this.Method===Gwt.Core.REQUEST_METHOD_POST)
     {
         this.XHR.open ("POST", this.Url, true);
-        if (Cookie!==null)
+        if (SessionId !== null)
         {
-            this.XHR.setRequestHeader("SessionId",  Cookie);
+            this.XHR.setRequestHeader("SessionId",  SessionId);
         }
         this.Send ();
     }
     else
     {
         this.XHR.open ("GET", this.Url, true);
-        if (Cookie!==null)
+        if (SessionId !== null)
         {
-            this.XHR.setRequestHeader("SessionId",  Cookie);
+            this.XHR.setRequestHeader("SessionId",  SessionId);
         }
         this.XHR.send ();
     }
@@ -629,7 +629,35 @@ Gwt.Core.Parameter.prototype.GetData = function ()
 {
     return this.Data;
 }
-//#####################################################################################################
+/* 
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+
+Gwt.Core.SqlStatement = function (DbUrl, Stm, Callback)
+{
+    this.XHR = new XMLHttpRequest ();
+    this.XHR.open ("POST", DbUrl, true);
+    this.XHR.onreadystatechange = this.Ready.bind(this);
+    this.XHR.overrideMimeType("application/json");
+    this.Callback = Callback;
+    var SessionId = Gwt.Core.Contrib.GetSessionId ();
+    if (SessionId !== null)
+    {
+        this.XHR.setRequestHeader("SessionId",  SessionId);
+    }
+    this.XHR.send (Stm);
+};
+
+Gwt.Core.SqlStatement.prototype.Ready = function ()
+{
+    if (this.XHR.readyState === 4 && this.XHR.status === 200)
+    {
+        this.Callback (JSON.parse(this.XHR.response));
+    }
+};//#####################################################################################################
 //Gwt::Gui
 //environments constants
 Gwt.Gui =

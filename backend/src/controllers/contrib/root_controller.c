@@ -1,6 +1,7 @@
 #include "root_controller.h"
 #include "auth_controller.h"
 #include "../../models/contrib/app_role_model.h"
+#include "../../database.h"
 
 //home
 int Home (struct HttpRequest *Req)
@@ -13,11 +14,57 @@ int Home (struct HttpRequest *Req)
 //test
 int Test (struct HttpRequest *Req)
 {
-    if (AuthControllerVerifySession (Req) == KORE_RESULT_ERROR)
+    /*if (AuthControllerVerifySession (Req) == KORE_RESULT_ERROR)
     {
         return KORE_RESULT_OK;
+    }*/
+    
+    char *Data = NULL;
+    if (VerifyRequest (Req, &Data, FORM_JSON) == KORE_RESULT_ERROR)
+    {
+        return (KORE_RESULT_OK);
     }
     
+    char CliStm[2048];
+    struct FuncResult Ret = GetJsonString (Data, "Statement", CliStm);
+    
+    if (Ret.Result == KORE_RESULT_ERROR)
+    {
+        HttpResponseJsonMsg(Req, Ret.Result, Ret.Msg);
+        return (KORE_RESULT_OK);
+    }
+    
+    Connection_T Conn = DbGetConnection ();
+        
+    if (!Connection_ping (Conn))
+    {   
+        HttpResponseJsonMsg(Req, KORE_RESULT_ERROR, "No Database Connection");
+        return (KORE_RESULT_OK);
+    }        
+    
+    TRY
+    {   
+        Connection_beginTransaction (Conn);
+        
+        PreparedStatement_T Stm; 
+
+        Stm = Connection_prepareStatement (Conn, "%s", CliStm);
+        PreparedStatement_execute (Stm);
+        
+        Connection_commit (Conn);
+        HttpResponseJsonMsg(Req, KORE_RESULT_OK, "Success");
+        
+    }
+    CATCH (SQLException)
+    {    
+        Connection_rollback (Conn);
+        HttpResponseJsonMsg(Req, KORE_RESULT_ERROR, "Failed");
+    }
+    FINALLY
+    {
+    }
+    END_TRY;
+
     HttpResponseJsonMsg(Req, KORE_RESULT_OK, "Test");
     return (KORE_RESULT_OK);
 }

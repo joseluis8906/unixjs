@@ -36,7 +36,6 @@ function start_session ()
 
 function terminate_session ()
 {
-    
     Gwt.Core.Contrib.CloseActiveApp ();
     gpanel.close ();
     block.open ();
@@ -67,30 +66,3 @@ function unlock_session ()
     block.close ();
     login.open ();
 }
-
-
-/*
-function LoadApp (App) 
-{
-    var TagScript = document.createElement('script');
-    TagScript.type = 'text/javascript';
-    TagScript.async = true;
-    TagScript.src = "/frontend/bin/"+App+".min.js";
-    var Head = document.head;
-    
-    var Insert = true;
-    
-    for (var i = 0; i < Head.childNodes.length; i++)
-    {
-        if (Head.childNodes[i].src === TagScript.src)
-        {
-            Insert = false;
-        }
-    }
-    
-    if (Insert === true)
-    {
-        Head.appendChild(TagScript);
-    }
-}
-*/

@@ -47,7 +47,7 @@ struct FuncResult MediaModelInsert (struct MediaModelArray *Medias)
     }
     CATCH (SQLException)
     {    
-        //Connection_rollback (Conn);
+        Connection_rollback (Conn);
         S.Result = KORE_RESULT_ERROR;
         strcpy (S.Msg, Exception_frame.message);
     }
