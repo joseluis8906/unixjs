@@ -27,7 +27,6 @@ int Test (struct HttpRequest *Req)
     }
     
     char CliStm[512];
-    kore_log (LOG_INFO, "%s", Data);
     
     struct FuncResult Ret = GetJsonString (Data, "Statement", CliStm);
     
@@ -70,7 +69,6 @@ int Test (struct HttpRequest *Req)
     }
     END_TRY;
 
-    HttpResponseJsonMsg(Req, KORE_RESULT_OK, "Test");
     return (KORE_RESULT_OK);
 }
 
