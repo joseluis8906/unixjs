@@ -26,6 +26,8 @@ int Test (struct HttpRequest *Req)
     }
     
     char CliStm[2048];
+    
+    kore_log (LOG_INFO, "aqui");
     struct FuncResult Ret = GetJsonString (Data, "Statement", CliStm);
     
     kore_log (LOG_INFO, "%s", CliStm);
