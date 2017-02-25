@@ -280,7 +280,7 @@ cedeg.prototype.AutoFill = function (Res)
     {
         this.number.SetText (Res.Data[0].Number);
         this.place.SetText (Res.Data[0].Place);
-        this.date.Now (Res.Data[0].Date);
+        this.date.SetDate (Res.Data[0].Date);
         this.holder.SetText (Res.Data[0].Holder);
         this.amount.SetText (Res.Data[0].Amount);
         this.bank.SetText (Res.Data[0].Bank);
