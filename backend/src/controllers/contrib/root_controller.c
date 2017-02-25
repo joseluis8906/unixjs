@@ -94,6 +94,7 @@ int Query (struct HttpRequest *Req)
     char Query[4096];
     
     struct FuncResult Ret = GetJsonString (Data, "Query", Query);
+    kore_log (LOG_INFO, "%d", Query);
     
     if (Ret.Result == KORE_RESULT_ERROR)
     {
@@ -115,7 +116,7 @@ int Query (struct HttpRequest *Req)
         Res = JsonObjectNewArray ();
         JsonObject *Row = NULL;
         
-        kore_log (LOG_INFO, "%d", Query);
+        
         ResultSet_T R = Connection_executeQuery (Conn, Query);
         int i = 0;
         int Cols = ResultSet_getColumnCount (R);
