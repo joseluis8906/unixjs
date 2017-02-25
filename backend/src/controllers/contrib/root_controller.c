@@ -119,6 +119,7 @@ int Query (struct HttpRequest *Req)
         ResultSet_T R = Connection_executeQuery (Conn, Query);
         int i = 0;
         int Cols = ResultSet_getColumnCount (R);
+        Kore_log (LOG_INFO, "%d", Cols);
         while (ResultSet_next (R))
         {
             Row = JsonObjectNewObject ();
