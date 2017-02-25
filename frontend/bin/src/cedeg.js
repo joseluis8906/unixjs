@@ -271,6 +271,7 @@ cedeg.prototype.CheckNumber = function (Event)
 
 cedeg.prototype.NextNumber = function (Res)
 {
+    console.log(Res);
     this.number.SetText(Res[0].Number);
 };
 
