@@ -115,11 +115,11 @@ int Query (struct HttpRequest *Req)
         Res = JsonObjectNewArray ();
         JsonObject *Row = NULL;
         
-        
+        kore_log (LOG_INFO, "%d", Query);
         ResultSet_T R = Connection_executeQuery (Conn, Query);
         int i = 0;
         int Cols = ResultSet_getColumnCount (R);
-        kore_log (LOG_INFO, "%d", Cols);
+        
         while (ResultSet_next (R))
         {
             Row = JsonObjectNewObject ();
