@@ -272,7 +272,7 @@ cedeg.prototype.CheckNumber = function (Event)
 cedeg.prototype.NextNumber = function (Res)
 {
     console.log(Res);
-    this.number.SetText(Res.Data[0].Number+1);
+    this.number.SetText(Number(Res.Data[0].Number)+1);
 };
 
 
