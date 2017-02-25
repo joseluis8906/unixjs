@@ -268,7 +268,7 @@ cedeg.prototype.CheckNumber = function (Event)
         }
         else
         {
-            var Query = "SELECT \"Number\", \"Place\", \"Date\", \"Holder\", \"Concept\", \"Bank\", \"Check\", \"CheckingAccount\", \"Amount\", \"Code\", \"Name\", \"Partial\", \"Debit\", \"Credit\" FROM public.\"AccountingDisbVouAll\" WHERE \"Number\"={0}".replace("{0}", this.number.GetText());
+            var Query = "SELECT \"Number\", \"Place\", \"Date\", \"Holder\", \"Concept\", \"Bank\", \"Check\", \"CheckingAccount\", \"Amount\", \"Code\", \"Name\", \"Partial\", \"Debit\", \"Credit\" FROM \"AccountingDisbVouAll\" WHERE \"Number\"={0}".replace("{0}", this.number.GetText());
             new Gwt.Core.SqlQuery(Query, this.AutoFill.bind(this));
         }
     }
@@ -280,7 +280,7 @@ cedeg.prototype.AutoFill = function (Res)
     {
         this.number.SetText (Res.Data[0].Number);
         this.place.SetText (Res.Data[0].Place);
-        this.date.Now ();
+        this.date.Now (Res.Data[0].Date);
         this.holder.SetText (Res.Data[0].Holder);
         this.amount.SetText (Res.Data[0].Amount);
         this.bank.SetText (Res.Data[0].Bank);
@@ -300,6 +300,10 @@ cedeg.prototype.AutoFill = function (Res)
         {
             this.records[i].Reset();
         }
+    }
+    else
+    {
+        this.Reset ();
     }
 };
 

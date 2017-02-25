@@ -85,9 +85,10 @@ Gwt.Gui.Date.prototype.SetDate = function (year, month, day)
     {
         try{
             var string_date = year.split ("-");
-            this.day.SetValue (Number(string_date[0]));
-            this.month.SetValue (Number(string_date[1]));
-            this.year.SetValue (Number(string_date[2]));
+            this.year.SetText (Number(string_date[0]));
+            this.month.SetText (Number(string_date[1]));
+            this.day.SetText (Number(string_date[2]));
+            
         }
         catch (e)
         {
@@ -96,9 +97,11 @@ Gwt.Gui.Date.prototype.SetDate = function (year, month, day)
     }
     else if (typeof(year)==="number", typeof(month)==="number", typeof(day)==="number")
     {
-        this.day.SetValue (day);
-        this.month.SetValue (month);
-        this.year.SetValue (year);
+        
+        this.year.SetText (year);
+        this.month.SetText (month);
+        this.day.SetText (day);
+        
     }
 }
 
