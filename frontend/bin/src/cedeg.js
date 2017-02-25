@@ -53,7 +53,7 @@ record_widget.prototype._record_widget = function ()
     this.partial = null;
     this.debit = null;
     this.credit = null;
-}
+};
     
 record_widget.prototype.Reset = function ()
 {
@@ -62,7 +62,7 @@ record_widget.prototype.Reset = function ()
     this.partial.Reset ();
     this.debit.Reset ();
     this.credit.Reset ();
-}
+};
 
 
 
@@ -73,7 +73,7 @@ record_widget.prototype.check_code = function (event)
         var Query = "SELECT \"Name\" FROM \"AccountingAccount\" WHERE \"Code\"='{0}'".replace("{0}", this.code.GetText());
         new Gwt.Core.SqlQuery (Query, this.autocomplete.bind(this));
     }
-}
+};
 
 
 
@@ -87,7 +87,7 @@ record_widget.prototype.autocomplete = function (Res)
     {
         this.name.SetText ("Nombre");
     }
-}
+};
 
 
 
@@ -265,6 +265,40 @@ cedeg.prototype.CheckNumber = function (Event)
         {
             var Query = "SELECT \"Number\" FROM \"AccountingDisbVou\" ORDER BY \"Number\" DESC LIMIT 1";
             new Gwt.Core.SqlQuery(Query, this.NextNumber.bind(this));
+        }
+        else
+        {
+            var Query = "SELECT \"Number\", \"Place\", \"Date\", \"Holder\", \"Concept\", \"Bank\", \"Check\", \"CheckingAccount\", \"Amount\", \"Code\", \"Name\", \"Partial\", \"Debit\", \"Credit\" FROM public.\"AccountingDisbVouAll\"";
+            new Gwt.Core.SqlQuery(Query, this.AutoFill.bind(this));
+        }
+    }
+};
+
+cedeg.prototype.AutoFill = function (Res)
+{
+    if (Res.Data.length > 0)
+    {
+        this.number.SetText (Res.Data[0].Number);
+        this.place.SetText (Res.Data[0].Place);
+        this.date.Now ();
+        this.holder.SetText (Res.Data[0].Holder);
+        this.amount.SetText (Res.Data[0].Amount);
+        this.bank.SetText (Res.Data[0].Bank);
+        this.check.SetText (Res.Data[0].Check);
+        this.checking_account.SetText (Res.Data[0].CheckingAccount);
+        this.concept.SetText (Res.Data[0].Concept);
+    
+        for (var i = 0; i < Res.Data.length; i++)
+        {
+            this.records[i].code.SetText ("Nombre");
+            this.records[i].name.SetText ("Nombre");
+            this.records[i].partial.SetText ("Nombre");
+            this.records[i].debit.Reset.SetText ("Nombre");
+            this.records[i].credit.Reset.SetText ("Nombre");
+        }
+        for (i; i < this.records.length; i++)
+        {
+            this.records[i].Reset();
         }
     }
 };
