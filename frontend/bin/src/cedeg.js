@@ -71,6 +71,7 @@ record_widget.prototype.check_code = function (event)
     if(event.keyCode === Gwt.Gui.Event.Keyboard.KeyCodes.Enter)
     {
         var Query = "SELECT \"Name\" FROM \"AccountingAccount\" WHERE \"Code\"='{0}'".replace("{0}", this.code.GetText());
+        console.log (Query);
         new Gwt.Core.SqlQuery (Query, this.autocomplete.bind(this));
     }
 }
