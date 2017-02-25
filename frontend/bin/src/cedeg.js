@@ -70,7 +70,8 @@ record_widget.prototype.check_code = function (event)
 {
     if(event.keyCode === Gwt.Gui.Event.Keyboard.KeyCodes.Enter)
     {
-        new Gwt.Core.Request("/backend/cuentas/select/", this.autocomplete.bind(this), [new Gwt.Core.Parameter(Gwt.Core.PARAM_TYPE_JSON, "Params", {"Code": this.code.GetText ()})]);
+        var Query = 'SELECT "Name" FROM "AccountingAccount" WHERE "Code"=\'{0}\' LIMIT 1'.replace("{0}", this.code.GetText());
+        new Gwt.Core.SqlQuery (Query, this.autocomplete.bind(this));
     }
 }
 
@@ -78,6 +79,7 @@ record_widget.prototype.check_code = function (event)
 
 record_widget.prototype.autocomplete = function (Res)
 {
+    console.log (Res);
     if (Res.Data.length === 1)
     {
         this.name.SetText (Res.Data[0].Name);
@@ -271,7 +273,6 @@ cedeg.prototype.CheckNumber = function (Event)
 
 cedeg.prototype.NextNumber = function (Res)
 {
-    console.log(Res);
     this.number.SetText(Number(Res.Data[0].Number)+1);
 };
 
