@@ -92,9 +92,9 @@ int Query (struct HttpRequest *Req)
     }
     
     char Query[4096];
-    
+    kore_log (LOG_INFO, "%s", Data);
     struct FuncResult Ret = GetJsonString (Data, "Query", Query);
-    kore_log (LOG_INFO, "%s", Query);
+    
     
     if (Ret.Result == KORE_RESULT_ERROR)
     {
