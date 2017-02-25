@@ -293,8 +293,8 @@ cedeg.prototype.AutoFill = function (Res)
             this.records[i].code.SetText (Res.Data[i].Code);
             this.records[i].name.SetText (Res.Data[i].Name);
             this.records[i].partial.SetText (Res.Data[i].Partial);
-            this.records[i].debit.Reset.SetText (Res.Data[i].Debit);
-            this.records[i].credit.Reset.SetText (Res.Data[i].Credit);
+            this.records[i].debit.SetText (Res.Data[i].Debit);
+            this.records[i].credit.SetText (Res.Data[i].Credit);
         }
         for (i; i < this.records.length; i++)
         {
