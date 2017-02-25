@@ -30,7 +30,7 @@ Gwt.Core.SqlStatement.prototype.Ready = function ()
 
 
 
-Gwt.Core.SqlQuery = function (DbUrl, Stm, Callback)
+Gwt.Core.SqlQuery = function (Stm, Callback)
 {
     this.XHR = new XMLHttpRequest ();
     this.XHR.open ("POST", "/backend/query/", true);
