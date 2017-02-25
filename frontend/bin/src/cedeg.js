@@ -79,7 +79,6 @@ record_widget.prototype.check_code = function (event)
 
 record_widget.prototype.autocomplete = function (Res)
 {
-    console.log (Res);
     if (Res.Data.length === 1)
     {
         this.name.SetText (Res.Data[0].Name);
