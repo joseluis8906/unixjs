@@ -4,10 +4,10 @@
  * and open the template in the editor.
  */
 
-Gwt.Core.SqlStatement = function (DbUrl, Stm, Callback)
+Gwt.Core.SqlStatement = function (Stm, Callback)
 {
     this.XHR = new XMLHttpRequest ();
-    this.XHR.open ("POST", DbUrl, true);
+    this.XHR.open ("POST", "/backend/statement/", true);
     this.XHR.onreadystatechange = this.Ready.bind(this);
     this.XHR.overrideMimeType("application/json");
     this.Callback = Callback;
@@ -33,7 +33,7 @@ Gwt.Core.SqlStatement.prototype.Ready = function ()
 Gwt.Core.SqlQuery = function (DbUrl, Stm, Callback)
 {
     this.XHR = new XMLHttpRequest ();
-    this.XHR.open ("POST", DbUrl, true);
+    this.XHR.open ("POST", "/backend/query/", true);
     this.XHR.onreadystatechange = this.Ready.bind(this);
     this.XHR.overrideMimeType("application/json");
     this.Callback = Callback;

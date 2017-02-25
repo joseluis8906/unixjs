@@ -12,7 +12,8 @@ int Home (struct HttpRequest *Req)
 }
 
 
-//test
+
+//Statement Remote
 int Statement (struct HttpRequest *Req)
 {
     /*if (AuthControllerVerifySession (Req) == KORE_RESULT_ERROR)
@@ -75,8 +76,14 @@ int Statement (struct HttpRequest *Req)
 }
 
 
+
+//Query Remote
 int Query (struct HttpRequest *Req)
 {
+    /*if (AuthControllerVerifySession (Req) == KORE_RESULT_ERROR)
+    {
+        return KORE_RESULT_OK;
+    }*/
     char *Data = NULL;
     
     if (VerifyRequest (Req, &Data, FORM_JSON) == KORE_RESULT_ERROR)
@@ -141,6 +148,7 @@ int Query (struct HttpRequest *Req)
     
     return (KORE_RESULT_OK);
 }
+
 
 
 //approles

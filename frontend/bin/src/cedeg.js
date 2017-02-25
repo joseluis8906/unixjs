@@ -262,7 +262,8 @@ cedeg.prototype.CheckNumber = function (Event)
     {
         if (this.number.GetText () === "")
         {
-            new Gwt.Core.Request("/backend/cedeg/nextnumber/", this.NextNumber.bind(this), null, Gwt.Core.REQUEST_METHOD_GET);
+            var Query = "SELECT \"Number\" FROM \"AccountingDisbVou\" ORDER BY \"Number\" DESC LIMIT 1";
+            new Gwt.Core.SqlQuery(Query, this.NextNumber.bind(this));
         }
     }
 };
@@ -270,7 +271,7 @@ cedeg.prototype.CheckNumber = function (Event)
 
 cedeg.prototype.NextNumber = function (Res)
 {
-    this.number.SetText(Res.Data.Number);
+    this.number.SetText(Res[0].Number);
 };
 
 
