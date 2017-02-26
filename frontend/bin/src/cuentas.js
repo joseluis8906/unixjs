@@ -42,7 +42,7 @@ cuentas.prototype._App = function ()
     this.layout = null;
 }
 
-cuentas.prototype.CheckCode = function ()
+cuentas.prototype.CheckCode = function (Event)
 {
     if(event.keyCode === Gwt.Gui.Event.Keyboard.KeyCodes.Enter)
     {
