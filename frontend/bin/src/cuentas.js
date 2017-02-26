@@ -18,7 +18,7 @@ function cuentas()
     
     //this.title_label.SetWidth ();
     this.code = new Gwt.Gui.Entry ("Código");
-    this.code.AddEvent (Gwt.Gui.Event.Keyboard.KeyUp, this.CheckCode.bind(this));
+    this.code.AddEvent (Gwt.Gui.Event.Keyboard.KeyUp, this.Select.bind(this));
     this.name = new Gwt.Gui.Entry ("Nombre");
     this.layout = new Gwt.Gui.VBox ();
 	
