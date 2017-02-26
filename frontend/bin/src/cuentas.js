@@ -44,7 +44,7 @@ cuentas.prototype._App = function ()
 
 cuentas.prototype.CheckCode = function (Event)
 {
-    if(event.keyCode === Gwt.Gui.Event.Keyboard.KeyCodes.Enter)
+    if(Event.keyCode === Gwt.Gui.Event.Keyboard.KeyCodes.Enter)
     {
         var Query = "SELECT \"Name\" FROM \"AccountingAccount\" WHERE \"Code\"='{0}'".replace("{0}", this.code.GetText());
         new Gwt.Core.SqlQuery (Query, this.AutoFill.bind(this));
