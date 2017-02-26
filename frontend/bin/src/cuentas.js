@@ -56,6 +56,7 @@ cuentas.prototype.Eliminar = function ()
 
 cuentas.prototype.ResponseSave = function (Res)
 {
+    console.log (Res);
     if (Res.Result === 1)
     {
         this.Reset ();
