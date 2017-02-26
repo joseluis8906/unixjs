@@ -17,6 +17,7 @@ function cuentas()
     
     //this.title_label.SetWidth ();
     this.code = new Gwt.Gui.Entry ("Código");
+    this.code.AddEvent (Gwt.Gui.Event.Keyboard.KeyUp, this.CheckCode.bind(this));
     this.name = new Gwt.Gui.Entry ("Nombre");
     this.layout = new Gwt.Gui.VBox ();
 	
@@ -43,16 +44,9 @@ cuentas.prototype._App = function ()
 
 cuentas.prototype.Guardar = function ()
 {
-    var Data = [
-        {
-            "Code": this.code.GetText (),
-            "Name": this.name.GetText ()
-        }
-    ];
+    var Stm = "INSERT INTO \"AccountingAccount\" (\"Code\", \"Name\") VALUES ('{0}', '{1}')".replace("{0}", this.code.GetText ()).replace("{1}", this.name.GetText ());
     
-    new Gwt.Core.Request("/backend/cuentas/save/", this.ResponseSave.bind(this), [new Gwt.Core.Parameter (Gwt.Core.PARAM_TYPE_JSON, "Params", Data)]);
-    
-    this.Reset ();
+    new Gwt.Core.SqlStatement (Stm, this.ResponseSave.bind(this));
 };
 
 cuentas.prototype.Eliminar = function ()
@@ -60,7 +54,7 @@ cuentas.prototype.Eliminar = function ()
     
 };
 
-cuentas.prototype.Reset = function (Res)
+cuentas.prototype.ResponseSave = function (Res)
 {
     if (Res.Result === 1)
     {
