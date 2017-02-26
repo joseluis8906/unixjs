@@ -87,6 +87,7 @@ cuentas.prototype.Update = function (Event)
 
 cuentas.prototype.UpdateResponse = function (Res)
 {
+    console.log (Res);
     if (Res.Result === 1)
     {
         this.Reset ();
