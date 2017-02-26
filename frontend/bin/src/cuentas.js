@@ -82,7 +82,6 @@ cuentas.prototype.InsertResponse = function (Res)
 cuentas.prototype.Update = function (Event)
 {
     var Stm = "UPDATE \"AccountingAccount\" SET \"Name\"='{0}' WHERE \"Code\"='{1}'".replace("{0}", this.name.GetText ()).replace("{1}", this.code.GetText ());
-    
     new Gwt.Core.SqlStatement (Stm, this.UpdateResponse.bind(this));
 };
 
