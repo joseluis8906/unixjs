@@ -53,7 +53,7 @@ cuentas.prototype.CheckCode = function (Event)
 
 cuentas.prototype.AutoFill = function (Res)
 {
-    if (Res.Result == 1)
+    if (Res.Data.length > 0)
     {
         this.name.SetText (Res.Data[0].Name);
     }
