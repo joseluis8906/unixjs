@@ -42,6 +42,27 @@ cuentas.prototype._App = function ()
     this.layout = null;
 }
 
+cuentas.prototype.CheckCode = function ()
+{
+    if(event.keyCode === Gwt.Gui.Event.Keyboard.KeyCodes.Enter)
+    {
+        var Query = "SELECT \"Name\" FROM \"AccountingAccount\" WHERE \"Code\"='{0}'".replace("{0}", this.code.GetText());
+        new Gwt.Core.SqlQuery (Query, this.AutoFill.bind(this));
+    }
+};
+
+cuentas.prototype.AutoFill = function (Res)
+{
+    if (Res.Result == 1)
+    {
+        this.name.SetText (Res.Data[0].Name);
+    }
+    else
+    {
+        this.Reset();
+    }
+};
+
 cuentas.prototype.Guardar = function ()
 {
     var Stm = "INSERT INTO \"AccountingAccount\" (\"Code\", \"Name\") VALUES ('{0}', '{1}')".replace("{0}", this.code.GetText ()).replace("{1}", this.name.GetText ());
