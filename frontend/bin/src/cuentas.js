@@ -70,14 +70,23 @@ cuentas.prototype.Guardar = function ()
     new Gwt.Core.SqlStatement (Stm, this.ResponseSave.bind(this));
 };
 
-cuentas.prototype.Eliminar = function ()
-{
-    
-};
-
 cuentas.prototype.ResponseSave = function (Res)
 {
-    console.log (Res);
+    if (Res.Result === 1)
+    {
+        this.Reset ();
+    }
+};
+
+cuentas.prototype.Eliminar = function ()
+{
+    var Stm = "DELETE FROM \"AccountingAccount\" WHERE \"Code\"='{0}'".replace("{0}", this.code.GetText ());
+    
+    new Gwt.Core.SqlStatement (Stm, this.ResponseDelete.bind(this));
+};
+
+cuentas.prototype.ResponseDelete = function (Res)
+{
     if (Res.Result === 1)
     {
         this.Reset ();
