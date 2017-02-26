@@ -11,8 +11,9 @@ function cuentas()
     this.SetBorderSpacing (12);
     
     this.EnableMenu ();
-    this.AddMenuItem (Gwt.Core.Contrib.Images + "appbar.cabinet.in.svg", "Guardar", this.Guardar.bind(this));
-    this.AddMenuItem (Gwt.Core.Contrib.Images + "appbar.delete.svg", "Eliminar", this.Eliminar.bind(this));
+    this.AddMenuItem (Gwt.Core.Contrib.Images + "appbar.cabinet.in.svg", "Guardar", this.Insert.bind(this));
+    this.AddMenuItem (Gwt.Core.Contrib.Images + "appbar.delete.svg", "Actualizar", this.Update.bind(this));
+    this.AddMenuItem (Gwt.Core.Contrib.Images + "appbar.delete.svg", "Eliminar", this.Delete.bind(this));
     this.AddMenuItem (Gwt.Core.Contrib.Images + "appbar.power.svg", "Salir", function(){window.cuentas.close(); window.gcontrol.open();}, Gwt.Gui.MENU_QUIT_APP);
     
     //this.title_label.SetWidth ();
@@ -42,16 +43,16 @@ cuentas.prototype._App = function ()
     this.layout = null;
 }
 
-cuentas.prototype.CheckCode = function (Event)
+cuentas.prototype.Select = function (Event)
 {
     if(Event.keyCode === Gwt.Gui.Event.Keyboard.KeyCodes.Enter)
     {
         var Query = "SELECT \"Name\" FROM \"AccountingAccount\" WHERE \"Code\"='{0}'".replace("{0}", this.code.GetText());
-        new Gwt.Core.SqlQuery (Query, this.AutoFill.bind(this));
+        new Gwt.Core.SqlQuery (Query, this.SelectResponse.bind(this));
     }
 };
 
-cuentas.prototype.AutoFill = function (Res)
+cuentas.prototype.SelectResponse = function (Res)
 {
     if (Res.Data.length > 0)
     {
@@ -63,14 +64,14 @@ cuentas.prototype.AutoFill = function (Res)
     }
 };
 
-cuentas.prototype.Guardar = function ()
+cuentas.prototype.Insert = function (Event)
 {
     var Stm = "INSERT INTO \"AccountingAccount\" (\"Code\", \"Name\") VALUES ('{0}', '{1}')".replace("{0}", this.code.GetText ()).replace("{1}", this.name.GetText ());
     
-    new Gwt.Core.SqlStatement (Stm, this.ResponseSave.bind(this));
+    new Gwt.Core.SqlStatement (Stm, this.InsertResponse.bind(this));
 };
 
-cuentas.prototype.ResponseSave = function (Res)
+cuentas.prototype.InsertResponse = function (Res)
 {
     if (Res.Result === 1)
     {
@@ -78,14 +79,29 @@ cuentas.prototype.ResponseSave = function (Res)
     }
 };
 
-cuentas.prototype.Eliminar = function ()
+cuentas.prototype.Update = function (Event)
+{
+    var Stm = "UPDATE \"AccountingAccount\" SET \"Name\"='{0}' WHERE \"Code\"='{1}'".replace("{0}", this.name.GetText ()).replace("{1}", this.code.GetText ());
+    
+    new Gwt.Core.SqlStatement (Stm, this.UpdateResponse.bind(this));
+};
+
+cuentas.prototype.UpdateResponse = function (Res)
+{
+    if (Res.Result === 1)
+    {
+        this.Reset ();
+    }
+};
+
+cuentas.prototype.Delete = function (Event)
 {
     var Stm = "DELETE FROM \"AccountingAccount\" WHERE \"Code\"='{0}'".replace("{0}", this.code.GetText ());
     
-    new Gwt.Core.SqlStatement (Stm, this.ResponseDelete.bind(this));
+    new Gwt.Core.SqlStatement (Stm, this.DeleteResponse.bind(this));
 };
 
-cuentas.prototype.ResponseDelete = function (Res)
+cuentas.prototype.DeleteResponse = function (Res)
 {
     if (Res.Result === 1)
     {
