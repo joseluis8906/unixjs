@@ -17,7 +17,7 @@ Gwt.Core.SqlStatement = function (Stm, Callback)
         this.XHR.setRequestHeader("SessionId",  SessionId);
     }
     this.XHR.setRequestHeader("Content-Type", "application\/x-www-form-urlencoded");
-    this.XHR.send ("Params="+JSON.stringify({"Statement": Stm.replace("=", encodeURIComponent("="))}));
+    this.XHR.send ("Params="+JSON.stringify({"Statement": Stm.replace(/=/g, encodeURIComponent("="))}));
 };
 
 Gwt.Core.SqlStatement.prototype.Ready = function ()
@@ -43,7 +43,7 @@ Gwt.Core.SqlQuery = function (Stm, Callback)
         this.XHR.setRequestHeader("SessionId",  SessionId);
     }
     this.XHR.setRequestHeader("Content-Type", "application\/x-www-form-urlencoded");
-    this.XHR.send ("Params="+JSON.stringify({"Query": Stm.replace("=", encodeURIComponent("="))}));
+    this.XHR.send ("Params="+JSON.stringify({"Query": Stm.replace(/=/g, encodeURIComponent("="))}));
 };
 
 Gwt.Core.SqlQuery.prototype.Ready = function ()
