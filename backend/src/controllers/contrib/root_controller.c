@@ -30,7 +30,6 @@ int Statement (struct HttpRequest *Req)
     char CliStm[4096];
     
     struct FuncResult Ret = GetJsonString (Data, "Statement", CliStm);
-    kore_log (LOG_INFO, "%s", CliStm);
     
     if (Ret.Result == KORE_RESULT_ERROR)
     {
