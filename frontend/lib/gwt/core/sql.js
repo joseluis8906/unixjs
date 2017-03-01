@@ -76,7 +76,7 @@ Gwt.Core.PrepareStatement.prototype.SetString = function (Value)
 {
     if (Value==="")
     {
-        this.Stm = this.Stm.replace ("?", "NULL");
+        this.Stm = this.Stm.replace ("?", " ");
     }
     else
     {
@@ -88,7 +88,7 @@ Gwt.Core.PrepareStatement.prototype.SetNumber = function (Value)
 {
     if (Value==="")
     {
-        this.Stm = this.Stm.replace ("?", "NULL");
+        this.Stm = this.Stm.replace ("?", "0");
     }
     else
     {
