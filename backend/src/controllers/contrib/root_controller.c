@@ -60,9 +60,9 @@ int Statement (struct HttpRequest *Req)
         {
             Tmp = JsonObjectArrayGetIdx(Statements, i);
             Stm = Connection_prepareStatement (Conn, "%s", JsonObjectGetString(Tmp));
+            PreparedStatement_execute (Stm);
             JsonObjectPut (Tmp);
             Tmp = NULL;
-            PreparedStatement_execute (Stm);
         }
         Connection_commit (Conn);
         HttpResponseJsonMsg(Req, KORE_RESULT_OK, "Success");
