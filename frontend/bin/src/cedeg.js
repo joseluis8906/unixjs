@@ -219,14 +219,14 @@ cedeg.prototype.Save = function (Res)
     {
         if (this.records[i].code.GetText() !== "")
         {
-            Stm[i+1]=new Gwt.Core.PrepareStatement("INSERT INTO \"AccountingDisbVouRecord\"(\"AccountingDisbVouId\", \"AccountingAccountId\", \"Partial\", \"Debit\", \"Credit\")"+
-            "SELECT \"AccountingDisbVou\".\"Id\", \"AccountingAccount\".\"Id\", ?, ?, ? FROM \"AccountingDisbVou\" INNER JOIN \"AccountingAccount\" ON \"AccountingDisbVou\".\"Number\"=? AND \"AccountingAccount\".\"Code\"=?;");
-            
-            Stm[i+1].SetNumber (this.records[i].partial.GetText ());
-            Stm[i+1].SetNumber (this.records[i].debit.GetText ());
-            Stm[i+1].SetNumber (this.records[i].credit.GetText());
-            Stm[i+1].SetNumber (this.number.GetText ());
-            Stm[i+1].SetString (this.records[i].code.GetText ());
+            Stm.push (new Gwt.Core.PrepareStatement("INSERT INTO \"AccountingDisbVouRecord\"(\"AccountingDisbVouId\", \"AccountingAccountId\", \"Partial\", \"Debit\", \"Credit\")"+
+            "SELECT \"AccountingDisbVou\".\"Id\", \"AccountingAccount\".\"Id\", ?, ?, ? FROM \"AccountingDisbVou\" INNER JOIN \"AccountingAccount\" ON \"AccountingDisbVou\".\"Number\"=? AND \"AccountingAccount\".\"Code\"=?;")
+            .SetNumber (this.records[i].partial.GetText ())
+            .SetNumber (this.records[i].debit.GetText ())
+            .SetNumber (this.records[i].credit.GetText())
+            .SetNumber (this.number.GetText ())
+            .SetString (this.records[i].code.GetText ())
+            );
         }
     }
     
