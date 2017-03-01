@@ -37,7 +37,7 @@ int Statement (struct HttpRequest *Req)
         return (KORE_RESULT_OK);
     }
     
-    JsonObject Statements = NULL;
+    JsonObject *Statements = NULL;
     JsonObject Statements = JsonTokenerParse (CliStm);
     int Length = JsonObjectArrayLength (Statements);
     
