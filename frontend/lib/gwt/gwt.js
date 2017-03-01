@@ -646,7 +646,7 @@ Gwt.Core.SqlStatement = function (Statements, Callback)
     var Stms = [];
     for (var i=0; i<Statements.length; i++)
     {
-        Stms.push(Statements[i].GetStm());
+        Stms.push(Statements[i].GetText());
     }
     
     this.XHR = new XMLHttpRequest ();
@@ -727,7 +727,7 @@ Gwt.Core.PrepareStatement.prototype.SetNumber = function (Value)
     }
 };
 
-Gwt.Core.PrepareStatement.prototype.GetStm = function ()
+Gwt.Core.PrepareStatement.prototype.GetText = function ()
 {
     return this.Stm;
 };//#####################################################################################################
