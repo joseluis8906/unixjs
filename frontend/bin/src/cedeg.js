@@ -318,6 +318,7 @@ cedeg.prototype.AutoFill = function (Res)
 
 cedeg.prototype.NextNumber = function (Res)
 {
+    console.log (Res);
     this.number.SetText(Number(Res.Data[0].Number)+1);
 };
 
