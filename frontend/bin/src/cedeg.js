@@ -204,14 +204,14 @@ cedeg.prototype.Save = function ()
     var S = "WITH \"ins1\" AS (INSERT INTO \"AccountingDisbVou\"(\"Number\", \"Place\", \"Date\", \"Holder\", \"Concept\")"+
         "VALUES(?, ?, ?, ?, ?) RETURNING \"Id\")"+
         "INSERT INTO \"AccountingDisbVouBank\"(\"AccountingDisbVouId\", \"Bank\", \"Check\", \"CheckingAccount\", \"Amount\")"+
-        "SELECT \"Id\", ?, ?, ?, ? FROM \"ins1\";";
+        "SELECT \"Id\", ?, ?, ?, ? FROM \"ins1\";\n";
 
     for (var i=0; i < this.records.length; i++)
     {
         if (this.records[i].code.GetText() !== "")
         {
             S+="INSERT INTO \"AccountingDisbVouRecord\"(\"AccountingDisbVouId\", \"AccountingAccountId\", \"Partial\", \"Debit\", \"Credit\")"+
-            "SELECT \"AccountingDisbVou\".\"Id\", \"AccountingAccount\".\"Id\", ?, ?, ? FROM \"AccountingDisbVou\" INNER JOIN \"AccountingAccount\" ON \"AccountingDisbVou\".\"Number\"=? AND \"AccountingAccount\".\"Code\"=?;";
+            "SELECT \"AccountingDisbVou\".\"Id\", \"AccountingAccount\".\"Id\", ?, ?, ? FROM \"AccountingDisbVou\" INNER JOIN \"AccountingAccount\" ON \"AccountingDisbVou\".\"Number\"=? AND \"AccountingAccount\".\"Code\"=?;\n";
         }
     }
     
