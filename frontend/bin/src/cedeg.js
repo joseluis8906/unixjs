@@ -346,6 +346,7 @@ cedeg.prototype.CheckNumber = function (Event)
 
 cedeg.prototype.AutoFill = function (Res)
 {
+    console.log (Res);
     if (Res.Data.length > 0)
     {
         this.number.SetText (Res.Data[0].Number);
