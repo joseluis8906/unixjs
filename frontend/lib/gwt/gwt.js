@@ -643,6 +643,12 @@ Gwt.Core.SqlStatement = function (Statements, Callback)
         return false;
     }
     
+    var Stms = [];
+    for (var i=0; i<Statements.length; i++)
+    {
+        Stms.push(Statements[i].GetStm());
+    }
+    
     this.XHR = new XMLHttpRequest ();
     this.XHR.open ("POST", "/backend/statement/", true);
     this.XHR.onreadystatechange = this.Ready.bind(this);
@@ -654,7 +660,7 @@ Gwt.Core.SqlStatement = function (Statements, Callback)
         this.XHR.setRequestHeader("SessionId",  SessionId);
     }
     this.XHR.setRequestHeader("Content-Type", "application\/x-www-form-urlencoded");
-    this.XHR.send ("Params="+JSON.stringify({"Statement": Statements}));
+    this.XHR.send ("Params="+JSON.stringify({"Statement": Stms}));
 };
 
 Gwt.Core.SqlStatement.prototype.Ready = function ()
