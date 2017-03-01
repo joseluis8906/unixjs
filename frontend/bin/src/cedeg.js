@@ -278,7 +278,7 @@ cedeg.prototype.CheckNumber = function (Event)
 {
     if(Event.keyCode === Gwt.Gui.Event.Keyboard.KeyCodes.Enter)
     {
-        if (this.number.GetText () === null)
+        if (this.number.GetText () === "")
         {
             var Query = "SELECT \"Number\" FROM \"AccountingDisbVou\" ORDER BY \"Number\" DESC LIMIT 1";
             new Gwt.Core.SqlQuery(Query, this.NextNumber.bind(this));
