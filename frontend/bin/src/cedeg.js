@@ -201,35 +201,45 @@ cedeg.prototype._App = function ()
 
 cedeg.prototype.Save = function ()
 {
-    var Stm = "WITH \"ins1\" AS (INSERT INTO \"AccountingDisbVou\"(\"Number\", \"Place\", \"Date\", \"Holder\", \"Concept\")"+
-        "VALUES(?, '?', '?', '?', '?') RETURNING \"Id\")"
-        .replace("?", this.number.GetText ())
-        .replace("?", this.place.GetText ())
-        .replace("?", this.date.GetText ())
-        .replace("?", this.holder.GetText ())
-        .replace("?", this.concept.GetText ())+
+    var S = "WITH \"ins1\" AS (INSERT INTO \"AccountingDisbVou\"(\"Number\", \"Place\", \"Date\", \"Holder\", \"Concept\")"+
+        "VALUES(?, ?, ?, ?, ?) RETURNING \"Id\""+
         "INSERT INTO \"AccountingDisbVouBank\"(\"AccountingDisbVouId\", \"Bank\", \"Check\", \"CheckingAccount\", \"Amount\")"+
-        "SELECT \"Id\", '?', '?', '?', ? FROM \"ins1\";"
-        .replace("?", this.bank.GetText ())
-        .replace("?", this.check.GetText ())
-        .replace("?", this.checking_account.GetText ())
-        .replace("?", this.amount.GetText ());
+        "SELECT \"Id\", '?', '?', '?', ? FROM \"ins1\";";
+
+    for (var i=0; i < this.records.length; i++)
+    {
+        if (this.records[i].code.GetText() !== "")
+        {
+            S+="INSERT INTO \"AccountingDisbVouRecord\"(\"AccountingDisbVouId\", \"AccountingAccountId\", \"Partial\", \"Debit\", \"Credit\")"+
+            "SELECT \"AccountingDisbVou\".\"Id\", \"AccountingAccount\".\"Id\", ?, ?, ? FROM \"AccountingDisbVou\" INNER JOIN \"AccountingAccount\" ON \"AccountingDisbVou\".\"Number\"=? AND \"AccountingAccount\".\"Code\"='?';";
+        }
+    }
+    
+    var Stm = new Gwt.Core.PrepareStatement(S);
+    Stm.SetNumber (this.number.GetText ());
+    Stm.SetString (this.place.GetText ());
+    Stm.SetString (this.date.GetText ());
+    Stm.SetString (this.holder.GetText ());
+    Stm.SetString (this.concept.GetText ());    
+    Stm.SetString (this.bank.GetText ());
+    Stm.SetString (this.check.GetText ());
+    Stm.SetString (this.checking_account.GetText ());
+    Stm.SetNumber (this.amount.GetText ());
         
     for (var i=0; i < this.records.length; i++)
     {
         if (this.records[i].code.GetText() !== "")
         {
-            Stm+="INSERT INTO \"AccountingDisbVouRecord\"(\"AccountingDisbVouId\", \"AccountingAccountId\", \"Partial\", \"Debit\", \"Credit\")"+
-            "SELECT \"AccountingDisbVou\".\"Id\", \"AccountingAccount\".\"Id\", ?, ?, ? FROM \"AccountingDisbVou\" INNER JOIN \"AccountingAccount\" ON \"AccountingDisbVou\".\"Number\"=? AND \"AccountingAccount\".\"Code\"='?';"
-            .replace("?", this.records[i].partial.GetText ())
-            .replace("?", this.records[i].debit.GetText ())
-            .replace("?", this.records[i].credit.GetText())
-            .replace("?", this.number.GetText ())
-            .replace("?", this.records[i].code.GetText ());
+            Stm.SetNumber (this.records[i].partial.GetText ());
+            Stm.SetNumber (this.records[i].debit.GetText ());
+            Stm.SetNumber (this.records[i].credit.GetText());
+            Stm.SetNumber (this.number.GetText ());
+            Stm.SetString (this.records[i].code.GetText ());
         }
     }
     
-    new Gwt.Core.SqlStatement(Stm, this.SaveResponse.bind(this));
+    console.log (Stm.ToString ());
+    //new Gwt.Core.SqlStatement(Stm, this.SaveResponse.bind(this));
 };
 
 cedeg.prototype.SaveResponse = function (Res)

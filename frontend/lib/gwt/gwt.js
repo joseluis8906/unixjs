@@ -648,7 +648,7 @@ Gwt.Core.SqlStatement = function (Stm, Callback)
         this.XHR.setRequestHeader("SessionId",  SessionId);
     }
     this.XHR.setRequestHeader("Content-Type", "application\/x-www-form-urlencoded");
-    this.XHR.send ("Params="+JSON.stringify({"Statement": Stm.replace(/=/g, encodeURIComponent("="))}));
+    this.XHR.send ("Params="+JSON.stringify({"Statement": Stm.ToString().replace(/=/g, encodeURIComponent("="))}));
 };
 
 Gwt.Core.SqlStatement.prototype.Ready = function ()
@@ -661,7 +661,7 @@ Gwt.Core.SqlStatement.prototype.Ready = function ()
 
 
 
-Gwt.Core.SqlQuery = function (Stm, Callback)
+Gwt.Core.SqlQuery = function (Query, Callback)
 {
     this.XHR = new XMLHttpRequest ();
     this.XHR.open ("POST", "/backend/query/", true);
@@ -674,7 +674,7 @@ Gwt.Core.SqlQuery = function (Stm, Callback)
         this.XHR.setRequestHeader("SessionId",  SessionId);
     }
     this.XHR.setRequestHeader("Content-Type", "application\/x-www-form-urlencoded");
-    this.XHR.send ("Params="+JSON.stringify({"Query": Stm.replace(/=/g, encodeURIComponent("="))}));
+    this.XHR.send ("Params="+JSON.stringify({"Query": Query.replace(/=/g, encodeURIComponent("="))}));
 };
 
 Gwt.Core.SqlQuery.prototype.Ready = function ()
@@ -683,6 +683,41 @@ Gwt.Core.SqlQuery.prototype.Ready = function ()
     {
         this.Callback (JSON.parse(this.XHR.response));
     }
+};
+
+
+Gwt.Core.PrepareStatement = function (Stm)
+{
+    this.Stm = Stm;
+};
+
+Gwt.Core.PrepareStatement.prototype.SetString = function (Value)
+{
+    if (Value==="")
+    {
+        this.Stm = this.Stm.replace ("?", "'{0}'".replace("{0}", Value));
+    }
+    else
+    {
+        this.Stm = this.Stm.replace ("?", "NULL");
+    }
+};
+
+Gwt.Core.PrepareStatement.prototype.SetNumber = function (Value)
+{
+    if (Value==="")
+    {
+        this.Stm = this.Stm.replace ("?", "{0}".replace("{0}", Value));
+    }
+    else
+    {
+        this.Stm = this.Stm.replace ("?", "NULL");
+    }
+};
+
+Gwt.Core.PrepareStatement.prototype.ToString = function (Value)
+{
+    return this.Stm;
 };//#####################################################################################################
 //Gwt::Gui
 //environments constants
@@ -2426,11 +2461,6 @@ Gwt.Gui.Entry.prototype.ChangeToText = function ()
 
 Gwt.Gui.Entry.prototype.GetText = function ()
 {
-    if (this.Html.value==="")
-    {
-        return null;
-    }
-    
     if (this.Format === "Text")
     {
         return this.Html.value;

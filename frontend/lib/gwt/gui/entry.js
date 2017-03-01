@@ -43,11 +43,6 @@ Gwt.Gui.Entry.prototype.ChangeToText = function ()
 
 Gwt.Gui.Entry.prototype.GetText = function ()
 {
-    if (this.Html.value==="")
-    {
-        return null;
-    }
-    
     if (this.Format === "Text")
     {
         return this.Html.value;
