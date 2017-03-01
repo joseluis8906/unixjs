@@ -282,7 +282,6 @@ cedeg.prototype.Update = function (Event)
         }
     }
     
-    console.log (Stm);
     new Gwt.Core.SqlStatement (Stm, this.UpdateResponse.bind(this));
 };
 
