@@ -45,11 +45,12 @@ Gwt.Gui.Entry.prototype.GetText = function ()
 {
     if (this.Format === "Text")
     {
-        return this.Html.value;
+        return (this.Html.value==="") ? " " : this.Html.value;
     }
     else
     {
-        return this.Html.value.replace("$", "").split(".").join("");
+        var text = this.Html.value.replace("$", "").split(".").join("");
+        return (text==="") ? 0 : text;
     }
 }
 
