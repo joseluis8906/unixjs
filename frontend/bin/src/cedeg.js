@@ -220,7 +220,7 @@ cedeg.prototype.Save = function ()
         if (this.records[i].code.GetText() !== "")
         {
             Stm+="INSERT INTO \"AccountingDisbVouRecord\"(\"AccountingDisbVouId\", \"AccountingAccountId\", \"Partial\", \"Debit\", \"Credit\")"+
-                "SELECT \"AccountingDisbVou\".\"Id\", \"AccountingAccount\".\"Id\", ?, ?, ? FROM \"AccountingDisbVou\" INNER JOIN \"AccountingAccount\" ON \"AccountingDisbVou\".\"Number\"=? AND \"AccountingAccount\".\"Code\"='?';"
+            "SELECT \"AccountingDisbVou\".\"Id\", \"AccountingAccount\".\"Id\", ?, ?, ? FROM \"AccountingDisbVou\" INNER JOIN \"AccountingAccount\" ON \"AccountingDisbVou\".\"Number\"=? AND \"AccountingAccount\".\"Code\"='?';"
             .replace("?", this.records[i].partial.GetText ())
             .replace("?", this.records[i].debit.GetText ())
             .replace("?", this.records[i].credit.GetText())
@@ -230,7 +230,6 @@ cedeg.prototype.Save = function ()
     }
     
     new Gwt.Core.SqlStatement(Stm, this.SaveResponse.bind(this));
-    console.log ("enviado");
 };
 
 cedeg.prototype.SaveResponse = function (Res)
@@ -318,7 +317,6 @@ cedeg.prototype.AutoFill = function (Res)
 
 cedeg.prototype.NextNumber = function (Res)
 {
-    console.log (Res);
     this.number.SetText(Number(Res.Data[0].Number)+1);
 };
 
