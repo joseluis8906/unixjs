@@ -255,16 +255,15 @@ cedeg.prototype.Update = function (Event)
     Stm[0].SetNumber (this.number.GetText ());
     
     var Tmp = new Gwt.Core.PrepareStatement ("UPDATE \"AccountingDisbVouBank\" SET \"Bank\"=?, \"Check\"=?, \"CheckingAccount\"=?, \"Amount\"=? FROM \"AccountingDisbVou\" WHERE  \"AccountingDisbVouId\"=\"AccountingDisbVou\".\"Id\" AND \"AccountingDisbVou\".\"Number\"=?");    
-    Stm[0].SetString (this.bank.GetText ());
-    Stm[0].SetString (this.check.GetText ());
-    Stm[0].SetString (this.checking_account.GetText ());
-    Stm[0].SetNumber (this.amount.GetText ());
-    Stm[0].SetNumber (this.number.GetText ());
+    Tmp.SetString (this.bank.GetText ());
+    Tmp.SetString (this.check.GetText ());
+    Tmp.SetString (this.checking_account.GetText ());
+    Tmp.SetNumber (this.amount.GetText ());
+    Tmp.SetNumber (this.number.GetText ());
     Stm.push(Tmp);
     
     Tmp = new Gwt.Core.PrepareStatement("DELETE FROM \"AccountingDisbVouRecord\" USING \"AccountingDisbVou\" WHERE \"AccountingDisbVouId\"=\"AccountingDisbVou\".\"Id\" AND \"Number\"=?");
     Tmp.SetNumber (this.number.GetText ());
-    
     Stm.push(Tmp);
     
     for (var i=0; i < this.records.length; i++)
