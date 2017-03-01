@@ -219,18 +219,16 @@ cedeg.prototype.Save = function (Res)
     {
         if (this.records[i].code.GetText() !== "")
         {
-            Stm.push(new Gwt.Core.PrepareStatement("INSERT INTO \"AccountingDisbVouRecord\"(\"AccountingDisbVouId\", \"AccountingAccountId\", \"Partial\", \"Debit\", \"Credit\")"+
-            "SELECT \"AccountingDisbVou\".\"Id\", \"AccountingAccount\".\"Id\", ?, ?, ? FROM \"AccountingDisbVou\" INNER JOIN \"AccountingAccount\" ON \"AccountingDisbVou\".\"Number\"=? AND \"AccountingAccount\".\"Code\"=?;"));
+            var Tmp = new Gwt.Core.PrepareStatement("INSERT INTO \"AccountingDisbVouRecord\"(\"AccountingDisbVouId\", \"AccountingAccountId\", \"Partial\", \"Debit\", \"Credit\")"+
+            "SELECT \"AccountingDisbVou\".\"Id\", \"AccountingAccount\".\"Id\", ?, ?, ? FROM \"AccountingDisbVou\" INNER JOIN \"AccountingAccount\" ON \"AccountingDisbVou\".\"Number\"=? AND \"AccountingAccount\".\"Code\"=?;");
+            Tmp.SetNumber (this.records[i].partial.GetText ());
+            Tmp.SetNumber (this.records[i].debit.GetText ());
+            Tmp.SetNumber (this.records[i].credit.GetText());
+            Tmp.SetNumber (this.number.GetText ());
+            Tmp.SetString (this.records[i].code.GetText ());
+            
+            Stm.push(Tmp);
         }
-    }
-    
-    for (var i=1; i < Stm.length; i++)
-    {
-        Stm[i].SetNumber (this.records[i].partial.GetText ());
-        Stm[i].SetNumber (this.records[i].debit.GetText ());
-        Stm[i].SetNumber (this.records[i].credit.GetText());
-        Stm[i].SetNumber (this.number.GetText ());
-        Stm[i].SetString (this.records[i].code.GetText ());
     }
     
     new Gwt.Core.SqlStatement(Stm, this.SaveResponse.bind(this));
