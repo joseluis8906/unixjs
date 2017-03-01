@@ -100,8 +100,8 @@ function cedeg()
     this.SetBorderSpacing (12);
     
     this.EnableMenu ();
-    this.AddMenuItem (Gwt.Core.Contrib.Images + "appbar.cabinet.in.svg", "Guardar", this.Guardar.bind(this));
-    this.AddMenuItem (Gwt.Core.Contrib.Images + "appbar.delete.svg", "Eliminar", this.Eliminar.bind(this));
+    this.AddMenuItem (Gwt.Core.Contrib.Images + "appbar.cabinet.in.svg", "Guardar", this.Save.bind(this));
+    this.AddMenuItem (Gwt.Core.Contrib.Images + "appbar.delete.svg", "Eliminar", this.Delete.bind(this));
     this.AddMenuItem (Gwt.Core.Contrib.Images + "appbar.power.svg", "Salir", function(){window.cedeg.close(); window.gcontrol.open();}, Gwt.Gui.MENU_QUIT_APP);
          
     this.layout = new Gwt.Gui.VBox ();
@@ -199,42 +199,40 @@ cedeg.prototype._App = function ()
     this.Report = null;
 };
 
-cedeg.prototype.Guardar = function ()
+cedeg.prototype.Save = function ()
 {
-    var Records = [];
+    var Stm = "WITH \"ins1\" AS (INSERT INTO \"AccountingDisbVou\"(\"Number\", \"Place\", \"Date\", \"Holder\", \"Concept\")\
+        VALUES(?, '?', '?', '?', '?') RETURNING \"Id\")\
+        INSERT INTO \"AccountingDisbVouBank\"(\"AccountingDisbVouId\", \"Bank\", \"Check\", \"CheckingAccount\", \"Amount\")\
+        SELECT \"Id\", '?', '?', '?', ? FROM \"ins1\";"
+        .replace("?", this.number.GetText ())
+        .replace("?", this.place.GetText ())
+        .replace("?", this.date.GetText ())
+        .replace("?", this.holder.GetText ())
+        .replace("?", this.concept.GetText ())
+        .replace("?", this.bank.GetText ())
+        .replace("?", this.check.GetText ())
+        .replace("?", this.checking_account.GetText ())
+        .replace("?", this.amount.GetText ());
+        
     for (var i=0; i < this.records.length; i++)
     {
         if (this.records[i].code.GetText() !== "")
         {
-            Records.push({
-                "Code": this.records[i].code.GetText (),
-                "Name": this.records[i].name.GetText (),
-                "Partial": this.records[i].partial.GetText (),
-                "Debit": this.records[i].debit.GetText (),
-                "Credit": this.records[i].credit.GetText()
-            });
+            Stm+"INSERT INTO \"AccountingDisbVouRecord\"(\"AccountingDisbVouId\", \"AccountingAccountId\", \"Partial\", \"Debit\", \"Credit\")\
+                SELECT \"AccountingDisbVou\".\"Id\", \"AccountingAccount\".\"Id\", ?, ?, ? FROM \"AccountingDisbVou\" INNER JOIN \"AccountingAccount\" ON \"AccountingDisbVou\".\"Number\"=? AND \"AccountingAccount\".\"Code\"='?';"
+            .replace("?", this.records[i].partial.GetText ())
+            .replace("?", this.records[i].debit.GetText ())
+            .replace("?", this.records[i].credit.GetText())
+            .replace("?", this.number.GetText ())
+            .replace("?", this.records[i].code.GetText ());
         }
     }
     
-    var Data = [
-        {
-            "Number": this.number.GetText (),
-            "Place": this.place.GetText (),
-            "Date": this.date.GetText (),
-            "Holder": this.holder.GetText (),
-            "Amount": this.amount.GetText (),
-            "Bank": this.bank.GetText (),
-            "Check": this.check.GetText (),
-            "CheckingAccount": this.checking_account.GetText (),
-            "Concept": this.concept.GetText (),
-            "Records": Records
-        }
-    ];
-    
-    new Gwt.Core.Request("/backend/cedeg/save/", this.SaveResponse.bind (this), [new Gwt.Core.Parameter(Gwt.Core.PARAM_TYPE_JSON, "Params", Data)]);
+    console.log (Stm);
 };
 
-cedeg.prototype.Eliminar = function ()
+cedeg.prototype.Delete = function ()
 {
     
 };
@@ -268,7 +266,7 @@ cedeg.prototype.CheckNumber = function (Event)
         }
         else
         {
-            var Query = "SELECT \"Number\", \"Place\", \"Date\", \"Holder\", \"Concept\", \"Bank\", \"Check\", \"CheckingAccount\", \"Amount\", \"Code\", \"Name\", \"Partial\", \"Debit\", \"Credit\" FROM \"AccountingDisbVouAll\" WHERE \"Number\"={0}".replace("{0}", this.number.GetText());
+            var Query = "SELECT \"Number\", \"Place\", \"Date\", \"Holder\", \"Concept\", \"Bank\", \"Check\", \"CheckingAccount\", \"Amount\", \"Code\", \"Name\", \"Partial\", \"Debit\", \"Credit\" FROM \"AccountingDisbVouAll\" WHERE \"Number\"=?".replace("?", this.number.GetText());
             new Gwt.Core.SqlQuery(Query, this.AutoFill.bind(this));
         }
     }
