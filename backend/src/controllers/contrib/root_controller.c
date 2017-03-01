@@ -40,6 +40,7 @@ int Statement (struct HttpRequest *Req)
     JsonObject *Statements = NULL;
     Statements = JsonTokenerParse (CliStm);
     int Length = JsonObjectArrayLength (Statements);
+    JsonObject *Tmp = NULL;
     
     Connection_T Conn = DbGetConnection ();
         
@@ -52,12 +53,15 @@ int Statement (struct HttpRequest *Req)
     TRY
     {   
         Connection_beginTransaction (Conn);
-        PreparedStatement_T Stm; 
+        PreparedStatement_T Stm;
         
         int i = 0;
         for (i = 0; i < Length; i++)
         {
-            Stm = Connection_prepareStatement (Conn, "%s", (char *) JsonObjectArrayGetIdx(Statements, i));
+            Tmp = JsonObjectArrayGetIdx(Statements, i);
+            Stm = Connection_prepareStatement (Conn, "%s", JsonObjectGetString(Tmp));
+            JsonObjectPut (Tmp);
+            Tmp = NULL;
             PreparedStatement_execute (Stm);
         }
         
