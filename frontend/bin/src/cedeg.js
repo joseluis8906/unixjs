@@ -219,7 +219,7 @@ cedeg.prototype.Save = function ()
     {
         if (this.records[i].code.GetText() !== "")
         {
-            Stm+"INSERT INTO \"AccountingDisbVouRecord\"(\"AccountingDisbVouId\", \"AccountingAccountId\", \"Partial\", \"Debit\", \"Credit\")\
+            Stm+="INSERT INTO \"AccountingDisbVouRecord\"(\"AccountingDisbVouId\", \"AccountingAccountId\", \"Partial\", \"Debit\", \"Credit\")\
                 SELECT \"AccountingDisbVou\".\"Id\", \"AccountingAccount\".\"Id\", ?, ?, ? FROM \"AccountingDisbVou\" INNER JOIN \"AccountingAccount\" ON \"AccountingDisbVou\".\"Number\"=? AND \"AccountingAccount\".\"Code\"='?';"
             .replace("?", this.records[i].partial.GetText ())
             .replace("?", this.records[i].debit.GetText ())
