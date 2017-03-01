@@ -251,6 +251,14 @@ cedeg.prototype.Delete = function ()
     new Gwt.Core.SqlStatement ([Stm], this.DeleteResponse.bind(this));
 };
 
+cedeg.prototype.DeleteResponse = function (Res)
+{
+    if (Res.Result === 1)
+    {
+        this.Reset ();
+    }
+};
+
 cedeg.prototype.Reset = function ()
 {
     this.number.SetText ("");
