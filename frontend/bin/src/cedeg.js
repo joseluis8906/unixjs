@@ -199,46 +199,39 @@ cedeg.prototype._App = function ()
     this.Report = null;
 };
 
-cedeg.prototype.Save = function ()
+cedeg.prototype.Save = function (Res)
 {
-    var S = "WITH \"ins1\" AS (INSERT INTO \"AccountingDisbVou\"(\"Number\", \"Place\", \"Date\", \"Holder\", \"Concept\")"+
+    var Stm = [new Gwt.Core.PrepareStatement("WITH \"ins1\" AS (INSERT INTO \"AccountingDisbVou\"(\"Number\", \"Place\", \"Date\", \"Holder\", \"Concept\")"+
         "VALUES(?, ?, ?, ?, ?) RETURNING \"Id\")"+
         "INSERT INTO \"AccountingDisbVouBank\"(\"AccountingDisbVouId\", \"Bank\", \"Check\", \"CheckingAccount\", \"Amount\")"+
-        "SELECT \"Id\", ?, ?, ?, ? FROM \"ins1\";\n";
+        "SELECT \"Id\", ?, ?, ?, ? FROM \"ins1\";")];
+    Stm[0].SetNumber (this.number.GetText ());
+    Stm[0].SetString (this.place.GetText ());
+    Stm[0].SetString (this.date.GetText ());
+    Stm[0].SetString (this.holder.GetText ());
+    Stm[0].SetString (this.concept.GetText ());    
+    Stm[0].SetString (this.bank.GetText ());
+    Stm[0].SetString (this.check.GetText ());
+    Stm[0].SetString (this.checking_account.GetText ());
+    Stm[0].SetNumber (this.amount.GetText ());
 
     for (var i=0; i < this.records.length; i++)
     {
         if (this.records[i].code.GetText() !== "")
         {
-            S+="INSERT INTO \"AccountingDisbVouRecord\"(\"AccountingDisbVouId\", \"AccountingAccountId\", \"Partial\", \"Debit\", \"Credit\")"+
-            "SELECT \"AccountingDisbVou\".\"Id\", \"AccountingAccount\".\"Id\", ?, ?, ? FROM \"AccountingDisbVou\" INNER JOIN \"AccountingAccount\" ON \"AccountingDisbVou\".\"Number\"=? AND \"AccountingAccount\".\"Code\"=?;\n";
+            Stm[i+1]=new Gwt.Core.PrepareStatement("INSERT INTO \"AccountingDisbVouRecord\"(\"AccountingDisbVouId\", \"AccountingAccountId\", \"Partial\", \"Debit\", \"Credit\")"+
+            "SELECT \"AccountingDisbVou\".\"Id\", \"AccountingAccount\".\"Id\", ?, ?, ? FROM \"AccountingDisbVou\" INNER JOIN \"AccountingAccount\" ON \"AccountingDisbVou\".\"Number\"=? AND \"AccountingAccount\".\"Code\"=?;");
+            
+            Stm[i+1].SetNumber (this.records[i].partial.GetText ());
+            Stm[i+1].SetNumber (this.records[i].debit.GetText ());
+            Stm[i+1].SetNumber (this.records[i].credit.GetText());
+            Stm[i+1].SetNumber (this.number.GetText ());
+            Stm[i+1].SetString (this.records[i].code.GetText ());
         }
     }
     
-    var Stm = new Gwt.Core.PrepareStatement(S);
-    Stm.SetNumber (this.number.GetText ());
-    Stm.SetString (this.place.GetText ());
-    Stm.SetString (this.date.GetText ());
-    Stm.SetString (this.holder.GetText ());
-    Stm.SetString (this.concept.GetText ());    
-    Stm.SetString (this.bank.GetText ());
-    Stm.SetString (this.check.GetText ());
-    Stm.SetString (this.checking_account.GetText ());
-    Stm.SetNumber (this.amount.GetText ());
-        
-    for (var i=0; i < this.records.length; i++)
-    {
-        if (this.records[i].code.GetText() !== "")
-        {
-            Stm.SetNumber (this.records[i].partial.GetText ());
-            Stm.SetNumber (this.records[i].debit.GetText ());
-            Stm.SetNumber (this.records[i].credit.GetText());
-            Stm.SetNumber (this.number.GetText ());
-            Stm.SetString (this.records[i].code.GetText ());
-        }
-    }
-    
-    new Gwt.Core.SqlStatement(Stm, this.SaveResponse.bind(this));
+    console.log (Stm);
+    //new Gwt.Core.SqlStatement(Stm, this.SaveResponse.bind(this));
 };
 
 cedeg.prototype.SaveResponse = function (Res)

@@ -27,16 +27,19 @@ int Statement (struct HttpRequest *Req)
         return (KORE_RESULT_OK);
     }
     
-    char CliStm[4096];
+    char CliStm[32000];
     
     struct FuncResult Ret = GetJsonString (Data, "Statement", CliStm);
-    kore_log (LOG_INFO, "%s", CliStm);
     
     if (Ret.Result == KORE_RESULT_ERROR)
     {
         HttpResponseJsonMsg(Req, Ret.Result, Ret.Msg);
         return (KORE_RESULT_OK);
     }
+    
+    JsonObject Statements = NULL;
+    JsonObject Statements = JsonTokenerParse (CliStm);
+    int Length = JsonObjectArrayLength (Statements);
     
     Connection_T Conn = DbGetConnection ();
         
@@ -49,14 +52,17 @@ int Statement (struct HttpRequest *Req)
     TRY
     {   
         Connection_beginTransaction (Conn);
-        
         PreparedStatement_T Stm; 
-
-        Stm = Connection_prepareStatement (Conn, "%s", CliStm);
-        PreparedStatement_execute (Stm);
         
-        kore_log (LOG_INFO, "aqui");
+        int i = 0;
+        for (i = 0; i < Length; i++)
+        {
+            Stm = Connection_prepareStatement (Conn, "%s", JsonObjectGetString(i));
+            PreparedStatement_execute (Stm);
+        }
+        
         Connection_commit (Conn);
+        
         HttpResponseJsonMsg(Req, KORE_RESULT_OK, "Success");
         
     }
@@ -71,6 +77,8 @@ int Statement (struct HttpRequest *Req)
     }
     END_TRY;
     
+    JsonObjectPut (Statements);
+    Statements = NULL;
     
     return (KORE_RESULT_OK);
 }

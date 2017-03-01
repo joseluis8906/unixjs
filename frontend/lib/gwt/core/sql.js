@@ -4,8 +4,14 @@
  * and open the template in the editor.
  */
 
-Gwt.Core.SqlStatement = function (Stm, Callback)
+Gwt.Core.SqlStatement = function (Statements, Callback)
 {
+    if(Statements instanceof Array === false)
+    {
+        console.log ("El parametro debe ser un array");
+        return false;
+    }
+    
     this.XHR = new XMLHttpRequest ();
     this.XHR.open ("POST", "/backend/statement/", true);
     this.XHR.onreadystatechange = this.Ready.bind(this);
@@ -17,7 +23,7 @@ Gwt.Core.SqlStatement = function (Stm, Callback)
         this.XHR.setRequestHeader("SessionId",  SessionId);
     }
     this.XHR.setRequestHeader("Content-Type", "application\/x-www-form-urlencoded");
-    this.XHR.send ("Params="+JSON.stringify({"Statement": Stm.ToString().replace(/=/g, encodeURIComponent("="))}));
+    this.XHR.send ("Params="+JSON.stringify({"Statement": Statements}));
 };
 
 Gwt.Core.SqlStatement.prototype.Ready = function ()
@@ -57,7 +63,7 @@ Gwt.Core.SqlQuery.prototype.Ready = function ()
 
 Gwt.Core.PrepareStatement = function (Stm)
 {
-    this.Stm = Stm;
+    this.Stm = Stm.replace(/=/g, encodeURIComponent("="));
 };
 
 Gwt.Core.PrepareStatement.prototype.SetString = function (Value)
@@ -84,7 +90,7 @@ Gwt.Core.PrepareStatement.prototype.SetNumber = function (Value)
     }
 };
 
-Gwt.Core.PrepareStatement.prototype.ToString = function (Value)
+Gwt.Core.PrepareStatement.prototype.GetStm = function ()
 {
     return this.Stm;
 };
