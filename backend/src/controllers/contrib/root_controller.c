@@ -57,7 +57,7 @@ int Statement (struct HttpRequest *Req)
         int i = 0;
         for (i = 0; i < Length; i++)
         {
-            Stm = Connection_prepareStatement (Conn, "%s", JsonObjectGetString(i));
+            Stm = Connection_prepareStatement (Conn, "%s", (char *) JsonObjectArrayGetIdx(Statements, i));
             PreparedStatement_execute (Stm);
         }
         
