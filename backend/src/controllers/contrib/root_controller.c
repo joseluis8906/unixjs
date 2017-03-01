@@ -30,6 +30,7 @@ int Statement (struct HttpRequest *Req)
     char CliStm[4096];
     
     struct FuncResult Ret = GetJsonString (Data, "Statement", CliStm);
+    kore_log (LOG_INFO, "%s", CliStm);
     
     if (Ret.Result == KORE_RESULT_ERROR)
     {
@@ -54,6 +55,7 @@ int Statement (struct HttpRequest *Req)
         Stm = Connection_prepareStatement (Conn, "%s", CliStm);
         PreparedStatement_execute (Stm);
         
+        kore_log (LOG_INFO, "aqui");
         Connection_commit (Conn);
         HttpResponseJsonMsg(Req, KORE_RESULT_OK, "Success");
         
