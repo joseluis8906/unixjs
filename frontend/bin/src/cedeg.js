@@ -70,7 +70,8 @@ record_widget.prototype.check_code = function (event)
 {
     if(event.keyCode === Gwt.Gui.Event.Keyboard.KeyCodes.Enter)
     {
-        var Query = "SELECT \"Name\" FROM \"AccountingAccount\" WHERE \"Code\"='{0}'".replace("{0}", this.code.GetText());
+        var Query = "SELECT \"Name\" FROM \"AccountingAccount\" WHERE \"Code\"='%s0'"
+            .replace("%s0", this.code.GetText());
         new Gwt.Core.SqlQuery (Query, this.autocomplete.bind(this));
     }
 };
@@ -100,7 +101,8 @@ function cedeg()
     this.SetBorderSpacing (12);
     
     this.EnableMenu ();
-    this.AddMenuItem (Gwt.Core.Contrib.Images + "appbar.cabinet.in.svg", "Guardar", this.Save.bind(this));
+    this.AddMenuItem (Gwt.Core.Contrib.Images + "appbar.cabinet.in.svg", "Guardar", this.Insert.bind(this));
+    this.AddMenuItem (Gwt.Core.Contrib.Images + "appbar.refresh.svg", "Actualizar", this.Update.bind(this));
     this.AddMenuItem (Gwt.Core.Contrib.Images + "appbar.delete.svg", "Eliminar", this.Delete.bind(this));
     this.AddMenuItem (Gwt.Core.Contrib.Images + "appbar.power.svg", "Salir", function(){window.cedeg.close(); window.gcontrol.open();}, Gwt.Gui.MENU_QUIT_APP);
          
@@ -199,12 +201,12 @@ cedeg.prototype._App = function ()
     this.Report = null;
 };
 
-cedeg.prototype.Save = function (Res)
+cedeg.prototype.Insert = function (Res)
 {
     var Stm = [new Gwt.Core.PrepareStatement("WITH \"ins1\" AS (INSERT INTO \"AccountingDisbVou\"(\"Number\", \"Place\", \"Date\", \"Holder\", \"Concept\")"+
         "VALUES(?, ?, ?, ?, ?) RETURNING \"Id\")"+
         "INSERT INTO \"AccountingDisbVouBank\"(\"AccountingDisbVouId\", \"Bank\", \"Check\", \"CheckingAccount\", \"Amount\")"+
-        "SELECT \"Id\", ?, ?, ?, ? FROM \"ins1\";")];
+        "SELECT \"Id\", ?, ?, ?, ? FROM \"ins1\"")];
     Stm[0].SetNumber (this.number.GetText ());
     Stm[0].SetString (this.place.GetText ());
     Stm[0].SetString (this.date.GetText ());
@@ -234,12 +236,60 @@ cedeg.prototype.Save = function (Res)
     new Gwt.Core.SqlStatement(Stm, this.SaveResponse.bind(this));
 };
 
-cedeg.prototype.SaveResponse = function (Res)
+cedeg.prototype.InsertResponse = function (Res)
 {
     if (Res.Result === 1)
     {
         this.Report = Gwt.Core.Contrib.LoadDocument ("/share/documents/cedeg.html");
         this.Report.addEventListener ("load", this.ReportLoad.bind (this));
+    }
+};
+
+cedeg.prototype.Update = function (Event)
+{
+    var Stm = [new Gwt.Core.PrepareStatement ("WITH \"up1\" AS (UPDATE \"AccountingDisbVou\" SET \"Place\"=?, \"Date\"=?, \"Holder\"=?, \"Concept\"=? WHERE \"Number\"=? RETURNING \"Id\")"+
+        "UPDATE \"AccountingDisbVouBank\" SET \"AccountingDisbVouId\"=\"Id\", \"Bank\"=?, \"Check\"=?, \"CheckingAccount\"=?, \"Amount\"=?" + 
+        "SELECT \"Id\", ?, ?, ?, ? FROM \"up1\"")];
+    
+    Stm[0].SetString (this.place.GetText ());
+    Stm[0].SetString (this.date.GetText ());
+    Stm[0].SetString (this.holder.GetText ());
+    Stm[0].SetString (this.concept.GetText ());
+    Stm[0].SetNumber (this.number.GetText ());
+    Stm[0].SetString (this.bank.GetText ());
+    Stm[0].SetString (this.check.GetText ());
+    Stm[0].SetString (this.checking_account.GetText ());
+    Stm[0].SetNumber (this.amount.GetText ());
+    
+    var Tmp = new Gwt.Core.PrepareStatement("DELETE FROM \"AccountingDisbVouRecord\" USING \"AccountingDisbVou\" WHERE \"AccountingDisbVouId\"=\"AccountingDisbVou\".\"Id\" AND \"Number\"=?");
+    Tmp.SetNumber (this.number.GetText ());
+    
+    Stm.push(Tmp);
+    
+    for (var i=0; i < this.records.length; i++)
+    {
+        if (this.records[i].code.GetText() !== "")
+        {
+            Tmp = new Gwt.Core.PrepareStatement("INSERT INTO \"AccountingDisbVouRecord\"(\"AccountingDisbVouId\", \"AccountingAccountId\", \"Partial\", \"Debit\", \"Credit\")"+
+            "SELECT \"AccountingDisbVou\".\"Id\", \"AccountingAccount\".\"Id\", ?, ?, ? FROM \"AccountingDisbVou\" INNER JOIN \"AccountingAccount\" ON \"AccountingDisbVou\".\"Number\"=? AND \"AccountingAccount\".\"Code\"=?;");
+            Tmp.SetNumber (this.records[i].partial.GetText ());
+            Tmp.SetNumber (this.records[i].debit.GetText ());
+            Tmp.SetNumber (this.records[i].credit.GetText());
+            Tmp.SetNumber (this.number.GetText ());
+            Tmp.SetString (this.records[i].code.GetText ());
+            
+            Stm.push(Tmp);
+        }
+    }
+    
+    new Gwt.Core.SqlStatement (Stm, this.UpdateResponse.bind(this));
+};
+
+cedeg.prototype.UpdateResponse = function (Res)
+{
+    if (Res.Result === 1)
+    {
+        this.Reset ();
     }
 };
 

@@ -66,9 +66,11 @@ cuentas.prototype.SelectResponse = function (Res)
 
 cuentas.prototype.Insert = function (Event)
 {
-    var Stm = "INSERT INTO \"AccountingAccount\" (\"Code\", \"Name\") VALUES ('{0}', '{1}')".replace("{0}", this.code.GetText ()).replace("{1}", this.name.GetText ());
+    var Stm = new GWT.Core.PrepareStatement ("INSERT INTO \"AccountingAccount\" (\"Code\", \"Name\") VALUES (?, ?)");
+    Stm.SetString (this.code.GetText ());
+    Stm.SetString (this.name.GetText ());
     
-    new Gwt.Core.SqlStatement (Stm, this.InsertResponse.bind(this));
+    new Gwt.Core.SqlStatement ([Stm], this.InsertResponse.bind(this));
 };
 
 cuentas.prototype.InsertResponse = function (Res)
@@ -81,8 +83,11 @@ cuentas.prototype.InsertResponse = function (Res)
 
 cuentas.prototype.Update = function (Event)
 {
-    var Stm = "UPDATE \"AccountingAccount\" SET \"Name\"='{0}' WHERE \"Code\"='{1}'".replace("{0}", this.name.GetText ()).replace("{1}", this.code.GetText ());
-    new Gwt.Core.SqlStatement (Stm, this.UpdateResponse.bind(this));
+    var Stm = new Gwt.Core.PrepareStatement ("UPDATE \"AccountingAccount\" SET \"Name\"=? WHERE \"Code\"=?");
+    Stm.SetString (this.name.GetText ());
+    Stm.SetString (this.code.GetText ());
+    
+    new Gwt.Core.SqlStatement ([Stm], this.UpdateResponse.bind(this));
 };
 
 cuentas.prototype.UpdateResponse = function (Res)
@@ -95,9 +100,10 @@ cuentas.prototype.UpdateResponse = function (Res)
 
 cuentas.prototype.Delete = function (Event)
 {
-    var Stm = "DELETE FROM \"AccountingAccount\" WHERE \"Code\"='{0}'".replace("{0}", this.code.GetText ());
+    var Stm = new Gwt.Core.PrepareStatement ("DELETE FROM \"AccountingAccount\" WHERE \"Code\"=?")
+    Stm.SetString(this.code.GetText ());
     
-    new Gwt.Core.SqlStatement (Stm, this.DeleteResponse.bind(this));
+    new Gwt.Core.SqlStatement ([Stm], this.DeleteResponse.bind(this));
 };
 
 cuentas.prototype.DeleteResponse = function (Res)
