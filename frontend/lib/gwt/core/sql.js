@@ -64,11 +64,11 @@ Gwt.Core.PrepareStatement.prototype.SetString = function (Value)
 {
     if (Value==="")
     {
-        this.Stm = this.Stm.replace ("?", "'{0}'".replace("{0}", Value));
+        this.Stm = this.Stm.replace ("?", "NULL");
     }
     else
     {
-        this.Stm = this.Stm.replace ("?", "NULL");
+        this.Stm = this.Stm.replace ("?", "'{0}'".replace("{0}", Value));
     }
 };
 
@@ -76,11 +76,11 @@ Gwt.Core.PrepareStatement.prototype.SetNumber = function (Value)
 {
     if (Value==="")
     {
-        this.Stm = this.Stm.replace ("?", "{0}".replace("{0}", Value));
+        this.Stm = this.Stm.replace ("?", "NULL");
     }
     else
     {
-        this.Stm = this.Stm.replace ("?", "NULL");
+        this.Stm = this.Stm.replace ("?", "{0}".replace("{0}", Value));
     }
 };
 
