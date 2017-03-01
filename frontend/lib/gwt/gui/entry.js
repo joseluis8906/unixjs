@@ -29,45 +29,49 @@ Gwt.Gui.Entry.prototype._Entry = function ()
 Gwt.Gui.Entry.prototype.SetPlaceholder = function (Text)
 {
     this.Html.placeholder = Text;
-}
+};
 
 Gwt.Gui.Entry.prototype.ChangeToPassword = function ()
 {
     this.Html.type = "password";
-}
+};
 
 Gwt.Gui.Entry.prototype.ChangeToText = function ()
 {
     this.Html.type = "text";
-}
+};
 
 Gwt.Gui.Entry.prototype.GetText = function ()
 {
+    if (this.Html.value==="")
+    {
+        return null;
+    }
+    
     if (this.Format === "Text")
     {
-        return (this.Html.value==="") ? " " : this.Html.value;
+        return this.Html.value;
     }
     else
     {
-        var text = this.Html.value.replace("$", "").split(".").join("");
-        return (text==="") ? 0 : text;
+        return this.Html.value.replace("$", "").split(".").join("");
     }
-}
+};
 
 Gwt.Gui.Entry.prototype.SetText = function (Text)
 {
     this.Html.value = Text;
-}
+};
 
 Gwt.Gui.Entry.prototype.SetMaxLength = function (MaxLength)
 {	
     this.Html.maxLength = MaxLength;
-}
+};
 
 Gwt.Gui.Entry.prototype.Reset = function ()
 {
     this.SetText ("");
-}
+};
 
 Gwt.Gui.Entry.prototype.ChangeToMonetary = function ()
 {
