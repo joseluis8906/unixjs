@@ -229,7 +229,16 @@ cedeg.prototype.Save = function ()
         }
     }
     
-    console.log (Stm);
+    new Gwt.Core.SqlStatement(Stm, this.SaveResponse.bind(this));
+};
+
+cedeg.prototype.SaveResponse = function (Res)
+{
+    if (Res.Result === 1)
+    {
+        this.Report = Gwt.Core.Contrib.LoadDocument ("/share/documents/cedeg.html");
+        this.Report.addEventListener ("load", this.ReportLoad.bind (this));
+    }
 };
 
 cedeg.prototype.Delete = function ()
@@ -310,17 +319,6 @@ cedeg.prototype.NextNumber = function (Res)
 {
     this.number.SetText(Number(Res.Data[0].Number)+1);
 };
-
-
-cedeg.prototype.SaveResponse = function (Res)
-{
-    if (Res.Result === 1)
-    {
-        this.Report = Gwt.Core.Contrib.LoadDocument ("/share/documents/cedeg.html");
-        this.Report.addEventListener ("load", this.ReportLoad.bind (this));
-    }
-};
-
 
 cedeg.prototype.ReportLoad = function ()
 {
