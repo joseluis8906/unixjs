@@ -64,9 +64,7 @@ int Statement (struct HttpRequest *Req)
             Tmp = NULL;
             PreparedStatement_execute (Stm);
         }
-        
         Connection_commit (Conn);
-        
         HttpResponseJsonMsg(Req, KORE_RESULT_OK, "Success");
         
     }
