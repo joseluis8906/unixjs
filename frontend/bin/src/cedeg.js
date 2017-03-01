@@ -202,14 +202,14 @@ cedeg.prototype._App = function ()
 cedeg.prototype.Save = function ()
 {
     var Stm = "WITH \"ins1\" AS (INSERT INTO \"AccountingDisbVou\"(\"Number\", \"Place\", \"Date\", \"Holder\", \"Concept\")"+
-        "VALUES(?, '?', '?', '?', '?') RETURNING \"Id\")"+
-        "INSERT INTO \"AccountingDisbVouBank\"(\"AccountingDisbVouId\", \"Bank\", \"Check\", \"CheckingAccount\", \"Amount\")"+
-        "SELECT \"Id\", '?', '?', '?', ? FROM \"ins1\";"
+        "VALUES(?, '?', '?', '?', '?') RETURNING \"Id\")"
         .replace("?", this.number.GetText ())
         .replace("?", this.place.GetText ())
         .replace("?", this.date.GetText ())
         .replace("?", this.holder.GetText ())
-        .replace("?", this.concept.GetText ())
+        .replace("?", this.concept.GetText ())+
+        "INSERT INTO \"AccountingDisbVouBank\"(\"AccountingDisbVouId\", \"Bank\", \"Check\", \"CheckingAccount\", \"Amount\")"+
+        "SELECT \"Id\", '?', '?', '?', ? FROM \"ins1\";"
         .replace("?", this.bank.GetText ())
         .replace("?", this.check.GetText ())
         .replace("?", this.checking_account.GetText ())
