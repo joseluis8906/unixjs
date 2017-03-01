@@ -247,21 +247,22 @@ cedeg.prototype.InsertResponse = function (Res)
 
 cedeg.prototype.Update = function (Event)
 {
-    var Stm = [new Gwt.Core.PrepareStatement ("WITH \"up1\" AS (UPDATE \"AccountingDisbVou\" SET \"Place\"=?, \"Date\"=?, \"Holder\"=?, \"Concept\"=? WHERE \"Number\"=? RETURNING \"Id\")"+
-        "UPDATE \"AccountingDisbVouBank\" SET \"AccountingDisbVouId\"=\"Id\", \"Bank\"=?, \"Check\"=?, \"CheckingAccount\"=?, \"Amount\"=?" + 
-        "SELECT \"Id\", ?, ?, ?, ? FROM \"up1\"")];
-    
+    var Stm = [new Gwt.Core.PrepareStatement ("UPDATE \"AccountingDisbVou\" SET \"Place\"=?, \"Date\"=?, \"Holder\"=?, \"Concept\"=? WHERE \"Number\"=?")];
     Stm[0].SetString (this.place.GetText ());
     Stm[0].SetString (this.date.GetText ());
     Stm[0].SetString (this.holder.GetText ());
     Stm[0].SetString (this.concept.GetText ());
     Stm[0].SetNumber (this.number.GetText ());
+    
+    var Tmp = new Gwt.Core.PrepareStatement ("UPDATE \"AccountingDisbVouBank\" SET \"Bank\"=?, \"Check\"=?, \"CheckingAccount\"=?, \"Amount\"=? FROM \"AccountingDisbVou\" WHERE  \"AccountingDisbVouId\"=\"AccountingDisbVou\".\"Id\" AND \"AccountingDisbVou\".\"Number\"=?");    
     Stm[0].SetString (this.bank.GetText ());
     Stm[0].SetString (this.check.GetText ());
     Stm[0].SetString (this.checking_account.GetText ());
     Stm[0].SetNumber (this.amount.GetText ());
+    Stm[0].SetNumber (this.number.GetText ());
+    Stm.push(Tmp);
     
-    var Tmp = new Gwt.Core.PrepareStatement("DELETE FROM \"AccountingDisbVouRecord\" USING \"AccountingDisbVou\" WHERE \"AccountingDisbVouId\"=\"AccountingDisbVou\".\"Id\" AND \"Number\"=?");
+    Tmp = new Gwt.Core.PrepareStatement("DELETE FROM \"AccountingDisbVouRecord\" USING \"AccountingDisbVou\" WHERE \"AccountingDisbVouId\"=\"AccountingDisbVou\".\"Id\" AND \"Number\"=?");
     Tmp.SetNumber (this.number.GetText ());
     
     Stm.push(Tmp);
@@ -271,7 +272,7 @@ cedeg.prototype.Update = function (Event)
         if (this.records[i].code.GetText() !== "")
         {
             Tmp = new Gwt.Core.PrepareStatement("INSERT INTO \"AccountingDisbVouRecord\"(\"AccountingDisbVouId\", \"AccountingAccountId\", \"Partial\", \"Debit\", \"Credit\")"+
-            "SELECT \"AccountingDisbVou\".\"Id\", \"AccountingAccount\".\"Id\", ?, ?, ? FROM \"AccountingDisbVou\" INNER JOIN \"AccountingAccount\" ON \"AccountingDisbVou\".\"Number\"=? AND \"AccountingAccount\".\"Code\"=?;");
+            "SELECT \"AccountingDisbVou\".\"Id\", \"AccountingAccount\".\"Id\", ?, ?, ? FROM \"AccountingDisbVou\" INNER JOIN \"AccountingAccount\" ON \"AccountingDisbVou\".\"Number\"=? AND \"AccountingAccount\".\"Code\"=?");
             Tmp.SetNumber (this.records[i].partial.GetText ());
             Tmp.SetNumber (this.records[i].debit.GetText ());
             Tmp.SetNumber (this.records[i].credit.GetText());
@@ -282,6 +283,7 @@ cedeg.prototype.Update = function (Event)
         }
     }
     
+    console.log (Stm);
     new Gwt.Core.SqlStatement (Stm, this.UpdateResponse.bind(this));
 };
 
