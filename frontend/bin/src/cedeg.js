@@ -238,6 +238,7 @@ cedeg.prototype.Save = function ()
         }
     }
     
+    console.log (Stm.ToString ());
     new Gwt.Core.SqlStatement(Stm, this.SaveResponse.bind(this));
 };
 
