@@ -38,7 +38,7 @@ int Statement (struct HttpRequest *Req)
     }
     
     JsonObject *Statements = NULL;
-    JsonObject Statements = JsonTokenerParse (CliStm);
+    Statements = JsonTokenerParse (CliStm);
     int Length = JsonObjectArrayLength (Statements);
     
     Connection_T Conn = DbGetConnection ();
