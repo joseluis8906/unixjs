@@ -202,7 +202,7 @@ cedeg.prototype._App = function ()
 cedeg.prototype.Save = function ()
 {
     var S = "WITH \"ins1\" AS (INSERT INTO \"AccountingDisbVou\"(\"Number\", \"Place\", \"Date\", \"Holder\", \"Concept\")"+
-        "VALUES(?, ?, ?, ?, ?) RETURNING \"Id\""+
+        "VALUES(?, ?, ?, ?, ?) RETURNING \"Id\")"+
         "INSERT INTO \"AccountingDisbVouBank\"(\"AccountingDisbVouId\", \"Bank\", \"Check\", \"CheckingAccount\", \"Amount\")"+
         "SELECT \"Id\", '?', '?', '?', ? FROM \"ins1\";";
 
