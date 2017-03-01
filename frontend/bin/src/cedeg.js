@@ -201,10 +201,10 @@ cedeg.prototype._App = function ()
 
 cedeg.prototype.Save = function ()
 {
-    var Stm = "WITH \"ins1\" AS (INSERT INTO \"AccountingDisbVou\"(\"Number\", \"Place\", \"Date\", \"Holder\", \"Concept\")\
-        VALUES(?, '?', '?', '?', '?') RETURNING \"Id\")\
-        INSERT INTO \"AccountingDisbVouBank\"(\"AccountingDisbVouId\", \"Bank\", \"Check\", \"CheckingAccount\", \"Amount\")\
-        SELECT \"Id\", '?', '?', '?', ? FROM \"ins1\";"
+    var Stm = "WITH \"ins1\" AS (INSERT INTO \"AccountingDisbVou\"(\"Number\", \"Place\", \"Date\", \"Holder\", \"Concept\")"+
+        "VALUES(?, '?', '?', '?', '?') RETURNING \"Id\")"+
+        "INSERT INTO \"AccountingDisbVouBank\"(\"AccountingDisbVouId\", \"Bank\", \"Check\", \"CheckingAccount\", \"Amount\")"+
+        "SELECT \"Id\", '?', '?', '?', ? FROM \"ins1\";"
         .replace("?", this.number.GetText ())
         .replace("?", this.place.GetText ())
         .replace("?", this.date.GetText ())
@@ -219,8 +219,8 @@ cedeg.prototype.Save = function ()
     {
         if (this.records[i].code.GetText() !== "")
         {
-            Stm+="INSERT INTO \"AccountingDisbVouRecord\"(\"AccountingDisbVouId\", \"AccountingAccountId\", \"Partial\", \"Debit\", \"Credit\")\
-                SELECT \"AccountingDisbVou\".\"Id\", \"AccountingAccount\".\"Id\", ?, ?, ? FROM \"AccountingDisbVou\" INNER JOIN \"AccountingAccount\" ON \"AccountingDisbVou\".\"Number\"=? AND \"AccountingAccount\".\"Code\"='?';"
+            Stm+="INSERT INTO \"AccountingDisbVouRecord\"(\"AccountingDisbVouId\", \"AccountingAccountId\", \"Partial\", \"Debit\", \"Credit\")"+
+                "SELECT \"AccountingDisbVou\".\"Id\", \"AccountingAccount\".\"Id\", ?, ?, ? FROM \"AccountingDisbVou\" INNER JOIN \"AccountingAccount\" ON \"AccountingDisbVou\".\"Number\"=? AND \"AccountingAccount\".\"Code\"='?';"
             .replace("?", this.records[i].partial.GetText ())
             .replace("?", this.records[i].debit.GetText ())
             .replace("?", this.records[i].credit.GetText())
