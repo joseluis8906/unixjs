@@ -245,7 +245,9 @@ cedeg.prototype.SaveResponse = function (Res)
 
 cedeg.prototype.Delete = function ()
 {
+    var Stm = [new Gwt.Core.PrepareStatement ("DELETE FROM \"AccountingDisbVou\" WHERE \"Number\"=?").SetNumber(this.number.GetText ())];
     
+    new Gwt.Core.SqlStatement (Stm, this.DeleteResponse.bind(this));
 };
 
 cedeg.prototype.Reset = function ()
