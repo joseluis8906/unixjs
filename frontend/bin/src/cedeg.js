@@ -233,7 +233,7 @@ cedeg.prototype.Insert = function (Res)
         }
     }
     
-    new Gwt.Core.SqlStatement(Stm, this.SaveResponse.bind(this));
+    new Gwt.Core.SqlStatement(Stm, this.InsertResponse.bind(this));
 };
 
 cedeg.prototype.InsertResponse = function (Res)
