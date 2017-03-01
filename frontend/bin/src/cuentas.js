@@ -66,7 +66,7 @@ cuentas.prototype.SelectResponse = function (Res)
 
 cuentas.prototype.Insert = function (Event)
 {
-    var Stm = new GWT.Core.PrepareStatement ("INSERT INTO \"AccountingAccount\" (\"Code\", \"Name\") VALUES (?, ?)");
+    var Stm = new Gwt.Core.PrepareStatement ("INSERT INTO \"AccountingAccount\" (\"Code\", \"Name\") VALUES (?, ?)");
     Stm.SetString (this.code.GetText ());
     Stm.SetString (this.name.GetText ());
     
@@ -100,7 +100,7 @@ cuentas.prototype.UpdateResponse = function (Res)
 
 cuentas.prototype.Delete = function (Event)
 {
-    var Stm = new Gwt.Core.PrepareStatement ("DELETE FROM \"AccountingAccount\" WHERE \"Code\"=?")
+    var Stm = new Gwt.Core.PrepareStatement ("DELETE FROM \"AccountingAccount\" WHERE \"Code\"=?");
     Stm.SetString(this.code.GetText ());
     
     new Gwt.Core.SqlStatement ([Stm], this.DeleteResponse.bind(this));
