@@ -230,6 +230,7 @@ cedeg.prototype.Save = function ()
     }
     
     new Gwt.Core.SqlStatement(Stm, this.SaveResponse.bind(this));
+    console.log ("enviado");
 };
 
 cedeg.prototype.SaveResponse = function (Res)
