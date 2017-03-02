@@ -44,7 +44,7 @@ Gwt.Gui.Entry.prototype.ChangeToText = function ()
 Gwt.Gui.Entry.prototype.ChangeToMonetary = function ()
 {
     this.SetMaxLength(12);
-    this.AddEvent (Gwt.Gui.Event.Keyboard.KeyUp, this.MonetaryFormat.bind (this));
+    this.AddEvent (Gwt.Gui.Event.Form.Change, this.MonetaryFormat.bind (this));
     this.Format = "Monetary";
 };
 
@@ -63,11 +63,6 @@ Gwt.Gui.Entry.prototype.GetText = function ()
 Gwt.Gui.Entry.prototype.SetText = function (Text)
 {
     this.Html.value = Text;
-    
-    if (this.Format !== "Text")
-    {
-        this.MonetaryFormat();
-    }
 };
 
 Gwt.Gui.Entry.prototype.SetMaxLength = function (MaxLength)
