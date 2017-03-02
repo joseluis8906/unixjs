@@ -2446,7 +2446,7 @@ Gwt.Gui.Entry  = function (Placeholder)
 	this.SetBorderRadius(5);
 	this.SetPlaceholder (Placeholder || "Entry text");
 	this.SetFontSize (11);
-}
+};
 
 Gwt.Gui.Entry.prototype = new Gwt.Gui.Frame ();
 Gwt.Gui.Entry.prototype.constructor = Gwt.Gui.Entry;
@@ -2454,7 +2454,7 @@ Gwt.Gui.Entry.prototype.constructor = Gwt.Gui.Entry;
 Gwt.Gui.Entry.prototype._Entry = function ()
 {
     this._Frame ();
-}
+};
 
 Gwt.Gui.Entry.prototype.SetPlaceholder = function (Text)
 {
@@ -2469,6 +2469,13 @@ Gwt.Gui.Entry.prototype.ChangeToPassword = function ()
 Gwt.Gui.Entry.prototype.ChangeToText = function ()
 {
     this.Html.type = "text";
+};
+
+Gwt.Gui.Entry.prototype.ChangeToMonetary = function ()
+{
+    this.SetMaxLength(12);
+    this.AddEvent (Gwt.Gui.Event.Keyboard.KeyUp, this.MonetaryFormat.bind (this));
+    this.Format = "Monetary";
 };
 
 Gwt.Gui.Entry.prototype.GetText = function ()
@@ -2486,6 +2493,11 @@ Gwt.Gui.Entry.prototype.GetText = function ()
 Gwt.Gui.Entry.prototype.SetText = function (Text)
 {
     this.Html.value = Text;
+    
+    if (this.Format !== "Text")
+    {
+        this.MonetaryFormat();
+    }
 };
 
 Gwt.Gui.Entry.prototype.SetMaxLength = function (MaxLength)
@@ -2497,13 +2509,6 @@ Gwt.Gui.Entry.prototype.Reset = function ()
 {
     this.SetText ("");
 };
-
-Gwt.Gui.Entry.prototype.ChangeToMonetary = function ()
-{
-    this.SetMaxLength(12);
-    this.AddEvent (Gwt.Gui.Event.Keyboard.KeyUp, this.MonetaryFormat.bind (this));
-    this.Format = "Monetary";
-}
 
 Gwt.Gui.Entry.prototype.MonetaryFormat = function ()
 {
@@ -2559,7 +2564,7 @@ Gwt.Gui.Entry.prototype.MonetaryFormat = function ()
         this.SetText (Result);
         this.SetCaretPosition (Result.length);
     }
-}
+};
 
 Gwt.Gui.Entry.prototype.SetCaretPosition = function (Position)
 {
@@ -2576,7 +2581,7 @@ Gwt.Gui.Entry.prototype.SetCaretPosition = function (Position)
         range.moveStart('character', Position);
         range.select();
     }
-}
+};
 
 //Ends Gwt::Gui::Entry
 //##################################################################################################
