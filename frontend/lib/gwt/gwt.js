@@ -2474,7 +2474,6 @@ Gwt.Gui.Entry.prototype.ChangeToText = function ()
 Gwt.Gui.Entry.prototype.ChangeToMonetary = function ()
 {
     this.SetMaxLength(12);
-    this.AddEvent (Gwt.Gui.Event.Form.Input, this.MonetaryFormat.bind (this));
     this.AddEvent (Gwt.Gui.Event.Keyboard.KeyUp, this.MonetaryFormat.bind (this));
     this.Format = "Monetary";
 };
@@ -2495,9 +2494,9 @@ Gwt.Gui.Entry.prototype.SetText = function (Text)
 {
     this.Html.value = Text;
     
-    if(this.Format !== "Text")
+    if(this.Format === "Monetary")
     {
-        this.MonetaryFormat();
+        this.Html.value = this.GetMonetaryFormat();
     }
 };
 
@@ -2511,7 +2510,7 @@ Gwt.Gui.Entry.prototype.Reset = function ()
     this.SetText ("");
 };
 
-Gwt.Gui.Entry.prototype.MonetaryFormat = function ()
+Gwt.Gui.Entry.prototype.GetMonetaryFormat = function ()
 {
     var Prefix = "$";
     var OriginalStr = this.GetText();
@@ -2552,8 +2551,13 @@ Gwt.Gui.Entry.prototype.MonetaryFormat = function ()
         Result = Prefix+OriginalStr.substr(0,3)+"."+OriginalStr.substr(3,3)+"."+OriginalStr.substr(6,OriginalStr.length-1);
     }
     
-    this.Html.value = Result;
-    this.SetCaretPosition (Result.length);
+    return Result;
+};
+
+Gwt.Gui.Entry.prototype.MonetaryFormat = function ()
+{
+    this.Html.value = this.GetMonetaryFormat();
+    this.SetCaretPosition (this.GetText ().length);
 };
 
 Gwt.Gui.Entry.prototype.SetCaretPosition = function (Position)

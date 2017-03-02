@@ -3,14 +3,13 @@ window.addEventListener ("load", function () {Gwdm();});
 function Gwdm ()
 {
     desktop.open();
-    //domotictrl.open();
     login.open ();
-    
+    //domotictrl.open();
+        
     if (Gwt.Core.Contrib.GetSessionId () !== null)
     {
         start_session ();
     }
-    
 }
 
 
