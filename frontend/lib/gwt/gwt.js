@@ -2494,6 +2494,11 @@ Gwt.Gui.Entry.prototype.GetText = function ()
 Gwt.Gui.Entry.prototype.SetText = function (Text)
 {
     this.Html.value = Text;
+    
+    if(this.Format !== "Text")
+    {
+        this.MonetaryFormat();
+    }
 };
 
 Gwt.Gui.Entry.prototype.SetMaxLength = function (MaxLength)
@@ -2514,52 +2519,41 @@ Gwt.Gui.Entry.prototype.MonetaryFormat = function ()
     
     if(OriginalStr.length === 0)
     {
-        this.SetText ("");
+        Result="";
     }
     else if(OriginalStr.length > 0 && OriginalStr.length <= 3)
     {
         Result = Prefix+OriginalStr;
-        this.SetText (Result);
-        this.SetCaretPosition (Result.length);
     }
     
     else if(OriginalStr.length === 4)
     {
         Result = Prefix+OriginalStr[0]+"."+OriginalStr.substr(1,OriginalStr.length-1);
-        this.SetText (Result);
-        this.SetCaretPosition (Result.length);
     }
     
     else if(OriginalStr.length === 5)
     {
         Result = Prefix+OriginalStr.substr(0,2)+"."+OriginalStr.substr(2,OriginalStr.length-1);
-        this.SetText (Result);
-        this.SetCaretPosition (Result.length);
     }
     else if(OriginalStr.length === 6)
     {
         Result = Prefix+OriginalStr.substr(0,3)+"."+OriginalStr.substr(3,OriginalStr.length-1);
-        this.SetText (Result);
-        this.SetCaretPosition (Result.length);
     }
     else if(OriginalStr.length === 7)
     {
         Result = Prefix+OriginalStr[0]+"."+OriginalStr.substr(1,3)+"."+OriginalStr.substr(4,OriginalStr.length-1);
-        this.SetText (Result);
-        this.SetCaretPosition (Result.length);
     }
     else if(OriginalStr.length === 8)
     {
         Result = Prefix+OriginalStr.substr(0,2)+"."+OriginalStr.substr(2,3)+"."+OriginalStr.substr(5,OriginalStr.length-1);
-        this.SetText (Result);
-        this.SetCaretPosition (Result.length);
     }
     else if(OriginalStr.length === 9)
     {
         Result = Prefix+OriginalStr.substr(0,3)+"."+OriginalStr.substr(3,3)+"."+OriginalStr.substr(6,OriginalStr.length-1);
-        this.SetText (Result);
-        this.SetCaretPosition (Result.length);
     }
+    
+    this.Html.value = Result;
+    this.SetCaretPosition (Result.length);
 };
 
 Gwt.Gui.Entry.prototype.SetCaretPosition = function (Position)
