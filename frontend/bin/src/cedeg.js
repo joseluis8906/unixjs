@@ -397,7 +397,7 @@ cedeg.prototype.ReportLoad = function ()
     doc.getElementById ("Check").textContent = this.check.GetText ();
     doc.getElementById ("CheckingAccount").textContent = this.checking_account.GetText ();
     doc.getElementById ("Concept").textContent = this.concept.GetText ();
-    doc.getElementById ("Amount").textContent = this.amount.GetText ();
+    doc.getElementById ("Amount").textContent = Gwt.Core.Contrib.TextToMonetary (this.amount.GetText ());
     
     var Records = [];
     for (var i=0; i < this.records.length; i++)
@@ -407,9 +407,9 @@ cedeg.prototype.ReportLoad = function ()
             Records.push({
                 "Code": this.records[i].code.GetText (),
                 "Name": this.records[i].name.GetText (),
-                "Partial": this.records[i].partial.GetText (),
-                "Debit": this.records[i].debit.GetText (),
-                "Credit": this.records[i].credit.GetText()
+                "Partial": Gwt.Core.Contrib.TextToMonetary (this.records[i].partial.GetText ()),
+                "Debit": Gwt.Core.Contrib.TextToMonetary (this.records[i].debit.GetText ()),
+                "Credit": Gwt.Core.Contrib.TextToMonetary (this.records[i].credit.GetText())
             });
         }
     }

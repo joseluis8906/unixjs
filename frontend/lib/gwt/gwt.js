@@ -477,6 +477,58 @@ function zfill (num, size) {
     while (s.length < size) s = "0" + s;
     return s;
 }
+
+
+Gwt.Core.Contrib.TextToMonetary = function (Text)
+{
+    var Prefix = "$";
+    var OriginalStr = Text.replace (/\D/g, "");
+    var Result = "";
+    
+    if(OriginalStr.length === 0)
+    {
+        Result="";
+    }
+    else if(OriginalStr.length > 0 && OriginalStr.length <= 3)
+    {
+        Result = Prefix+OriginalStr;
+    }
+    
+    else if(OriginalStr.length === 4)
+    {
+        Result = Prefix+OriginalStr[0]+"."+OriginalStr.substr(1,OriginalStr.length-1);
+    }
+    
+    else if(OriginalStr.length === 5)
+    {
+        Result = Prefix+OriginalStr.substr(0,2)+"."+OriginalStr.substr(2,OriginalStr.length-1);
+    }
+    else if(OriginalStr.length === 6)
+    {
+        Result = Prefix+OriginalStr.substr(0,3)+"."+OriginalStr.substr(3,OriginalStr.length-1);
+    }
+    else if(OriginalStr.length === 7)
+    {
+        Result = Prefix+OriginalStr[0]+"."+OriginalStr.substr(1,3)+"."+OriginalStr.substr(4,OriginalStr.length-1);
+    }
+    else if(OriginalStr.length === 8)
+    {
+        Result = Prefix+OriginalStr.substr(0,2)+"."+OriginalStr.substr(2,3)+"."+OriginalStr.substr(5,OriginalStr.length-1);
+    }
+    else if(OriginalStr.length === 9)
+    {
+        Result = Prefix+OriginalStr.substr(0,3)+"."+OriginalStr.substr(3,3)+"."+OriginalStr.substr(6,OriginalStr.length-1);
+    }
+    
+    return Result;
+};
+
+
+Gwt.Core.Contrib.MonetaryToText = function (Text)
+{
+    return Text.replace("$", "").split(".").join("");
+};
+
 //End Gwt::Core::Contrib
 //###########################################################################
 //###################################################################################################
@@ -2484,9 +2536,9 @@ Gwt.Gui.Entry.prototype.GetText = function ()
     {
         return this.Html.value;
     }
-    else
+    else if (this.Format === "Monetary")
     {
-        return this.Html.value.replace("$", "").split(".").join("");
+        return Gwt.Core.Contrib.MonetaryToText (this.GetText ());
     }
 };
 
@@ -2496,7 +2548,7 @@ Gwt.Gui.Entry.prototype.SetText = function (Text)
     
     if(this.Format === "Monetary")
     {
-        this.Html.value = this.GetMonetaryFormat();
+        this.Html.value = Gwt.Core.Contrib.TextToMonetary (this.GetText());
     }
 };
 
@@ -2510,54 +2562,11 @@ Gwt.Gui.Entry.prototype.Reset = function ()
     this.SetText ("");
 };
 
-Gwt.Gui.Entry.prototype.GetMonetaryFormat = function ()
-{
-    var Prefix = "$";
-    var OriginalStr = this.GetText();
-    var Result = "";
-    
-    if(OriginalStr.length === 0)
-    {
-        Result="";
-    }
-    else if(OriginalStr.length > 0 && OriginalStr.length <= 3)
-    {
-        Result = Prefix+OriginalStr;
-    }
-    
-    else if(OriginalStr.length === 4)
-    {
-        Result = Prefix+OriginalStr[0]+"."+OriginalStr.substr(1,OriginalStr.length-1);
-    }
-    
-    else if(OriginalStr.length === 5)
-    {
-        Result = Prefix+OriginalStr.substr(0,2)+"."+OriginalStr.substr(2,OriginalStr.length-1);
-    }
-    else if(OriginalStr.length === 6)
-    {
-        Result = Prefix+OriginalStr.substr(0,3)+"."+OriginalStr.substr(3,OriginalStr.length-1);
-    }
-    else if(OriginalStr.length === 7)
-    {
-        Result = Prefix+OriginalStr[0]+"."+OriginalStr.substr(1,3)+"."+OriginalStr.substr(4,OriginalStr.length-1);
-    }
-    else if(OriginalStr.length === 8)
-    {
-        Result = Prefix+OriginalStr.substr(0,2)+"."+OriginalStr.substr(2,3)+"."+OriginalStr.substr(5,OriginalStr.length-1);
-    }
-    else if(OriginalStr.length === 9)
-    {
-        Result = Prefix+OriginalStr.substr(0,3)+"."+OriginalStr.substr(3,3)+"."+OriginalStr.substr(6,OriginalStr.length-1);
-    }
-    
-    return Result;
-};
-
 Gwt.Gui.Entry.prototype.MonetaryFormat = function ()
 {
-    this.Html.value = this.GetMonetaryFormat();
-    this.SetCaretPosition (this.GetMonetaryFormat().length);
+    var R = Gwt.Core.Contrib.TextToMonetary(this.GetText());
+    this.Html.value = R;
+    this.SetCaretPosition (R.length);
 };
 
 Gwt.Gui.Entry.prototype.SetCaretPosition = function (Position)
