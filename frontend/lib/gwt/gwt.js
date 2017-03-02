@@ -2475,6 +2475,7 @@ Gwt.Gui.Entry.prototype.ChangeToMonetary = function ()
 {
     this.SetMaxLength(12);
     this.AddEvent (Gwt.Gui.Event.Form.Change, this.MonetaryFormat.bind (this));
+    this.AddEvent (Gwt.Gui.Event.Keyboard.KeyUp, this.MonetaryFormat.bind (this));
     this.Format = "Monetary";
 };
 
