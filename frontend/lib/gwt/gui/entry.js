@@ -56,7 +56,7 @@ Gwt.Gui.Entry.prototype.GetText = function ()
     }
     else if (this.Format === "Monetary")
     {
-        return Gwt.Core.Contrib.MonetaryToText (this.GetText ());
+        return Gwt.Core.Contrib.MonetaryToText (this.Html.value);
     }
 };
 
