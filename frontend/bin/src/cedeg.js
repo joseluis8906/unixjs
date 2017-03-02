@@ -338,7 +338,7 @@ cedeg.prototype.CheckNumber = function (Event)
         }
         else
         {
-            var Query = "SELECT \"Number\", \"Place\", \"Date\", \"Holder\", \"Concept\", \"Bank\", \"Check\", \"CheckingAccount\", \"Amount\", \"Code\", \"Name\", \"Partial\", \"Debit\", \"Credit\" FROM \"AccountingDisbVouAll\" WHERE \"Number\"=? ORDER BY \"Code\" DESC".replace("?", this.number.GetText());
+            var Query = "SELECT \"Number\", \"Place\", \"Date\", \"Holder\", \"Concept\", \"Bank\", \"Check\", \"CheckingAccount\", \"Amount\", \"Code\", \"Name\", \"Partial\", \"Debit\", \"Credit\" FROM \"AccountingDisbVouAll\" WHERE \"Number\"=? ORDER BY \"Code\" ASC".replace("?", this.number.GetText());
             new Gwt.Core.SqlQuery(Query, this.AutoFill.bind(this));
         }
     }
