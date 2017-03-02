@@ -127,7 +127,7 @@ Gwt.Gui.Entry.prototype.GetMonetaryFormat = function ()
 Gwt.Gui.Entry.prototype.MonetaryFormat = function ()
 {
     this.Html.value = this.GetMonetaryFormat();
-    this.SetCaretPosition (this.GetText ().length);
+    this.SetCaretPosition (this.GetMonetaryFormat().length);
 };
 
 Gwt.Gui.Entry.prototype.SetCaretPosition = function (Position)
