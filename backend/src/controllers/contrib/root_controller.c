@@ -3,6 +3,7 @@
 #include "../../models/contrib/app_role_model.h"
 #include "../../database.h"
 #include "../../contrib.h"
+#include "assets.h"
 
 //home
 int Home (struct HttpRequest *Req)

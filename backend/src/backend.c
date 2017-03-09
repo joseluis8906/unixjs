@@ -4,4 +4,3 @@
 #include "controllers/contrib/gusers_controller.h"
 #include "controllers/contrib/gusersgroups_controller.h"
 #include "controllers/contrib/root_controller.h"
-#include "assets.h"
