@@ -15,12 +15,6 @@
       </df>
       <df name="src">
         <df name="controllers">
-          <df name="accounting">
-            <in>cedeg_controller.c</in>
-            <in>cedeg_controller.h</in>
-            <in>cuentas_controller.c</in>
-            <in>cuentas_controller.h</in>
-          </df>
           <df name="contrib">
             <in>auth_controller.c</in>
             <in>auth_controller.h</in>
@@ -70,7 +64,6 @@
       <df name="tmp_files">
       </df>
     </df>
-    <itemPath>sql/test.sql</itemPath>
   </logicalFolder>
   <projectmakefile></projectmakefile>
   <confs>

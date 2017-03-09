@@ -7,12 +7,6 @@
       </df>
       <df name="src">
         <df name="controllers">
-          <df name="accounting">
-            <in>cedeg_controller.c</in>
-            <in>cedeg_controller.h</in>
-            <in>cuentas_controller.c</in>
-            <in>cuentas_controller.h</in>
-          </df>
           <df name="contrib">
             <in>auth_controller.c</in>
             <in>auth_controller.h</in>
@@ -56,7 +50,6 @@
                    kind="IMPORTANT_FILES_FOLDER">
       <itemPath>nbproject/private/launcher.properties</itemPath>
     </logicalFolder>
-    <itemPath>sql/test.sql</itemPath>
   </logicalFolder>
   <sourceFolderFilter>^(nbproject)$</sourceFolderFilter>
   <sourceRootList>
@@ -89,8 +82,6 @@
       </makefileType>
       <item path="sql/puc.sql" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="sql/test.sql" ex="false" tool="3" flavor2="0">
-      </item>
       <item path="src/backend.c" ex="false" tool="0" flavor2="3">
         <cTool flags="0">
           <incDir>
@@ -108,26 +99,6 @@
             <pElem>.</pElem>
           </incDir>
         </cTool>
-      </item>
-      <item path="src/controllers/accounting/cedeg_controller.c"
-            ex="false"
-            tool="0"
-            flavor2="0">
-      </item>
-      <item path="src/controllers/accounting/cedeg_controller.h"
-            ex="false"
-            tool="3"
-            flavor2="0">
-      </item>
-      <item path="src/controllers/accounting/cuentas_controller.c"
-            ex="false"
-            tool="0"
-            flavor2="0">
-      </item>
-      <item path="src/controllers/accounting/cuentas_controller.h"
-            ex="false"
-            tool="3"
-            flavor2="0">
       </item>
       <item path="src/controllers/contrib/auth_controller.c"
             ex="false"
