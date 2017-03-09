@@ -26,7 +26,7 @@ desktop.prototype.constructor = desktop;
 desktop.prototype.Show = function (app)
 {
 	this.Add (app);
-}
+};
 		
 return new function ()
 {
@@ -40,11 +40,11 @@ return new function ()
 		{
 			console.log ("%app open".replace ("%app", instance.__proto__.constructor.name));
 		}
-	}
+	};
 	
 	this.show = function (app)
 	{
 		instance.Show (app);
-	}
-}
+	};
+};
 })();

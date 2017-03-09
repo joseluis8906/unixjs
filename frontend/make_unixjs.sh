@@ -5,7 +5,6 @@ echo "making unixjs.js"
 
 rm unixjs.js
 
-#cat lib/sha.min.js > unixjs.js
 cat lib/croppie.min.js >> unixjs.js
 cd lib/gwt/
 ./make_gwt.sh
@@ -20,6 +19,6 @@ cat boot/initrc.min.js >> unixjs.js
 cd bin/
 ./make_bin.sh
 cd ../
-cat bin/bin.min.js >> unixjs.js
+cat bin/bin.js >> unixjs.js
 
 echo "unixjs.js maked"

@@ -14,6 +14,7 @@
 
 domotictrl = ( function ()
 {
+
 //class PanelItem
 function PanelItem (Width, Height, Text, Image)
 {
@@ -41,6 +42,7 @@ function PanelItem (Width, Height, Text, Image)
     this.Image.SetMarginRight (24);
     this.Layout.Add (this.Image);
 }
+
 PanelItem.prototype = new Gwt.Gui.Frame ();
 PanelItem.prototype.constructor = PanelItem;
 
@@ -55,7 +57,7 @@ PanelItem.prototype._PanelItem = function ()
     this.Layout = null;
     
     this._Frame ();
-}
+};
 
 
 //class VentiladorCtrl
@@ -76,6 +78,7 @@ function VentiladorCtrl ()
     
     new Gwt.Core.Request('/serverstate', this.InitState.bind(this), null, Gwt.Core.REQUEST_METHOD_GET);
 }
+
 VentiladorCtrl.prototype = new Gwt.Gui.Frame ();
 VentiladorCtrl.prototype.constructor = VentiladorCtrl;
 
@@ -101,7 +104,7 @@ VentiladorCtrl.prototype.InitState = function (Res)
     {
         console.log ("Ventilador Estado Inicial No Definido");
     }
-}
+};
 
 VentiladorCtrl.prototype.EventKnobClick = function (Event)
 {
@@ -171,12 +174,12 @@ VentiladorCtrl.prototype.EventKnobClick = function (Event)
             console.log ("Knob Status Not Defined");
         }
     }
-}
+};
 
 VentiladorCtrl.prototype.EventKnobContextMenu = function (Event)
 {
     Event.preventDefault ();
-}
+};
 
 
 
@@ -219,17 +222,17 @@ VentanasCtrl.prototype.constructor = VentanasCtrl;
 VentanasCtrl.prototype.AbrirEvent = function ()
 {
     new Gwt.Core.Request('/ventanasctrl/abrir', function (Res){console.log(Res);}, null, Gwt.Core.REQUEST_METHOD_GET);
-}
+};
 
 VentanasCtrl.prototype.CerrarEvent = function ()
 {
     new Gwt.Core.Request('/ventanasctrl/cerrar', function (Res){console.log(Res);}, null, Gwt.Core.REQUEST_METHOD_GET);
-}
+};
 
 VentanasCtrl.prototype.PararEvent = function ()
 {
     new Gwt.Core.Request('/ventanasctrl/parar', function (Res){console.log(Res);}, null, Gwt.Core.REQUEST_METHOD_GET);
-}
+};
 
 
 //class LuzCtrl
@@ -319,20 +322,69 @@ LuzCtrl.prototype.constructor = LuzCtrl;
 LuzCtrl.prototype.LuzCtrlMonitor = function ()
 {
     new Gwt.Core.Request('/serverstate', this.InitState.bind(this), null, Gwt.Core.REQUEST_METHOD_GET);
-}
+};
 
 LuzCtrl.prototype.InitState = function (Res)
 {
-    if (Res.Bombillo1 === 1) {this.BtnBulb1.SetOn (); this.Btn1State = true;} else {this.BtnBulb1.SetOff (); this.Btn1State = false;}
-    if (Res.Bombillo2 === 1) {this.BtnBulb2.SetOn (); this.Btn2State = true;} else {this.BtnBulb2.SetOff (); this.Btn2State = false;}
-    if (Res.Bombillo3 === 1) {this.BtnBulb3.SetOn (); this.Btn3State = true;} else {this.BtnBulb3.SetOff (); this.Btn3State = false;}
-    if (Res.Bombillo4 === 1) {this.BtnBulb4.SetOn (); this.Btn4State = true;} else {this.BtnBulb4.SetOff (); this.Btn4State = false;}
-    if (Res.Bombillo5 === 1) {this.BtnBulb5.SetOn (); this.Btn5State = true;} else {this.BtnBulb5.SetOff (); this.Btn5State = false;}
-}
+    if (Res.Bombillo1 === 1)
+    {
+        this.BtnBulb1.SetOn ();
+        this.Btn1State = true;
+    } 
+    else 
+    {
+        this.BtnBulb1.SetOff ();
+        this.Btn1State = false;
+    }
+    
+    if (Res.Bombillo2 === 1)
+    {
+        this.BtnBulb2.SetOn ();
+        this.Btn2State = true;
+    } 
+    else
+    {
+        this.BtnBulb2.SetOff (); 
+        this.Btn2State = false;
+    }
+    
+    if (Res.Bombillo3 === 1)
+    {
+        this.BtnBulb3.SetOn (); 
+        this.Btn3State = true;
+    }
+    else 
+    {
+        this.BtnBulb3.SetOff ();
+        this.Btn3State = false;
+    }
+    
+    if (Res.Bombillo4 === 1)
+    {
+        this.BtnBulb4.SetOn ();
+        this.Btn4State = true;
+    }
+    else 
+    {
+        this.BtnBulb4.SetOff ();
+        this.Btn4State = false;
+    }
+    
+    if (Res.Bombillo5 === 1)
+    {
+        this.BtnBulb5.SetOn ();
+        this.Btn5State = true;
+    } 
+    else
+    {
+        this.BtnBulb5.SetOff ();
+        this.Btn5State = false;
+    }
+};
 
 LuzCtrl.prototype.Btn1Event = function ()
 {
-    if(!this.Btn1State) 
+    if(!this.Btn1State)
     {
         this.BtnBulb1.SetOn ();
         this.Btn1State = true;
@@ -344,7 +396,7 @@ LuzCtrl.prototype.Btn1Event = function ()
         this.Btn1State = false;
         new Gwt.Core.Request('/bombillosctrl/1', function (Res){console.log(Res);}, null, Gwt.Core.REQUEST_METHOD_GET);
     }
-}
+};
 
 LuzCtrl.prototype.Btn2Event = function ()
 {
@@ -360,7 +412,7 @@ LuzCtrl.prototype.Btn2Event = function ()
         this.Btn2State = false;
         new Gwt.Core.Request('/bombillosctrl/2', function (Res){console.log(Res);}, null, Gwt.Core.REQUEST_METHOD_GET);
     }
-}
+};
 
 LuzCtrl.prototype.Btn3Event = function ()
 {
@@ -376,7 +428,7 @@ LuzCtrl.prototype.Btn3Event = function ()
         this.Btn3State = false;
         new Gwt.Core.Request('/bombillosctrl/3', function (Res){console.log(Res);}, null, Gwt.Core.REQUEST_METHOD_GET);
     }
-}
+};
 
 LuzCtrl.prototype.Btn4Event = function ()
 {
@@ -392,7 +444,7 @@ LuzCtrl.prototype.Btn4Event = function ()
         this.Btn4State = false;
         new Gwt.Core.Request('/bombillosctrl/4', function (Res){console.log(Res);}, null, Gwt.Core.REQUEST_METHOD_GET);
     }
-}
+};
 
 LuzCtrl.prototype.Btn5Event = function ()
 {
@@ -408,7 +460,7 @@ LuzCtrl.prototype.Btn5Event = function ()
         this.Btn5State = false;
         new Gwt.Core.Request('/bombillosctrl/5', function (Res){console.log(Res);}, null, Gwt.Core.REQUEST_METHOD_GET);
     }
-}
+};
 
 
 //class VentanasCtrl
@@ -450,17 +502,17 @@ PersianasCtrl.prototype.constructor = PersianasCtrl;
 PersianasCtrl.prototype.AbrirEvent = function ()
 {
     new Gwt.Core.Request('/persianasctrl/abrir', function (Res){console.log(Res);}, null, Gwt.Core.REQUEST_METHOD_GET);
-}
+};
 
 PersianasCtrl.prototype.CerrarEvent = function ()
 {
     new Gwt.Core.Request('/persianasctrl/cerrar', function (Res){console.log(Res);}, null, Gwt.Core.REQUEST_METHOD_GET);
-}
+};
 
 PersianasCtrl.prototype.PararEvent = function ()
 {
     new Gwt.Core.Request('/persianasctrl/parar', function (Res){console.log(Res);}, null, Gwt.Core.REQUEST_METHOD_GET);
-}
+};
 
 
 //Class domotictrl
@@ -469,6 +521,7 @@ var instance;
 function domotictrl () 
 {
     Gwt.Gui.Window.call (this, "Domótica");
+    
     
     var WIDTH = 640;
     var HEIGHT = 320;
@@ -557,35 +610,35 @@ domotictrl.prototype.constructor = domotictrl;
 domotictrl.prototype._app = function ()
 {
     clearInterval (window.LuzCtrlMonitor);
-}
+};
 
 domotictrl.prototype.EventVentilador = function ()
 {
     this.Title.SetText ("Ventilador");
     this.HiddenAllCtrl ();
     this.VentiladorCtrl.SetDisplay (Gwt.Gui.Contrib.Display.Block);
-}
+};
 
 domotictrl.prototype.EventVentanas = function ()
 {
     this.Title.SetText ("Ventanas");
     this.HiddenAllCtrl ();
     this.VentanasCtrl.SetDisplay (Gwt.Gui.Contrib.Display.Block);
-}
+};
 
 domotictrl.prototype.EventLuz = function ()
 {
     this.Title.SetText ("Luz");
     this.HiddenAllCtrl ();
     this.LuzCtrl.SetDisplay (Gwt.Gui.Contrib.Display.Block);
-}
+};
 
 domotictrl.prototype.EventPersianas = function ()
 {
     this.Title.SetText ("Persianas");
     this.HiddenAllCtrl ();
     this.PersianasCtrl.SetDisplay (Gwt.Gui.Contrib.Display.Block);
-}
+};
 
 domotictrl.prototype.HiddenAllCtrl = function ()
 {
@@ -593,7 +646,7 @@ domotictrl.prototype.HiddenAllCtrl = function ()
     this.VentanasCtrl.SetDisplay (Gwt.Gui.Contrib.Display.None);
     this.LuzCtrl.SetDisplay (Gwt.Gui.Contrib.Display.None);
     this.PersianasCtrl.SetDisplay (Gwt.Gui.Contrib.Display.None);
-}
+};
 
 
 return new function ()
@@ -609,7 +662,7 @@ return new function ()
         {
             console.log ("%app open".replace ("%app", instance.__proto__.constructor.name));
         }
-    }
+    };
 		
     this.close = function ()
     {
@@ -618,6 +671,6 @@ return new function ()
             instance.Close ();
             instance = undefined;
         } 
-    }
-}
+    };
+};
 })();

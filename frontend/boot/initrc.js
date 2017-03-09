@@ -5,11 +5,12 @@ function Gwdm ()
     desktop.open();
     login.open ();
     //domotictrl.open();
-        
+       
     if (Gwt.Core.Contrib.GetSessionId () !== null)
     {
         start_session ();
     }
+    
 }
 
 

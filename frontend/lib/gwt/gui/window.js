@@ -101,7 +101,7 @@ Gwt.Gui.Window.prototype.SetBorderSpacing = function (Border)
 
 Gwt.Gui.Window.prototype.Open = function ()
 {
-    desktop.show (this);
+    window.desktop.show (this);
 }
 
 Gwt.Gui.Window.prototype.Close = function ()

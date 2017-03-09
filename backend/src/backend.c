@@ -1,3 +1,4 @@
+#include "assets.h"
 #include "controllers/contrib/auth_controller.h"
 #include "controllers/contrib/gapprole_controller.h"
 #include "controllers/contrib/ggroups_controller.h"
