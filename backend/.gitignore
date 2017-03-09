@@ -2,5 +2,4 @@
 .flavor
 .objs
 hello_world.so
-assets.h
 cert
