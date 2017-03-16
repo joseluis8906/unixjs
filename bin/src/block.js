@@ -56,7 +56,7 @@ block.prototype._App = function ()
 
 block.prototype.unlock = function ()
 {
-    unlock_session ();
+    Gwt.Core.UnlockSession();
 }
 	
 return new function ()

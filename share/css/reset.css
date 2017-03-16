@@ -1,27 +1,27 @@
 @font-face
 {
     font-family: Cantarell;
-    src: url("/share/fonts/Cantarell-Regular.ttf");  
+    src: url("../fonts/Cantarell-Regular.ttf");  
 }
 @font-face
 {
     font-family: Calibri;
-    src: url("/share/fonts/Calibri.ttf");
+    src: url("../fonts/Calibri.ttf");
 }
 @font-face
 {
     font-family: CalibriBold;
-    src: url("/share/fonts/Calibri-Bold.ttf");
+    src: url("../fonts/Calibri-Bold.ttf");
 }
 @font-face
 {
     font-family: ComicSansMsBold;
-    src: url("/share/fonts/Comic-Sans-Ms-Bold.ttf");
+    src: url("../fonts/Comic-Sans-Ms-Bold.ttf");
 }
 @font-face
 {
     font-family: TimesNewRomanBold;
-    src: url("/share/fonts/timesbd.ttf");
+    src: url("../fonts/timesbd.ttf");
 }
 html, body, div, span, applet, object, iframe, h1, 
 h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, 

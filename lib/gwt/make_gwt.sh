@@ -7,7 +7,7 @@ cat conf.js > gwt.js
 
 #core
 cat core/conf.js >> gwt.js
-cat core/uploadfile.js >> gwt.js
+cat core/upload.js >> gwt.js
 cat core/session.js >> gwt.js
 cat core/sql.js >> gwt.js
 

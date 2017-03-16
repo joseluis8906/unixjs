@@ -44,7 +44,7 @@ function login ()
     this.boxcontainer.Add (this.password_entry);
 	
     this.send_button.SetWidth (80);
-    this.send_button.AddEvent (Gwt.Gui.Event.Mouse.Click, this.send.bind (this));
+    this.send_button.AddEvent (Gwt.Gui.Event.Mouse.Click, this.StartSession.bind (this));
     this.boxcontainer.Add (this.send_button);
 }
 
@@ -69,11 +69,11 @@ login.prototype._App = function ()
     this.controls_container = null;
 }
 
-login.prototype.send = function ()
+login.prototype.StartSession = function ()
 {
     if (this.username_entry.GetText () !== "" && this.password_entry.GetText () !== "")
     {   
-        new Gwt.Core.StartSession (this.username_entry.GetText(), this.password_entry.GetText());
+        new Gwt.Core.Session (this.username_entry.GetText(), this.password_entry.GetText());
     }
     else
     {

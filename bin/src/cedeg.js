@@ -7,6 +7,7 @@ function record_widget (Width, Heigth)
     Gwt.Gui.HBox.call (this, 0);
     this.SetSize (Width, Heigth);
     this.SetClassName ("record_widget");
+    this.Rpc = new Gwt.Core.Rpc ("/cedeg/");
     
     this.code = new Gwt.Gui.Entry ("Código");
     this.code.SetExpand (false);
@@ -70,9 +71,7 @@ record_widget.prototype.check_code = function (event)
 {
     if(event.keyCode === Gwt.Gui.Event.Keyboard.KeyCodes.Enter)
     {
-        var Query = "SELECT \"Name\" FROM \"AccountingAccount\" WHERE \"Code\"='%s0'"
-            .replace("%s0", this.code.GetText());
-        new Gwt.Core.SqlQuery (Query, this.autocomplete.bind(this));
+        this.Rpc.Send ({Method: "CheckCode", Code: this.code.GetText()}, this.autocomplete.bind(this));
     }
 };
 
@@ -80,9 +79,9 @@ record_widget.prototype.check_code = function (event)
 
 record_widget.prototype.autocomplete = function (Res)
 {
-    if (Res.Data.length > 0)
+    if (Res.length > 0)
     {
-        this.name.SetText (Res.Data[0].Name);
+        this.name.SetText (Res[0].Name);
     }
     else
     {
@@ -99,6 +98,7 @@ function cedeg()
     this.SetSize (840, 460);
     this.SetPosition (Gwt.Gui.WIN_POS_CENTER);
     this.SetBorderSpacing (12);
+    this.Rpc = new Gwt.Core.Rpc ("/cedeg/");
     
     this.EnableMenu ();
     this.AddMenuItem (Gwt.Core.Contrib.Images + "appbar.cabinet.in.svg", "Guardar", this.Insert.bind(this));
@@ -201,44 +201,43 @@ cedeg.prototype._App = function ()
     this.Report = null;
 };
 
-cedeg.prototype.Insert = function (Res)
+cedeg.prototype.Insert = function ()
 {
-    var Stm = [new Gwt.Core.PrepareStatement("WITH \"ins1\" AS (INSERT INTO \"AccountingDisbVou\"(\"Number\", \"Place\", \"Date\", \"Holder\", \"Concept\")"+
-        "VALUES(?, ?, ?, ?, ?) RETURNING \"Id\")"+
-        "INSERT INTO \"AccountingDisbVouBank\"(\"AccountingDisbVouId\", \"Bank\", \"Check\", \"CheckingAccount\", \"Amount\")"+
-        "SELECT \"Id\", ?, ?, ?, ? FROM \"ins1\"")];
-    Stm[0].SetNumber (this.number.GetText ());
-    Stm[0].SetString (this.place.GetText ());
-    Stm[0].SetString (this.date.GetText ());
-    Stm[0].SetString (this.holder.GetText ());
-    Stm[0].SetString (this.concept.GetText ());    
-    Stm[0].SetString (this.bank.GetText ());
-    Stm[0].SetString (this.check.GetText ());
-    Stm[0].SetString (this.checking_account.GetText ());
-    Stm[0].SetNumber (this.amount.GetText ());
+    var Data = {
+        Method: "Insert",
+        Number: this.number.GetText (),
+        Place: this.place.GetText (),
+        Date: this.date.GetText (),
+        Holder: this.holder.GetText (),
+        Concept: this.concept.GetText (),
+        Bank: this.bank.GetText (),
+        Check: this.check.GetText (),
+        CheckingAccount: this.checking_account.GetText (),
+        Amount: this.amount.GetText ()
+    };
+    
+    Data.Records = [];
 
     for (var i=0; i < this.records.length; i++)
     {
         if (this.records[i].code.GetText() !== "")
         {
-            var Tmp = new Gwt.Core.PrepareStatement("INSERT INTO \"AccountingDisbVouRecord\"(\"AccountingDisbVouId\", \"AccountingAccountId\", \"Partial\", \"Debit\", \"Credit\")"+
-            "SELECT \"AccountingDisbVou\".\"Id\", \"AccountingAccount\".\"Id\", ?, ?, ? FROM \"AccountingDisbVou\" INNER JOIN \"AccountingAccount\" ON \"AccountingDisbVou\".\"Number\"=? AND \"AccountingAccount\".\"Code\"=?;");
-            Tmp.SetNumber (this.records[i].partial.GetText ());
-            Tmp.SetNumber (this.records[i].debit.GetText ());
-            Tmp.SetNumber (this.records[i].credit.GetText());
-            Tmp.SetNumber (this.number.GetText ());
-            Tmp.SetString (this.records[i].code.GetText ());
-            
-            Stm.push(Tmp);
+            Data.Records.push({
+                Partial: this.records[i].partial.GetText (),
+                Debit: this.records[i].debit.GetText (),
+                Credit: this.records[i].credit.GetText(),
+                Number: this.number.GetText (),
+                Code: this.records[i].code.GetText ()
+            });
         }
     }
     
-    new Gwt.Core.SqlStatement(Stm, this.InsertResponse.bind(this));
+    this.Rpc.Send (Data, this.InsertResponse.bind(this));
 };
 
 cedeg.prototype.InsertResponse = function (Res)
 {
-    if (Res.Result === 1)
+    if (Res.affected_rows === 1)
     {
         this.Report = Gwt.Core.Contrib.LoadDocument ("/share/documents/cedeg.html");
         this.Report.addEventListener ("load", this.ReportLoad.bind (this));
@@ -247,63 +246,55 @@ cedeg.prototype.InsertResponse = function (Res)
 
 cedeg.prototype.Update = function (Event)
 {
-    var Stm = [new Gwt.Core.PrepareStatement ("UPDATE \"AccountingDisbVou\" SET \"Place\"=?, \"Date\"=?, \"Holder\"=?, \"Concept\"=? WHERE \"Number\"=?")];
-    Stm[0].SetString (this.place.GetText ());
-    Stm[0].SetString (this.date.GetText ());
-    Stm[0].SetString (this.holder.GetText ());
-    Stm[0].SetString (this.concept.GetText ());
-    Stm[0].SetNumber (this.number.GetText ());
+    var Data = {
+        Method: "Update",
+        Number: this.number.GetText (),
+        Place: this.place.GetText (),
+        Date: this.date.GetText (),
+        Holder: this.holder.GetText (),
+        Concept: this.concept.GetText (),
+        Bank: this.bank.GetText (),
+        Check: this.check.GetText (),
+        CheckingAccount: this.checking_account.GetText (),
+        Amount: this.amount.GetText (),
+    };
     
-    var Tmp = new Gwt.Core.PrepareStatement ("UPDATE \"AccountingDisbVouBank\" SET \"Bank\"=?, \"Check\"=?, \"CheckingAccount\"=?, \"Amount\"=? FROM \"AccountingDisbVou\" WHERE  \"AccountingDisbVouId\"=\"AccountingDisbVou\".\"Id\" AND \"AccountingDisbVou\".\"Number\"=?");    
-    Tmp.SetString (this.bank.GetText ());
-    Tmp.SetString (this.check.GetText ());
-    Tmp.SetString (this.checking_account.GetText ());
-    Tmp.SetNumber (this.amount.GetText ());
-    Tmp.SetNumber (this.number.GetText ());
-    Stm.push(Tmp);
-    
-    Tmp = new Gwt.Core.PrepareStatement("DELETE FROM \"AccountingDisbVouRecord\" USING \"AccountingDisbVou\" WHERE \"AccountingDisbVouId\"=\"AccountingDisbVou\".\"Id\" AND \"Number\"=?");
-    Tmp.SetNumber (this.number.GetText ());
-    Stm.push(Tmp);
+    Data.Records = [];
     
     for (var i=0; i < this.records.length; i++)
     {
         if (this.records[i].code.GetText() !== "")
         {
-            Tmp = new Gwt.Core.PrepareStatement("INSERT INTO \"AccountingDisbVouRecord\"(\"AccountingDisbVouId\", \"AccountingAccountId\", \"Partial\", \"Debit\", \"Credit\")"+
-            "SELECT \"AccountingDisbVou\".\"Id\", \"AccountingAccount\".\"Id\", ?, ?, ? FROM \"AccountingDisbVou\" INNER JOIN \"AccountingAccount\" ON \"AccountingDisbVou\".\"Number\"=? AND \"AccountingAccount\".\"Code\"=?");
-            Tmp.SetNumber (this.records[i].partial.GetText ());
-            Tmp.SetNumber (this.records[i].debit.GetText ());
-            Tmp.SetNumber (this.records[i].credit.GetText());
-            Tmp.SetNumber (this.number.GetText ());
-            Tmp.SetString (this.records[i].code.GetText ());
-            
-            Stm.push(Tmp);
+            Data.Records.push({
+                Partial: this.records[i].partial.GetText (),
+                Debit: this.records[i].debit.GetText (),
+                Credit: this.records[i].credit.GetText(),
+                Number: this.number.GetText (),
+                Code: this.records[i].code.GetText ()
+            });
         }
     }
     
-    new Gwt.Core.SqlStatement (Stm, this.UpdateResponse.bind(this));
+    this.Rpc.Send (Data, this.UpdateResponse.bind(this));
 };
 
 cedeg.prototype.UpdateResponse = function (Res)
 {
-    if (Res.Result === 1)
+    if (Res.affected_rows === 1)
     {
-        this.Reset ();
+        this.Report = Gwt.Core.Contrib.LoadDocument ("/share/documents/cedeg.html");
+        this.Report.addEventListener ("load", this.ReportLoad.bind (this));
     }
 };
 
 cedeg.prototype.Delete = function ()
 {
-    var Stm = new Gwt.Core.PrepareStatement ("DELETE FROM \"AccountingDisbVou\" WHERE \"Number\"=?");
-    Stm.SetNumber(this.number.GetText ());
-    
-    new Gwt.Core.SqlStatement ([Stm], this.DeleteResponse.bind(this));
+    this.Rpc.Send ({Method: "Delete", Number: this.number.GetText ()}, this.DeleteResponse.bind(this));
 };
 
 cedeg.prototype.DeleteResponse = function (Res)
 {
-    if (Res.Result === 1)
+    if (Res.affected_rows === 1)
     {
         this.Reset ();
     }
@@ -333,38 +324,36 @@ cedeg.prototype.CheckNumber = function (Event)
     {
         if (this.number.GetText () === "")
         {
-            var Query = "SELECT \"Number\" FROM \"AccountingDisbVou\" ORDER BY \"Number\" DESC LIMIT 1";
-            new Gwt.Core.SqlQuery(Query, this.NextNumber.bind(this));
+            this.Rpc.Send ({Method: "NextNumber"}, this.NextNumber.bind(this));
         }
         else
         {
-            var Query = "SELECT \"Number\", \"Place\", \"Date\", \"Holder\", \"Concept\", \"Bank\", \"Check\", \"CheckingAccount\", \"Amount\", \"Code\", \"Name\", \"Partial\", \"Debit\", \"Credit\" FROM \"AccountingDisbVouAll\" WHERE \"Number\"=? ORDER BY \"Code\" ASC".replace("?", this.number.GetText());
-            new Gwt.Core.SqlQuery(Query, this.AutoFill.bind(this));
+            this.Rpc.Send ({Method: "AutoFill", Number: this.number.GetText ()}, this.AutoFill.bind(this));
         }
     }
 };
 
 cedeg.prototype.AutoFill = function (Res)
 {
-    if (Res.Data.length > 0)
+    if (Res.length > 0)
     {
-        this.number.SetText (Res.Data[0].Number);
-        this.place.SetText (Res.Data[0].Place);
-        this.date.SetDate (Res.Data[0].Date);
-        this.holder.SetText (Res.Data[0].Holder);
-        this.amount.SetText (Res.Data[0].Amount);
-        this.bank.SetText (Res.Data[0].Bank);
-        this.check.SetText (Res.Data[0].Check);
-        this.checking_account.SetText (Res.Data[0].CheckingAccount);
-        this.concept.SetText (Res.Data[0].Concept);
+        this.number.SetText (Res[0].Number);
+        this.place.SetText (Res[0].Place);
+        this.date.SetDate (Res[0].Date);
+        this.holder.SetText (Res[0].Holder);
+        this.amount.SetText (Res[0].Amount);
+        this.bank.SetText (Res[0].Bank);
+        this.check.SetText (Res[0].Check);
+        this.checking_account.SetText (Res[0].CheckingAccount);
+        this.concept.SetText (Res[0].Concept);
     
-        for (var i = 0; i < Res.Data.length; i++)
+        for (var i = 0; i < Res.length; i++)
         {
-            this.records[i].code.SetText (Res.Data[i].Code);
-            this.records[i].name.SetText (Res.Data[i].Name);
-            this.records[i].partial.SetText (Res.Data[i].Partial);
-            this.records[i].debit.SetText (Res.Data[i].Debit);
-            this.records[i].credit.SetText (Res.Data[i].Credit);
+            this.records[i].code.SetText (Res[i].Code);
+            this.records[i].name.SetText (Res[i].Name);
+            this.records[i].partial.SetText (Res[i].Partial);
+            this.records[i].debit.SetText (Res[i].Debit);
+            this.records[i].credit.SetText (Res[i].Credit);
         }
         for (i; i < this.records.length; i++)
         {
@@ -380,9 +369,9 @@ cedeg.prototype.AutoFill = function (Res)
 
 cedeg.prototype.NextNumber = function (Res)
 {
-    if (Res.Data.length > 0)
+    if (Res.length > 0)
     {
-        this.number.SetText(Number(Res.Data[0].Number)+1);
+        this.number.SetText(Number(Res[0].Number)+1);
     }
 };
 

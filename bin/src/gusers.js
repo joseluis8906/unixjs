@@ -9,10 +9,10 @@ function gusers ()
     this.SetSize (320, 548);
     this.SetPosition (Gwt.Gui.WIN_POS_CENTER);
     this.SetBorderSpacing (12);
+    this.Rpc = new Gwt.Core.Rpc ("/gusers/");
    
     this.EnableMenu ();
-    this.AddMenuItem (Gwt.Core.Contrib.Images + "appbar.magnify.svg", "Buscar", this.Buscar.bind(this));
-    this.AddMenuItem (Gwt.Core.Contrib.Images + "appbar.cabinet.in.svg", "Guardar", this.Guardar.bind(this));
+    this.AddMenuItem (Gwt.Core.Contrib.Images + "appbar.cabinet.in.svg", "Guardar", this.Insert.bind(this));
     this.AddMenuItem (Gwt.Core.Contrib.Images + "appbar.refresh.svg", "Actualizar", this.Actualizar.bind(this));
     this.AddMenuItem (Gwt.Core.Contrib.Images + "appbar.delete.svg", "Eliminar", this.Eliminar.bind(this));
     this.AddMenuItem (Gwt.Core.Contrib.Images + "appbar.power.svg", "Salir", function(){window.gusers.close(); window.gcontrol.open();}, Gwt.Gui.MENU_QUIT_APP);
@@ -21,7 +21,7 @@ function gusers ()
     this.Layout.SetAlignment(Gwt.Gui.ALIGN_CENTER);
     this.SetLayout (this.Layout);
     
-    this.Avatar = new Gwt.Gui.Avatar ("Avatar", "jpg", 480, 480);
+    this.Avatar = new Gwt.Gui.Avatar ("Avatar", "jpg", 480, 480, this.Upload.bind(this));
     this.Avatar.SetSizeEditor (this.GetAvailableWidth(), this.GetAvailableHeight());
     this.Title = new Gwt.Gui.StaticText ("Datos:");
     this.UserName = new Gwt.Gui.IconEntry(Gwt.Core.Contrib.Images+"appbar.user.tie.svg", "Usuario");
@@ -62,6 +62,8 @@ function gusers ()
     this.Address.SetTabIndex(10);
     
     this.Add (this.Avatar.GetEditor ());
+    
+    this.UserName.AddEvent (Gwt.Gui.Event.Keyboard.KeyUp, this.Select.bind(this));
 }
 
 gusers.prototype = new Gwt.Gui.Window ();
@@ -98,24 +100,77 @@ gusers.prototype._App = function ()
     this.Layout = null;
 };
 
-gusers.prototype.Buscar = function ()
+gusers.prototype.Upload = function (Event)
 {
-    console.log ("Buscar");
+    var MediaRpc = new Gwt.Core.Rpc("/media/");
+    MediaRpc.Send({Method: "Insert", UserName: "root", FileName: this.Avatar.GetFileName(), Type: this.Avatar.GetType()}, this.PreUploadResponse.bind (this));
 };
 
-gusers.prototype.Guardar = function ()
+gusers.prototype.PreUploadResponse = function (Res)
 {
-    var Data = [
-        {"UserName": this.UserName.GetText(), "Password": this.Password.GetText(),  "DocumentType": this.DocType.GetText(), "DocumentNum": this.DocNum.GetText(), "Country" : this.Country.GetText(), "Avatar": this.Avatar.GetText (), "Name": this.Name.GetText(), "LastName": this.LastName.GetText(), "Phone": this.Phone.GetText(), "Email": this.Email.GetText (), "Address": this.Address.GetText ()}
-    ];
+    if (Res.Result === 1)
+    {
+        this.Avatar.SetName (Res.Name);
+        new Gwt.Core.Upload (this.Avatar, this.UploadResponse.bind(this));
+    }
+};
+
+gusers.prototype.UploadResponse = function (Res)
+{
+    if (Res.Result !== 1)
+    {
+        var MediaRpc = new Gwt.Core.Rpc("/media/");
+        MediaRpc.Send({Method: "Delete", Name: this.Avatar.GetName(), Type: this.Avatar.GetType()});
+    }
+};
+
+gusers.prototype.Select = function (Event)
+{
+    if(Event.keyCode === Gwt.Gui.Event.Keyboard.KeyCodes.Enter)
+    {
+        this.Rpc.Send ({Method: "Select", UserName: this.UserName.GetText ()}, this.SelectResponse.bind(this));
+    }
+};
+
+gusers.prototype.SelectResponse = function (Res)
+{
+    if (Res.length > 0)
+    {
+        this.DocType.SetText (Res[0].DocumentType);
+        this.DocNum.SetText (Res[0].DocumentNum);
+        this.Country.SetText (Res[0].Country);
+        this.Name.SetText (Res[0].Name);
+        this.LastName.SetText (Res[0].LastName);
+        this.Phone.SetText (Res[0].Phone);
+        this.Email.SetText (Res[0].Email);
+        this.Address.SetText (Res[0].Address);
+        this.Avatar.SetImage ("/images/"+Res[0].AvatarName+"."+Res[0].AvatarType);
+    }
+    else
+    {
+        this.Reset();
+    }
+};
+
+gusers.prototype.Insert = function ()
+{
+    var Data = {
+        "UserName": this.UserName.GetText(),
+        "Password": this.Password.GetText(),
+        "DocumentType": this.DocType.GetText(),
+        "DocumentNum": this.DocNum.GetText(),
+        "Country" : this.Country.GetText(),
+        "Avatar": this.Avatar.GetText (),
+        "Name": this.Name.GetText(),
+        "LastName": this.LastName.GetText(),
+        "Phone": this.Phone.GetText(),
+        "Email": this.Email.GetText (),
+        "Address": this.Address.GetText ()
+    };
     
-    var Params = [
-        new Gwt.Core.Parameter(Gwt.Core.PARAM_TYPE_JSON, "Params", Data),
-        new Gwt.Core.Parameter(Gwt.Core.PARAM_TYPE_FILE, "Avatar", this.Avatar.GetData ())
-        
-    ];
     
-    new Gwt.Core.Request ("/backend/gusers/save/", this.ResponseSave.bind(this), Params);
+    
+    
 };
 
 gusers.prototype.Actualizar = function ()
@@ -128,9 +183,9 @@ gusers.prototype.Eliminar = function ()
     console.log ("Eliminar");
 };
 
-gusers.prototype.ResponseSave = function (Res)
+gusers.prototype.InsertResponse = function (Res)
 {
-    if (Res.Result === 1)
+    if (Res === 1)
     {
         this.Reset ();
     }

@@ -9,6 +9,7 @@ function cuentas()
     this.SetSize (512, 256);
     this.SetPosition (Gwt.Gui.WIN_POS_CENTER);
     this.SetBorderSpacing (12);
+    this.Rpc = new Gwt.Core.Rpc ("/cuentas/");
     
     this.EnableMenu ();
     this.AddMenuItem (Gwt.Core.Contrib.Images + "appbar.cabinet.in.svg", "Guardar", this.Insert.bind(this));
@@ -47,16 +48,15 @@ cuentas.prototype.Select = function (Event)
 {
     if(Event.keyCode === Gwt.Gui.Event.Keyboard.KeyCodes.Enter)
     {
-        var Query = "SELECT \"Name\" FROM \"AccountingAccount\" WHERE \"Code\"='{0}'".replace("{0}", this.code.GetText());
-        new Gwt.Core.SqlQuery (Query, this.SelectResponse.bind(this));
+        this.Rpc.Send ({Method: "Select", Code: this.code.GetText ()}, this.SelectResponse.bind(this));
     }
 };
 
 cuentas.prototype.SelectResponse = function (Res)
 {
-    if (Res.Data.length > 0)
+    if (Res.length > 0)
     {
-        this.name.SetText (Res.Data[0].Name);
+        this.name.SetText (Res[0].Name);
     }
     else
     {
@@ -65,17 +65,13 @@ cuentas.prototype.SelectResponse = function (Res)
 };
 
 cuentas.prototype.Insert = function (Event)
-{
-    var Stm = new Gwt.Core.PrepareStatement ("INSERT INTO \"AccountingAccount\" (\"Code\", \"Name\") VALUES (?, ?)");
-    Stm.SetString (this.code.GetText ());
-    Stm.SetString (this.name.GetText ());
-    
-    new Gwt.Core.SqlStatement ([Stm], this.InsertResponse.bind(this));
+{    
+    this.Rpc.Send ({Method: "Insert", Code: this.code.GetText (), Name: this.name.GetText()}, this.InsertResponse.bind(this));
 };
 
 cuentas.prototype.InsertResponse = function (Res)
 {
-    if (Res.Result === 1)
+    if (Res.affected_rows === 1)
     {
         this.Reset ();
     }
@@ -83,32 +79,25 @@ cuentas.prototype.InsertResponse = function (Res)
 
 cuentas.prototype.Update = function (Event)
 {
-    var Stm = new Gwt.Core.PrepareStatement ("UPDATE \"AccountingAccount\" SET \"Name\"=? WHERE \"Code\"=?");
-    Stm.SetString (this.name.GetText ());
-    Stm.SetString (this.code.GetText ());
-    
-    new Gwt.Core.SqlStatement ([Stm], this.UpdateResponse.bind(this));
+    this.Rpc.Send ({Method: "Update", Code: this.code.GetText (), Name: this.name.GetText()}, this.UpdateResponse.bind(this));
 };
 
 cuentas.prototype.UpdateResponse = function (Res)
 {
-    if (Res.Result === 1)
+    if (Res.affected_rows === 1)
     {
         this.Reset ();
     }
 };
 
 cuentas.prototype.Delete = function (Event)
-{
-    var Stm = new Gwt.Core.PrepareStatement ("DELETE FROM \"AccountingAccount\" WHERE \"Code\"=?");
-    Stm.SetString(this.code.GetText ());
-    
-    new Gwt.Core.SqlStatement ([Stm], this.DeleteResponse.bind(this));
+{   
+    this.Rpc.Send ({Method: "Delete", Code: this.code.GetText ()}, this.DeleteResponse.bind(this));
 };
 
 cuentas.prototype.DeleteResponse = function (Res)
 {
-    if (Res.Result === 1)
+    if (Res.affected_rows === 1)
     {
         this.Reset ();
     }

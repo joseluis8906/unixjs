@@ -15,30 +15,33 @@ function gapprole ()
     this.SetSize (256, 256);
     this.SetPosition (Gwt.Gui.WIN_POS_CENTER);
     this.SetBorderSpacing (12);
+    this.Rpc = new Gwt.Core.Rpc("/gapprole/");
     
-    this.AddMenuItem (Gwt.Core.Contrib.Images + "appbar.cabinet.in.svg", "Guardar", this.Guardar.bind(this));
-    this.AddMenuItem (Gwt.Core.Contrib.Images + "appbar.delete.svg", "Eliminar", this.Eliminar.bind(this));
+    this.AddMenuItem (Gwt.Core.Contrib.Images + "appbar.cabinet.in.svg", "Guardar", this.Insert.bind(this));
+    this.AddMenuItem (Gwt.Core.Contrib.Images + "appbar.refresh.svg", "Actualizar", this.Update.bind(this));
+    this.AddMenuItem (Gwt.Core.Contrib.Images + "appbar.delete.svg", "Eliminar", this.Delete.bind(this));
     this.AddMenuItem (Gwt.Core.Contrib.Images + "appbar.power.svg", "Salir", function(){window.gapprole.close(); window.gcontrol.open();}, Gwt.Gui.MENU_QUIT_APP);
     
     this.Layout = new Gwt.Gui.VBox ();
     this.Layout.SetAlignment(Gwt.Gui.ALIGN_CENTER);
     this.SetLayout (this.Layout);
     
+    this.Name = new Gwt.Gui.IconEntry(Gwt.Core.Contrib.Images+"appbar.console.svg", "Nombre Del App");
+    this.Name.SetTabIndex(2);
+    this.Name.AddEvent (Gwt.Gui.Event.Keyboard.KeyPress, this.Select.bind(this));
+    
     this.Image = new Gwt.Gui.IconEntry(Gwt.Core.Contrib.Images+"appbar.image.svg", "Nombre De Imagen");
     this.Image.SetTabIndex(1);
     
     this.Label = new Gwt.Gui.IconEntry(Gwt.Core.Contrib.Images+"appbar.closedcaption.svg", "Etiqueta");
     this.Label.SetTabIndex(2);
-    
-    this.Name = new Gwt.Gui.IconEntry(Gwt.Core.Contrib.Images+"appbar.console.svg", "Nombre Del App");
-    this.Name.SetTabIndex(2);
-    
+        
     this.Group = new Gwt.Gui.IconEntry(Gwt.Core.Contrib.Images+"appbar.group.svg", "Grupo");
     this.Group.SetTabIndex(2);
     
+    this.Layout.Add (this.Name);
     this.Layout.Add (this.Image);
     this.Layout.Add (this.Label);
-    this.Layout.Add (this.Name);
     this.Layout.Add (this.Group);
 }
 
@@ -60,29 +63,84 @@ gapprole.prototype._App = function ()
     this.Layout = null;
 };
 
-gapprole.prototype.Buscar = function ()
+gapprole.prototype.Select = function (Event)
 {
+    if(Event.keyCode === Gwt.Gui.Event.Keyboard.KeyCodes.Enter)
+    {
+        this.Rpc.Send ({Method: "Select", Name: this.Name.GetText ()}, this.SelectResponse.bind(this));
+    }
 };
 
-gapprole.prototype.Guardar = function ()
+gapprole.prototype.SelectResponse = function (Res)
 {
-    var Params = [
-        new Gwt.Core.Parameter(Gwt.Core.PARAM_TYPE_JSON, "Params", [{"Image": this.Image.GetText (), "Label": this.Label.GetText (), "Name": this.Name.GetText (), "Group": this.Group.GetText ()}])
-    ];
-    new Gwt.Core.Request ("/backend/gapprole/save/", this.ResponseSave.bind(this), Params);
+    if (Res.length > 0)
+    {
+        this.Image.SetText (Res[0].Image);
+        this.Label.SetText (Res[0].Label);
+        this.Group.SetText (Res[0].Group);
+    }
+    else
+    {
+        this.Reset ();
+    }
 };
 
-gapprole.prototype.Actualizar = function ()
+gapprole.prototype.Insert = function ()
 {
+    var Data = {
+        Method: "Insert",
+        Name: this.Name.GetText (),
+        Image: this.Image.GetText (),
+        Label: this.Label.GetText (),
+        Group: this.Group.GetText ()
+    };
+    
+    this.Rpc.Send (Data, this.InsertResponse.bind(this));
 };
 
-gapprole.prototype.Eliminar = function ()
+gapprole.prototype.InsertResponse = function (Res)
 {
+    if (Res.affected_rows === 1)
+    {
+        this.Reset ();
+    }
+    else if (Res.Error)
+    {
+        console.log (Res.Error);
+    }
 };
 
-gapprole.prototype.ResponseSave = function (Res)
+
+gapprole.prototype.Update = function ()
 {
-    if (Res.Result === 1)
+    var Data = {
+        Method: "Update",
+        Name: this.Name.GetText (),
+        Image: this.Image.GetText (),
+        Label: this.Label.GetText (),
+        Group: this.Group.GetText ()
+    };
+    
+    this.Rpc.Send (Data, this.UpdateResponse.bind(this));
+};
+
+
+gapprole.prototype.UpdateResponse = function (Res)
+{
+    if (Res.affected_rows === 1)
+    {
+        this.Reset ();
+    }
+};
+
+gapprole.prototype.Delete = function (Res)
+{
+    this.Rpc.Send ({Method: "Delete", Name: this.Name.GetText()}, this.DeleteResponse.bind(this));
+};
+
+gapprole.prototype.DeleteResponse = function (Res)
+{
+    if (Res.affected_rows === 1)
     {
         this.Reset ();
     }
@@ -110,7 +168,7 @@ return new function ()
         {
             console.log ("%app open".replace ("%app", instance.__proto__.constructor.name));
         }
-    }
+    };
 		
     this.close = function ()
     {
@@ -120,6 +178,6 @@ return new function ()
             instance = undefined;
             Gwt.Core.Contrib.RemoveActiveApp ();
         } 
-    }
-}
+    };
+};
 })();

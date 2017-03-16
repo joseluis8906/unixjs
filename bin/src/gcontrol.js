@@ -5,7 +5,8 @@ var instance;
 function gcontrol () 
 {
     Gwt.Gui.Window.call (this);
-
+    
+    this.Rpc = new Gwt.Core.Rpc ("/gcontrol/");
     this.Layout = new Gwt.Gui.VBox(5);
     this.Row1 = new Gwt.Gui.HBox(8);
     this.Icons = [];
@@ -21,8 +22,7 @@ function gcontrol ()
     this.Row1.SetAlignment (Gwt.Gui.ALIGN_TOP);
     this.Layout.Add (this.Row1);
     
-    //var Query = "SELECT \"Name\" FROM \"AccountingAccount\" WHERE \"Code\"='{0}'".replace("{0}", this.code.GetText());
-    //new Gwt.Core.SqlQuery (Query, this.SelectResponse.bind(this));
+    this.Rpc.Send({Method: "Select"}, this.SelectResponse.bind(this));
 }
 
 gcontrol.prototype = new Gwt.Gui.Window ();
@@ -43,14 +43,13 @@ gcontrol.prototype._App = function ()
 
 
 
-gcontrol.prototype.LoadAppRoles = function (Res)
+gcontrol.prototype.SelectResponse = function (Res)
 {
-    var Data = Res.Data;
-    for (var i = 0; i < Data.length; i++)
+    for (var i = 0; i < Res.length; i++)
     {
-        this.Icons.push (new Gwt.Gui.IconDesktop (Gwt.Core.Contrib.Images+Data[i].Image, Data[i].Label, Data[i].Name));
+        this.Icons.push (new Gwt.Gui.IconDesktop (Gwt.Core.Contrib.Images+Res[i].Image, Res[i].Label, Res[i].Name));
         this.Row1.Add (this.Icons[i]);
-        this.LoadApp (Data[i].Name);
+        this.LoadApp (Res[i].Name);
     }
 }
 
@@ -61,7 +60,7 @@ gcontrol.prototype.LoadApp = function (App)
     var TagScript = document.createElement('script');
     TagScript.type = 'text/javascript';
     TagScript.async = true;
-    TagScript.src = "/frontend/bin/"+App+".min.js";
+    TagScript.src = "/bin/"+App+".min.js";
     var Head = document.head;
     
     var Insert = true;
