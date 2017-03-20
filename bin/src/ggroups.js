@@ -15,10 +15,11 @@ function ggroups ()
     this.SetSize (256, 256);
     this.SetPosition (Gwt.Gui.WIN_POS_CENTER);
     this.SetBorderSpacing (12);
+    this.Rpc = new Gwt.Core.Rpc ("/ggroups/");
     
     this.EnableMenu ();
-    this.AddMenuItem (Gwt.Core.Contrib.Images + "appbar.cabinet.in.svg", "Guardar", this.Guardar.bind(this));
-    this.AddMenuItem (Gwt.Core.Contrib.Images + "appbar.delete.svg", "Eliminar", this.Eliminar.bind(this));
+    this.AddMenuItem (Gwt.Core.Contrib.Images + "appbar.cabinet.in.svg", "Guardar", this.Insert.bind(this));
+    this.AddMenuItem (Gwt.Core.Contrib.Images + "appbar.delete.svg", "Eliminar", this.Delete.bind(this));
     this.AddMenuItem (Gwt.Core.Contrib.Images + "appbar.power.svg", "Salir", function(){window.ggroups.close(); window.gcontrol.open();}, Gwt.Gui.MENU_QUIT_APP);
     
     this.Layout = new Gwt.Gui.VBox ();
@@ -43,29 +44,31 @@ ggroups.prototype._App = function ()
     this.Layout = null;
 };
 
-ggroups.prototype.Buscar = function ()
+ggroups.prototype.Insert = function ()
 {
+    this.Rpc.Send ({Method: "Insert", Name: this.Name.GetText ()}, this.InsertResponse.bind (this));
 };
 
-ggroups.prototype.Guardar = function ()
+ggroups.prototype.InsertResponse = function (Res)
 {
-    var Params = [
-        new Gwt.Core.Parameter(Gwt.Core.PARAM_TYPE_JSON, "Params", [{"Name": this.Name.GetText ()}])
-    ];
-    new Gwt.Core.Request ("/backend/ggroups/save/", this.ResponseSave.bind (this), Params);
+    if (Res.affected_rows === 1)
+    {
+        this.Reset ();
+    }
+    else
+    {
+        console.log (Res);
+    }
 };
 
-ggroups.prototype.Actualizar = function ()
+ggroups.prototype.Delete = function ()
 {
+    this.Rpc.Send ({Method: "Delete", Name: this.Name.GetText ()}, this.DeleteResponse.bind (this));
 };
 
-ggroups.prototype.Eliminar = function ()
+ggroups.prototype.DeleteResponse = function (Res)
 {
-};
-
-ggroups.prototype.ResponseSave = function (Res)
-{
-    if (Res.Result === 1)
+    if (Res.affected_rows === 1)
     {
         this.Reset ();
     }

@@ -3,7 +3,7 @@
 ]]
 
 local upload = require ("resty.upload");
-local Http = require ("./sbin/http");
+local Http = require ("./sbin/contrib/http");
 
 
 function split(inputstr, sep)
@@ -40,7 +40,7 @@ local form = upload:new(chunk_size);
 local file;
 local name; 
 local filename;
-local path = "/home/joseluis/Documents/Developments/unixjs/share";
+local path = ngx.var.unixjs.."/share";
 local subpath;
 local yes, ext;
 

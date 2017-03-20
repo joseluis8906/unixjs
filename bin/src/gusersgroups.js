@@ -15,9 +15,10 @@ function gusersgroups ()
     this.SetSize (256, 256);
     this.SetPosition (Gwt.Gui.WIN_POS_CENTER);
     this.SetBorderSpacing (12);
+    this.Rpc = new Gwt.Core.Rpc ("/gusersgroups/");
     
-    this.AddMenuItem (Gwt.Core.Contrib.Images + "appbar.cabinet.in.svg", "Guardar", this.Guardar.bind(this));
-    this.AddMenuItem (Gwt.Core.Contrib.Images + "appbar.delete.svg", "Eliminar", this.Eliminar.bind(this));
+    this.AddMenuItem (Gwt.Core.Contrib.Images + "appbar.cabinet.in.svg", "Guardar", this.Insert.bind(this));
+    this.AddMenuItem (Gwt.Core.Contrib.Images + "appbar.delete.svg", "Eliminar", this.Delete.bind(this));
     this.AddMenuItem (Gwt.Core.Contrib.Images + "appbar.power.svg", "Salir", function(){window.gusersgroups.close(); window.gcontrol.open();}, Gwt.Gui.MENU_QUIT_APP);
     
     this.Layout = new Gwt.Gui.VBox ();
@@ -48,29 +49,31 @@ gusersgroups.prototype._App = function ()
     this.Layout = null;
 };
 
-gusersgroups.prototype.Buscar = function ()
+gusersgroups.prototype.Insert = function ()
 {
+    this.Rpc.Send ({Method: "Insert", UserName: this.UserName.GetText (), GroupName: this.GroupName.GetText ()}, this.InsertResponse.bind (this));
 };
 
-gusersgroups.prototype.Guardar = function ()
+gusersgroups.prototype.InsertResponse = function ()
 {
-    var Params = [
-        new Gwt.Core.Parameter(Gwt.Core.PARAM_TYPE_JSON, "Params", [{"User": this.UserName.GetText (), "Group": this.GroupName.GetText ()}])
-    ];
-    new Gwt.Core.Request ("/backend/gusersgroups/save/", this.ResponseSave.bind (this), Params);
+    if (Res.affected_rows === 1)
+    {
+        this.Reset ();
+    }
+    else
+    {
+        console.log (Res);
+    }
 };
 
-gusersgroups.prototype.Actualizar = function ()
+gusersgroups.prototype.Delete = function ()
 {
+    this.Rpc.Send ({Method: "Delete", UserName: this.UserName.GetText (), GroupName: this.GroupName.GetText ()}, this.DeleteResponse.bind (this));
 };
 
-gusersgroups.prototype.Eliminar = function ()
+gusersgroups.prototype.DeleteResponse = function (Res)
 {
-};
-
-gusersgroups.prototype.ResponseSave = function (Res)
-{
-    if (Res.Result === 1)
+    if (Res.affected_rows === 1)
     {
         this.Reset ();
     }

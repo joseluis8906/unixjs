@@ -2,14 +2,13 @@
     Lua 5.1 Copyright (C) 1994-2006 Lua.org, PUC-Rio
 ]]
 
-local Http = require ("./sbin/http");
+local Http = require ("./sbin/contrib/http");
+local Crypt = require ("./sbin/contrib/crypt");
 
---Methodum
-local Method = Http.Request ("Method");
 
 --GenerateSessionId
 function GenUid (PseudoId)
-    local Dict = "0X1P2QV4cCUdeAfgMhijEklmnS5OpZ@qrKsWt9vIw7by6zBu-DF3H.x8JaL_NRoTYG";
+    local Dict = "0X1P2QV4cCUdeAfgMhijEklmnS5OpZ@qrKsWt9vIw7by6zBu-DF3Hx8JaL_NRoTYG";
     local DictLen = string.len (Dict);
     local Index = 0;
     local Pch = 0;
@@ -29,22 +28,28 @@ function GenUid (PseudoId)
 end
 
 
+--Method
+local Method = Http.Request ("Method");
+
 --Start
 if Method == "Start" then
     local UserName = Http.Request ("UserName");
     local Password = Http.Request ("Password");
-    local Sql = require ("./sbin/sql");
+    local Sql = require ("./sbin/contrib/sql");
     local Q = Sql.Query;
-    Q:New ([[SELECT COUNT("UserName") FROM "AuthUser" WHERE "UserName"=? AND "Password"=?;]]);
+    Q:New ([[SELECT "UserName", "Password" FROM "AuthUser" WHERE "UserName"=? LIMIT 1;]]);
     Q:SetString (UserName);
-    Q:SetString (Password);
     local pgmoon = require ("pgmoon");
     local db = pgmoon.new(Sql.Conf);
     assert(db:connect());
     local Res, Err = db:query (Q.Stm);
-    if Res[1].count == 0 then
+    if table.getn(Res) == 0 then
         Http.Response ({Result = 0});
         db:keepalive();
+        return;
+    end
+    if not Crypt.CheckPassw(Password, Res[1].Password) then
+        Http.Response ({Result = 0});
         return;
     end
     db:keepalive();

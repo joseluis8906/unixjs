@@ -13,8 +13,8 @@ function gusers ()
    
     this.EnableMenu ();
     this.AddMenuItem (Gwt.Core.Contrib.Images + "appbar.cabinet.in.svg", "Guardar", this.Insert.bind(this));
-    this.AddMenuItem (Gwt.Core.Contrib.Images + "appbar.refresh.svg", "Actualizar", this.Actualizar.bind(this));
-    this.AddMenuItem (Gwt.Core.Contrib.Images + "appbar.delete.svg", "Eliminar", this.Eliminar.bind(this));
+    this.AddMenuItem (Gwt.Core.Contrib.Images + "appbar.refresh.svg", "Actualizar", this.Update.bind(this));
+    this.AddMenuItem (Gwt.Core.Contrib.Images + "appbar.delete.svg", "Eliminar", this.Delete.bind(this));
     this.AddMenuItem (Gwt.Core.Contrib.Images + "appbar.power.svg", "Salir", function(){window.gusers.close(); window.gcontrol.open();}, Gwt.Gui.MENU_QUIT_APP);
     
     this.Layout = new Gwt.Gui.VBox ();
@@ -144,6 +144,8 @@ gusers.prototype.SelectResponse = function (Res)
         this.Phone.SetText (Res[0].Phone);
         this.Email.SetText (Res[0].Email);
         this.Address.SetText (Res[0].Address);
+        this.Avatar.SetName (Res[0].AvatarName);
+        this.Avatar.SetType (Res[0].AvatarType);
         this.Avatar.SetImage ("/images/"+Res[0].AvatarName+"."+Res[0].AvatarType);
     }
     else
@@ -155,40 +157,101 @@ gusers.prototype.SelectResponse = function (Res)
 gusers.prototype.Insert = function ()
 {
     var Data = {
-        "UserName": this.UserName.GetText(),
-        "Password": this.Password.GetText(),
-        "DocumentType": this.DocType.GetText(),
-        "DocumentNum": this.DocNum.GetText(),
-        "Country" : this.Country.GetText(),
-        "Avatar": this.Avatar.GetText (),
-        "Name": this.Name.GetText(),
-        "LastName": this.LastName.GetText(),
-        "Phone": this.Phone.GetText(),
-        "Email": this.Email.GetText (),
-        "Address": this.Address.GetText ()
+        Method: "Insert",
+        UserName: this.UserName.GetText(),
+        Password: this.Password.GetText(),
+        DocumentType: this.DocType.GetText(),
+        DocumentNum: this.DocNum.GetText(),
+        Country : this.Country.GetText(),
+        Name: this.Name.GetText(),
+        LastName: this.LastName.GetText(),
+        Phone: this.Phone.GetText(),
+        Email: this.Email.GetText (),
+        Address: this.Address.GetText (),
+        AvatarName: this.Avatar.GetName (),
+        AvatarType: this.Avatar.GetType ()
     };
     
-    
-    
-    
-};
-
-gusers.prototype.Actualizar = function ()
-{
-    console.log ("Actualizar");
-};
-
-gusers.prototype.Eliminar = function ()
-{
-    console.log ("Eliminar");
+    this.Rpc.Send (Data, this.InsertResponse.bind(this));
 };
 
 gusers.prototype.InsertResponse = function (Res)
 {
-    if (Res === 1)
+    if (Res.affected_rows === 1)
     {
         this.Reset ();
     }
+    else
+    {
+        console.log("Error: inserting new user");
+        var MediaRpc = new Gwt.Core.Rpc("/media/");
+        MediaRpc.Send({Method: "Delete", Name: this.Avatar.GetName(), Type: this.Avatar.GetType()});
+    }
+};
+
+gusers.prototype.Update = function ()
+{   
+    var MediaRpc = new Gwt.Core.Rpc("/media/");
+    MediaRpc.Send({Method: "Update", UserName: this.UserName.GetText(), Name: this.Avatar.GetName(), Type: this.Avatar.GetType()}, this.UpdateData.bind(this));
+};
+
+gusers.prototype.UpdateData = function (Res)
+{
+    if (Res.affected_rows === 1)
+    {
+        var Data = {
+            Method: "Update",
+            UserName: this.UserName.GetText(),
+            Password: this.Password.GetText(),
+            DocumentType: this.DocType.GetText(),
+            DocumentNum: this.DocNum.GetText(),
+            Country : this.Country.GetText(),
+            Name: this.Name.GetText(),
+            LastName: this.LastName.GetText(),
+            Phone: this.Phone.GetText(),
+            Email: this.Email.GetText (),
+            Address: this.Address.GetText (),
+            AvatarName: this.Avatar.GetName (),
+            AvatarType: this.Avatar.GetType ()
+        };
+    
+        this.Rpc.Send (Data, this.UpdateResponse.bind(this));
+    }
+};
+
+gusers.prototype.UpdateResponse = function (Res)
+{
+    if (Res.affected_rows === 1)
+    {
+        this.Reset ();
+    }
+    else
+    {
+        console.log("Error: updating user");
+    }
+};
+
+gusers.prototype.Delete = function ()
+{
+    this.Rpc.Send ({Method: "Delete", UserName: this.UserName.GetText()}, this.DeleteMedia.bind(this));
+};
+
+gusers.prototype.DeleteMedia = function (Res)
+{
+    if (Res.affected_rows === 1)
+    {
+        var MediaRpc = new Gwt.Core.Rpc("/media/");
+        MediaRpc.Send({Method: "Delete", Name: this.Avatar.GetName(), Type: this.Avatar.GetType()}, this.DeleteResponse.bind(this));
+    }
+    else
+    {
+        console.log("Error: deleting user");
+    }
+};
+
+gusers.prototype.DeleteResponse = function (Res)
+{
+    this.Reset ();
 };
 
 gusers.prototype.Reset = function ()

@@ -104,6 +104,7 @@ function cedeg()
     this.AddMenuItem (Gwt.Core.Contrib.Images + "appbar.cabinet.in.svg", "Guardar", this.Insert.bind(this));
     this.AddMenuItem (Gwt.Core.Contrib.Images + "appbar.refresh.svg", "Actualizar", this.Update.bind(this));
     this.AddMenuItem (Gwt.Core.Contrib.Images + "appbar.delete.svg", "Eliminar", this.Delete.bind(this));
+    this.AddMenuItem (Gwt.Core.Contrib.Images + "appbar.printer.svg", "Imprimir", this.Print.bind(this));
     this.AddMenuItem (Gwt.Core.Contrib.Images + "appbar.power.svg", "Salir", function(){window.cedeg.close(); window.gcontrol.open();}, Gwt.Gui.MENU_QUIT_APP);
          
     this.layout = new Gwt.Gui.VBox ();
@@ -239,7 +240,7 @@ cedeg.prototype.InsertResponse = function (Res)
 {
     if (Res.affected_rows === 1)
     {
-        this.Report = Gwt.Core.Contrib.LoadDocument ("/share/documents/cedeg.html");
+        this.Report = Gwt.Core.Contrib.LoadDocument ("/documents/cedeg.html");
         this.Report.addEventListener ("load", this.ReportLoad.bind (this));
     }
 };
@@ -282,7 +283,7 @@ cedeg.prototype.UpdateResponse = function (Res)
 {
     if (Res.affected_rows === 1)
     {
-        this.Report = Gwt.Core.Contrib.LoadDocument ("/share/documents/cedeg.html");
+        this.Report = Gwt.Core.Contrib.LoadDocument ("/documents/cedeg.html");
         this.Report.addEventListener ("load", this.ReportLoad.bind (this));
     }
 };
@@ -298,6 +299,12 @@ cedeg.prototype.DeleteResponse = function (Res)
     {
         this.Reset ();
     }
+};
+
+cedeg.prototype.Print = function (Res)
+{
+    this.Report = Gwt.Core.Contrib.LoadDocument ("/documents/cedeg.html");
+    this.Report.addEventListener ("load", this.ReportLoad.bind (this));
 };
 
 cedeg.prototype.Reset = function ()

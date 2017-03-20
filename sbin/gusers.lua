@@ -1,6 +1,7 @@
-local Http = require ("./sbin/http");
-local Sql = require ("./sbin/sql");
-local Session = require ("./sbin/session");
+local Http = require ("./sbin/contrib/http");
+local Sql = require ("./sbin/contrib/sql");
+local Session = require ("./sbin/contrib/session");
+local Crypt = require ("./sbin/contrib/crypt");
 
 local pgmoon = require("pgmoon");
 local db = pgmoon.new(Sql.Conf);
@@ -14,6 +15,8 @@ end
 
 local Method = Http.Request ("Method");
 
+
+--select
 if Method == "Select" then
     local UserName = Http.Request ("UserName");
     local Q = Sql.Query;
@@ -24,39 +27,109 @@ if Method == "Select" then
     return;
 end    
 
+
+--insert
 if Method == "Insert" then
-    local Code = Http.Request ("Code");
+    local UserName = Http.Request ("UserName");
+    local Password = Http.Request ("Password");
+    local DocumentType = Http.Request ("DocumentType");
+    local DocumentNum = Http.Request ("DocumentNum");
+    local Country = Http.Request ("Country");
     local Name = Http.Request ("Name");
+    local LastName = Http.Request ("LastName");
+    local Phone = Http.Request ("Phone");
+    local Email = Http.Request ("Email");
+    local Address = Http.Request ("Address");
+    local AvatarName = Http.Request ("AvatarName");
+    local AvatarType = Http.Request ("AvatarType");
+    local R, Err = db:query ([[BEGIN;]]);
     local Q = Sql.Query;
-    Q:New ([[INSERT INTO "AccountingAccount" ("Code", "Name") VALUES (?, ?)]]);
-    Q:SetString (Code);
+    Q:New ([[WITH "Ins1" AS (INSERT INTO "AuthUser"("UserName", "Password") VALUES(?, ?) RETURNING "Id" AS "UserId"),
+        "Ins2" AS (INSERT INTO "AuthUserBasicInfo" ("UserId", "DocumentType", "DocumentNum", "Country", "Name", "LastName")
+        SELECT "UserId", ?, ?, ?, ?, ? FROM "Ins1" RETURNING "UserId"),
+        "Ins3" AS (INSERT INTO "AuthUserComplementaryInfo" ("UserId", "Avatar", "Phone", "Email", "Address") 
+        SELECT "Ins1"."UserId", "Media"."Id", ?, ?, ? FROM "Ins1" INNER JOIN "Media" ON "Media"."Name"=? AND "Media"."Type"=? RETURNING "UserId")
+        UPDATE "Media" SET "UserId"="Ins1"."UserId" FROM (SELECT "UserId" FROM "Ins1") AS "Ins1" WHERE "Media"."Name"=? AND "Media"."Type"=?;]]);
+    Q:SetString (UserName);
+    Q:SetString (Crypt.CryptPassw(Password));
+    Q:SetString (DocumentType);
+    Q:SetString (DocumentNum);
+    Q:SetString (Country);
     Q:SetString (Name);
-    local R, Err = db:query (Q.Stm);
+    Q:SetString (LastName);
+    Q:SetString (Phone);
+    Q:SetString (Email);
+    Q:SetString (Address);
+    Q:SetString (AvatarName);
+    Q:SetString (AvatarType);
+    Q:SetString (AvatarName);
+    Q:SetString (AvatarType);
+    R, Err = db:query (Q.Stm);
     if not R then
         Http.Response ({Error = Err});
+        R, Err = db:query ([[ROLLBACK;]]);
         return;
     end
-    Http.Response (R);
+    R, Err = db:query ([[COMMIT;]]);
+    Http.Response ({affected_rows = 1});
     return;
 end
 
+
+--update
 if Method == "Update" then
-    local Code = Http.Request ("Code");
+    local UserName = Http.Request ("UserName");
+    local Password = Http.Request ("Password");
+    local DocumentType = Http.Request ("DocumentType");
+    local DocumentNum = Http.Request ("DocumentNum");
+    local Country = Http.Request ("Country");
     local Name = Http.Request ("Name");
+    local LastName = Http.Request ("LastName");
+    local Phone = Http.Request ("Phone");
+    local Email = Http.Request ("Email");
+    local Address = Http.Request ("Address");
+    local AvatarName = Http.Request ("AvatarName");
+    local AvatarType = Http.Request ("AvatarType");
+    local R, Err = db:query ([[BEGIN;]]);
     local Q = Sql.Query;
-    Q:New ([[UPDATE "AccountingAccount" SET "Name"=? WHERE "Code"=?;]]);
+    if Password == "" then
+        Q:New ([[WITH "Udt1" AS (UPDATE "AuthUserBasicInfo" SET "DocumentType"=?, "DocumentNum"=?, "Country"=?, "Name"=?, "LastName"=? FROM (SELECT "Id" FROM "AuthUser" WHERE "UserName"=?) AS "User" WHERE "AuthUserBasicInfo"."UserId"="User"."Id" RETURNING "User"."Id" AS "UserId")
+            UPDATE "AuthUserComplementaryInfo" SET "Avatar"="All"."Id", "Phone"=?, "Email"=?, "Address"=? FROM (SELECT "Udt1"."UserId", "Id", "Name", "Type" FROM "Media" INNER JOIN "Udt2" ON "Name"=? AND "Type"=?) AS "All" WHERE "AuthUserComplementaryInfo"."UserId"="All"."UserId";]]);
+    else
+        Q:New ([[WITH "Udt1" AS (UPDATE "AuthUser" SET "Password"=? WHERE "UserName"=? RETURNING "Id" AS "UserId"),
+            "Udt2" AS (UPDATE "AuthUserBasicInfo" SET "DocumentType"=?, "DocumentNum"=?, "Country"=?, "Name"=?, "LastName"=? FROM (SELECT "UserId" FROM "Udt1") AS "Udt1" WHERE "AuthUserBasicInfo"."UserId"="Udt1"."UserId" RETURNING "Udt1"."UserId" AS "UserId")
+            UPDATE "AuthUserComplementaryInfo" SET "Avatar"="All"."Id", "Phone"=?, "Email"=?, "Address"=? FROM (SELECT "Udt2"."UserId", "Id", "Name", "Type" FROM "Media" INNER JOIN "Udt2" ON "Name"=? AND "Type"=?) AS "All" WHERE "AuthUserComplementaryInfo"."UserId"="All"."UserId";]]);
+        Q:SetString (Password);
+    end
+    Q:SetString (UserName);
+    Q:SetString (DocumentType);
+    Q:SetString (DocumentNum);
+    Q:SetString (Country);
     Q:SetString (Name);
-    Q:SetString (Code);
-    local R = db:query (Q.Stm);
-    Http.Response (R);
+    Q:SetString (LastName);
+    Q:SetString (Phone);
+    Q:SetString (Email);
+    Q:SetString (Address);
+    Q:SetString (AvatarName);
+    Q:SetString (AvatarType);
+    R, Err = db:query (Q.Stm);
+    if not R then
+        Http.Response ({Error = Err});
+        R, Err = db:query ([[ROLLBACK;]]);
+        return;
+    end
+    R, Err = db:query ([[COMMIT;]]);
+    Http.Response ({affected_rows = 1});
     return;
 end
 
+
+--delete
 if Method == "Delete" then
-    local Code = Http.Request ("Code");
+    local UserName = Http.Request ("UserName");
     local Q = Sql.Query;
-    Q:New ([[DELETE FROM "AccountingAccount" WHERE "Code"=?;]]);
-    Q:SetString (Code);
+    Q:New ([[DELETE FROM "AuthUser" WHERE "UserName"=?;]]);
+    Q:SetString (UserName);
     local R = db:query (Q.Stm);
     Http.Response (R);
     return;

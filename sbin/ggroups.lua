@@ -1,6 +1,10 @@
+--[[
+    Lua 5.1 Copyright (C) 1994-2006 Lua.org, PUC-Rio
+]]
+
 local Http = require ("./sbin/contrib/http");
 local Sql = require ("./sbin/contrib/sql");
-local Session = require ("./sbin/contrib/session");
+local Session =  require ("./sbin/contrib/session");
 
 local pgmoon = require("pgmoon");
 local db = pgmoon.new(Sql.Conf);
@@ -14,22 +18,24 @@ end
 
 local Method = Http.Request ("Method");
 
+
+--select
 if Method == "Select" then
-    local Code = Http.Request ("Code");
+    local Name = Http.Request ("Name");
     local Q = Sql.Query;
-    Q:New ([[SELECT "Name" FROM "AccountingAccount" WHERE "Code"=?;]]);
-    Q:SetString (Code);
+    Q:New ([[SELECT "Name" FROM "AuthGroup" WHERE "Name"=?;]]);
+    Q:SetString (Name);
     local R = db:query (Q.Stm);
     Http.Response (R);
     return;
 end    
 
+
+--insert
 if Method == "Insert" then
-    local Code = Http.Request ("Code");
     local Name = Http.Request ("Name");
     local Q = Sql.Query;
-    Q:New ([[INSERT INTO "AccountingAccount" ("Code", "Name") VALUES (?, ?)]]);
-    Q:SetString (Code);
+    Q:New ([[INSERT INTO "AuthGroup" ("Name") VALUES (?);]]);
     Q:SetString (Name);
     local R, Err = db:query (Q.Stm);
     if not R then
@@ -40,23 +46,13 @@ if Method == "Insert" then
     return;
 end
 
-if Method == "Update" then
-    local Code = Http.Request ("Code");
+
+--delete
+if Method == "Delete" then
     local Name = Http.Request ("Name");
     local Q = Sql.Query;
-    Q:New ([[UPDATE "AccountingAccount" SET "Name"=? WHERE "Code"=?;]]);
+    Q:New ([[DELETE FROM "AuthGroup" WHERE "Name"=?;]]);
     Q:SetString (Name);
-    Q:SetString (Code);
-    local R = db:query (Q.Stm);
-    Http.Response (R);
-    return;
-end
-
-if Method == "Delete" then
-    local Code = Http.Request ("Code");
-    local Q = Sql.Query;
-    Q:New ([[DELETE FROM "AccountingAccount" WHERE "Code"=?;]]);
-    Q:SetString (Code);
     local R = db:query (Q.Stm);
     Http.Response (R);
     return;

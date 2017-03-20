@@ -1,5 +1,6 @@
 local cjson = require ("cjson");
 local Sql = require ("sql");
+local Crypt = require ("crypt");
 
 local cedegjson = [[{
     "number": 1092,
@@ -67,4 +68,10 @@ local PicturesExt = {"jpg", "jpeg", "bmp", "gif", "pcx", "png", "tga", "tiff", "
 local VideosExt = {"mpeg", "vob", "3gp", "mov", "mp4", "webm", "flv", "mkv", "avi", "ogm"};
 
 local c = "av.de.lasds";
-print (c:gsub("%.", ""));
+--print (c:gsub("%.", ""));
+
+--print (Sha2.hash224(Sha2.hash256 ("joseluis8906")) == "5f8b849742641d6c7526a46ee82ad8b836ed5137bf94de34151036c2");
+
+--local Salt1 = os.date("%x_%X"):gsub("/",""):gsub(":", ""):gsub("_", "");
+--local Salt2 = os.time();
+print (Crypt.CryptPassw("7297"));

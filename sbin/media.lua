@@ -1,6 +1,22 @@
-local Http = require ("./sbin/http");
-local Sql = require ("./sbin/sql");
-local Session = require ("./sbin/session");
+local Http = require ("./sbin/contrib/http");
+local Sql = require ("./sbin/contrib/sql");
+local Session = require ("./sbin/contrib/session");
+
+local DocumentsExt = {"txt", "pdf", "ps", "rtf", "wps", "xml", "xps", "odt", "doc", "docm", "docx", "dot", "dotm", "dotx", "csv", "dbf", "DIF", "ods", "prn", "xla", "xlam", "xls", "xlsb", "xlsm", "xlsl", "xlsx", "xlt", "xltm", "xltx", "xlw", "xps", "pot", "potm", "potx", "ppa", "ppam", "pps", "ppsm", "ppsx", "ppt", "pptm", "pptx"};
+local AudiosExt = {"mp3", "ogg", "wav", "flac", "pcm", "aiff", "au", "raw", "aac", "mp4a", "wma"};
+local ImagesExt = {"jpg", "jpeg", "bmp", "gif", "pcx", "png", "tga", "tiff", "wmp"};
+local VideosExt = {"mpeg", "vob", "3gp", "mov", "mp4", "webm", "flv", "mkv", "avi", "ogm"};
+local Subpath = ngx.var.unixjs.."/share";
+
+--FindExt
+function FindExt (Table, Str)
+    for K, V in ipairs (Table) do
+        if Str == V then
+            return true;
+        end
+    end
+    return false;
+end
 
 --GenerateUid
 function GenUid (PseudoId)
@@ -10,8 +26,9 @@ function GenUid (PseudoId)
     local Index = 0;
     local Pch = 0;
     local Uid = "";
-    local Salt = os.time();
-    PseudoId = tostring(Salt-256):sub(-8, -1)..PseudoId..tostring(Salt+256):sub(-8, -1);
+    local Salt1 = os.date("%x_%X"):gsub("/",""):gsub(":", ""):gsub("_", "");
+    local Salt2 = os.time();
+    PseudoId = Salt1..PseudoId..Salt2;
     local Len = string.len (PseudoId);
     for i=1, Len do
         Index = string.find (Dict, string.sub (PseudoId, i, i));
@@ -37,6 +54,7 @@ assert(db:connect());
 
 local Method = Http.Request ("Method");
 
+--select
 if Method == "Select" then
     local UserName = Http.Request ("UserName");
     local Q = Sql.Query;
@@ -47,6 +65,7 @@ if Method == "Select" then
     return;
 end    
 
+--insert
 if Method == "Insert" then
     local UserName = Http.Request ("UserName");
     local FileName = Http.Request ("FileName");
@@ -67,20 +86,24 @@ if Method == "Insert" then
     return;
 end
 
---[[
+
+--update
 if Method == "Update" then
-    local Code = Http.Request ("Code");
+    local UserName = Http.Request ("UserName");
     local Name = Http.Request ("Name");
+    local Type = Http.Request ("Type");
     local Q = Sql.Query;
-    Q:New ([[UPDATE "AccountingAccount" SET "Name"=? WHERE "Code"=?;\]\]);
+    Q:New ([[UPDATE "Media" SET "UserId"="User"."Id" FROM (SELECT "Id" FROM "AuthUser" WHERE "UserName"=?) AS "User" WHERE "Name"=? AND "Type"=?;]]);
+    Q:SetString (UserName);
     Q:SetString (Name);
-    Q:SetString (Code);
+    Q:SetString (Type);
     local R = db:query (Q.Stm);
     Http.Response (R);
     return;
 end
-]]
 
+
+--delete
 if Method == "Delete" then
     local Name = Http.Request ("Name");
     local Type = Http.Request ("Type");
@@ -88,7 +111,24 @@ if Method == "Delete" then
     Q:New ([[DELETE FROM "Media" WHERE "Name"=? AND "Type"=?;]]);
     Q:SetString (Name);
     Q:SetString (Type);
-    local R = db:query (Q.Stm);
+    local R, Err = db:query (Q.Stm);
+    if not R then
+        Http.Response ({Error = Err});
+        return;
+    end
+
+    if FindExt(DocumentsExt, Type) then
+        os.remove(Subpath.."/documents/"..Name.."."..Type);
+    elseif FindExt(AudiosExt, Type) then
+        os.remove(Subpath.."/audios/"..Name.."."..Type);
+    elseif FindExt(ImagesExt, Type) then
+        os.remove(Subpath.."/images/"..Name.."."..Type);
+    elseif FindExt(VideosExt, Type) then
+        os.remove(Subpath.."/videos/"..Name.."."..Type);
+    else
+    
+    end
+
     Http.Response (R);
     return;
 end

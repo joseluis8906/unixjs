@@ -2,9 +2,9 @@
     Lua 5.1 Copyright (C) 1994-2006 Lua.org, PUC-Rio
 ]]
 
-local Http = require ("./sbin/http");
-local Sql = require ("./sbin/sql");
-local Session = require ("./sbin/session");
+local Http = require ("./sbin/contrib/http");
+local Sql = require ("./sbin/contrib/sql");
+local Session = require ("./sbin/contrib/session");
 
 local pgmoon = require("pgmoon");
 local db = pgmoon.new(Sql.Conf);
