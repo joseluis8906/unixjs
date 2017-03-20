@@ -1,3 +1,5 @@
 /nbproject/
-/gitup.sh
-/unixjs.conf
+gitup.sh
+unixjs.conf
+.gitignore
+.directory
