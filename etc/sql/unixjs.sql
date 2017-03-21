@@ -3,13 +3,6 @@
  * Created: Jan 2, 2017
  */
 
-CREATE TABLE IF NOT EXISTS "Media"
-(
-    "Id" BIGSERIAL PRIMARY KEY,
-    "Name" VARCHAR(256) NOT NULL,
-    "Type" VARCHAR(8) NOT NULL,
-    UNIQUE ("Name", "Type")
-);
 
 CREATE TABLE IF NOT EXISTS "AuthUser"
 (
@@ -80,3 +73,15 @@ INSERT INTO "AppRole" ("Image", "Label", "Name", "GroupId") SELECT 'group.png', 
 INSERT INTO "AppRole" ("Image", "Label", "Name", "GroupId") SELECT 'usergroup.png', 'Usuario Y Grupo', 'gusersgroups', "AuthGroup"."Id" AS "GroupId" FROM "AuthGroup" WHERE "AuthGroup"."Name"='root'; 
 
 CREATE VIEW "AppRoleAll" AS SELECT "UserName" AS "User", "Image", "Label", "AppRole"."Name" AS "Name", "AuthUserGroupAll"."GroupName" AS "Group" FROM "AppRole" INNER JOIN "AuthUserGroupAll" ON "AppRole"."GroupId"="AuthUserGroupAll"."GroupId" ORDER BY "Label";
+
+CREATE TABLE IF NOT EXISTS "Media"
+(
+    "Id" BIGSERIAL PRIMARY KEY,
+    "Name" VARCHAR(256) NOT NULL,
+    "Type" VARCHAR(8) NOT NULL,
+    "FileName" VARCHAR(256) NOT NULL,
+    "UserId" BIGINT PRIMARY KEY NOT NULL REFERENCES "AuthUser" ("Id") ON UPDATE CASCADE ON DELETE CASCADE,
+    UNIQUE ("Name", "Type")
+);
+
+INSERT INTO "Media"("Name", "Type", "FileName", "UserId") SELECT '1cm9vdF8xMjczNjQ4NTc0XzBfCg', 'png', 'user.png', "Id" FROM "AuthUser" WHERE "UserName"='root';

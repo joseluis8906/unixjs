@@ -38,22 +38,21 @@ CREATE TABLE IF NOT EXISTS "AccountingDisbVouRecord"
 CREATE VIEW "AccountingDisbVouAll" AS SELECT "Number", "Place", "Date", "Holder", "Concept", "Bank", "Check", "CheckingAccount", "Amount", "AccountingAccount"."Code", "AccountingAccount"."Name", "Partial", "Debit", "Credit" FROM "AccountingDisbVou" INNER JOIN "AccountingDisbVouBank" ON "AccountingDisbVou"."Id"="AccountingDisbVouBank"."AccountingDisbVouId" INNER JOIN "AccountingDisbVouRecord" ON "AccountingDisbVou"."Id"="AccountingDisbVouRecord"."AccountingDisbVouId" INNER JOIN "AccountingAccount" ON "AccountingAccount"."Id"="AccountingDisbVouRecord"."AccountingAccountId";
 
 
-/*
+
 --acounting note--
-CREATE TABLE IF NOT EXISTS "accou_accou_note"
+CREATE TABLE IF NOT EXISTS "AccountingNote"
 (
-    "id" BIGSERIAL PRIMARY KEY,
-    "number" BIGINT UNIQUE NOT NULL,
-    "date" DATE,
-    "concept" VARCHAR(256)
+    "Id" BIGSERIAL PRIMARY KEY,
+    "Number" BIGINT UNIQUE NOT NULL,
+    "Date" DATE,
+    "Concept" VARCHAR(256)
 );
 
-CREATE TABLE IF NOT EXISTS "accou_accou_note_code"
+CREATE TABLE IF NOT EXISTS "AccountingCode"
 (
-    "accou_accou_note_id" BIGSERIAL NOT NULL REFERENCES "accou_accou_note" ("id") ON UPDATE CASCADE ON DELETE CASCADE,
-    "accou_account_id" BIGSERIAL NOT NULL REFERENCES "accou_account" ("id") ON UPDATE CASCADE ON DELETE CASCADE,
-    "partial" BIGINT,
-    "debit" BIGINT,
-    "credit" BIGINT
+    "AccountingNoteId" BIGSERIAL NOT NULL REFERENCES "AccountingNote" ("Id") ON UPDATE CASCADE ON DELETE CASCADE,
+    "AccountingAccountId" BIGSERIAL NOT NULL REFERENCES "AccountingAccount" ("Id") ON UPDATE CASCADE ON DELETE CASCADE,
+    "Partial" BIGINT,
+    "Debit" BIGINT,
+    "Credit" BIGINT
 );
-*/
