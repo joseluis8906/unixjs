@@ -414,9 +414,9 @@ cedeg.prototype.ReportLoad = function ()
     {
         doc.getElementById ("Code"+i).textContent = Records[i].Code;
         doc.getElementById ("Name"+i).textContent = Records[i].Name;
-        doc.getElementById ("Partial"+i).textContent = Records[i].Partial;
-        doc.getElementById ("Debit"+i).textContent = Records[i].Debit;
-        doc.getElementById ("Credit"+i).textContent = Records[i].Credit;
+        doc.getElementById ("Partial"+i).textContent = (Records[i].Partial === "$0") ? "" : Records[i].Partial;
+        doc.getElementById ("Debit"+i).textContent = (Records[i].Debit  === "$0") ? "" : Records[i].Debit;
+        doc.getElementById ("Credit"+i).textContent = (Records[i].Credit === "$0") ? "" : Records[i].Credit;
     }
     
     for (i; i < this.records.length; i++)

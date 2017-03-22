@@ -2,6 +2,7 @@
   <head>
     <meta content="text/html; charset=UTF-8" http-equiv="content-type">
     <link rel="stylesheet" type="text/css" href="../css/reset.css">
+    <script type="text/javascript" src="../../lib/jspdf.min.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <style>
         
@@ -50,7 +51,7 @@
       
         .Records
         {
-            height: 148mm;
+            height: auto;
             overflow: hidden;
             border: black 1px solid;
             margin: 2mm 5mm 0mm 5mm;
@@ -106,16 +107,16 @@
       
       
     <div class="Inf" style="">
-        <div style="width: 100%; height: 20mm;">
+        <div style="width: 100%; height: 21.5mm;">
             <span class="Label" >Lugar Y Fecha:</span><span id="Place" class="Entry">Default</span><br>
             <span class="Label" >A Favor De:</span><span id="Holder" class="Entry">Default</span><br>
             <span class="Label" >La Suma De:</span><span id="AmountHuman" class="Entry">Default</span><br>
         </div>      
-        <div style="display: table; width: 100%; border-top: 1px solid black; margin: 3mm 0 0 0;">
-            <div style="display: table-row; height: 6mm; hidden: overflow;">
-                <div style="display: table-cell; width: 33.33%"><span class="Label" >Banco:</span><span id="Bank" class="Entry">Default</span></div>
-                <div style="display: table-cell; width: 33.33%;border-left: 1px solid black;"><span class="Label" >Cheque:</span><span id="Check" class="Entry">Default</span></div>
-                <div style="display: table-cell; border-left: 1px solid black;"><span class="Label" >Cta Corriente:</span><span id="CheckingAccount" class="Entry">Default</span></div>
+        <div style="display: table; width: 100%; border-top: 1px solid black; margin: 0mm;">
+            <div style="display: table-row; height: 5.5mm; hidden: overflow;">
+                <div style="display: table-cell; width: 33.33%; height: 5.5mm;"><span class="Label" >Banco:</span><span id="Bank" class="Entry">Default</span></div>
+                <div style="display: table-cell; width: 33.33%; height: 5.5mm; padding: 0mm;border-left: 1px solid black;"><span class="Label" >Cheque:</span><span id="Check" class="Entry">Default</span></div>
+                <div style="display: table-cell; height: 5.5mm; border-left: 1px solid black;"><span class="Label" >Cta Corriente:</span><span id="CheckingAccount" class="Entry">Default</span></div>
             </div>
         </div>
     </div>
@@ -132,8 +133,8 @@
           
               
             <div style="display: table-row; height: 13mm; overflow: hidden">
-                <div style="display: table-cell; width: 75%; height: 100%; text-align: justify; vertical-align: top"><p id="Concept" class="Entry" style="width: 98.5%; height: 91%; font-size: 11pt;">Default</p></div>
-                <div style="display: table-cell; text-align: center; vertical-align: middle; border-left: 1px solid black;"><span id="Amount" class="Entry">Default</span></div>
+                <div style="display: table-cell; width: 75%; height: 13mm; text-align: justify; vertical-align: top"><p id="Concept" class="Entry" style="width: 98.5%; height: 91%; font-size: 11pt;">Default</p></div>
+                <div style="display: table-cell; width: 25%; height: 13mm; text-align: center; vertical-align: middle; border-left: 1px solid black;"><span id="Amount" class="Entry">Default</span></div>
             </div>              
         </div>
           
@@ -199,6 +200,5 @@
             </div>
         </div>
       </div>
-
   </body>
 </html>
