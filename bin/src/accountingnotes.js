@@ -111,7 +111,7 @@ function accountingnotes()
     this.layout = new Gwt.Gui.VBox ();
     this.SetLayout (this.layout);
      
-    this.slider = new Gwt.Gui.Slider (3);
+    this.slider = new Gwt.Gui.Slider (4);
     this.slider.SetSize (this.layout.GetWidth (), this.layout.GetHeight ());
     this.slider.Setup ();
     this.layout.Add (this.slider);
@@ -123,7 +123,7 @@ function accountingnotes()
     this.Report = null;
     
     this.records = [];
-    for (var i = 0; i < 26; i++)
+    for (var i = 0; i < 36; i++)
     {
         this.records[i] = new record_widget (this.slider.GetWidth (), 24);
     }
@@ -142,7 +142,11 @@ function accountingnotes()
         {
             this.slider.AddSlotWidget (1, this.records[i]);
         }
-        else
+        else if (i>=16 && i<=25)
+        {
+            this.slider.AddSlotWidget (2, this.records[i]);
+        }
+        else if (i>=26 && i<=35)
         {
             this.slider.AddSlotWidget (2, this.records[i]);
         }
