@@ -148,7 +148,7 @@ function accountingnotes()
         }
         else if (i>=26 && i<=35)
         {
-            this.slider.AddSlotWidget (2, this.records[i]);
+            this.slider.AddSlotWidget (3, this.records[i]);
         }
     }
 
