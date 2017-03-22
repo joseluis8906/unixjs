@@ -2,6 +2,7 @@ cedeg = (function ()
 {
 var instance;
 
+//record widget constructor
 function record_widget (Width, Heigth)
 {
     Gwt.Gui.HBox.call (this, 0);
@@ -41,6 +42,7 @@ function record_widget (Width, Heigth)
 record_widget.prototype = new Gwt.Gui.HBox ();
 record_widget.prototype.constructor = record_widget;
 
+//record widget destructor
 record_widget.prototype._record_widget = function ()
 {
     this.code._Entry();
@@ -55,7 +57,8 @@ record_widget.prototype._record_widget = function ()
     this.debit = null;
     this.credit = null;
 };
-    
+
+//reset    
 record_widget.prototype.Reset = function ()
 {
     this.code.Reset ();
@@ -65,8 +68,7 @@ record_widget.prototype.Reset = function ()
     this.credit.Reset ();
 };
 
-
-
+//check code
 record_widget.prototype.check_code = function (event)
 {
     if(event.keyCode === Gwt.Gui.Event.Keyboard.KeyCodes.Enter)
@@ -75,8 +77,7 @@ record_widget.prototype.check_code = function (event)
     }
 };
 
-
-
+//autocomplete
 record_widget.prototype.autocomplete = function (Res)
 {
     if (Res.length > 0)
@@ -90,10 +91,10 @@ record_widget.prototype.autocomplete = function (Res)
 };
 
 
-
+//cedeg constructor
 function cedeg()
 {
-    Gwt.Gui.Window.call (this, "Comprobante De Egreso");
+    Gwt.Gui.Window.call (this, "Certificado De Egreso");
           
     this.SetSize (840, 460);
     this.SetPosition (Gwt.Gui.WIN_POS_CENTER);
@@ -164,7 +165,8 @@ function cedeg()
 
 cedeg.prototype = new Gwt.Gui.Window ();
 cedeg.prototype.constructor = cedeg;
-    
+
+//cedeg destructor
 cedeg.prototype._App = function ()
 {
     this.number._Entry ();
@@ -202,6 +204,7 @@ cedeg.prototype._App = function ()
     this.Report = null;
 };
 
+//insert
 cedeg.prototype.Insert = function ()
 {
     var Data = {
@@ -236,6 +239,7 @@ cedeg.prototype.Insert = function ()
     this.Rpc.Send (Data, this.InsertResponse.bind(this));
 };
 
+//insert response
 cedeg.prototype.InsertResponse = function (Res)
 {
     if (Res.affected_rows === 1)
@@ -245,6 +249,7 @@ cedeg.prototype.InsertResponse = function (Res)
     }
 };
 
+//update
 cedeg.prototype.Update = function (Event)
 {
     var Data = {
@@ -279,6 +284,8 @@ cedeg.prototype.Update = function (Event)
     this.Rpc.Send (Data, this.UpdateResponse.bind(this));
 };
 
+
+//update response
 cedeg.prototype.UpdateResponse = function (Res)
 {
     if (Res.affected_rows === 1)
@@ -288,11 +295,13 @@ cedeg.prototype.UpdateResponse = function (Res)
     }
 };
 
+//delete
 cedeg.prototype.Delete = function ()
 {
     this.Rpc.Send ({Method: "Delete", Number: this.number.GetText ()}, this.DeleteResponse.bind(this));
 };
 
+//delete response
 cedeg.prototype.DeleteResponse = function (Res)
 {
     if (Res.affected_rows === 1)
@@ -301,12 +310,14 @@ cedeg.prototype.DeleteResponse = function (Res)
     }
 };
 
+//print
 cedeg.prototype.Print = function (Res)
 {
     this.Report = Gwt.Core.Contrib.LoadDocument ("/documents/cedeg.html");
     this.Report.addEventListener ("load", this.ReportLoad.bind (this));
 };
 
+//Reset
 cedeg.prototype.Reset = function ()
 {
     this.number.SetText ("");
@@ -325,6 +336,7 @@ cedeg.prototype.Reset = function ()
     }
 };
 
+//CheckNumber
 cedeg.prototype.CheckNumber = function (Event)
 {
     if(Event.keyCode === Gwt.Gui.Event.Keyboard.KeyCodes.Enter)
@@ -340,6 +352,7 @@ cedeg.prototype.CheckNumber = function (Event)
     }
 };
 
+//autofill
 cedeg.prototype.AutoFill = function (Res)
 {
     if (Res.length > 0)
@@ -373,7 +386,7 @@ cedeg.prototype.AutoFill = function (Res)
     }
 };
 
-
+//next number
 cedeg.prototype.NextNumber = function (Res)
 {
     if (Res.length > 0)
@@ -382,6 +395,7 @@ cedeg.prototype.NextNumber = function (Res)
     }
 };
 
+//report load
 cedeg.prototype.ReportLoad = function ()
 {
     var doc = this.Report.contentWindow.document;
