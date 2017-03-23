@@ -180,25 +180,100 @@ accountingnotes.prototype._App = function ()
     this.slider = null;    
     this.layout = null;
     this.Report = null;
-}
+};
 
 //insert
 accountingnotes.prototype.Insert = function ()
 {
+    var Data = {
+        Method: "Insert",
+        Number: this.number.GetText (),
+        Date: this.date.GetText (),
+        Concept: this.concept.GetText (),
+    };
+    
+    Data.Records = [];
 
-}
+    for (var i=0; i < this.records.length; i++)
+    {
+        if (this.records[i].code.GetText() !== "")
+        {
+            Data.Records.push({
+                Partial: this.records[i].partial.GetText (),
+                Debit: this.records[i].debit.GetText (),
+                Credit: this.records[i].credit.GetText(),
+                Number: this.number.GetText (),
+                Code: this.records[i].code.GetText ()
+            });
+        }
+    }
+    
+    this.Rpc.Send (Data, this.InsertResponse.bind(this));
+};
+
+//insert response
+cedeg.prototype.InsertResponse = function (Res)
+{
+    if (Res.affected_rows === 1)
+    {
+        this.Report = Gwt.Core.Contrib.LoadDocument ("/documents/accountingnote.html");
+        this.Report.addEventListener ("load", this.ReportLoad.bind (this));
+    }
+};
 
 //update
 accountingnotes.prototype.Update = function ()
 {
-
+    var Data = {
+        Method: "Update",
+        Number: this.number.GetText (),
+        Date: this.date.GetText (),
+        Concept: this.concept.GetText (),
+    };
+    
+    Data.Records = [];
+    
+    for (var i=0; i < this.records.length; i++)
+    {
+        if (this.records[i].code.GetText() !== "")
+        {
+            Data.Records.push({
+                Partial: this.records[i].partial.GetText (),
+                Debit: this.records[i].debit.GetText (),
+                Credit: this.records[i].credit.GetText(),
+                Number: this.number.GetText (),
+                Code: this.records[i].code.GetText ()
+            });
+        }
+    }
+    
+    this.Rpc.Send (Data, this.UpdateResponse.bind(this));
 }
+
+//update response
+cedeg.prototype.UpdateResponse = function (Res)
+{
+    if (Res.affected_rows === 1)
+    {
+        this.Report = Gwt.Core.Contrib.LoadDocument ("/documents/accountingnote.html");
+        this.Report.addEventListener ("load", this.ReportLoad.bind (this));
+    }
+};
 
 //delete
 accountingnotes.prototype.Delete = function ()
 {
+    this.Rpc.Send ({Method: "Delete", Number: this.number.GetText ()}, this.DeleteResponse.bind(this));
+};
 
-}
+//delete response
+cedeg.prototype.DeleteResponse = function (Res)
+{
+    if (Res.affected_rows === 1)
+    {
+        this.Reset ();
+    }
+};
 
 //print
 accountingnotes.prototype.Print = function (Res)
