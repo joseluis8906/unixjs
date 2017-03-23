@@ -212,7 +212,7 @@ accountingnotes.prototype.Insert = function ()
 };
 
 //insert response
-cedeg.prototype.InsertResponse = function (Res)
+accountingnotes.prototype.InsertResponse = function (Res)
 {
     if (Res.affected_rows === 1)
     {
@@ -251,7 +251,7 @@ accountingnotes.prototype.Update = function ()
 }
 
 //update response
-cedeg.prototype.UpdateResponse = function (Res)
+accountingnotes.prototype.UpdateResponse = function (Res)
 {
     if (Res.affected_rows === 1)
     {
@@ -267,7 +267,7 @@ accountingnotes.prototype.Delete = function ()
 };
 
 //delete response
-cedeg.prototype.DeleteResponse = function (Res)
+accountingnotes.prototype.DeleteResponse = function (Res)
 {
     if (Res.affected_rows === 1)
     {
