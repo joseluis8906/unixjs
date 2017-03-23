@@ -297,8 +297,8 @@ accountingnotes.prototype.ReportLoad = function ()
     {
         if (this.records[i].code.GetText() !== "")
         {
-            TotalDebit += Number(Gwt.Core.Contrib.MonetaryToText(this.records[i].debit.GetText ()));
-            TotalCredit += Number(Gwt.Core.Contrib.MonetaryToText(this.records[i].credit.GetText()));
+            TotalDebit += Number(this.records[i].debit.GetText ());
+            TotalCredit += Number(this.records[i].credit.GetText());
             Records.push({
                 "Code": this.records[i].code.GetText (),
                 "Name": this.records[i].name.GetText (),
@@ -327,8 +327,8 @@ accountingnotes.prototype.ReportLoad = function ()
         doc.getElementById ("Credit"+i).textContent = "";
     }
 
-    doc.getElementById ("EqSumDebit").textContent = Gwt.Core.Contrib.TextToMonetary(TotalDebit);
-    doc.getElementById ("EqSumCredit").textContent = Gwt.Core.Contrib.TextToMonetary(TotalCredit);
+    doc.getElementById ("EqSumDebit").textContent = Gwt.Core.Contrib.TextToMonetary(TotalDebit.toString());
+    doc.getElementById ("EqSumCredit").textContent = Gwt.Core.Contrib.TextToMonetary(TotalCreditTotalDebit.toString());
     
     doc = undefined;
     this.Report = null;
