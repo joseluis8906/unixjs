@@ -290,11 +290,15 @@ accountingnotes.prototype.ReportLoad = function ()
     doc.getElementById ("Date").textContent = this.date.GetText ();
     doc.getElementById ("Concept").textContent = this.concept.GetText ();
     
+    var TotalDebit = 0;
+    var TotalCredit = 0;
     var Records = [];
     for (var i=0; i < this.records.length; i++)
     {
         if (this.records[i].code.GetText() !== "")
         {
+            TotalDebit += Number(Gwt.Core.Contrib.MonetaryToText(this.records[i].debit.GetText ()));
+            TotalCredit += Number(Gwt.Core.Contrib.MonetaryToText(this.records[i].credit.GetText()));
             Records.push({
                 "Code": this.records[i].code.GetText (),
                 "Name": this.records[i].name.GetText (),
@@ -322,6 +326,9 @@ accountingnotes.prototype.ReportLoad = function ()
         doc.getElementById ("Debit"+i).textContent = "";
         doc.getElementById ("Credit"+i).textContent = "";
     }
+
+    doc.getElementById ("EqSumDebit").textContent = Gwt.Core.Contrib.TextToMonetary(TotalDebit);
+    doc.getElementById ("EqSumCredit").textContent = Gwt.Core.Contrib.TextToMonetary(TotalCredit);
     
     doc = undefined;
     this.Report = null;
