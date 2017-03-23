@@ -2,7 +2,7 @@
     Lua 5.1 Copyright (C) 1994-2006 Lua.org, PUC-Rio
 ]]
 --package.path = ngx.var.app.."/?.lua;"..package.path
-ngx.log(ngx.ERR, packege.path);
+ngx.log(ngx.ERR, package.path);
 local App = ngx.var.app;
 local Sha2 = require ("contrib/sha2");
 
