@@ -1,7 +1,12 @@
-local Http = require ("./sbin/contrib/http");
-local Sql = require ("./sbin/contrib/sql");
-local Session = require ("./sbin/contrib/session");
-local Crypt = require ("./sbin/contrib/crypt");
+--[[
+    Lua 5.1 Copyright (C) 1994-2006 Lua.org, PUC-Rio
+]]
+
+local App = ngx.var.app;
+local Http = require (App.."/contrib/http");
+local Sql = require (App.."/contrib/sql");
+local Session = require (App.."/contrib/session");
+local Crypt = require (App.."/contrib/crypt");
 
 local pgmoon = require("pgmoon");
 local db = pgmoon.new(Sql.Conf);

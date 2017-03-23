@@ -1,6 +1,11 @@
-local Http = require ("./sbin/contrib/http");
-local Sql = require ("./sbin/contrib/sql");
-local Session = require ("./sbin/contrib/session");
+--[[
+    Lua 5.1 Copyright (C) 1994-2006 Lua.org, PUC-Rio
+]]
+
+local App = ngx.var.app;
+local Http = require (App.."/contrib/http");
+local Sql = require (App.."/contrib/sql");
+local Session = require (App.."/contrib/session");
 
 local DocumentsExt = {"txt", "pdf", "ps", "rtf", "wps", "xml", "xps", "odt", "doc", "docm", "docx", "dot", "dotm", "dotx", "csv", "dbf", "DIF", "ods", "prn", "xla", "xlam", "xls", "xlsb", "xlsm", "xlsl", "xlsx", "xlt", "xltm", "xltx", "xlw", "xps", "pot", "potm", "potx", "ppa", "ppam", "pps", "ppsm", "ppsx", "ppt", "pptm", "pptx"};
 local AudiosExt = {"mp3", "ogg", "wav", "flac", "pcm", "aiff", "au", "raw", "aac", "mp4a", "wma"};
