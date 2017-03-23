@@ -94,7 +94,7 @@ record_widget.prototype.autocomplete = function (Res)
 //cedeg constructor
 function cedeg()
 {
-    Gwt.Gui.Window.call (this, "Certificado De Egreso");
+    Gwt.Gui.Window.call (this, "Comprobante De Egreso");
           
     this.SetSize (840, 460);
     this.SetPosition (Gwt.Gui.WIN_POS_CENTER);
