@@ -63,8 +63,7 @@ if Method == "Insert" then
     local R, Err = db:query ("BEGIN;");
     
     local Q = Sql.Query;
-    Q:New ([[INSERT INTO "AccountingNote"("Number", "Date", "Concept")
-        VALUES(?, ?, ?);]]);
+    Q:New ([[INSERT INTO "AccountingNote"("Number", "Date", "Concept") VALUES(?, ?, ?);]]);
     Q:SetNumber (Number);
     Q:SetString (Date);
     Q:SetString (Concept);

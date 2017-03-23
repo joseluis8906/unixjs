@@ -189,7 +189,7 @@ accountingnotes.prototype.Insert = function ()
         Method: "Insert",
         Number: this.number.GetText (),
         Date: this.date.GetText (),
-        Concept: this.concept.GetText (),
+        Concept: this.concept.GetText ()
     };
     
     Data.Records = [];
@@ -207,7 +207,7 @@ accountingnotes.prototype.Insert = function ()
             });
         }
     }
-    
+    console.log (Data);
     this.Rpc.Send (Data, this.InsertResponse.bind(this));
 };
 
