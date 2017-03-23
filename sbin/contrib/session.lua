@@ -1,9 +1,9 @@
 --[[
     Lua 5.1 Copyright (C) 1994-2006 Lua.org, PUC-Rio
 ]]
-local App = ngx.var.app;
-local Http = require (App.."/contrib/http");
-local Crypt = require (App.."/contrib/crypt");
+
+local Http = require ("/contrib/http");
+local Crypt = require ("/contrib/crypt");
 
 --GenerateSessionId
 function GenUid (PseudoId)
@@ -34,7 +34,7 @@ local Method = Http.Request ("Method");
 if Method == "Start" then
     local UserName = Http.Request ("UserName");
     local Password = Http.Request ("Password");
-    local Sql = require (App.."/contrib/sql");
+    local Sql = require ("/contrib/sql");
     local Q = Sql.Query;
     Q:New ([[SELECT "UserName", "Password" FROM "AuthUser" WHERE "UserName"=? LIMIT 1;]]);
     Q:SetString (UserName);
