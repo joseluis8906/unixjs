@@ -5,7 +5,7 @@
 local Http = require ("./sbin/contrib/http");
 local Crypt = require ("./sbin/contrib/crypt");
 
-ngx.log(ngx.ERR, table.getn(ngx.var));
+ngx.log(ngx.ERR, ngx.var.app_path);
 --GenerateSessionId
 function GenUid (PseudoId)
     local Dict = "0X1P2QV4cCUdeAfgMhijEklmnS5OpZ@qrKsWt9vIw7by6zBu-DF3Hx8JaL_NRoTYG";
