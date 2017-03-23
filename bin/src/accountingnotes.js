@@ -328,7 +328,7 @@ accountingnotes.prototype.ReportLoad = function ()
     }
 
     doc.getElementById ("EqSumDebit").textContent = Gwt.Core.Contrib.TextToMonetary(TotalDebit.toString());
-    doc.getElementById ("EqSumCredit").textContent = Gwt.Core.Contrib.TextToMonetary(TotalCreditTotalDebit.toString());
+    doc.getElementById ("EqSumCredit").textContent = Gwt.Core.Contrib.TextToMonetary(TotalCredit.toString());
     
     doc = undefined;
     this.Report = null;
