@@ -48,11 +48,13 @@ CREATE TABLE IF NOT EXISTS "AccountingNote"
     "Concept" VARCHAR(256)
 );
 
-CREATE TABLE IF NOT EXISTS "AccountingCode"
+CREATE TABLE IF NOT EXISTS "AccountingNoteRecord"
 (
-    "AccountingNoteId" BIGSERIAL NOT NULL REFERENCES "AccountingNote" ("Id") ON UPDATE CASCADE ON DELETE CASCADE,
+    "AccountingNoteId" BIGSERIAL PRIMARY KEY NOT NULL REFERENCES "AccountingNote" ("Id") ON UPDATE CASCADE ON DELETE CASCADE,
     "AccountingAccountId" BIGSERIAL NOT NULL REFERENCES "AccountingAccount" ("Id") ON UPDATE CASCADE ON DELETE CASCADE,
     "Partial" BIGINT,
     "Debit" BIGINT,
     "Credit" BIGINT
 );
+
+CREATE VIEW "AccountingNoteAll" AS SELECT "Number", "Date", "Concept", "AccountingAccount"."Code", "AccountingAccount"."Name", "Partial", "Debit", "Credit" FROM "AccountingNote" INNER JOIN "AccountingNoteRecord" ON "AccountingNote"."Id"="AccountingNoteRecord"."AccountingNoteId" INNER JOIN "AccountingAccount" ON "AccountingAccount"."Id"="AccountingNoteRecord"."AccountingAccountId";
