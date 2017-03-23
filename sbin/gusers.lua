@@ -2,11 +2,11 @@
     Lua 5.1 Copyright (C) 1994-2006 Lua.org, PUC-Rio
 ]]
 
-local App = ngx.var.app;
-local Http = require (App.."/contrib/http");
-local Sql = require (App.."/contrib/sql");
-local Session = require (App.."/contrib/session");
-local Crypt = require (App.."/contrib/crypt");
+package.path = ngx.var.app.."/?.lua;"..package.path
+local Http = require ("contrib/http");
+local Sql = require ("contrib/sql");
+local Session = require ("contrib/session");
+local Crypt = require ("contrib/crypt");
 
 local pgmoon = require("pgmoon");
 local db = pgmoon.new(Sql.Conf);
