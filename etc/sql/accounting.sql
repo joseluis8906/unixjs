@@ -28,11 +28,12 @@ CREATE TABLE IF NOT EXISTS "AccountingDisbVouBank"
 
 CREATE TABLE IF NOT EXISTS "AccountingDisbVouRecord"
 (
-    "AccountingDisbVouId" BIGSERIAL PRIMARY KEY NOT NULL REFERENCES "AccountingDisbVou" ("Id") ON UPDATE CASCADE ON DELETE CASCADE,
+    "AccountingDisbVouId" BIGSERIAL NOT NULL REFERENCES "AccountingDisbVou" ("Id") ON UPDATE CASCADE ON DELETE CASCADE,
     "AccountingAccountId" BIGSERIAL NOT NULL REFERENCES "AccountingAccount" ("Id") ON UPDATE CASCADE ON DELETE CASCADE,
     "Partial" BIGINT,
     "Debit" BIGINT,
-    "Credit" BIGINT    
+    "Credit" BIGINT,
+    PRIMARY KEY ("AccountingDisbVouId", "AccountingAccountId")
 );
 
 CREATE VIEW "AccountingDisbVouAll" AS SELECT "Number", "Place", "Date", "Holder", "Concept", "Bank", "Check", "CheckingAccount", "Amount", "AccountingAccount"."Code", "AccountingAccount"."Name", "Partial", "Debit", "Credit" FROM "AccountingDisbVou" INNER JOIN "AccountingDisbVouBank" ON "AccountingDisbVou"."Id"="AccountingDisbVouBank"."AccountingDisbVouId" INNER JOIN "AccountingDisbVouRecord" ON "AccountingDisbVou"."Id"="AccountingDisbVouRecord"."AccountingDisbVouId" INNER JOIN "AccountingAccount" ON "AccountingAccount"."Id"="AccountingDisbVouRecord"."AccountingAccountId";
@@ -50,11 +51,13 @@ CREATE TABLE IF NOT EXISTS "AccountingNote"
 
 CREATE TABLE IF NOT EXISTS "AccountingNoteRecord"
 (
-    "AccountingNoteId" BIGSERIAL PRIMARY KEY NOT NULL REFERENCES "AccountingNote" ("Id") ON UPDATE CASCADE ON DELETE CASCADE,
+    "AccountingNoteId" BIGSERIAL NOT NULL REFERENCES "AccountingNote" ("Id") ON UPDATE CASCADE ON DELETE CASCADE,
     "AccountingAccountId" BIGSERIAL NOT NULL REFERENCES "AccountingAccount" ("Id") ON UPDATE CASCADE ON DELETE CASCADE,
     "Partial" BIGINT,
     "Debit" BIGINT,
-    "Credit" BIGINT
+    "Credit" BIGINT,
+    PRIMARY KEY ("AccountingNoteId", "AccountingAccountId")
+
 );
 
 CREATE VIEW "AccountingNoteAll" AS SELECT "Number", "Date", "Concept", "AccountingAccount"."Code", "AccountingAccount"."Name", "Partial", "Debit", "Credit" FROM "AccountingNote" INNER JOIN "AccountingNoteRecord" ON "AccountingNote"."Id"="AccountingNoteRecord"."AccountingNoteId" INNER JOIN "AccountingAccount" ON "AccountingAccount"."Id"="AccountingNoteRecord"."AccountingAccountId";
