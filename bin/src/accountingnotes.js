@@ -201,11 +201,11 @@ accountingnotes.prototype.CreateData = function ()
         if (this.records[i].code.GetText() !== "")
         {
             Data.Records.push({
-                Partial: this.records[i].partial.GetText (),
-                Debit: this.records[i].debit.GetText (),
+                Partial: (this.records[i].partial.GetText () === "") ? 0 : this.records[i].partial.GetText (),
+                Debit: (this.records[i].debit.GetText () === "") ? 0 : this.records[i].debit.GetText (),
                 Credit: (this.records[i].credit.GetText() === "") ? 0 : this.records[i].credit.GetText(),
-                Number: (this.number.GetText () === "") ? 0 : this.number.GetText (),
-                Code: (this.records[i].code.GetText () === "") ? 0 : this.records[i].code.GetText ()
+                Number: this.number.GetText (),
+                Code:this.records[i].code.GetText ()
             });
         }
     }
