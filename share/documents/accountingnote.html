@@ -6,8 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <script>
         window.Records = Number(Gwt.Core.Contrib.UrlVars()["records"]);
-        if (window.Records < 36) {window.Records=36;}
-        if (window.Records <= 36)
+        if (window.Records < 35) {window.Records=35;}
+        if (window.Records <= 35)
         {    
             document.write('\
                 <style>\
@@ -29,7 +29,7 @@
                     </style>'
             );
         }
-        else if (window.Records > 36)
+        else if (window.Records > 35)
         document.write('\
                 <style>\
                     @page\
