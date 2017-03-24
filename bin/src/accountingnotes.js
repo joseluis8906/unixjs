@@ -284,9 +284,9 @@ accountingnotes.prototype.Print = function (Res)
 {
     //this.Report = Gwt.Core.Contrib.LoadDocument ("/documents/accountingnote.html");
     //this.Report.addEventListener ("load", this.ReportLoad.bind (this));
-    var Report = Gwt.Core.Contrib.LoadDocument();
+    var Report = Gwt.Core.Contrib.LoadDocument().contentWindow.document;
     
-    var element = Report.document.createElement("style");
+    var element = Report.createElement("style");
     element.textContent = '@page{size: 215.9mm 330mm portrait; margin: 0mm; padding: 0mm;}';
     Report.head.appendChild (element);
     
