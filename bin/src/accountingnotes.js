@@ -284,15 +284,11 @@ accountingnotes.prototype.Print = function (Res)
 {
     //this.Report = Gwt.Core.Contrib.LoadDocument ("/documents/accountingnote.html");
     //this.Report.addEventListener ("load", this.ReportLoad.bind (this));
-    var Report = document.implementation.createHTMLDocument("Nota Contable");
-    var element = Report.createElement("meta");
-    element.setAttribute("content", "text/html");
-    element.setAttribute ("charset", "UTF-8");
-    element.setAttribute("http-equiv", "content-type");
-    Report.head.appendChild(element);
-    //Report.head.('<link rel="stylesheet" type="text/css" href="/css/reset.css">');
-    //Report.head.('<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />');
-    //Report.head.('<style>@page{size: 215.9mm 330mm portrait; margin: 0mm; padding: 0mm;}</style>');
+    var Report = Gwt.Core.LoadDocument();
+    
+    var element = Report.document.createElement("style");
+    element.textContent = '@page{size: 215.9mm 330mm portrait; margin: 0mm; padding: 0mm;}';
+    Report.head.appendChild (element);
     
     Report.writeln('<div style="display: table; overflow:hidden; width: 205.9mm; height: 8mm; margin: 5mm 5mm 0mm 5mm;">\
         <div style="display: table-row; height: 8mm; overflow: hidden;">\
@@ -313,6 +309,7 @@ accountingnotes.prototype.ReportLoad = function ()
     
     var TotalDebit = 0;
     var TotalCredit = 0;
+
     var Records = [];
     for (var i=0; i < this.records.length; i++)
     {
