@@ -4,14 +4,54 @@
     <link rel="stylesheet" type="text/css" href="/css/reset.css">
     <script type="text/javascript" src="/lib/gwt.min.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <script>window.Records = Number(Gwt.Core.Contrib.UrlVars()["records"]);</script>
-    <style>
-        @page
-        {
-            size: 215.9mm 330mm portrait;
-            margin: 5mm;
-            padding: 0mm 0mm 0mm 0mm;
+    <script>
+        window.Records = Number(Gwt.Core.Contrib.UrlVars()["records"]);
+        if (window.Records < 45) {window.Rescords=45;}
+        if (window.Records <= 45)
+        {    
+            document.write('\
+                <style>\
+                    @page\
+                    {\
+                        size: letter portrait;\
+                        margin: 5mm;\
+                        padding: 0mm 0mm 0mm 0mm;\
+                    }\
+                    body\
+                    {\
+                        margin: auto;\
+                        font-family: Calibri;\
+                        background-color: white;\
+                        width: 215.9mm;\
+                        height: 279.4mm;\
+                        overflow: hidden;\
+                    }\
+                    </style>'
+            );
         }
+        else if (window.Records > 45)
+        document.write('\
+                <style>\
+                    @page\
+                    {\
+                        size: 215.9mm 330mm portrait;\
+                        margin: 5mm;\
+                        padding: 0mm 0mm 0mm 0mm;\
+                    }\
+                    body\
+                    {\
+                        margin: auto;\
+                        font-family: Calibri;\
+                        background-color: white;\
+                        width: 215.9mm;\
+                        height: 330mm;\
+                        overflow: hidden;\
+                    }\
+                    </style>'
+            );
+
+    </script>
+        <style>
         h1
         {
             font-size: 20pt;
@@ -23,15 +63,7 @@
             overflow: scroll;
         }
       
-        body 
-        {
-            margin: auto;
-            font-family: Calibri;
-            background-color: white;
-            width: 215.9mm;
-            height: 330mm;
-            overflow: hidden;
-        }
+       
         
         .Label
         {
@@ -56,7 +88,7 @@
         }
       
     </style>
-    <title>Cedeg</title>
+    <title>Nota Contable</title>
   </head>
   <body>
       
@@ -97,6 +129,7 @@
     
         
 <script type='text/javascript'>
+    
     for (var i=0; i<window.Records; i++)
     {
         document.writeln('\
