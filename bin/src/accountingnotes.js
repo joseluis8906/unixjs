@@ -290,7 +290,7 @@ accountingnotes.prototype.Print = function (Res)
             Records += 1;
         }
     }
-    this.Report = Gwt.Core.Contrib.LoadDocument ("/documents/accountingnote.html?records=%0".replace("%0", Records));
+    this.Report = Gwt.Core.Contrib.LoadDocument ("/documents/accountingnote.html?records=%0".replace("%0", 45));
     this.Report.addEventListener ("load", this.ReportLoad.bind (this));
 };
 
@@ -330,8 +330,7 @@ accountingnotes.prototype.ReportLoad = function ()
         doc.getElementById ("Debit"+i).textContent = (Records[i].Debit  === "$0") ? "" : Records[i].Debit;
         doc.getElementById ("Credit"+i).textContent = (Records[i].Credit === "$0") ? "" : Records[i].Credit;
     }
-    doc.getElementById ("EqSumDebit").textContent = Gwt.Core.Contrib.TextToMonetary(TotalDebit.toString());
-    doc.getElementById ("EqSumCredit").textContent = Gwt.Core.Contrib.TextToMonetary(TotalCredit.toString());
+    
     for (i; i < this.records.length; i++)
     {
         doc.getElementById ("Code"+i).textContent = "";
@@ -341,8 +340,8 @@ accountingnotes.prototype.ReportLoad = function ()
         doc.getElementById ("Credit"+i).textContent = "";
     }
 
-    //doc.getElementById ("EqSumDebit").textContent = Gwt.Core.Contrib.TextToMonetary(TotalDebit.toString());
-    //doc.getElementById ("EqSumCredit").textContent = Gwt.Core.Contrib.TextToMonetary(TotalCredit.toString());
+    doc.getElementById ("EqSumDebit").textContent = Gwt.Core.Contrib.TextToMonetary(TotalDebit.toString());
+    doc.getElementById ("EqSumCredit").textContent = Gwt.Core.Contrib.TextToMonetary(TotalCredit.toString());
     
     doc = undefined;
     this.Report = null;
