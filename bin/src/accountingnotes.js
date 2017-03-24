@@ -283,7 +283,7 @@ accountingnotes.prototype.DeleteResponse = function (Res)
 accountingnotes.prototype.Print = function (Res)
 {
     var Records = 0;
-     for (var i=0; i < this.records.length; i++)
+    for (var i=0; i < this.records.length; i++)
     {
         if (this.records[i].code.GetText() !== "")
         {
