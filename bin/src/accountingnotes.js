@@ -186,11 +186,9 @@ accountingnotes.prototype._App = function ()
     this.Report = null;
 };
 
-//insert
-accountingnotes.prototype.Insert = function ()
+accountingnotes.prototype.CreateData = function ()
 {
     var Data = {
-        Method: "Insert",
         Number: this.number.GetText (),
         Date: this.date.GetText (),
         Concept: this.concept.GetText ()
@@ -205,13 +203,21 @@ accountingnotes.prototype.Insert = function ()
             Data.Records.push({
                 Partial: this.records[i].partial.GetText (),
                 Debit: this.records[i].debit.GetText (),
-                Credit: this.records[i].credit.GetText(),
-                Number: this.number.GetText (),
-                Code: this.records[i].code.GetText ()
+                Credit: (this.records[i].credit.GetText() === "") ? 0 : this.records[i].credit.GetText(),
+                Number: (this.number.GetText () === "") ? 0 : this.number.GetText (),
+                Code: (this.records[i].code.GetText () === "") ? 0 : this.records[i].code.GetText ()
             });
         }
     }
-    console.log (Data);
+
+    return Data;
+};
+
+//insert
+accountingnotes.prototype.Insert = function ()
+{
+    var Data = this.CreateData ();
+    Data.Method = "Insert";
     this.Rpc.Send (Data, this.InsertResponse.bind(this));
 };
 
@@ -220,37 +226,15 @@ accountingnotes.prototype.InsertResponse = function (Res)
 {
     if (Res.affected_rows === 1)
     {
-        this.Report = Gwt.Core.Contrib.LoadDocument ("/documents/accountingnote.html");
-        this.Report.addEventListener ("load", this.ReportLoad.bind (this));
+        this.Print();
     }
 };
 
 //update
 accountingnotes.prototype.Update = function ()
 {
-    var Data = {
-        Method: "Update",
-        Number: this.number.GetText (),
-        Date: this.date.GetText (),
-        Concept: this.concept.GetText (),
-    };
-    
-    Data.Records = [];
-    
-    for (var i=0; i < this.records.length; i++)
-    {
-        if (this.records[i].code.GetText() !== "")
-        {
-            Data.Records.push({
-                Partial: this.records[i].partial.GetText (),
-                Debit: this.records[i].debit.GetText (),
-                Credit: this.records[i].credit.GetText(),
-                Number: this.number.GetText (),
-                Code: this.records[i].code.GetText ()
-            });
-        }
-    }
-    
+    var Data = this.CreateData ();
+    Data.Method = "Update";
     this.Rpc.Send (Data, this.UpdateResponse.bind(this));
 }
 
@@ -259,8 +243,7 @@ accountingnotes.prototype.UpdateResponse = function (Res)
 {
     if (Res.affected_rows === 1)
     {
-        this.Report = Gwt.Core.Contrib.LoadDocument ("/documents/accountingnote.html");
-        this.Report.addEventListener ("load", this.ReportLoad.bind (this));
+        this.Print();
     }
 };
 
@@ -290,7 +273,7 @@ accountingnotes.prototype.Print = function (Res)
             Records += 1;
         }
     }
-    this.Report = Gwt.Core.Contrib.LoadDocument ("/documents/accountingnote.html?records=%0".replace("%0", 45));
+    this.Report = Gwt.Core.Contrib.LoadDocument ("/documents/accountingnote.html?records=%0".replace("%0", Records));
     this.Report.addEventListener ("load", this.ReportLoad.bind (this));
 };
 
