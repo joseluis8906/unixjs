@@ -355,7 +355,7 @@ cedeg.prototype.AutoFill = function (Res)
             this.records[i].debit.SetText ((Records[i].Debit === 0 ? "" : Records[i].Debit));
             this.records[i].credit.SetText ((Records[i].Credit === 0 ? "" : Records[i].Credit));
         }
-        
+
         for (i; i < this.records.length; i++)
         {
             this.records[i].Reset();
@@ -443,7 +443,7 @@ cedeg.prototype.SortData = function (Res)
         }
         else if (Res[i].Credit !== 0)
         {
-            Credit.push (Res[i]);
+            Credits.push (Res[i]);
         }
     }
 
