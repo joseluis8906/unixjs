@@ -282,7 +282,15 @@ accountingnotes.prototype.DeleteResponse = function (Res)
 //print
 accountingnotes.prototype.Print = function (Res)
 {
-    this.Report = Gwt.Core.Contrib.LoadDocument ("/documents/accountingnote.html?number=%0".replace("%0", this.number.GetText()));
+    var Records = 0;
+     for (var i=0; i < this.records.length; i++)
+    {
+        if (this.records[i].code.GetText() !== "")
+        {
+            Records += 1;
+        }
+    }
+    this.Report = Gwt.Core.Contrib.LoadDocument ("/documents/accountingnote.html?records=%0".replace("%0",Recors));
     this.Report.addEventListener ("load", this.ReportLoad.bind (this));
 };
 
