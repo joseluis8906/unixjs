@@ -285,10 +285,10 @@ accountingnotes.prototype.Print = function (Res)
     //this.Report = Gwt.Core.Contrib.LoadDocument ("/documents/accountingnote.html");
     //this.Report.addEventListener ("load", this.ReportLoad.bind (this));
     var Report = document.implementation.createHTMLDocument("Nota Contable");
-    Report.head.appendChild('<meta content="text/html; charset=UTF-8" http-equiv="content-type">');
-    Report.head.appendChild('<link rel="stylesheet" type="text/css" href="/css/reset.css">');
-    Report.head.appendChild('<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />');
-    Report.head.appendChild('<style>@page{size: 215.9mm 330mm portrait; margin: 0mm; padding: 0mm;}</style>');
+    Report.head.writeln('<meta content="text/html; charset=UTF-8" http-equiv="content-type">');
+    Report.head.writeln('<link rel="stylesheet" type="text/css" href="/css/reset.css">');
+    Report.head.writeln('<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />');
+    Report.head.writeln('<style>@page{size: 215.9mm 330mm portrait; margin: 0mm; padding: 0mm;}</style>');
     
     Report.writeln('<div style="display: table; overflow:hidden; width: 205.9mm; height: 8mm; margin: 5mm 5mm 0mm 5mm;">\
         <div style="display: table-row; height: 8mm; overflow: hidden;">\
