@@ -158,13 +158,14 @@
                         <div style="display: table-cell; text-align: center; width: 33mm; max-height: 5.5mm; overflow: hidden; border-left: 1px black solid;"><span id="EqSumDebit" class="Label">Default</span></div>\
                         <div style="display: table-cell; text-align: center; width: 33mm; max-height: 5.5mm; overflow: hidden; border-left: 1px black solid;"><span id="EqSumCredit" class="Label">Default</span></div>\
                     </div>\
-                </div><br/><br/>\
+                </div>\
             '.replace("%s0", "Code"+i).replace ("%s1", "Name"+i).replace("%s2", "Partial"+i).replace("%s3", "Debit"+i).replace("%s4", "Credit"+i));
         }
 
         if (i===36)
         {
              document.writeln('\
+                <div style="page-break-before: always"> </div>\
                 <div style="display: table; width: 205.9mm; height: 5mm; overflow: hidden; border: 1px solid black; border-bottm: none; margin: 5mm 5mm 0mm 5mm;">\
                     <div style="display: table-row">\
                         <div style="display: table-cell; text-align: right; width: 33mm; height: 5.5mm; overflow: hidden;"><span id="%s0" class="Entry" style="height: 5mm; overflow: hidden; font-size: 11pt;">Default</span></div>\
