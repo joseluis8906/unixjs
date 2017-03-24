@@ -274,7 +274,6 @@ accountingnotes.prototype.Print = function (Res)
             Records += 1;
         }
     }
-    console.log (Records);
     this.Report = Gwt.Core.Contrib.LoadDocument ("/documents/accountingnote.html?records=%0".replace("%0", Records));
     this.Report.addEventListener ("load", this.ReportLoad.bind (this));
 };
