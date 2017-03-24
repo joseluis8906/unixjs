@@ -204,11 +204,10 @@ cedeg.prototype._App = function ()
     this.Report = null;
 };
 
-//insert
-cedeg.prototype.Insert = function ()
+//create data
+cedeg.prototype.CreateData = function ()
 {
     var Data = {
-        Method: "Insert",
         Number: this.number.GetText (),
         Place: this.place.GetText (),
         Date: this.date.GetText (),
@@ -227,15 +226,23 @@ cedeg.prototype.Insert = function ()
         if (this.records[i].code.GetText() !== "")
         {
             Data.Records.push({
-                Partial: this.records[i].partial.GetText (),
-                Debit: this.records[i].debit.GetText (),
-                Credit: this.records[i].credit.GetText(),
+                Partial: (this.records[i].partial.GetText () === "") ? 0 : this.records[i].partial.GetText (),
+                Debit: (this.records[i].debit.GetText ()  === "") ? 0 : this.records[i].debit.GetText (),
+                Credit: (this.records[i].credit.GetText()  === "") ? 0 : this.records[i].credit.GetText(),
                 Number: this.number.GetText (),
                 Code: this.records[i].code.GetText ()
             });
         }
     }
-    
+
+    return Data;
+};
+
+//insert
+cedeg.prototype.Insert = function ()
+{
+    var Data = this.CreateData ();
+    Data.Method = "Insert";    
     this.Rpc.Send (Data, this.InsertResponse.bind(this));
 };
 
@@ -244,43 +251,15 @@ cedeg.prototype.InsertResponse = function (Res)
 {
     if (Res.affected_rows === 1)
     {
-        this.Report = Gwt.Core.Contrib.LoadDocument ("/documents/cedeg.html");
-        this.Report.addEventListener ("load", this.ReportLoad.bind (this));
+        this.Print ();
     }
 };
 
 //update
 cedeg.prototype.Update = function (Event)
 {
-    var Data = {
-        Method: "Update",
-        Number: this.number.GetText (),
-        Place: this.place.GetText (),
-        Date: this.date.GetText (),
-        Holder: this.holder.GetText (),
-        Concept: this.concept.GetText (),
-        Bank: this.bank.GetText (),
-        Check: this.check.GetText (),
-        CheckingAccount: this.checking_account.GetText (),
-        Amount: this.amount.GetText (),
-    };
-    
-    Data.Records = [];
-    
-    for (var i=0; i < this.records.length; i++)
-    {
-        if (this.records[i].code.GetText() !== "")
-        {
-            Data.Records.push({
-                Partial: this.records[i].partial.GetText (),
-                Debit: this.records[i].debit.GetText (),
-                Credit: this.records[i].credit.GetText(),
-                Number: this.number.GetText (),
-                Code: this.records[i].code.GetText ()
-            });
-        }
-    }
-    
+    var Data = this.CreateData ();
+    Data.Method = "Update";        
     this.Rpc.Send (Data, this.UpdateResponse.bind(this));
 };
 
@@ -290,8 +269,7 @@ cedeg.prototype.UpdateResponse = function (Res)
 {
     if (Res.affected_rows === 1)
     {
-        this.Report = Gwt.Core.Contrib.LoadDocument ("/documents/cedeg.html");
-        this.Report.addEventListener ("load", this.ReportLoad.bind (this));
+        this.Print();
     }
 };
 
@@ -371,9 +349,9 @@ cedeg.prototype.AutoFill = function (Res)
         {
             this.records[i].code.SetText (Res[i].Code);
             this.records[i].name.SetText (Res[i].Name);
-            this.records[i].partial.SetText (Res[i].Partial);
-            this.records[i].debit.SetText (Res[i].Debit);
-            this.records[i].credit.SetText (Res[i].Credit);
+            this.records[i].partial.SetText ((Res[i].Partial === 0 ? "" : Res[i].Partial));
+            this.records[i].debit.SetText ((Res[i].Debit === 0 ? "" : Res[i].Debit));
+            this.records[i].credit.SetText ((Res[i].Credit === 0 ? "" : Res[i].Credit));
         }
         for (i; i < this.records.length; i++)
         {
@@ -399,7 +377,7 @@ cedeg.prototype.NextNumber = function (Res)
 cedeg.prototype.ReportLoad = function ()
 {
     var doc = this.Report.contentWindow.document;
-    doc.getElementById ("Number").textContent = this.number.GetText();
+    doc.getElementById ("Number").textContent = Gwt.Core.Contrib.ZFill(this.number.GetText(), 4);
     doc.getElementById ("Place").textContent = this.place.GetText()+", "+this.date.GetText ();
     doc.getElementById ("Holder").textContent = this.holder.GetText ();
     doc.getElementById ("AmountHuman").textContent = Gwt.Core.Contrib.NumberToHumanReadable (this.amount.GetText())+"PESOS MTE";
