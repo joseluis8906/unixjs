@@ -133,7 +133,7 @@
     
     for (var i=0; i<=window.Records; i++)
     {
-        if (i!==38)
+        if (i!==37)
         {
             document.writeln('\
                 <div style="display: table; width: 205.9mm; height: 5mm; overflow: hidden; border: 1px solid black; border-top: none; margin: 0mm 5mm 0mm 5mm;">\
@@ -148,7 +148,7 @@
             '.replace("%s0", "Code"+i).replace ("%s1", "Name"+i).replace("%s2", "Partial"+i).replace("%s3", "Debit"+i).replace("%s4", "Credit"+i));
         }
 
-        if (i===38)
+        if (i===37)
         {
              document.writeln('\
                 <div style="page-break-before: always; background-color: darkslategray; width: 215.9mm;"> </div>\
