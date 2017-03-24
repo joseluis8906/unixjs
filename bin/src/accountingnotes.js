@@ -235,6 +235,7 @@ accountingnotes.prototype.Update = function ()
 {
     var Data = this.CreateData ();
     Data.Method = "Update";
+    console.log (Data);
     this.Rpc.Send (Data, this.UpdateResponse.bind(this));
 }
 
