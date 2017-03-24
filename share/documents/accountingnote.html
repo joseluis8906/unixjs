@@ -4,12 +4,12 @@
     <link rel="stylesheet" type="text/css" href="/css/reset.css">
     <script type="text/javascript" src="/lib/gwt.min.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <script>Records = Number(Gwt.Core.Contrib.UrlVars()["records"]</script>
     <style>
-        
         @page
         {
             size: 215.9mm 330mm portrait;
-            margin: 0mm 0mm 0mm 0mm;
+            margin: 5mm;
             padding: 0mm 0mm 0mm 0mm;
         }
         h1
@@ -60,7 +60,7 @@
   </head>
   <body>
       
-    <div style="display: table; overflow:hidden; width: 205.9mm; height: 8mm; margin: 5mm 5mm 0mm 5mm;">
+    <div style="display: table; overflow:hidden; width: 205.9mm; height: 8mm;">
         <div style="display: table-row; height: 8mm; overflow: hidden;">
             <div style="display: table-cell; width: 75%; height: 8mm; text-align: center;"><span class="Label">CDI GOTITAS DE AMOR<br/>NIT: 800.230.530-6</span></div>
             <div style="display: table-cell; width: 15%; height: 8mm; border: 1px solid black; border-right: none;"><span class="Label" >NOTA DE <br/>CONTABILIDAD</span></div>
@@ -97,7 +97,7 @@
     
         
 <script type='text/javascript'>
-    for (var i=0; i<=Number(Gwt.Core.Contrib.UrlVars()["records"]); i++)
+    for (var i=0; i<Records; i++)
     {
         document.writeln('\
             <div style="display: table; width: 205.9mm; height: 5mm; overflow: hidden; border: 1px solid black; border-top: none; margin: 0mm 5mm 0mm 5mm;">\
