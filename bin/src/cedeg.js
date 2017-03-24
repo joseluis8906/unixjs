@@ -405,13 +405,15 @@ cedeg.prototype.ReportLoad = function ()
         }
     }
     
-    for (var i=0; i < Records.length; i++)
+    var SortedRecords = this.SortData (Records);
+
+    for (var i=0; i < SortedRecords.length; i++)
     {
-        doc.getElementById ("Code"+i).textContent = Records[i].Code;
-        doc.getElementById ("Name"+i).textContent = Records[i].Name;
-        doc.getElementById ("Partial"+i).textContent = (Records[i].Partial === "$0") ? "" : Records[i].Partial;
-        doc.getElementById ("Debit"+i).textContent = (Records[i].Debit  === "$0") ? "" : Records[i].Debit;
-        doc.getElementById ("Credit"+i).textContent = (Records[i].Credit === "$0") ? "" : Records[i].Credit;
+        doc.getElementById ("Code"+i).textContent = SortedRecords[i].Code;
+        doc.getElementById ("Name"+i).textContent = SortedRecords[i].Name;
+        doc.getElementById ("Partial"+i).textContent = (SortedRecords[i].Partial === "$0") ? "" : SortedRecords[i].Partial;
+        doc.getElementById ("Debit"+i).textContent = (SortedRecords[i].Debit  === "$0") ? "" : SortedRecords[i].Debit;
+        doc.getElementById ("Credit"+i).textContent = (SortedRecords[i].Credit === "$0") ? "" : SortedRecords[i].Credit;
     }
     
     for (i; i < this.records.length; i++)
@@ -428,6 +430,7 @@ cedeg.prototype.ReportLoad = function ()
     this.Reset ();
 };
 
+//sort data
 cedeg.prototype.SortData = function (Res)
 {
     var Debits = [];

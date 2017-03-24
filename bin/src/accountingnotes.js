@@ -306,13 +306,15 @@ accountingnotes.prototype.ReportLoad = function ()
         }
     }
     
-    for (var i=0; i < Records.length; i++)
+    var SortedRecords = this.SortData (Records);
+
+    for (var i=0; i < SortedRecords.length; i++)
     {
-        doc.getElementById ("Code"+i).textContent = Records[i].Code;
-        doc.getElementById ("Name"+i).textContent = Records[i].Name;
-        doc.getElementById ("Partial"+i).textContent = (Records[i].Partial === "$0") ? "" : Records[i].Partial;
-        doc.getElementById ("Debit"+i).textContent = (Records[i].Debit  === "$0") ? "" : Records[i].Debit;
-        doc.getElementById ("Credit"+i).textContent = (Records[i].Credit === "$0") ? "" : Records[i].Credit;
+        doc.getElementById ("Code"+i).textContent = SortedRecords[i].Code;
+        doc.getElementById ("Name"+i).textContent = SortedRecords[i].Name;
+        doc.getElementById ("Partial"+i).textContent = (SortedRecords[i].Partial === "$0") ? "" : SortedRecords[i].Partial;
+        doc.getElementById ("Debit"+i).textContent = (SortedRecords[i].Debit  === "$0") ? "" : SortedRecords[i].Debit;
+        doc.getElementById ("Credit"+i).textContent = (SortedRecords[i].Credit === "$0") ? "" : SortedRecords[i].Credit;
     }
     /*
     for (i; i < this.records.length; i++)
@@ -370,13 +372,15 @@ accountingnotes.prototype.AutoFill = function (Res)
         this.date.SetDate (Res[0].Date);        
         this.concept.SetText (Res[0].Concept);
     
-        for (var i = 0; i < Res.length; i++)
+        var Records = this.SortData (Res);
+
+        for (var i = 0; i < Records.length; i++)
         {
-            this.records[i].code.SetText (Res[i].Code);
-            this.records[i].name.SetText (Res[i].Name);
-            this.records[i].partial.SetText ((Res[i].Partial === 0 ? "" : Res[i].Partial));
-            this.records[i].debit.SetText ((Res[i].Debit === 0 ? "" : Res[i].Debit));
-            this.records[i].credit.SetText ((Res[i].Credit === 0 ? "" : Res[i].Credit));
+            this.records[i].code.SetText (Records[i].Code);
+            this.records[i].name.SetText (Records[i].Name);
+            this.records[i].partial.SetText ((Records[i].Partial === 0 ? "" : Records[i].Partial));
+            this.records[i].debit.SetText ((Records[i].Debit === 0 ? "" : Records[i].Debit));
+            this.records[i].credit.SetText ((Records[i].Credit === 0 ? "" : Records[i].Credit));
         }
         for (i; i < this.records.length; i++)
         {
@@ -402,6 +406,50 @@ accountingnotes.prototype.Reset = function ()
     }
 };
 
+//sort data
+accountingnotes.prototype.SortData = function (Res)
+{
+    var Debits = [];
+    var Credits = [];
+
+    var Sorted = [];
+
+    for (var i = 0; i < Res.length; i++)
+    {
+        if (Res[i].Debit !== 0)
+        {
+            Debits.push (Res[i]);
+        }
+        else if (Res[i].Credit !== 0)
+        {
+            Credits.push (Res[i]);
+        }
+    }
+
+    for (var i = 0; i < Debits.length; i++)
+    {
+        for (var j = 0; j < Res.length; j++)
+        {
+            if (Res[j].Code.startsWith(Debits[i].Code))
+            {
+                Sorted.push (Res[j]);
+            }
+        }
+    }
+
+    for (var i = 0; i < Credits.length; i++)
+    {
+        for (var j = 0; j < Res.length; j++)
+        {
+            if (Res[j].Code.startsWith(Credits[i].Code))
+            {
+                Sorted.push (Res[j]);
+            }
+        }
+    }
+
+    return Sorted;
+};
 
 return new function ()
 {
