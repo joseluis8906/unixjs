@@ -84,4 +84,4 @@ CREATE TABLE IF NOT EXISTS "Media"
     UNIQUE ("Name", "Type")
 );
 
-INSERT INTO "Media"("Name", "Type", "FileName", "UserId") SELECT '1cm9vdF8xMjczNjQ4NTc0XzBfCg', 'png', 'user.png', "Id" FROM "AuthUser" WHERE "UserName"='root';
+INSERT INTO "Media"("Name", "Type", "FileName", "UserId") SELECT '1cm9vdF8xMjczNjQ4NTc0XzBfCg', 'png', 'user.png', "Id" AS "UserId" FROM "AuthUser" WHERE "UserName"='root';
