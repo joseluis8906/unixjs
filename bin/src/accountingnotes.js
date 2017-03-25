@@ -307,7 +307,7 @@ accountingnotes.prototype.ReportLoad = function ()
     }
     
     var SortedRecords = this.SortData (Records);
-
+    console.log (SortedRecords.length);
     for (var i=0; i < SortedRecords.length-1; i++)
     {
         doc.getElementById ("Code"+i).textContent = SortedRecords[i].Code;
