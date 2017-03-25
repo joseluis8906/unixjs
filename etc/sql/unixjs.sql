@@ -4,6 +4,7 @@
  */
 
 
+
 CREATE TABLE IF NOT EXISTS "AuthUser"
 (
     "Id" BIGSERIAL PRIMARY KEY,
@@ -42,7 +43,7 @@ CREATE TABLE IF NOT EXISTS "AuthGroup"
 INSERT INTO "AuthGroup" ("Name") VALUES ('root');
 INSERT INTO "AuthGroup" ("Name") VALUES ('users');        
 
-WITH "Ins1" AS (INSERT INTO "Media"("Name", "Type") VALUES ('cm9vdF8xMjczNjQ4NTc0XzBfCg==', 'png') RETURNING "Id" AS "MediaId"), "Ins2" AS (INSERT INTO "AuthUser"("UserName", "Password") VALUES('root', 'sha256$72dfcfL0c470ac25$b0ac6336ed6d81567abb146ffeb69b834c2552cab77043398cab9bced376337d') RETURNING "Id" AS "UserId"), "Ins3" AS (INSERT INTO "AuthUserBasicInfo"("UserId", "DocumentType", "DocumentNum", "Country", "Name", "LastName") SELECT "UserId", 'XX', 'XXXXXXXXXX', 'XXXXXX', 'XXX', 'XXX' FROM "Ins2" RETURNING "UserId") INSERT INTO "AuthUserComplementaryInfo"("UserId", "Avatar", "Phone", "Email", "Address") SELECT "UserId", "MediaId", 'XXX', 'XXX', 'XXX' FROM "Ins2", "Ins1";
+WITH "Ins1" AS (INSERT INTO "AuthUser"("UserName", "Password") VALUES('root', 'sha256$18ac3e7d43f01689$d50f9743790e7e0ff4cd2dd09ff2e316ae5f8def526da0ee8910db4e941e285b') RETURNING "Id" AS "UserId"), "Ins2" AS (INSERT INTO "AuthUserBasicInfo"("UserId", "DocumentType", "DocumentNum", "Country", "Name", "LastName") SELECT "UserId", 'XX', 'XXXXXXXXXX', 'XXXXXX', 'XXX', 'XXX' FROM "Ins1" RETURNING "UserId") INSERT INTO "AuthUserComplementaryInfo"("UserId", "Phone", "Email", "Address") SELECT "UserId", 'XXX', 'XXX', 'XXX' FROM "Ins1";
 
 CREATE TABLE IF NOT EXISTS "AuthUserGroup"
 (
@@ -73,6 +74,7 @@ INSERT INTO "AppRole" ("Image", "Label", "Name", "GroupId") SELECT 'group.png', 
 INSERT INTO "AppRole" ("Image", "Label", "Name", "GroupId") SELECT 'usergroup.png', 'Usuario Y Grupo', 'gusersgroups', "AuthGroup"."Id" AS "GroupId" FROM "AuthGroup" WHERE "AuthGroup"."Name"='root'; 
 
 CREATE VIEW "AppRoleAll" AS SELECT "UserName" AS "User", "Image", "Label", "AppRole"."Name" AS "Name", "AuthUserGroupAll"."GroupName" AS "Group" FROM "AppRole" INNER JOIN "AuthUserGroupAll" ON "AppRole"."GroupId"="AuthUserGroupAll"."GroupId" ORDER BY "Label";
+
 
 CREATE TABLE IF NOT EXISTS "Media"
 (
