@@ -305,10 +305,11 @@ accountingnotes.prototype.ReportLoad = function ()
             });
         }
     }
-    
+    console.log (Records.length);
     var SortedRecords = this.SortData (Records);
+
     console.log (SortedRecords.length);
-    for (var i=0; i < SortedRecords.length-1; i++)
+    for (var i=0; i < SortedRecords.length; i++)
     {
         doc.getElementById ("Code"+i).textContent = SortedRecords[i].Code;
         doc.getElementById ("Name"+i).textContent = SortedRecords[i].Name;
