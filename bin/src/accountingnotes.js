@@ -308,7 +308,7 @@ accountingnotes.prototype.ReportLoad = function ()
     
     var SortedRecords = this.SortData (Records);
 
-    for (var i=0; i < SortedRecords.length; i++)
+    for (var i=0; i < SortedRecords.length-1; i++)
     {
         doc.getElementById ("Code"+i).textContent = SortedRecords[i].Code;
         doc.getElementById ("Name"+i).textContent = SortedRecords[i].Name;
@@ -316,16 +316,7 @@ accountingnotes.prototype.ReportLoad = function ()
         doc.getElementById ("Debit"+i).textContent = (SortedRecords[i].Debit  === "$0") ? "" : SortedRecords[i].Debit;
         doc.getElementById ("Credit"+i).textContent = (SortedRecords[i].Credit === "$0") ? "" : SortedRecords[i].Credit;
     }
-    /*
-    for (i; i < this.records.length; i++)
-    {
-        doc.getElementById ("Code"+i).textContent = "";
-        doc.getElementById ("Name"+i).textContent = "";
-        doc.getElementById ("Partial"+i).textContent = "";
-        doc.getElementById ("Debit"+i).textContent = "";
-        doc.getElementById ("Credit"+i).textContent = "";
-    }
-    */
+    
     doc.getElementById ("EqSumDebit").textContent = Gwt.Core.Contrib.TextToMonetary(TotalDebit.toString());
     doc.getElementById ("EqSumCredit").textContent = Gwt.Core.Contrib.TextToMonetary(TotalCredit.toString());
     
