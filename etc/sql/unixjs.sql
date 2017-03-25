@@ -87,4 +87,4 @@ CREATE TABLE IF NOT EXISTS "Media"
 );
 
 INSERT INTO "Media"("Name", "Type", "FileName", "UserId") SELECT '1cm9vdF8xMjczNjQ4NTc0XzBfCg', 'png', 'user.png', "Id" FROM "AuthUser" WHERE "UserName"='root';
-UPDATE "AuthUserComplementayInfo" SET "Avatar"="Media"."Id" FROM (SELECT "Id" FROM "Media" WHERE "Name"='1cm9vdF8xMjczNjQ4NTc0XzBfCg' AND "Type"='png') AS "Media";
+UPDATE "AuthUserComplementaryInfo" SET "Avatar"="Media"."Id" FROM (SELECT "Id" FROM "Media" WHERE "Name"='1cm9vdF8xMjczNjQ4NTc0XzBfCg' AND "Type"='png') AS "Media";
