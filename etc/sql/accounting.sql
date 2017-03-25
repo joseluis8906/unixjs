@@ -61,3 +61,8 @@ CREATE TABLE IF NOT EXISTS "AccountingNoteRecord"
 );
 
 CREATE VIEW "AccountingNoteAll" AS SELECT "Number", "Date", "Concept", "AccountingAccount"."Code", "AccountingAccount"."Name", "Partial", "Debit", "Credit" FROM "AccountingNote" INNER JOIN "AccountingNoteRecord" ON "AccountingNote"."Id"="AccountingNoteRecord"."AccountingNoteId" INNER JOIN "AccountingAccount" ON "AccountingAccount"."Id"="AccountingNoteRecord"."AccountingAccountId";
+
+
+INSERT INTO "AppRole" ("Image", "Label", "Name", "GroupId") SELECT 'basket.svg', 'Cuentas', 'cuentas', "AuthGroup"."Id" AS "GroupId" FROM "AuthGroup" WHERE "AuthGroup"."Name"='accounting'; 
+INSERT INTO "AppRole" ("Image", "Label", "Name", "GroupId") SELECT 'stock_tasks.svg', 'Notas', 'accountingnotes', "AuthGroup"."Id" AS "GroupId" FROM "AuthGroup" WHERE "AuthGroup"."Name"='accounting';
+INSERT INTO "AppRole" ("Image", "Label", "Name", "GroupId") SELECT 'text-editor.svg', 'Cedeg', 'cedeg', "AuthGroup"."Id" AS "GroupId" FROM "AuthGroup" WHERE "AuthGroup"."Name"='accounting'; 
