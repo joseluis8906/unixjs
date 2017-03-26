@@ -435,7 +435,7 @@ accountingnotes.prototype.SortData = function (Res)
         {
             if (Res[j].Code.startsWith(Credits[i].Code))
             {
-                Sorted.push (Res[i]);
+                Sorted.push (Res[j]);
             }
         }
     }
