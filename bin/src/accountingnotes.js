@@ -408,11 +408,11 @@ accountingnotes.prototype.SortData = function (Res)
 
     for (var i = 0; i < Res.length; i++)
     {
-        if (Res[i].Debit !== 0)
+        if (Number(Res[i].Debit) !== 0)
         {
             Debits.push (Res[i]);
         }
-        else if (Res[i].Credit !== 0)
+        else if (Number(Res[i].Credit) !== 0)
         {
             Credits.push (Res[i]);
         }
