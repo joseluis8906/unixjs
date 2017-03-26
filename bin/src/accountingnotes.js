@@ -418,22 +418,22 @@ accountingnotes.prototype.SortData = function (Res)
         }
     }
 
-    for (var i = 0; i < Res.length; i++)
+    for (var i = 0; i < Debits.length; i++)
     {
-        for (var j = 0; j < Debits.length; j++)
+        for (var j = 0; j < Res.length; j++)
         {
-            if (Res[i].Code.startsWith(Debits[j].Code))
+            if (Res[j].Code.startsWith(Debits[i].Code))
             {
                 Sorted.push (Res[j]);
             }
         }
     }
 
-    for (var i = 0; i < Res.length; i++)
+    for (var i = 0; i < Credits.length; i++)
     {
-        for (var j = 0; j < Credits.length; j++)
+        for (var j = 0; j < Res.length; j++)
         {
-            if (Res[i].Code.startsWith(Credits[j].Code))
+            if (Res[j].Code.startsWith(Credits[i].Code))
             {
                 Sorted.push (Res[i]);
             }
