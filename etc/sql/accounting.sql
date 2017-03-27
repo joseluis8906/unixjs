@@ -5,7 +5,6 @@ CREATE TABLE IF NOT EXISTS "AccountingAccount"
     "Name" VARCHAR(128) NOT NULL
 );
 
-
 --disbursement vounchers--
 CREATE TABLE IF NOT EXISTS "AccountingDisbVou"
 (
@@ -37,7 +36,6 @@ CREATE TABLE IF NOT EXISTS "AccountingDisbVouRecord"
 );
 
 CREATE VIEW "AccountingDisbVouAll" AS SELECT "Number", "Place", "Date", "Holder", "Concept", "Bank", "Check", "CheckingAccount", "Amount", "AccountingAccount"."Code", "AccountingAccount"."Name", "Partial", "Debit", "Credit" FROM "AccountingDisbVou" INNER JOIN "AccountingDisbVouBank" ON "AccountingDisbVou"."Id"="AccountingDisbVouBank"."AccountingDisbVouId" INNER JOIN "AccountingDisbVouRecord" ON "AccountingDisbVou"."Id"="AccountingDisbVouRecord"."AccountingDisbVouId" INNER JOIN "AccountingAccount" ON "AccountingAccount"."Id"="AccountingDisbVouRecord"."AccountingAccountId";
-
 
 
 --acounting note--
