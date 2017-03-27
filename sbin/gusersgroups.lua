@@ -37,7 +37,7 @@ if Method == "Insert" then
     local UserName = Http.Request ("UserName");
     local GroupName = Http.Request ("GroupName");
     local Q = Sql.Query;
-    Q:New ([[INSERT INTO "AuthUserGroup"("UserId", "GroupId") SELECT "AuthUser"."Id" AS "UserId", "AuthGroup"."Id" AS "GroupId" FROM "AuthUser" INNER JOIN "AuthGroup" ON "AuthUser"."UserName"=? AND "AuthGroup"."Name"=? LIMIT 1);]]);
+    Q:New ([[INSERT INTO "AuthUserGroup"("UserId", "GroupId") SELECT "AuthUser"."Id" AS "UserId", "AuthGroup"."Id" AS "GroupId" FROM "AuthUser" INNER JOIN "AuthGroup" ON "AuthUser"."UserName"=? AND "AuthGroup"."Name"=? LIMIT 1;]]);
     Q:SetString (UserName);
     Q:SetString (GroupName);
     local R, Err = db:query (Q.Stm);
