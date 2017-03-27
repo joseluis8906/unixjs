@@ -5,7 +5,7 @@
 
 local Http = require ("contrib/http");
 local Sql = require ("contrib/sql");
-local Session = require "contrib/session");
+local Session = require ("contrib/session");
 
 local pgmoon = require("pgmoon");
 local db = pgmoon.new(Sql.Conf);
