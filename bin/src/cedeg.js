@@ -374,6 +374,10 @@ cedeg.prototype.NextNumber = function (Res)
     {
         this.number.SetText(Number(Res[0].Number)+1);
     }
+    else
+    {
+        this.number.SetText(Number(1));
+    }
 };
 
 //report load
