@@ -54,7 +54,7 @@ gusersgroups.prototype.Insert = function ()
     this.Rpc.Send ({Method: "Insert", UserName: this.UserName.GetText (), GroupName: this.GroupName.GetText ()}, this.InsertResponse.bind (this));
 };
 
-gusersgroups.prototype.InsertResponse = function ()
+gusersgroups.prototype.InsertResponse = function (Res)
 {
     if (Res.affected_rows === 1)
     {
