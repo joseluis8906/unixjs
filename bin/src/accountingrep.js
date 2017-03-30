@@ -49,15 +49,19 @@ accountingrep.prototype.constructor = accountingrep;
 //destructor
 accountingrep.prototype._App = function ()
 {
-    this.number._Entry ();
-    this.date._Date ();
-    this.concept._Text ();
+    this.labelDateBegin._StaticText ();
+    this.dateBegin._Date ();
+    this.labelDateEnd._StaticText ();
+    this.dateEnd._Date ();
+
     this.Report === null ? null : this.Report.close();
     this.layout._VBox();
     
-    this.number = null;
-    this.date = null;
-    this.concept = null;
+    this.labelDateBegin = null;
+    this.dateBegin = null;
+    this.labelDateEnd = null;
+    this.dateEnd = null;
+    
     this.layout = null;
     this.Report = null;
 };
