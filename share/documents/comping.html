@@ -1,0 +1,204 @@
+<html>
+  <head>
+    <meta content="text/html; charset=UTF-8" http-equiv="content-type">
+    <link rel="stylesheet" type="text/css" href="/css/reset.css">
+    <script type="text/javascript" src="/lib/gwt.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <script>
+        window.Records = Number(Gwt.Core.Contrib.UrlVars()["records"]);
+        if (window.Records < 10) {window.Records=10;}
+        if (window.Records <= 36)
+        {    
+            document.write('\
+                <style>\
+                    @page\
+                    {\
+                        size: letter portrait;\
+                        margin: 0mm;\
+                        padding: 0mm;\
+                    }\
+                    body\
+                    {\
+                        margin: auto;\
+                        font-family: Calibri;\
+                        background-color: white;\
+                        width: 215.9mm;\
+                        height: 279.4mm;\
+                        overflow: hidden;\
+                    }\
+                    </style>'
+            );
+        }
+        else if (window.Records >= 37)
+        {
+            document.write('\
+                <style>\
+                    @page\
+                    {\
+                        size: letter portrait;\
+                        margin: 0mm;\
+                        padding: 0mm;\
+                    }\
+                    body\
+                    {\
+                        margin: auto;\
+                        font-family: Calibri;\
+                        background-color: white;\
+                        width: 215.9mm;\
+                        height: 558.8mm;\
+                        overflow: hidden;\
+                    }\
+                    </style>'
+            );
+        }
+    </script>
+        <style>
+        h1
+        {
+            font-size: 20pt;
+            font-family: Calibri;
+        }
+        html
+        {
+            background-color: darkslategray;
+            overflow: scroll;
+        }
+      
+       
+        
+        .Label
+        {
+            font-family: Calibri;
+            font-size: 12pt;
+            display: inline-block;
+            margin: 0.5mm 1mm 0mm 1mm;
+        }
+        
+        .Entry
+        {
+            font-family: Calibri;
+            font-size: 12pt;
+            display: inline-block;
+            margin: 0.5mm 1mm 0mm 1mm;
+        }
+
+        p{
+            margin: 0;
+            padding: 0;
+            outline: 0;
+        }
+      
+    </style>
+    <title>Comprobante De Ingreso</title>
+  </head>
+  <body>
+      
+    <div style="display: table; overflow:hidden; width: 205.9mm; height: 8mm; margin: 5mm 5mm 0mm 5mm">
+        <div style="display: table-row; height: 8mm; overflow: hidden;">
+            <div style="display: table-cell; width: 75%; height: 8mm; text-align: center;"><span class="Label">CDI GOTITAS DE AMOR<br/>NIT: 800.230.530-6</span></div>
+            <div style="display: table-cell; width: 15%; height: 8mm; border: 1px solid black; border-right: none;"><span class="Label" >COMPROBANTE DE <br/>INGRESO</span></div>
+            <div style="display: table-cell; width: 10%; height: 8mm; border: 1px solid black; border-left: none; text-align: right;"><span id="Number" class="Label" >0001</span></div>
+        </div>
+    </div>
+
+    <div style="display: table; overflow:hidden; width: 205.9mm; height: 5mm; margin: 0mm 5mm 0mm 5mm;">
+        <div style="display: table-row; height: 5mm; overflow: hidden;">
+            <div style="display: table-cell; width: 75%; height: 5mm; "></div>
+            <div style="display: table-cell; width: 10%; height: 5mm; "><span class="Label" >FECHA: </span></div>
+            <div style="display: table-cell; width: 15%; height: 5mm; text-align: right;"><span id="Date" class="Entry">21-Mar-2017</span></div>
+        </div>
+    </div>
+    
+    <div style="display: table; overflow:hidden; width: 205.9mm; height: 18mm; border: 1px solid black;margin: 0mm 5mm 0mm 5mm;">
+        <div style="display: table-row; height: 5mm; overflow: hidden;">
+            <div style="display: table-cell; height: 5mm; "><span class="Label" >CONCEPTO: </span></div>
+        </div>
+        <div style="display: table-row; height: 13mm; overflow: hidden;">
+            <div style="display: table-cell; height: 13mm; text-align: justify;"><span id="Concept" class="Entry" >Default</span></div>
+        </div>
+    </div>
+
+    <div style="display: table; width: 205.9mm; height: 5.5mm; overflow: hidden; border: 1px solid black; border-top: none; margin: 0mm 5mm 0mm 5mm;">
+        <div style="display: table-row; height: 5.5mm; overflow: hidden;">
+            <div style="display: table-cell; text-align: center; width: 33mm; height: 5.5mm; overflow: hidden;"><span class="Label">CODIGO</span></div>
+            <div style="display: table-cell; text-align: center; height: 5.5mm; overflow: hidden; border-left: 1px black solid;"><span class="Label">NOMBRE DE LA CUENTA</span></div>
+            <div style="display: table-cell; text-align: center; width: 33mm; height: 5.5mm; overflow: hidden; border-left: 1px black solid;"><span class="Label">PARCIAL</span></div>
+            <div style="display: table-cell; text-align: center; width: 33mm; height: 5.5mm; overflow: hidden; border-left: 1px black solid;"><span class="Label">DEBE</span></div>
+            <div style="display: table-cell; text-align: center; width: 33mm; height: 5.5mm; overflow: hidden; border-left: 1px black solid;"><span class="Label">HABER</span></div>
+        </div>
+    </div>
+    
+        
+<script type='text/javascript'>
+    
+    for (var i=0; i<=window.Records-1; i++)
+    {
+        if (i!==38)
+        {
+            document.writeln('\
+                <div style="display: table; width: 205.9mm; height: 5mm; overflow: hidden; border: 1px solid black; border-top: none; margin: 0mm 5mm 0mm 5mm;">\
+                    <div style="display: table-row">\
+                        <div style="display: table-cell; text-align: right; width: 33mm; height: 5.5mm; overflow: hidden;"><span id="%s0" class="Entry" style="height: 5mm; overflow: hidden; font-size: 11pt;"> </span></div>\
+                        <div style="display: table-cell; text-align: left; height: 5mm; overflow: hidden; border-left: 1px black solid;"><span id="%s1" class="Entry" style="height: 5mm; overflow: hidden; font-size: 11pt;"> </span></div>\
+                        <div style="display: table-cell; text-align: right; width: 33mm; height: 5mm; overflow: hidden; border-left: 1px black solid;"><span id="%s2" class="Entry" style="height: 5mm; overflow: hidden; font-size: 11pt;"> </div>\
+                        <div style="display: table-cell; text-align: right; width: 33mm; height: 5mm; overflow: hidden; border-left: 1px black solid;"><span id="%s3" class="Entry" style="height: 5mm; overflow: hidden; font-size: 11pt;"> </span></div>\
+                        <div style="display: table-cell; text-align: right; width: 33mm; height: 5mm; overflow: hidden; border-left: 1px black solid;"><span id="%s4" class="Entry" style="height: 5mm; overflow: hidden; font-size: 11pt;"> </span></div>\
+                    </div>\
+                </div>\
+            '.replace("%s0", "Code"+i).replace ("%s1", "Name"+i).replace("%s2", "Partial"+i).replace("%s3", "Debit"+i).replace("%s4", "Credit"+i));
+        }
+
+        if (i===37)
+        {
+            document.writeln('<div style="page-break-before: always;"> </div>');
+        }
+
+        if (i===38)
+        {
+             document.writeln('\
+                <div style="display: table; width: 205.9mm; max-height: 5mm; overflow: hidden; border: 1px solid black; margin: 5mm 5mm 0mm 5mm;">\
+                    <div style="display: table-row; max-height: 5mm">\
+                        <div style="display: table-cell; text-align: right; width: 33mm; max-height: 5mm; overflow: hidden;"><span id="%s0" class="Entry" style="height: 5mm; overflow: hidden; font-size: 11pt;"> </span></div>\
+                        <div style="display: table-cell; text-align: left; max-height: 5mm; overflow: hidden; border-left: 1px black solid;"><span id="%s1" class="Entry" style="height: 5mm; overflow: hidden; font-size: 11pt;"> </span></div>\
+                        <div style="display: table-cell; text-align: right; width: 33mm; max-height: 5mm; overflow: hidden; border-left: 1px black solid;"><span id="%s2" class="Entry" style="height: 5mm; overflow: hidden; font-size: 11pt;"> </div>\
+                        <div style="display: table-cell; text-align: right; width: 33mm; max-height: 5mm; overflow: hidden; border-left: 1px black solid;"><span id="%s3" class="Entry" style="height: 5mm; overflow: hidden; font-size: 11pt;"> </span></div>\
+                        <div style="display: table-cell; text-align: right; width: 33mm; max-height: 5mm; overflow: hidden; border-left: 1px black solid;"><span id="%s4" class="Entry" style="height: 5mm; overflow: hidden; font-size: 11pt;"> </span></div>\
+                    </div>\
+                </div>\
+            '.replace("%s0", "Code"+i).replace ("%s1", "Name"+i).replace("%s2", "Partial"+i).replace("%s3", "Debit"+i).replace("%s4", "Credit"+i));
+        }
+
+        if (i===window.Records-1)
+        {
+            if (i===37)
+            {
+                document.writeln('\
+                <div style="display: table; width: 205.9mm; height: 5.5mm; overflow: hidden; border: 1px solid black; margin: 5mm 5mm 0mm 5mm;">\
+                    <div style="display: table-row; height: 5.5mm; overflow: hidden;">\
+                        <div style="display: table-cell; text-align: center; height: 5.5mm; overflow: hidden;"><span class="Label">SUMAS IGUALES</span></div>\
+                        <div style="display: table-cell; text-align: center; width: 33mm; max-height: 5.5mm; overflow: hidden; border-left: 1px black solid;"><span class="Label"> </span></div>\
+                        <div style="display: table-cell; text-align: center; width: 33mm; max-height: 5.5mm; overflow: hidden; border-left: 1px black solid;"><span id="EqSumDebit" class="Label"> </span></div>\
+                        <div style="display: table-cell; text-align: center; width: 33mm; max-height: 5.5mm; overflow: hidden; border-left: 1px black solid;"><span id="EqSumCredit" class="Label"> </span></div>\
+                    </div>\
+                </div>');
+            }
+            else
+            {
+                document.writeln('\
+                <div style="display: table; width: 205.9mm; height: 5.5mm; overflow: hidden; border: 1px solid black; border-top: none; margin: 0mm 5mm 0mm 5mm;">\
+                    <div style="display: table-row; height: 5.5mm; overflow: hidden;">\
+                        <div style="display: table-cell; text-align: center; height: 5.5mm; overflow: hidden;"><span class="Label">SUMAS IGUALES</span></div>\
+                        <div style="display: table-cell; text-align: center; width: 33mm; max-height: 5.5mm; overflow: hidden; border-left: 1px black solid;"><span class="Label"></span></div>\
+                        <div style="display: table-cell; text-align: center; width: 33mm; max-height: 5.5mm; overflow: hidden; border-left: 1px black solid;"><span id="EqSumDebit" class="Label"> </span></div>\
+                        <div style="display: table-cell; text-align: center; width: 33mm; max-height: 5.5mm; overflow: hidden; border-left: 1px black solid;"><span id="EqSumCredit" class="Label"> </span></div>\
+                    </div>\
+                </div>');
+            }
+        }
+    }
+</script>
+
+
+    
+  </body>
+</html>

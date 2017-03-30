@@ -60,7 +60,32 @@ CREATE TABLE IF NOT EXISTS "AccountingNoteRecord"
 
 CREATE VIEW "AccountingNoteAll" AS SELECT "Number", "Date", "Concept", "AccountingAccount"."Code", "AccountingAccount"."Name", "Partial", "Debit", "Credit" FROM "AccountingNote" INNER JOIN "AccountingNoteRecord" ON "AccountingNote"."Id"="AccountingNoteRecord"."AccountingNoteId" INNER JOIN "AccountingAccount" ON "AccountingAccount"."Id"="AccountingNoteRecord"."AccountingAccountId";
 
+
+--acounting income--
+CREATE TABLE IF NOT EXISTS "AccountingIncome"
+(
+    "Id" BIGSERIAL PRIMARY KEY,
+    "Number" BIGINT UNIQUE NOT NULL,
+    "Date" DATE,
+    "Concept" VARCHAR(256)
+);
+
+CREATE TABLE IF NOT EXISTS "AccountingIncomeRecord"
+(
+    "AccountingIncomeId" BIGSERIAL NOT NULL REFERENCES "AccountingIncome" ("Id") ON UPDATE CASCADE ON DELETE CASCADE,
+    "AccountingAccountId" BIGSERIAL NOT NULL REFERENCES "AccountingAccount" ("Id") ON UPDATE CASCADE ON DELETE CASCADE,
+    "Partial" BIGINT,
+    "Debit" BIGINT,
+    "Credit" BIGINT,
+    PRIMARY KEY ("AccountingIncomeId", "AccountingAccountId")
+
+);
+
+CREATE VIEW "AccountingIncomeAll" AS SELECT "Number", "Date", "Concept", "AccountingAccount"."Code", "AccountingAccount"."Name", "Partial", "Debit", "Credit" FROM "AccountingIncome" INNER JOIN "AccountingIncomeRecord" ON "AccountingIncome"."Id"="AccountingIncomeRecord"."AccountingIncomeId" INNER JOIN "AccountingAccount" ON "AccountingAccount"."Id"="AccountingIncomeRecord"."AccountingAccountId";
+
+
 INSERT INTO "AuthGroup" ("Name") VALUES ('accounting');
 INSERT INTO "AppRole" ("Image", "Label", "Name", "GroupId") SELECT 'basket.svg', 'Cuentas', 'cuentas', "AuthGroup"."Id" AS "GroupId" FROM "AuthGroup" WHERE "AuthGroup"."Name"='accounting'; 
 INSERT INTO "AppRole" ("Image", "Label", "Name", "GroupId") SELECT 'stock_tasks.svg', 'Notas', 'accountingnotes', "AuthGroup"."Id" AS "GroupId" FROM "AuthGroup" WHERE "AuthGroup"."Name"='accounting';
 INSERT INTO "AppRole" ("Image", "Label", "Name", "GroupId") SELECT 'text-editor.svg', 'Cedeg', 'cedeg', "AuthGroup"."Id" AS "GroupId" FROM "AuthGroup" WHERE "AuthGroup"."Name"='accounting'; 
+INSERT INTO "AppRole" ("Image", "Label", "Name", "GroupId") SELECT 'hexedit.svg', 'Comping', 'comping', "AuthGroup"."Id" AS "GroupId" FROM "AuthGroup" WHERE "AuthGroup"."Name"='accounting'; 
