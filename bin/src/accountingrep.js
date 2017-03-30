@@ -23,7 +23,7 @@ function accountingrep ()
     this.ReportType = new Gwt.Gui.IconSelectBox (Gwt.Core.Contrib.Images+"appbar.notification.star.svg", "Tipo de Reporte", [{"Text": "Comprobante de Diario", "Value": "C.D"},]);
     this.layout.Add (this.ReportType);
     
-    this.labelDateBegin = new Gwt.Gui.StaticText ("Fecha Inicial");
+    this.labelDateBegin = new Gwt.Gui.StaticText ("Desde");
     this.labelDateBegin.SetExpand (true);
     this.layout.Add (this.labelDateBegin);
     
@@ -31,7 +31,7 @@ function accountingrep ()
     this.dateBegin.Now ();
     this.layout.Add (this.dateBegin);
     
-    this.labelDateEnd = new Gwt.Gui.StaticText ("Fecha Final");
+    this.labelDateEnd = new Gwt.Gui.StaticText ("Hasta");
     this.labelDateBegin.SetExpand (true);
     this.layout.Add (this.labelDateEnd);
     
