@@ -107,7 +107,7 @@ if Method == "Update" then
     local Concept = Http.Request ("Concept");
 
     local Q = Sql.Query;
-    Q:New ([[UPDATE "AccountingIncome SET "Date"=?, "Concept"=? WHERE "Number"=?;]]);
+    Q:New ([[UPDATE "AccountingIncome" SET "Date"=?, "Concept"=? WHERE "Number"=?;]]);
     
     Q:SetString (Date);
     Q:SetString (Concept);
