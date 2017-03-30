@@ -1,4 +1,4 @@
-accountingnotes = (function ()
+comping = (function ()
 {
 var instance;
 
