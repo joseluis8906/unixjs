@@ -436,9 +436,9 @@ return new function ()
     {
         if(instance === undefined)
         {
-            instance = new accountingnotes();
+            instance = new comping();
             instance.Open ();
-            Gwt.Core.Contrib.SetActiveApp (window.accountingnotes);
+            Gwt.Core.Contrib.SetActiveApp (window.comping);
         }
         else
         {
