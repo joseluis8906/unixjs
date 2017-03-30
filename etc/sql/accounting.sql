@@ -89,3 +89,4 @@ INSERT INTO "AppRole" ("Image", "Label", "Name", "GroupId") SELECT 'basket.svg',
 INSERT INTO "AppRole" ("Image", "Label", "Name", "GroupId") SELECT 'stock_tasks.svg', 'Notas', 'accountingnotes', "AuthGroup"."Id" AS "GroupId" FROM "AuthGroup" WHERE "AuthGroup"."Name"='accounting';
 INSERT INTO "AppRole" ("Image", "Label", "Name", "GroupId") SELECT 'text-editor.svg', 'Cedeg', 'cedeg', "AuthGroup"."Id" AS "GroupId" FROM "AuthGroup" WHERE "AuthGroup"."Name"='accounting'; 
 INSERT INTO "AppRole" ("Image", "Label", "Name", "GroupId") SELECT 'hexedit.svg', 'Comping', 'comping', "AuthGroup"."Id" AS "GroupId" FROM "AuthGroup" WHERE "AuthGroup"."Name"='accounting'; 
+INSERT INTO "AppRole" ("Image", "Label", "Name", "GroupId") SELECT 'artha.svg', 'Reportes', 'accountingrep', "AuthGroup"."Id" AS "GroupId" FROM "AuthGroup" WHERE "AuthGroup"."Name"='accounting'; 
