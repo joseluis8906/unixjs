@@ -87,7 +87,7 @@ accountingrep.prototype.Print = function ()
 //print response
 accountingrep.prototype.PrintResponse = function (Res)
 {
-    
+    console (this.SortData(Res));
     //this.Report = Gwt.Core.Contrib.LoadDocument ("/documents/daily.html?records=%0".replace("%0", Records));
     //this.Report.addEventListener ("load", this.ReportLoad.bind (this));
 };
@@ -156,41 +156,87 @@ accountingrep.prototype.SortData = function (Res)
 
     var Sorted = [];
 
-    for (var i = 0; i < Res.length; i++)
+    if (Res.Notes.length > 0)
     {
-        if (Number(Res[i].Debit) !== 0)
+        var DoC;
+        for (var i = 0; i < Res.Notes.length; i++)
         {
-            Debits.push (Res[i]);
-        }
-        else if (Number(Res[i].Credit) !== 0)
-        {
-            Credits.push (Res[i]);
+            if (Number(Res.Notes[i].Debit) !== 0)
+            {
+                for (var j = 0; j < Debits.length; j++)
+                {
+                    if (Res.Notes[i].Code === Debits[j].Code)
+                    {
+                        Debits[j].Debit += Res.Notes[i].Debit;
+                        break;
+                    }
+                    
+                    if (j == Debits.length-1 )
+                    {
+                        Debits.push (Res.Notes[i]);
+                        break;
+                    }
+                }
+                DoC = "Debit";
+            }
+            else if (Number(Res.Notes[i].Credit) !== 0)
+            {
+                for (var j = 0; j < Credits.length; j++)
+                {
+                    if (Res.Notes[i].Code === Credits[j].Code)
+                    {
+                        Credits[j].Credit += Res.Notes[i].Credit;
+                        break;
+                    }
+                    if (j == Debits.length-1 )
+                    {
+                        Credits.push (Res.Notes[i]);
+                        break;
+                    }
+                }
+                DoC = "Credit";
+            }
+            else
+            {
+                if (DoC==="Debit")
+                {
+                    for (var j = 0; j < Debits.length; j++)
+                    {
+                        if (Res.Notes[i].Code === Debits[j].Code)
+                        {
+                            Debits[j].Debit += Res.Notes[i].Debit;
+                            break;
+                        }
+                    
+                        if (j == Debits.length-1 )
+                        {
+                            Debits.push (Res.Notes[i]);
+                            break;
+                        }
+                    }
+                }
+                else if (DoC==="Credit")
+                {
+                    for (var j = 0; j < Credits.length; j++)
+                    {
+                        if (Res.Notes[i].Code === Credits[j].Code)
+                        {
+                            Credits[j].Credit += Res.Notes[i].Credit;
+                            break;
+                        }
+                        if (j == Debits.length-1 )
+                        {
+                            Credits.push (Res.Notes[i]);
+                            break;
+                        }
+                    }
+                }
+            }
         }
     }
 
     
-
-    for (var i = 0; i < Debits.length; i++)
-    {
-        for (var j = 0; j < Res.length; j++)
-        {
-            if (Res[j].Code.startsWith(Debits[i].Code))
-            {
-                Sorted.push (Res[j]);
-            }
-        }
-    }
-
-    for (var i = 0; i < Credits.length; i++)
-    {
-        for (var j = 0; j < Res.length; j++)
-        {
-            if (Res[j].Code.startsWith(Credits[i].Code))
-            {
-                Sorted.push (Res[j]);
-            }
-        }
-    }
+    Sorted = Debits.concat (Credits);
 
     return Sorted;
 };
