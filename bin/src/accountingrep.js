@@ -163,36 +163,50 @@ accountingrep.prototype.SortData = function (Res)
         {
             if (Number(Res.Notes[i].Debit) !== 0)
             {
-                for (var j = 0; j < Debits.length; j++)
+                if (Debits.length > 0)
                 {
-                    if (Res.Notes[i].Code === Debits[j].Code)
+                    for (var j = 0; j < Debits.length; j++)
                     {
-                        Debits[j].Debit += Res.Notes[i].Debit;
-                        break;
-                    }
+                        if (Res.Notes[i].Code === Debits[j].Code)
+                        {
+                            Debits[j].Debit += Res.Notes[i].Debit;
+                            break;
+                        }
                     
-                    if (j == Debits.length-1 )
-                    {
-                        Debits.push (Res.Notes[i]);
-                        break;
+                        if (j == Debits.length-1 )
+                        {
+                            Debits.push (Res.Notes[i]);
+                            break;
+                        }
                     }
+                }
+                else
+                {
+                    Debits.push (Res.Notes[i]);
                 }
                 DoC = "Debit";
             }
             else if (Number(Res.Notes[i].Credit) !== 0)
             {
-                for (var j = 0; j < Credits.length; j++)
+                if (Credits.length > 0)
                 {
-                    if (Res.Notes[i].Code === Credits[j].Code)
+                    for (var j = 0; j < Credits.length; j++)
                     {
-                        Credits[j].Credit += Res.Notes[i].Credit;
-                        break;
+                        if (Res.Notes[i].Code === Credits[j].Code)
+                        {
+                            Credits[j].Credit += Res.Notes[i].Credit;
+                            break;
+                        }
+                        if (j == Debits.length-1 )
+                        {
+                            Credits.push (Res.Notes[i]);
+                            break;
+                        }
                     }
-                    if (j == Debits.length-1 )
-                    {
-                        Credits.push (Res.Notes[i]);
-                        break;
-                    }
+                }
+                else 
+                {
+                    Credits.push (Res.Notes[i]);
                 }
                 DoC = "Credit";
             }
