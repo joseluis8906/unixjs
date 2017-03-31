@@ -175,3 +175,8 @@ select{
     -webkit-appearance: none;
     -moz-appearance: none;
 }
+
+.Gwt_Gui_SelectBoxItem:hover 
+{
+    background-color: rgba(240,255,2550.2);
+}
