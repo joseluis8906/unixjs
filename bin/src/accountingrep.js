@@ -87,12 +87,9 @@ accountingrep.prototype.Print = function ()
 //print response
 accountingrep.prototype.PrintResponse = function (Res)
 {
-    if (Res.length > 0)
-    {
-        console.log (Res);
-        //this.Report = Gwt.Core.Contrib.LoadDocument ("/documents/daily.html?records=%0".replace("%0", Records));
-        //this.Report.addEventListener ("load", this.ReportLoad.bind (this));
-    }
+    console.log (Res);
+    //this.Report = Gwt.Core.Contrib.LoadDocument ("/documents/daily.html?records=%0".replace("%0", Records));
+    //this.Report.addEventListener ("load", this.ReportLoad.bind (this));
 };
 
 //report load
