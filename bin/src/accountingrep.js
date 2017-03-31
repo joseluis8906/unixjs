@@ -218,7 +218,7 @@ accountingrep.prototype.SortData = function (Res)
                     {
                         if (Res.Notes[i].Code === Debits[j].Code)
                         {
-                            Debits[j].Debit += Res.Notes[i].Debit;
+                            Debits[j].Partial += Res.Notes[i].Partial;
                             break;
                         }
                     
@@ -235,7 +235,7 @@ accountingrep.prototype.SortData = function (Res)
                     {
                         if (Res.Notes[i].Code === Credits[j].Code)
                         {
-                            Credits[j].Credit += Res.Notes[i].Credit;
+                            Credits[j].Partial += Res.Notes[i].Partial;
                             break;
                         }
                         if (j == Debits.length-1 )
