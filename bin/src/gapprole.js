@@ -27,17 +27,17 @@ function gapprole ()
     this.SetLayout (this.Layout);
     
     this.Name = new Gwt.Gui.IconEntry(Gwt.Core.Contrib.Images+"appbar.console.svg", "Nombre Del App");
-    this.Name.SetTabIndex(2);
+    this.Name.SetTabIndex(1);
     this.Name.AddEvent (Gwt.Gui.Event.Keyboard.KeyPress, this.Select.bind(this));
     
     this.Image = new Gwt.Gui.IconEntry(Gwt.Core.Contrib.Images+"appbar.image.svg", "Nombre De Imagen");
-    this.Image.SetTabIndex(1);
+    this.Image.SetTabIndex(2);
     
     this.Label = new Gwt.Gui.IconEntry(Gwt.Core.Contrib.Images+"appbar.closedcaption.svg", "Etiqueta");
-    this.Label.SetTabIndex(2);
+    this.Label.SetTabIndex(3);
         
     this.Group = new Gwt.Gui.IconEntry(Gwt.Core.Contrib.Images+"appbar.group.svg", "Grupo");
-    this.Group.SetTabIndex(2);
+    this.Group.SetTabIndex(4);
     
     this.Layout.Add (this.Name);
     this.Layout.Add (this.Image);
