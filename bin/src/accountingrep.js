@@ -6,7 +6,7 @@ var instance;
 //constructor
 function accountingrep ()
 {
-    Gwt.Gui.Window.call (this, "Informes");
+    Gwt.Gui.Window.call (this, "Reporte");
 
     this.SetSize (640, 320);
     this.SetPosition (Gwt.Gui.WIN_POS_CENTER);
@@ -20,7 +20,7 @@ function accountingrep ()
     this.layout = new Gwt.Gui.VBox ();
     this.SetLayout (this.layout);
      
-    this.ReportType = new Gwt.Gui.IconSelectBox (Gwt.Core.Contrib.Images+"appbar.notification.star.svg", "Tipo de Reporte", [{"Text": "Comprobante de Diario", "Value": "C.D"},]);
+    this.ReportType = new Gwt.Gui.IconSelectBox (Gwt.Core.Contrib.Images+"appbar.notification.star.svg", "Tipo de Reporte", [{"Text": "Comprobante de Diario", "Value": "Daily"},]);
     this.layout.Add (this.ReportType);
     
     this.labelDateBegin = new Gwt.Gui.StaticText ("Desde");
@@ -77,35 +77,29 @@ accountingrep.prototype.CreateData = function ()
     return Data;
 };
 
-//insert
-accountingrep.prototype.Daily = function ()
+//print
+accountingrep.prototype.Print = function ()
 {
     var Data = this.CreateData ();
-    this.Rpc.Send (Data, this.InsertResponse.bind(this));
+    this.Rpc.Send (Data, this.PrintResponse.bind(this));
 };
 
-//insert response
-accountingrep.prototype.DailyResponse = function (Res)
+//print response
+accountingrep.prototype.PrintResponse = function (Res)
 {
     if (Res.affected_rows === 1)
     {
-        this.Print();
-    }
-};
-
-//print
-accountingrep.prototype.Print = function (Res)
-{
-    var Records = 0;
-    for (var i=0; i < this.records.length; i++)
-    {
-        if (this.records[i].code.GetText() !== "")
+        var Records = 0;
+        for (var i=0; i < this.records.length; i++)
         {
-            Records += 1;
+            if (this.records[i].code.GetText() !== "")
+            {
+                Records += 1;
+            }
         }
+        this.Report = Gwt.Core.Contrib.LoadDocument ("/documents/daily.html?records=%0".replace("%0", Records));
+        this.Report.addEventListener ("load", this.ReportLoad.bind (this));
     }
-    this.Report = Gwt.Core.Contrib.LoadDocument ("/documents/daily.html?records=%0".replace("%0", Records));
-    this.Report.addEventListener ("load", this.ReportLoad.bind (this));
 };
 
 //report load
