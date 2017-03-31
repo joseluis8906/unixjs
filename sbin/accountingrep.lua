@@ -24,19 +24,20 @@ if Method == "Daily" then
 
     local Q = Sql.Query;
     
-    Q:New ([[SELECT * FROM "AccountingNoteAll" WHERE "Date">=?::DATE AND "Date"<=?::DATE ORDER BY "Code" ASC;]]);
+    Q:New ([[SELECT "Number", "Date", "Code", "Name", "Partial", "Debit", "Credit" FROM "AccountingDisbVouAll" WHERE "Date">=?::DATE AND "Date"<=?::DATE ORDER BY "Number" ASC, "Code" ASC;]]);
     Q:SetString (DateBegin);
     Q:SetString (DateEnd);
     local R1 = db:query (Q.Stm);
-    local Res = {}
-    Res.Notes = R1;
 
-    Q:New ([[SELECT * FROM "AccountingDisbVouAll" WHERE "Date">=?::DATE AND "Date"<=?::DATE ORDER BY "Code" ASC;]]);
+    Q:New ([[SELECT "Number", "Date", "Code", "Name", "Partial", "Debit", "Credit" FROM "AccountingNoteAll" WHERE "Date">=?::DATE AND "Date"<=?::DATE ORDER BY "Number" ASC, "Code" ASC;]]);
     Q:SetString (DateBegin);
     Q:SetString (DateEnd);
     local R2 = db:query (Q.Stm);
-    Res.DisbVous = R2;
 
+    local Res = {} 
+    Res.DisbVus = R1;
+    Res.Notes = R2;
+    
     Http.Response (Res);
     return;
 end    

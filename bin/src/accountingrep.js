@@ -87,7 +87,7 @@ accountingrep.prototype.Print = function ()
 //print response
 accountingrep.prototype.PrintResponse = function (Res)
 {
-    console.log (Res);
+    
     //this.Report = Gwt.Core.Contrib.LoadDocument ("/documents/daily.html?records=%0".replace("%0", Records));
     //this.Report.addEventListener ("load", this.ReportLoad.bind (this));
 };
@@ -167,6 +167,8 @@ accountingrep.prototype.SortData = function (Res)
             Credits.push (Res[i]);
         }
     }
+
+    
 
     for (var i = 0; i < Debits.length; i++)
     {
