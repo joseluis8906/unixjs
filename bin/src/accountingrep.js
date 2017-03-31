@@ -87,18 +87,11 @@ accountingrep.prototype.Print = function ()
 //print response
 accountingrep.prototype.PrintResponse = function (Res)
 {
-    if (Res.affected_rows === 1)
+    if (Res.length > 0)
     {
-        var Records = 0;
-        for (var i=0; i < this.records.length; i++)
-        {
-            if (this.records[i].code.GetText() !== "")
-            {
-                Records += 1;
-            }
-        }
-        this.Report = Gwt.Core.Contrib.LoadDocument ("/documents/daily.html?records=%0".replace("%0", Records));
-        this.Report.addEventListener ("load", this.ReportLoad.bind (this));
+        console.log (Res);
+        //this.Report = Gwt.Core.Contrib.LoadDocument ("/documents/daily.html?records=%0".replace("%0", Records));
+        //this.Report.addEventListener ("load", this.ReportLoad.bind (this));
     }
 };
 
