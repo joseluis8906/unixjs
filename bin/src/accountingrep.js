@@ -138,7 +138,7 @@ accountingrep.prototype.SortData = function (Res)
     var Credits = [];
 
     var Sorted = [];
-/*
+
     if (Res.Notes.length > 0)
     {
         var DoC;
@@ -233,8 +233,8 @@ accountingrep.prototype.SortData = function (Res)
     }
 
     Sorted = Debits.concat (Credits);
-*/
 
+/*
     Debits = [];
     Credits = [];
 
@@ -332,7 +332,7 @@ accountingrep.prototype.SortData = function (Res)
     }
 
     Sorted = Sorted.concat(Debits.concat(Credits));
-
+*/
     return Sorted;
 };
 
