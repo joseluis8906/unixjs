@@ -35,7 +35,7 @@ if Method == "Daily" then
     local R2 = db:query (Q.Stm);
 
     local Res = {} 
-    Res.DisbVus = R1;
+    Res.DisbVous = R1;
     Res.Notes = R2;
     
     Http.Response (Res);

@@ -249,9 +249,106 @@ accountingrep.prototype.SortData = function (Res)
         }
     }
 
-    
     Sorted = Debits.concat (Credits);
 
+    Debits = [];
+    Credits = [];
+
+    if (Res.DisbVous.length > 0)
+    {
+        var DoC;
+        for (var i = 0; i < Res.DisbVous.length; i++)
+        {
+            if (Number(Res.DisbVous[i].Debit) !== 0)
+            {
+                if (Debits.length > 0)
+                {
+                    for (var j = 0; j < Debits.length; j++)
+                    {
+                        if (Res.DisbVous[i].Code === Debits[j].Code)
+                        {
+                            Debits[j].Debit += Res.DisbVous[i].Debit;
+                            break;
+                        }
+                    
+                        if (j == Debits.length-1 )
+                        {
+                            Debits.push (Res.DisbVous[i]);
+                            break;
+                        }
+                    }
+                }
+                else
+                {
+                    Debits.push (Res.DisbVous[i]);
+                }
+                DoC = "Debit";
+            }
+            else if (Number(Res.DisbVous[i].Credit) !== 0)
+            {
+                if (Credits.length > 0)
+                {
+                    for (var j = 0; j < Credits.length; j++)
+                    {
+                        if (Res.DisbVous[i].Code === Credits[j].Code)
+                        {
+                            Credits[j].Credit += Res.DisbVous[i].Credit;
+                            break;
+                        }
+                        if (j == Debits.length-1 )
+                        {
+                            Credits.push (Res.DisbVous[i]);
+                            break;
+                        }
+                    }
+                }
+                else 
+                {
+                    Credits.push (Res.DisbVous[i]);
+                }
+                DoC = "Credit";
+            }
+            else
+            {
+                if (DoC==="Debit")
+                {
+                    for (var j = 0; j < Debits.length; j++)
+                    {
+                        if (Res.DisbVous[i].Code === Debits[j].Code)
+                        {
+                            Debits[j].Partial += Res.DisbVous[i].Partial;
+                            break;
+                        }
+                    
+                        if (j == Debits.length-1 )
+                        {
+                            Debits.push (Res.DisbVous[i]);
+                            break;
+                        }
+                    }
+                }
+                else if (DoC==="Credit")
+                {
+                    for (var j = 0; j < Credits.length; j++)
+                    {
+                        if (Res.DisbVous[i].Code === Credits[j].Code)
+                        {
+                            Credits[j].Partial += Res.DisbVous[i].Partial;
+                            break;
+                        }
+                        if (j == Debits.length-1 )
+                        {
+                            Credits.push (Res.DisbVous[i]);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    Sorted = Sorted.concat(Debits.concat(Credits));
+    
     return Sorted;
 };
 
