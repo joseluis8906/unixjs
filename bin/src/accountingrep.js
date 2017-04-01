@@ -12,6 +12,7 @@ function accountingrep ()
     this.SetPosition (Gwt.Gui.WIN_POS_CENTER);
     this.SetBorderSpacing (12);
     this.Rpc = new Gwt.Core.Rpc ("/accountingrep/");
+    this.Records;
     
     this.EnableMenu ();
     this.AddMenuItem (Gwt.Core.Contrib.Images + "appbar.printer.svg", "Imprimir", this.Print.bind(this));
@@ -87,42 +88,22 @@ accountingrep.prototype.Print = function ()
 //print response
 accountingrep.prototype.PrintResponse = function (Res)
 {
-    console.log (this.SortData(Res));
-    //this.Report = Gwt.Core.Contrib.LoadDocument ("/documents/daily.html?records=%0".replace("%0", Records));
-    //this.Report.addEventListener ("load", this.ReportLoad.bind (this));
+    this.Records = this.SortData(Res);
+    this.Report = Gwt.Core.Contrib.LoadDocument ("/documents/daily.html?records=%0".replace("%0", this.Records.length));
+    this.Report.addEventListener ("load", this.ReportLoad.bind (this));
 };
 
 //report load
 accountingrep.prototype.ReportLoad = function ()
 {
     var doc = this.Report.contentWindow.document;
-    doc.getElementById ("Number").textContent = Gwt.Core.Contrib.ZFill(this.number.GetText(), 4);
-    doc.getElementById ("Date").textContent = this.date.GetText ();
-    doc.getElementById ("Concept").textContent = this.concept.GetText ();
+    //doc.getElementById ("Number").textContent = Gwt.Core.Contrib.ZFill(this.number.GetText(), 4);
+    //doc.getElementById ("Date").textContent = this.date.GetText ();
     
     var TotalDebit = 0;
-    var TotalCredit = 0;
+    var TotalCredit = 0; 
 
-    var Records = [];
-    for (var i=0; i < this.records.length; i++)
-    {
-        if (this.records[i].code.GetText() !== "")
-        {
-            TotalDebit += Number(this.records[i].debit.GetText ());
-            TotalCredit += Number(this.records[i].credit.GetText());
-            Records.push({
-                "Code": this.records[i].code.GetText (),
-                "Name": this.records[i].name.GetText (),
-                "Partial": Gwt.Core.Contrib.TextToMonetary (this.records[i].partial.GetText ()),
-                "Debit": Gwt.Core.Contrib.TextToMonetary (this.records[i].debit.GetText ()),
-                "Credit": Gwt.Core.Contrib.TextToMonetary (this.records[i].credit.GetText())
-            });
-        }
-    }
-    
-    var SortedRecords = this.SortData (Records);
-
-    for (var i=0; i < SortedRecords.length; i++)
+    for (var i=0; i < this.Records.length; i++)
     {
         doc.getElementById ("Code"+i).textContent = SortedRecords[i].Code;
         doc.getElementById ("Name"+i).textContent = SortedRecords[i].Name;
@@ -144,7 +125,7 @@ accountingrep.prototype.ReportLoad = function ()
 accountingrep.prototype.Reset = function ()
 {
     this.ReportType.SetText ("");
-    this.dateBegin.SetText ("");
+    this.dateBegin.Now ();
     this.dateEnd.Now ();
 };
 
@@ -348,7 +329,7 @@ accountingrep.prototype.SortData = function (Res)
     }
 
     Sorted = Sorted.concat(Debits.concat(Credits));
-    
+
     return Sorted;
 };
 
