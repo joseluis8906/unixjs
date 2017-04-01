@@ -110,6 +110,8 @@ accountingrep.prototype.ReportLoad = function ()
         doc.getElementById ("Partial"+i).textContent = (this.Records[i].Partial === "$0") ? "" : this.Records[i].Partial;
         doc.getElementById ("Debit"+i).textContent = (this.Records[i].Debit  === "$0") ? "" : this.Records[i].Debit;
         doc.getElementById ("Credit"+i).textContent = (this.Records[i].Credit === "$0") ? "" : this.Records[i].Credit;
+        TotalDebit += Number (this.Records[i].Debit);
+        TotalCredit += Number (this.Records[i].Credit);
     }
     
     doc.getElementById ("EqSumDebit").textContent = Gwt.Core.Contrib.TextToMonetary(TotalDebit.toString());
