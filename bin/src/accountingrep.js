@@ -105,11 +105,11 @@ accountingrep.prototype.ReportLoad = function ()
 
     for (var i=0; i < this.Records.length; i++)
     {
-        doc.getElementById ("Code"+i).textContent = SortedRecords[i].Code;
-        doc.getElementById ("Name"+i).textContent = SortedRecords[i].Name;
-        doc.getElementById ("Partial"+i).textContent = (SortedRecords[i].Partial === "$0") ? "" : SortedRecords[i].Partial;
-        doc.getElementById ("Debit"+i).textContent = (SortedRecords[i].Debit  === "$0") ? "" : SortedRecords[i].Debit;
-        doc.getElementById ("Credit"+i).textContent = (SortedRecords[i].Credit === "$0") ? "" : SortedRecords[i].Credit;
+        doc.getElementById ("Code"+i).textContent = this.Records[i].Code;
+        doc.getElementById ("Name"+i).textContent = this.Records[i].Name;
+        doc.getElementById ("Partial"+i).textContent = (this.Records[i].Partial === "$0") ? "" : this.Records[i].Partial;
+        doc.getElementById ("Debit"+i).textContent = (this.Records[i].Debit  === "$0") ? "" : this.Records[i].Debit;
+        doc.getElementById ("Credit"+i).textContent = (this.Records[i].Credit === "$0") ? "" : this.Records[i].Credit;
     }
     
     doc.getElementById ("EqSumDebit").textContent = Gwt.Core.Contrib.TextToMonetary(TotalDebit.toString());
