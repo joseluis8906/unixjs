@@ -139,200 +139,40 @@ accountingrep.prototype.SortData = function (Res)
 
     var Sorted = [];
 
-    if (Res.Notes.length > 0)
+    for (var i = 0; i < Res.length; i++)
     {
-        var DoC;
-        for (var i = 0; i < Res.Notes.length; i++)
+        if (Number(Res[i].Debit) !== 0)
         {
-            if (Number(Res.Notes[i].Debit) !== 0)
+            Debits.push (Res[i]);
+        }
+        else if (Number(Res[i].Credit) !== 0)
+        {
+            Credits.push (Res[i]);
+        }
+    }
+
+    for (var i = 0; i < Debits.length; i++)
+    {
+        for (var j = 0; j < Res.length; j++)
+        {
+            if (Res[j].Code.startsWith(Debits[i].Code))
             {
-                if (Debits.length > 0)
-                {
-                    for (var j = 0; j < Debits.length; j++)
-                    {
-                        if (Res.Notes[i].Code === Debits[j].Code)
-                        {
-                            Debits[j].Debit += Res.Notes[i].Debit;
-                            break;
-                        }
-                    
-                        if (j == Debits.length-1 )
-                        {
-                            Debits.push (Res.Notes[i]);
-                            break;
-                        }
-                    }
-                }
-                else
-                {
-                    Debits.push (Res.Notes[i]);
-                }
-                DoC = "Debit";
-            }
-            else if (Number(Res.Notes[i].Credit) !== 0)
-            {
-                if (Credits.length > 0)
-                {
-                    for (var j = 0; j < Credits.length; j++)
-                    {
-                        if (Res.Notes[i].Code === Credits[j].Code)
-                        {
-                            Credits[j].Credit += Res.Notes[i].Credit;
-                            break;
-                        }
-                        if (j == Debits.length-1 )
-                        {
-                            Credits.push (Res.Notes[i]);
-                            break;
-                        }
-                    }
-                }
-                else 
-                {
-                    Credits.push (Res.Notes[i]);
-                }
-                DoC = "Credit";
-            }
-            else
-            {
-                if (DoC==="Debit")
-                {
-                    for (var j = 0; j < Debits.length; j++)
-                    {
-                        if (Res.Notes[i].Code === Debits[j].Code)
-                        {
-                            Debits[j].Partial += Res.Notes[i].Partial;
-                            break;
-                        }
-                    
-                        if (j == Debits.length-1 )
-                        {
-                            Debits.push (Res.Notes[i]);
-                            break;
-                        }
-                    }
-                }
-                else if (DoC==="Credit")
-                {
-                    for (var j = 0; j < Credits.length; j++)
-                    {
-                        if (Res.Notes[i].Code === Credits[j].Code)
-                        {
-                            Credits[j].Partial += Res.Notes[i].Partial;
-                            break;
-                        }
-                        if (j == Debits.length-1 )
-                        {
-                            Credits.push (Res.Notes[i]);
-                            break;
-                        }
-                    }
-                }
+                Sorted.push (Res[j]);
             }
         }
     }
 
-    Sorted = Debits.concat (Credits);
-
-/*
-    Debits = [];
-    Credits = [];
-
-    if (Res.DisbVous.length > 0)
+    for (var i = 0; i < Credits.length; i++)
     {
-        var DoC;
-        for (var i = 0; i < Res.DisbVous.length; i++)
+        for (var j = 0; j < Res.length; j++)
         {
-            if (Number(Res.DisbVous[i].Debit) !== 0)
+            if (Res[j].Code.startsWith(Credits[i].Code))
             {
-                if (Debits.length > 0)
-                {
-                    for (var j = 0; j < Debits.length; j++)
-                    {
-                        if (Res.DisbVous[i].Code === Debits[j].Code)
-                        {
-                            Debits[j].Debit += Res.DisbVous[i].Debit;
-                            break;
-                        }
-                    
-                        if (j == Debits.length-1 )
-                        {
-                            Debits.push (Res.DisbVous[i]);
-                            break;
-                        }
-                    }
-                }
-                else
-                {
-                    Debits.push (Res.DisbVous[i]);
-                }
-                DoC = "Debit";
-            }
-            else if (Number(Res.DisbVous[i].Credit) !== 0)
-            {
-                if (Credits.length > 0)
-                {
-                    for (var j = 0; j < Credits.length; j++)
-                    {
-                        if (Res.DisbVous[i].Code === Credits[j].Code)
-                        {
-                            Credits[j].Credit += Res.DisbVous[i].Credit;
-                            break;
-                        }
-                        if (j == Debits.length-1 )
-                        {
-                            Credits.push (Res.DisbVous[i]);
-                            break;
-                        }
-                    }
-                }
-                else 
-                {
-                    Credits.push (Res.DisbVous[i]);
-                }
-                DoC = "Credit";
-            }
-            else
-            {
-                if (DoC==="Debit")
-                {
-                    for (var j = 0; j < Debits.length; j++)
-                    {
-                        if (Res.DisbVous[i].Code === Debits[j].Code)
-                        {
-                            Debits[j].Partial += Res.DisbVous[i].Partial;
-                            break;
-                        }
-                    
-                        if (j == Debits.length-1 )
-                        {
-                            Debits.push (Res.DisbVous[i]);
-                            break;
-                        }
-                    }
-                }
-                else if (DoC==="Credit")
-                {
-                    for (var j = 0; j < Credits.length; j++)
-                    {
-                        if (Res.DisbVous[i].Code === Credits[j].Code)
-                        {
-                            Credits[j].Partial += Res.DisbVous[i].Partial;
-                            break;
-                        }
-                        if (j == Debits.length-1 )
-                        {
-                            Credits.push (Res.DisbVous[i]);
-                            break;
-                        }
-                    }
-                }
+                Sorted.push (Res[j]);
             }
         }
     }
 
-    Sorted = Sorted.concat(Debits.concat(Credits));
-*/
     return Sorted;
 };
 
