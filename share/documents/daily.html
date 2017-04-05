@@ -51,6 +51,28 @@
                     </style>'
             );
         }
+        else if (window.Records >= 80)
+        {
+            document.write('\
+                <style>\
+                    @page\
+                    {\
+                        size: letter portrait;\
+                        margin: 0mm;\
+                        padding: 0mm;\
+                    }\
+                    body\
+                    {\
+                        margin: auto;\
+                        font-family: Calibri;\
+                        background-color: white;\
+                        width: 215.9mm;\
+                        height: 838.2mm;\
+                        overflow: hidden;\
+                    }\
+                    </style>'
+            );
+        }
     </script>
         <style>
         h1
@@ -114,7 +136,7 @@
     
     for (var i=0; i<=window.Records-1; i++)
     {
-        if (i!==41)
+        if (i!==41 || i!==87)
         {
             document.writeln('\
                 <div style="display: table; width: 205.9mm; height: 5mm; overflow: hidden; border: 1px solid black; border-top: none; margin: 0mm 5mm 0mm 5mm;">\
@@ -129,12 +151,12 @@
             '.replace("%s0", "Code"+i).replace ("%s1", "Name"+i).replace("%s2", "Partial"+i).replace("%s3", "Debit"+i).replace("%s4", "Credit"+i));
         }
 
-        if (i===40)
+        if (i===40 || i===86)
         {
             document.writeln('<div style="page-break-before: always;"> </div>');
         }
 
-        if (i===41)
+        if (i===41 || i===87)
         {
              document.writeln('\
                 <div style="display: table; width: 205.9mm; max-height: 5mm; overflow: hidden; border: 1px solid black; margin: 5mm 5mm 0mm 5mm;">\
@@ -151,7 +173,7 @@
 
         if (i===window.Records-1)
         {
-            if (i===40)
+            if (i===40 || i===86)
             {
                 document.writeln('\
                 <div style="display: table; width: 205.9mm; height: 5.5mm; overflow: hidden; border: 1px solid black; margin: 5mm 5mm 0mm 5mm;">\
