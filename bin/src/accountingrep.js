@@ -89,8 +89,7 @@ accountingrep.prototype.Print = function ()
 accountingrep.prototype.PrintResponse = function (Res)
 {
     var Registros = [].concat (Res.Notes.concat (Res.DisbVous));
-    console.log (Registros);
-    this.Records = this.SortData ();
+    this.Records = this.SortData (Registros);
     this.Report = Gwt.Core.Contrib.LoadDocument ("/documents/daily.html?records=%0".replace("%0", this.Records.length));
     this.Report.addEventListener ("load", this.ReportLoad.bind (this));
 };
@@ -168,7 +167,7 @@ accountingrep.prototype.SortData = function (Res)
         }
     }
 
-    return Sorted;
+    return Sorted.concat(Debits.concat(Credits));
 };
 
 return new function ()
