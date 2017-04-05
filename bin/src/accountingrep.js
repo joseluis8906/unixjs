@@ -209,6 +209,9 @@ accountingrep.prototype.SortData = function (Res)
         }
     }
 
+    Debits2.sortbykey ("Code");
+    Credits2.sortbykey ("Code");
+
     return Sorted.concat(Debits2.concat(Credits2));
 };
 
