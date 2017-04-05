@@ -119,9 +119,6 @@ accountingrep.prototype.ReportLoad = function ()
     
     doc.getElementById ("EqSumDebit").textContent = Gwt.Core.Contrib.TextToMonetary(TotalDebit.toString());
     doc.getElementById ("EqSumCredit").textContent = Gwt.Core.Contrib.TextToMonetary(TotalCredit.toString());
-    
-    console.log (TotalDebit);
-    console.log (TotalCredit);
 
     doc = undefined;
     this.Report = null;
