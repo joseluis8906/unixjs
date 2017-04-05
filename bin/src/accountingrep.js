@@ -88,7 +88,9 @@ accountingrep.prototype.Print = function ()
 //print response
 accountingrep.prototype.PrintResponse = function (Res)
 {
-    this.Records = this.SortData ([].concat (Res.Notes.concat (Res.DisbVous)));
+    var Registros = [].concat (Res.Notes.concat (Res.DisbVous));
+    console.log (Registros);
+    this.Records = this.SortData ();
     this.Report = Gwt.Core.Contrib.LoadDocument ("/documents/daily.html?records=%0".replace("%0", this.Records.length));
     this.Report.addEventListener ("load", this.ReportLoad.bind (this));
 };
