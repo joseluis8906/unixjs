@@ -137,8 +137,8 @@ accountingrep.prototype.Reset = function ()
 //sort data
 accountingrep.prototype.SortData = function (Res)
 {
-    var Debits = [];
-    var Credits = [];
+    var Debits1 = [];
+    var Credits1 = [];
 
     var Sorted = [];
 
@@ -148,28 +148,68 @@ accountingrep.prototype.SortData = function (Res)
     {
         if (Number(Res[i].Debit) !== 0)
         {
-            Debits.push (Res[i]);
+            Debits1.push (Res[i]);
             DoC = "Debit";
         }
         else if (Number(Res[i].Credit) !== 0)
         {
-            Credits.push (Res[i]);
+            Credits1.push (Res[i]);
             DoC = "Credit";
         }
         else
         {
             if(DoC == "Debit")
             {
-                Debits.push (Res[i]);
+                Debits1.push (Res[i]);
             }
             else
             {
-                Credits.push (Res[i])
+                Credits1.push (Res[i])
             }
         }
     }
 
-    return Sorted.concat(Debits.concat(Credits));
+    var Debits2 = [];
+    var Credits2 = [];
+
+    var Agregate = false;
+    for (var i = 0; i < Debits1.length; i++)
+    {
+        Agregate = true;
+        for (var j = 0; j < Debits2.length; j++)
+        {
+            if (Debits1[i].Code === Debits2[j].Code)
+            {
+                Debits2[j].Partial += Debits1[i].Partial;
+                Debits2[j].Debit += Debits1[i].Debit;
+                Agregate = false;
+            }
+        }
+        if (Agregate == true)
+        {
+            Debits2.push (Debits1[i]);
+        }
+    }
+
+    for (var i = 0; i < Credits1.length; i++)
+    {
+        Agregate = true;
+        for (var j = 0; j < Credits2.length; j++)
+        {
+            if (Credits1[i].Code === Credits2[j].Code)
+            {
+                Credits2[j].Partial += Credits1[i].Partial;
+                Credits2[j].Credit += Credits1[i].Credit;
+                Agregate = false;
+            }
+        }
+        if (Agregate == true)
+        {
+            Credits2.push (Credits1[i]);
+        }
+    }
+
+    return Sorted.concat(Debits2.concat(Credits2));
 };
 
 return new function ()
