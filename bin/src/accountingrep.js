@@ -88,7 +88,7 @@ accountingrep.prototype.Print = function ()
 //print response
 accountingrep.prototype.PrintResponse = function (Res)
 {
-    this.Records = Res.DisbVous;
+    this.Records = this.SortData ([].concat (Res.Notes.concat (Res.DisbVous)));
     this.Report = Gwt.Core.Contrib.LoadDocument ("/documents/daily.html?records=%0".replace("%0", this.Records.length));
     this.Report.addEventListener ("load", this.ReportLoad.bind (this));
 };
@@ -139,36 +139,29 @@ accountingrep.prototype.SortData = function (Res)
 
     var Sorted = [];
 
+    var DoC;
+
     for (var i = 0; i < Res.length; i++)
     {
         if (Number(Res[i].Debit) !== 0)
         {
             Debits.push (Res[i]);
+            DoC = "Debit";
         }
         else if (Number(Res[i].Credit) !== 0)
         {
             Credits.push (Res[i]);
+            DoC = "Credit";
         }
-    }
-
-    for (var i = 0; i < Debits.length; i++)
-    {
-        for (var j = 0; j < Res.length; j++)
+        else
         {
-            if (Res[j].Code.startsWith(Debits[i].Code))
+            if(DoC == "Debit")
             {
-                Sorted.push (Res[j]);
+                Debits.push (Res[i]);
             }
-        }
-    }
-
-    for (var i = 0; i < Credits.length; i++)
-    {
-        for (var j = 0; j < Res.length; j++)
-        {
-            if (Res[j].Code.startsWith(Credits[i].Code))
+            else
             {
-                Sorted.push (Res[j]);
+                Credits.push (Res[i])
             }
         }
     }
