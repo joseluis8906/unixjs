@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS "AccountingCompany"
     "Nit" VARCHAR (64) NOT NULL,
     "Phone" VARCHAR (16),
     "Movil" VARCHAR (16),
-    "Address" VARCHAR (64),
+    "Address" VARCHAR (64)
 );
 
 CREATE TABLE IF NOT EXISTS "AccountingAccount"
@@ -95,8 +95,8 @@ CREATE VIEW "AccountingIncomeAll" AS SELECT "Number", "Date", "Concept", "Accoun
 
 
 INSERT INTO "AuthGroup" ("Name") VALUES ('accounting');
-INSERT INTO "AppRole" ("Image", "Label", "Name", "GroupId") SELECT 'basket.svg', 'Cuentas', 'cuentas', "AuthGroup"."Id" AS "GroupId" FROM "AuthGroup" WHERE "AuthGroup"."Name"='accounting'; 
+INSERT INTO "AppRole" ("Image", "Label", "Name", "GroupId") SELECT 'basket.svg', 'Cuentas', 'cuentas', "AuthGroup"."Id" AS "GroupId" FROM "AuthGroup" WHERE "AuthGroup"."Name"='accounting';
 INSERT INTO "AppRole" ("Image", "Label", "Name", "GroupId") SELECT 'stock_tasks.svg', 'Notas', 'accountingnotes', "AuthGroup"."Id" AS "GroupId" FROM "AuthGroup" WHERE "AuthGroup"."Name"='accounting';
-INSERT INTO "AppRole" ("Image", "Label", "Name", "GroupId") SELECT 'text-editor.svg', 'Cedeg', 'cedeg', "AuthGroup"."Id" AS "GroupId" FROM "AuthGroup" WHERE "AuthGroup"."Name"='accounting'; 
-INSERT INTO "AppRole" ("Image", "Label", "Name", "GroupId") SELECT 'hexedit.svg', 'Comping', 'comping', "AuthGroup"."Id" AS "GroupId" FROM "AuthGroup" WHERE "AuthGroup"."Name"='accounting'; 
-INSERT INTO "AppRole" ("Image", "Label", "Name", "GroupId") SELECT 'artha.svg', 'Reportes', 'accountingrep', "AuthGroup"."Id" AS "GroupId" FROM "AuthGroup" WHERE "AuthGroup"."Name"='accounting'; 
+INSERT INTO "AppRole" ("Image", "Label", "Name", "GroupId") SELECT 'text-editor.svg', 'Cedeg', 'cedeg', "AuthGroup"."Id" AS "GroupId" FROM "AuthGroup" WHERE "AuthGroup"."Name"='accounting';
+INSERT INTO "AppRole" ("Image", "Label", "Name", "GroupId") SELECT 'hexedit.svg', 'Comping', 'comping', "AuthGroup"."Id" AS "GroupId" FROM "AuthGroup" WHERE "AuthGroup"."Name"='accounting';
+INSERT INTO "AppRole" ("Image", "Label", "Name", "GroupId") SELECT 'artha.svg', 'Reportes', 'accountingrep', "AuthGroup"."Id" AS "GroupId" FROM "AuthGroup" WHERE "AuthGroup"."Name"='accounting';
