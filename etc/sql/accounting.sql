@@ -1,8 +1,8 @@
 CREATE TABLE IF NOT EXISTS "AccountingCompany"
 (
     "Id" BIGSERIAL PRIMARY KEY,
+    "Nit" VARCHAR (64) NOT NULL UNIQUE,
     "Name" VARCHAR (128) NOT NULL,
-    "Nit" VARCHAR (64) NOT NULL,
     "Phone" VARCHAR (16),
     "Movil" VARCHAR (16),
     "Address" VARCHAR (64)
@@ -100,3 +100,4 @@ INSERT INTO "AppRole" ("Image", "Label", "Name", "GroupId") SELECT 'stock_tasks.
 INSERT INTO "AppRole" ("Image", "Label", "Name", "GroupId") SELECT 'text-editor.svg', 'Cedeg', 'cedeg', "AuthGroup"."Id" AS "GroupId" FROM "AuthGroup" WHERE "AuthGroup"."Name"='accounting';
 INSERT INTO "AppRole" ("Image", "Label", "Name", "GroupId") SELECT 'hexedit.svg', 'Comping', 'comping', "AuthGroup"."Id" AS "GroupId" FROM "AuthGroup" WHERE "AuthGroup"."Name"='accounting';
 INSERT INTO "AppRole" ("Image", "Label", "Name", "GroupId") SELECT 'artha.svg', 'Reportes', 'accountingrep', "AuthGroup"."Id" AS "GroupId" FROM "AuthGroup" WHERE "AuthGroup"."Name"='accounting';
+INSERT INTO "AppRole" ("Image", "Label", "Name", "GroupId") SELECT 'hwinfo.svg', 'Info Empresa', 'accountingcompay', "AuthGroup"."Id" AS "GroupId" FROM "AuthGroup" WHERE "AuthGroup"."Name"='accounting';
