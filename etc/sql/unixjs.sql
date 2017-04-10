@@ -3,7 +3,6 @@
  * Created: Jan 2, 2017
  */
 
-
 CREATE TABLE IF NOT EXISTS "AuthUser"
 (
     "Id" BIGSERIAL PRIMARY KEY,

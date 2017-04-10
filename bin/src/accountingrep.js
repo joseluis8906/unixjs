@@ -125,7 +125,6 @@ accountingrep.prototype.ReportLoad = function ()
     this.Reset ();
 };
 
-
 //reset
 accountingrep.prototype.Reset = function ()
 {

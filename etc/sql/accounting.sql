@@ -1,3 +1,13 @@
+CREATE TABLE IF NOT EXISTS "AccountingCompany"
+(
+    "Id" BIGSERIAL PRIMARY KEY,
+    "Name" VARCHAR (128) NOT NULL,
+    "Nit" VARCHAR (64) NOT NULL,
+    "Phone" VARCHAR (16),
+    "Movil" VARCHAR (16),
+    "Address" VARCHAR (64),
+);
+
 CREATE TABLE IF NOT EXISTS "AccountingAccount"
 (
     "Id" BIGSERIAL PRIMARY KEY,
