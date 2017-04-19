@@ -39,13 +39,12 @@ CREATE TABLE IF NOT EXISTS "AccountingDisbVouRecord"
 (
     "AccountingDisbVouId" BIGSERIAL NOT NULL REFERENCES "AccountingDisbVou" ("Id") ON UPDATE CASCADE ON DELETE CASCADE,
     "AccountingAccountId" BIGSERIAL NOT NULL REFERENCES "AccountingAccount" ("Id") ON UPDATE CASCADE ON DELETE CASCADE,
-    "Partial" BIGINT,
     "Debit" BIGINT,
     "Credit" BIGINT,
     PRIMARY KEY ("AccountingDisbVouId", "AccountingAccountId")
 );
 
-CREATE VIEW "AccountingDisbVouAll" AS SELECT "Number", "Place", "Date", "Holder", "Concept", "Bank", "Check", "CheckingAccount", "Amount", "AccountingAccount"."Code", "AccountingAccount"."Name", "Partial", "Debit", "Credit" FROM "AccountingDisbVou" INNER JOIN "AccountingDisbVouBank" ON "AccountingDisbVou"."Id"="AccountingDisbVouBank"."AccountingDisbVouId" INNER JOIN "AccountingDisbVouRecord" ON "AccountingDisbVou"."Id"="AccountingDisbVouRecord"."AccountingDisbVouId" INNER JOIN "AccountingAccount" ON "AccountingAccount"."Id"="AccountingDisbVouRecord"."AccountingAccountId";
+CREATE VIEW "AccountingDisbVouAll" AS SELECT "Number", "Place", "Date", "Holder", "Concept", "Bank", "Check", "CheckingAccount", "Amount", "AccountingAccount"."Code", "AccountingAccount"."Name", "Debit", "Credit" FROM "AccountingDisbVou" INNER JOIN "AccountingDisbVouBank" ON "AccountingDisbVou"."Id"="AccountingDisbVouBank"."AccountingDisbVouId" INNER JOIN "AccountingDisbVouRecord" ON "AccountingDisbVou"."Id"="AccountingDisbVouRecord"."AccountingDisbVouId" INNER JOIN "AccountingAccount" ON "AccountingAccount"."Id"="AccountingDisbVouRecord"."AccountingAccountId";
 
 
 --acounting note--
@@ -61,14 +60,13 @@ CREATE TABLE IF NOT EXISTS "AccountingNoteRecord"
 (
     "AccountingNoteId" BIGSERIAL NOT NULL REFERENCES "AccountingNote" ("Id") ON UPDATE CASCADE ON DELETE CASCADE,
     "AccountingAccountId" BIGSERIAL NOT NULL REFERENCES "AccountingAccount" ("Id") ON UPDATE CASCADE ON DELETE CASCADE,
-    "Partial" BIGINT,
     "Debit" BIGINT,
     "Credit" BIGINT,
     PRIMARY KEY ("AccountingNoteId", "AccountingAccountId")
 
 );
 
-CREATE VIEW "AccountingNoteAll" AS SELECT "Number", "Date", "Concept", "AccountingAccount"."Code", "AccountingAccount"."Name", "Partial", "Debit", "Credit" FROM "AccountingNote" INNER JOIN "AccountingNoteRecord" ON "AccountingNote"."Id"="AccountingNoteRecord"."AccountingNoteId" INNER JOIN "AccountingAccount" ON "AccountingAccount"."Id"="AccountingNoteRecord"."AccountingAccountId";
+CREATE VIEW "AccountingNoteAll" AS SELECT "Number", "Date", "Concept", "AccountingAccount"."Code", "AccountingAccount"."Name", "Debit", "Credit" FROM "AccountingNote" INNER JOIN "AccountingNoteRecord" ON "AccountingNote"."Id"="AccountingNoteRecord"."AccountingNoteId" INNER JOIN "AccountingAccount" ON "AccountingAccount"."Id"="AccountingNoteRecord"."AccountingAccountId";
 
 
 --acounting income--
@@ -84,14 +82,13 @@ CREATE TABLE IF NOT EXISTS "AccountingIncomeRecord"
 (
     "AccountingIncomeId" BIGSERIAL NOT NULL REFERENCES "AccountingIncome" ("Id") ON UPDATE CASCADE ON DELETE CASCADE,
     "AccountingAccountId" BIGSERIAL NOT NULL REFERENCES "AccountingAccount" ("Id") ON UPDATE CASCADE ON DELETE CASCADE,
-    "Partial" BIGINT,
     "Debit" BIGINT,
     "Credit" BIGINT,
     PRIMARY KEY ("AccountingIncomeId", "AccountingAccountId")
 
 );
 
-CREATE VIEW "AccountingIncomeAll" AS SELECT "Number", "Date", "Concept", "AccountingAccount"."Code", "AccountingAccount"."Name", "Partial", "Debit", "Credit" FROM "AccountingIncome" INNER JOIN "AccountingIncomeRecord" ON "AccountingIncome"."Id"="AccountingIncomeRecord"."AccountingIncomeId" INNER JOIN "AccountingAccount" ON "AccountingAccount"."Id"="AccountingIncomeRecord"."AccountingAccountId";
+CREATE VIEW "AccountingIncomeAll" AS SELECT "Number", "Date", "Concept", "AccountingAccount"."Code", "AccountingAccount"."Name", "Debit", "Credit" FROM "AccountingIncome" INNER JOIN "AccountingIncomeRecord" ON "AccountingIncome"."Id"="AccountingIncomeRecord"."AccountingIncomeId" INNER JOIN "AccountingAccount" ON "AccountingAccount"."Id"="AccountingIncomeRecord"."AccountingAccountId";
 
 
 INSERT INTO "AuthGroup" ("Name") VALUES ('accounting');
