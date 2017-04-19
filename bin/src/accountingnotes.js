@@ -360,18 +360,16 @@ accountingnotes.prototype.AutoFill = function (Res)
     if (Res.length > 0)
     {
         this.number.SetText (Res[0].Number);
-        this.date.SetDate (Res[0].Date);        
+        this.date.SetDate (Res[0].Date);
         this.concept.SetText (Res[0].Concept);
-    
-        var Records = this.SortData (Res);
 
-        for (var i = 0; i < Records.length; i++)
+        for (var i = 0; i < Res.length; i++)
         {
-            this.records[i].code.SetText (Records[i].Code);
-            this.records[i].name.SetText (Records[i].Name);
-            this.records[i].partial.SetText ((Records[i].Partial === 0 ? "" : Records[i].Partial));
-            this.records[i].debit.SetText ((Records[i].Debit === 0 ? "" : Records[i].Debit));
-            this.records[i].credit.SetText ((Records[i].Credit === 0 ? "" : Records[i].Credit));
+            this.records[i].code.SetText (Res[i].Code);
+            this.records[i].name.SetText (Res[i].Name);
+            this.records[i].partial.SetText ((Res[i].Partial === 0 ? "" : Res[i].Partial));
+            this.records[i].debit.SetText ((Res[i].Debit === 0 ? "" : Res[i].Debit));
+            this.records[i].credit.SetText ((Res[i].Credit === 0 ? "" : Res[i].Credit));
         }
         for (i; i < this.records.length; i++)
         {
