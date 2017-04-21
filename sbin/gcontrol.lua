@@ -2,9 +2,9 @@
     Lua 5.1 Copyright (C) 1994-2006 Lua.org, PUC-Rio
 ]]
 
-local Http = require ("contrib/http");
-local Sql = require ("contrib/sql");
-local Session = require ("contrib/session");
+local Http = require ("./sbin/contrib/http");
+local Sql = require ("./sbin/contrib/sql");
+local Session = require ("./sbin/contrib/session");
 
 
 local Pass = Session.LoginRequired ();
@@ -28,6 +28,6 @@ if Method == "Select" then
     local R = db:query (Q.Stm);
     Http.Response (R);
     return;
-end 
+end
 
 db:keepalive ();
