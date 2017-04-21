@@ -2,8 +2,7 @@
     Lua 5.1 Copyright (C) 1994-2006 Lua.org, PUC-Rio
 ]]
 
-local App = ngx.var.app;
-local Sha2 = require ("./sbin/contrib/sha2");
+local Sha2 = require ("contrib/sha2");
 
 --crypt
 function CryptPassw (Src)
