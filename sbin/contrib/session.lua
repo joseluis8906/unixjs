@@ -5,6 +5,7 @@
 --package.path = ngx.var.app.."/?.lua;"..package.path
 local Http = require ("./sbin/contrib/http");
 local Crypt = require ("./sbin/contrib/crypt");
+local Sql = require ("./sbin/contrib/sql");
 
 
 --GenerateSessionId
@@ -36,7 +37,6 @@ local Method = Http.Request ("Method");
 if Method == "Start" then
     local UserName = Http.Request ("UserName");
     local Password = Http.Request ("Password");
-    local Sql = require ("contrib/sql");
     local Q = Sql.Query;
     Q:New ([[SELECT "UserName", "Password" FROM "AuthUser" WHERE "UserName"=? LIMIT 1;]]);
     Q:SetString (UserName);
