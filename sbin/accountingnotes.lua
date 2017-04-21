@@ -45,7 +45,7 @@ end
 if Method == "AutoFill" then
     local Number = Http.Request ("Number");
     local Q = Sql.Query;
-    Q:New ([[SELECT "Number", "Date", "Concept", "Code", "Name", "Partial", "Debit", "Credit" FROM "AccountingNoteAll" WHERE "Number"=? ORDER BY "Code" ASC;]]);
+    Q:New ([[SELECT "Number", "Date", "Concept", "Code", "Name", "Partial", "Debit", "Credit" FROM "AccountingNoteAll" WHERE "Number"=?;]]);
     Q:SetNumber (Number);
     local R = db:query (Q.Stm);
     Http.Response (R);
