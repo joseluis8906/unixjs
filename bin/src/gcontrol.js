@@ -24,6 +24,10 @@ function gcontrol ()
     this.SetLayout (this.Layout);
 
     this.Row1.SetAlignment (Gwt.Gui.ALIGN_TOP);
+    this.Row2.SetAlignment (Gwt.Gui.ALIGN_TOP);
+    this.Row3.SetAlignment (Gwt.Gui.ALIGN_TOP);
+    this.Row4.SetAlignment (Gwt.Gui.ALIGN_TOP);
+    this.Row5.SetAlignment (Gwt.Gui.ALIGN_TOP);
     this.Layout.Add (this.Row1);
 
     this.Rpc.Send({Method: "Select"}, this.SelectResponse.bind(this));
