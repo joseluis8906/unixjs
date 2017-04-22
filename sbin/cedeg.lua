@@ -28,7 +28,7 @@ if Method == "CheckCode" then
     local R = db:query (Q.Stm);
     Http.Response (R);
     return;
-end    
+end
 
 
 --NextNumber
@@ -45,13 +45,13 @@ end
 if Method == "AutoFill" then
     local Number = Http.Request ("Number");
     local Q = Sql.Query;
-    Q:New ([[SELECT "Number", "Place", "Date", "Holder", "Concept", "Bank", "Check", "CheckingAccount", "Amount", "Code", "Name", "Partial", "Debit", "Credit" FROM "AccountingDisbVouAll" WHERE "Number"=? ORDER BY "Code" ASC;]]);
+    Q:New ([[SELECT "Number", "Place", "Date", "Holder", "Concept", "Bank", "Check", "CheckingAccount", "Amount", "Code", "Name", "Partial", "Debit", "Credit" FROM "AccountingDisbVouAll" WHERE "Number"=?;]]);
     Q:SetNumber (Number);
     local R = db:query (Q.Stm);
     Http.Response (R);
     return;
 end
-    
+
 
 --Insert
 if Method == "Insert" then
@@ -64,9 +64,9 @@ if Method == "Insert" then
     local Check = Http.Request ("Check");
     local CheckingAccount = Http.Request ("CheckingAccount");
     local Amount = Http.Request ("Amount");
-    
+
     local R, Err = db:query ("BEGIN;");
-    
+
     local Q = Sql.Query;
     Q:New ([[WITH "ins1" AS (INSERT INTO "AccountingDisbVou"("Number", "Place", "Date", "Holder", "Concept")
         VALUES(?, ?, ?, ?, ?) RETURNING "Id")
@@ -81,14 +81,14 @@ if Method == "Insert" then
     Q:SetString (Check);
     Q:SetString (CheckingAccount);
     Q:SetString (Amount);
-    
+
     local R, Err = db:query (Q.Stm);
     if not R then
         Http.Response ({Error = Err});
         db:query ("ROLLBACK;");
         return;
     end
-    
+
     local Records = Http.Request ("Records");
 
     for i, o in pairs(Records) do
@@ -99,7 +99,7 @@ if Method == "Insert" then
         Q:SetNumber (Records[i].Credit);
         Q:SetNumber (Records[i].Number);
         Q:SetString (Records[i].Code);
-        
+
         R, Err = db:query (Q.Stm);
         if not R then
             Http.Response ({Error = Err});
@@ -107,7 +107,7 @@ if Method == "Insert" then
             return;
         end
     end
-    
+
     R = db:query ("COMMIT;");
     Http.Response ({affected_rows=1});
     return;
@@ -130,7 +130,7 @@ if Method == "Update" then
     local Q = Sql.Query;
     Q:New ([[UPDATE "AccountingDisbVou" SET "Place"=?, "Date"=?, "Holder"=?, "Concept"=? WHERE "Number"=?;
             UPDATE "AccountingDisbVouBank" SET "Bank"=?, "Check"=?, "CheckingAccount"=?, "Amount"=? FROM "AccountingDisbVou" WHERE  "AccountingDisbVouId"="AccountingDisbVou"."Id" AND "AccountingDisbVou"."Number"=?]]);
-    
+
     Q:SetString (Place);
     Q:SetString (Date);
     Q:SetString (Holder);
@@ -142,7 +142,7 @@ if Method == "Update" then
     Q:SetString (CheckingAccount);
     Q:SetNumber (Amount);
     Q:SetNumber (Number);
-    
+
     local R, Err = db:query ("BEGIN;");
     R, Err = db:query (Q.Stm);
     if not R then
@@ -171,7 +171,7 @@ if Method == "Update" then
         Q:SetNumber (Records[i].Credit);
         Q:SetNumber (Records[i].Number);
         Q:SetString (Records[i].Code);
-        
+
         R, Err = db:query (Q.Stm);
         if not R then
             Http.Response ({Error = "Error en records rollback"});
@@ -179,7 +179,7 @@ if Method == "Update" then
             return;
         end
     end
-    
+
     R = db:query ("COMMIT;");
     Http.Response ({affected_rows=1});
     return;
