@@ -9,7 +9,7 @@ function record_widget (Width, Heigth)
     this.SetSize (Width, Heigth);
     this.SetClassName ("record_widget");
     this.Rpc = new Gwt.Core.Rpc ("/cedeg/");
-    
+
     this.code = new Gwt.Gui.Entry ("Código");
     this.code.SetExpand (false);
     this.code.SetWidth (120);
@@ -29,13 +29,13 @@ function record_widget (Width, Heigth)
     this.credit.SetExpand (false);
     this.credit.SetWidth (120);
     this.credit.ChangeToMonetary();
-        
+
     this.Add (this.code);
     this.Add (this.name);
     this.Add (this.partial);
     this.Add (this.debit);
     this.Add (this.credit);
-    
+
     this.code.AddEvent (Gwt.Gui.Event.Keyboard.KeyPress, this.check_code.bind(this));
 }
 
@@ -50,15 +50,15 @@ record_widget.prototype._record_widget = function ()
     this.partial._Entry();
     this.debit._Entry();
     this.credit._Entry();
-        
-    this.code = null;    
-    this.name = null;    
+
+    this.code = null;
+    this.name = null;
     this.partial = null;
     this.debit = null;
     this.credit = null;
 };
 
-//reset    
+//reset
 record_widget.prototype.Reset = function ()
 {
     this.code.Reset ();
@@ -95,26 +95,26 @@ record_widget.prototype.autocomplete = function (Res)
 function cedeg()
 {
     Gwt.Gui.Window.call (this, "Comprobante De Egreso");
-          
+
     this.SetSize (840, 460);
     this.SetPosition (Gwt.Gui.WIN_POS_CENTER);
     this.SetBorderSpacing (12);
     this.Rpc = new Gwt.Core.Rpc ("/cedeg/");
-    
+
     this.EnableMenu ();
     this.AddMenuItem (Gwt.Core.Contrib.Images + "appbar.cabinet.in.svg", "Guardar", this.Insert.bind(this));
     this.AddMenuItem (Gwt.Core.Contrib.Images + "appbar.refresh.svg", "Actualizar", this.Update.bind(this));
     this.AddMenuItem (Gwt.Core.Contrib.Images + "appbar.delete.svg", "Eliminar", this.Delete.bind(this));
     this.AddMenuItem (Gwt.Core.Contrib.Images + "appbar.printer.svg", "Imprimir", this.Print.bind(this));
     this.AddMenuItem (Gwt.Core.Contrib.Images + "appbar.power.svg", "Salir", function(){window.cedeg.close(); window.gcontrol.open();}, Gwt.Gui.MENU_QUIT_APP);
-         
+
     this.layout = new Gwt.Gui.VBox ();
     this.SetLayout (this.layout);
-     
+
     this.slider = new Gwt.Gui.Slider (3);
     this.slider.SetSize (this.layout.GetWidth (), this.layout.GetHeight ());
     this.slider.Setup ();
-        
+
     this.number = new Gwt.Gui.Entry ("Número");
     this.place = new Gwt.Gui.Entry ("Lugar");
     this.date = new Gwt.Gui.Date ("Creación");
@@ -129,14 +129,14 @@ function cedeg()
     this.records = [];
     this.update = false;
     this.Report = null;
-        
+
     this.layout.Add (this.slider);
-        
+
     for (var i = 0; i < 20; i++)
     {
         this.records[i] = new record_widget (this.slider.GetWidth (), 24);
     }
-         
+
     this.slider.AddSlotWidget (0, this.number);
     this.slider.AddSlotWidget (0, this.place);
     this.slider.AddSlotWidget (0, this.date);
@@ -146,7 +146,7 @@ function cedeg()
     this.slider.AddSlotWidget (0, this.check);
     this.slider.AddSlotWidget (0, this.checking_account);
     this.slider.AddSlotWidget (0, this.concept);
-        
+
     for (var i=0; i<this.records.length; i++)
     {
         if (i<=9)
@@ -158,9 +158,9 @@ function cedeg()
             this.slider.AddSlotWidget (2, this.records[i]);
         }
     }
-    
+
     this.number.AddEvent (Gwt.Gui.Event.Keyboard.KeyPress, this.CheckNumber.bind(this));
-    
+
 }
 
 cedeg.prototype = new Gwt.Gui.Window ();
@@ -180,7 +180,7 @@ cedeg.prototype._App = function ()
     this.concept._Text ();
     this.slider._Slider ();
     this.Report === null ? 0 : this.Report.close ();
-    
+
     this.number = null;
     this.place = null;
     this.date = null;
@@ -191,14 +191,14 @@ cedeg.prototype._App = function ()
     this.checking_account = null;
     this.concept = null;
     this.slider = null;
-        
+
     for(var i = 0; i < this.records.length; i++)
     {
         this.records[i]._record_widget();
         this.records[i] = null;
     }
     this.records = null;
-    
+
     this.layout._VBox ();
     this.layout = null;
     this.Report = null;
@@ -218,7 +218,7 @@ cedeg.prototype.CreateData = function ()
         CheckingAccount: this.checking_account.GetText (),
         Amount: this.amount.GetText ()
     };
-    
+
     Data.Records = [];
 
     for (var i=0; i < this.records.length; i++)
@@ -242,7 +242,7 @@ cedeg.prototype.CreateData = function ()
 cedeg.prototype.Insert = function ()
 {
     var Data = this.CreateData ();
-    Data.Method = "Insert";    
+    Data.Method = "Insert";
     this.Rpc.Send (Data, this.InsertResponse.bind(this));
 };
 
@@ -259,7 +259,7 @@ cedeg.prototype.InsertResponse = function (Res)
 cedeg.prototype.Update = function (Event)
 {
     var Data = this.CreateData ();
-    Data.Method = "Update";        
+    Data.Method = "Update";
     this.Rpc.Send (Data, this.UpdateResponse.bind(this));
 };
 
@@ -307,7 +307,7 @@ cedeg.prototype.Reset = function ()
     this.check.SetText ("");
     this.checking_account.SetText ("");
     this.concept.SetText ("");
-    
+
     for(var i = 0; i < this.records.length; i++)
     {
         this.records[i].Reset ();
@@ -345,15 +345,13 @@ cedeg.prototype.AutoFill = function (Res)
         this.checking_account.SetText (Res[0].CheckingAccount);
         this.concept.SetText (Res[0].Concept);
 
-        var Records = this.SortData (Res);
-    
-        for (var i = 0; i < Records.length; i++)
+        for (var i = 0; i < Res.length; i++)
         {
-            this.records[i].code.SetText (Records[i].Code);
-            this.records[i].name.SetText (Records[i].Name);
-            this.records[i].partial.SetText ((Records[i].Partial === 0 ? "" : Records[i].Partial));
-            this.records[i].debit.SetText ((Records[i].Debit === 0 ? "" : Records[i].Debit));
-            this.records[i].credit.SetText ((Records[i].Credit === 0 ? "" : Records[i].Credit));
+            this.records[i].code.SetText (Res[i].Code);
+            this.records[i].name.SetText (Res[i].Name);
+            this.records[i].partial.SetText ((Res[i].Partial === 0 ? "" : Res[i].Partial));
+            this.records[i].debit.SetText ((Res[i].Debit === 0 ? "" : Res[i].Debit));
+            this.records[i].credit.SetText ((Res[i].Credit === 0 ? "" : Res[i].Credit));
         }
 
         for (i; i < this.records.length; i++)
@@ -393,7 +391,7 @@ cedeg.prototype.ReportLoad = function ()
     doc.getElementById ("CheckingAccount").textContent = this.checking_account.GetText ();
     doc.getElementById ("Concept").textContent = this.concept.GetText ();
     doc.getElementById ("Amount").textContent = Gwt.Core.Contrib.TextToMonetary (this.amount.GetText ());
-    
+
     var Records = [];
     for (var i=0; i < this.records.length; i++)
     {
@@ -408,7 +406,7 @@ cedeg.prototype.ReportLoad = function ()
             });
         }
     }
-    
+
     var SortedRecords = this.SortData (Records);
 
     for (var i=0; i < SortedRecords.length; i++)
@@ -419,7 +417,7 @@ cedeg.prototype.ReportLoad = function ()
         doc.getElementById ("Debit"+i).textContent = (SortedRecords[i].Debit  === "$0") ? "" : SortedRecords[i].Debit;
         doc.getElementById ("Credit"+i).textContent = (SortedRecords[i].Credit === "$0") ? "" : SortedRecords[i].Credit;
     }
-    
+
     for (i; i < this.records.length; i++)
     {
         doc.getElementById ("Code"+i).textContent = "";
@@ -428,7 +426,7 @@ cedeg.prototype.ReportLoad = function ()
         doc.getElementById ("Debit"+i).textContent = "";
         doc.getElementById ("Credit"+i).textContent = "";
     }
-    
+
     doc = undefined;
     this.Report = null;
     this.Reset ();
@@ -494,7 +492,7 @@ return new function ()
             console.log ("%app yet opened".replace("%app", instance.__proto__.constructor.name));
         }
     }
-	
+
     this.close = function ()
     {
         if(instance !== undefined)
