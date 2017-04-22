@@ -9,7 +9,7 @@ function record_widget (Width, Heigth)
     this.SetSize (Width, Heigth);
     this.SetClassName ("record_widget");
     this.Rpc = new Gwt.Core.Rpc ("/accountingnotes/");
-    
+
     this.code = new Gwt.Gui.Entry ("Código");
     this.code.SetExpand (false);
     this.code.SetWidth (120);
@@ -29,13 +29,13 @@ function record_widget (Width, Heigth)
     this.credit.SetExpand (false);
     this.credit.SetWidth (120);
     this.credit.ChangeToMonetary();
-        
+
     this.Add (this.code);
     this.Add (this.name);
     this.Add (this.partial);
     this.Add (this.debit);
     this.Add (this.credit);
-    
+
     this.code.AddEvent (Gwt.Gui.Event.Keyboard.KeyPress, this.check_code.bind(this));
 }
 
@@ -50,14 +50,14 @@ record_widget.prototype._record_widget = function ()
     this.partial._Entry();
     this.debit._Entry();
     this.credit._Entry();
-        
-    this.code = null;    
-    this.name = null;    
+
+    this.code = null;
+    this.name = null;
     this.partial = null;
     this.debit = null;
     this.credit = null;
 };
-    
+
 //reset
 record_widget.prototype.Reset = function ()
 {
@@ -100,17 +100,17 @@ function comping ()
     this.SetPosition (Gwt.Gui.WIN_POS_CENTER);
     this.SetBorderSpacing (12);
     this.Rpc = new Gwt.Core.Rpc ("/comping/");
-    
+
     this.EnableMenu ();
     this.AddMenuItem (Gwt.Core.Contrib.Images + "appbar.cabinet.in.svg", "Guardar", this.Insert.bind(this));
     this.AddMenuItem (Gwt.Core.Contrib.Images + "appbar.refresh.svg", "Actualizar", this.Update.bind(this));
     this.AddMenuItem (Gwt.Core.Contrib.Images + "appbar.delete.svg", "Eliminar", this.Delete.bind(this));
     this.AddMenuItem (Gwt.Core.Contrib.Images + "appbar.printer.svg", "Imprimir", this.Print.bind(this));
     this.AddMenuItem (Gwt.Core.Contrib.Images + "appbar.power.svg", "Salir", function(){window.comping.close(); window.gcontrol.open();}, Gwt.Gui.MENU_QUIT_APP);
-         
+
     this.layout = new Gwt.Gui.VBox ();
     this.SetLayout (this.layout);
-     
+
     this.slider = new Gwt.Gui.Slider (5);
     this.slider.SetSize (this.layout.GetWidth (), this.layout.GetHeight ());
     this.slider.Setup ();
@@ -121,7 +121,7 @@ function comping ()
     this.date.Now ();
     this.concept = new Gwt.Gui.Text ("Concepto");
     this.Report = null;
-    
+
     this.records = [];
     for (var i = 0; i <= 15; i++)
     {
@@ -164,12 +164,12 @@ comping.prototype._App = function ()
     this.slider._Slider ();
     this.Report === null ? null : this.Report.close ();
     this.layout._VBox ();
-    
+
     this.number = null;
     this.date = null;
     this.concept = null;
     this.records = null;
-    this.slider = null;    
+    this.slider = null;
     this.layout = null;
     this.Report = null;
 };
@@ -181,7 +181,7 @@ comping.prototype.CreateData = function ()
         Date: this.date.GetText (),
         Concept: this.concept.GetText ()
     };
-    
+
     Data.Records = [];
 
     for (var i=0; i < this.records.length; i++)
@@ -273,7 +273,7 @@ comping.prototype.ReportLoad = function ()
     doc.getElementById ("Number").textContent = Gwt.Core.Contrib.ZFill(this.number.GetText(), 4);
     doc.getElementById ("Date").textContent = this.date.GetText ();
     doc.getElementById ("Concept").textContent = this.concept.GetText ();
-    
+
     var TotalDebit = 0;
     var TotalCredit = 0;
 
@@ -293,7 +293,7 @@ comping.prototype.ReportLoad = function ()
             });
         }
     }
-    
+
     var SortedRecords = this.SortData (Records);
 
     for (var i=0; i < SortedRecords.length; i++)
@@ -304,10 +304,10 @@ comping.prototype.ReportLoad = function ()
         doc.getElementById ("Debit"+i).textContent = (SortedRecords[i].Debit  === "$0") ? "" : SortedRecords[i].Debit;
         doc.getElementById ("Credit"+i).textContent = (SortedRecords[i].Credit === "$0") ? "" : SortedRecords[i].Credit;
     }
-    
+
     doc.getElementById ("EqSumDebit").textContent = Gwt.Core.Contrib.TextToMonetary(TotalDebit.toString());
     doc.getElementById ("EqSumCredit").textContent = Gwt.Core.Contrib.TextToMonetary(TotalCredit.toString());
-    
+
     doc = undefined;
     this.Report = null;
     this.Reset ();
@@ -348,18 +348,16 @@ comping.prototype.AutoFill = function (Res)
     if (Res.length > 0)
     {
         this.number.SetText (Res[0].Number);
-        this.date.SetDate (Res[0].Date);        
+        this.date.SetDate (Res[0].Date);
         this.concept.SetText (Res[0].Concept);
-    
-        var Records = this.SortData (Res);
 
-        for (var i = 0; i < Records.length; i++)
+        for (var i = 0; i < Res.length; i++)
         {
-            this.records[i].code.SetText (Records[i].Code);
-            this.records[i].name.SetText (Records[i].Name);
-            this.records[i].partial.SetText ((Records[i].Partial === 0 ? "" : Records[i].Partial));
-            this.records[i].debit.SetText ((Records[i].Debit === 0 ? "" : Records[i].Debit));
-            this.records[i].credit.SetText ((Records[i].Credit === 0 ? "" : Records[i].Credit));
+            this.records[i].code.SetText (Res[i].Code);
+            this.records[i].name.SetText (Res[i].Name);
+            this.records[i].partial.SetText ((Res[i].Partial === 0 ? "" : Res[i].Partial));
+            this.records[i].debit.SetText ((Res[i].Debit === 0 ? "" : Res[i].Debit));
+            this.records[i].credit.SetText ((Res[i].Credit === 0 ? "" : Res[i].Credit));
         }
         for (i; i < this.records.length; i++)
         {
@@ -378,7 +376,7 @@ comping.prototype.Reset = function ()
     this.number.SetText ("");
     this.date.Now ();
     this.concept.SetText ("");
-    
+
     for(var i = 0; i < this.records.length; i++)
     {
         this.records[i].Reset ();
@@ -445,7 +443,7 @@ return new function ()
             console.log ("%app yet opened".replace("%app", instance.__proto__.constructor.name));
         }
     };
-	
+
     this.close = function ()
     {
         if(instance !== undefined)

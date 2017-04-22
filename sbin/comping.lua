@@ -28,7 +28,7 @@ if Method == "CheckCode" then
     local R = db:query (Q.Stm);
     Http.Response (R);
     return;
-end    
+end
 
 
 --NextNumber
@@ -45,35 +45,35 @@ end
 if Method == "AutoFill" then
     local Number = Http.Request ("Number");
     local Q = Sql.Query;
-    Q:New ([[SELECT "Number", "Date", "Concept", "Code", "Name", "Partial", "Debit", "Credit" FROM "AccountingIncomeAll" WHERE "Number"=? ORDER BY "Code" ASC;]]);
+    Q:New ([[SELECT "Number", "Date", "Concept", "Code", "Name", "Partial", "Debit", "Credit" FROM "AccountingIncomeAll" WHERE "Number"=?;]]);
     Q:SetNumber (Number);
     local R = db:query (Q.Stm);
     Http.Response (R);
     return;
 end
-    
+
 
 --Insert
 if Method == "Insert" then
     local Number = Http.Request ("Number");
     local Date = Http.Request ("Date");
     local Concept = Http.Request ("Concept");
-    
+
     local R, Err = db:query ("BEGIN;");
-    
+
     local Q = Sql.Query;
     Q:New ([[INSERT INTO "AccountingIncome"("Number", "Date", "Concept") VALUES(?, ?, ?);]]);
     Q:SetNumber (Number);
     Q:SetString (Date);
     Q:SetString (Concept);
-    
+
     local R, Err = db:query (Q.Stm);
     if not R then
         Http.Response ({Error = Err});
         db:query ("ROLLBACK;");
         return;
     end
-    
+
     local Records = Http.Request ("Records");
 
     for i, o in pairs(Records) do
@@ -84,7 +84,7 @@ if Method == "Insert" then
         Q:SetNumber (Records[i].Credit);
         Q:SetNumber (Records[i].Number);
         Q:SetString (Records[i].Code);
-        
+
         R, Err = db:query (Q.Stm);
         if not R then
             Http.Response ({Error = Err});
@@ -92,7 +92,7 @@ if Method == "Insert" then
             return;
         end
     end
-    
+
     R = db:query ("COMMIT;");
     Http.Response ({affected_rows=1});
     return;
@@ -108,11 +108,11 @@ if Method == "Update" then
 
     local Q = Sql.Query;
     Q:New ([[UPDATE "AccountingIncome" SET "Date"=?, "Concept"=? WHERE "Number"=?;]]);
-    
+
     Q:SetString (Date);
     Q:SetString (Concept);
     Q:SetNumber (Number);
-    
+
     local R, Err = db:query ("BEGIN;");
     R, Err = db:query (Q.Stm);
     if not R then
@@ -141,7 +141,7 @@ if Method == "Update" then
         Q:SetNumber (Records[i].Credit);
         Q:SetNumber (Records[i].Number);
         Q:SetString (Records[i].Code);
-        
+
         R, Err = db:query (Q.Stm);
         if not R then
             Http.Response ({Error = "Error en records, rollback"});
@@ -149,7 +149,7 @@ if Method == "Update" then
             return;
         end
     end
-    
+
     R = db:query ("COMMIT;");
     Http.Response ({affected_rows=1});
     return;
