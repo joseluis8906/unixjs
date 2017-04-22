@@ -83,7 +83,7 @@ gcontrol.prototype.LoadApp = function (App)
     var TagScript = document.createElement('script');
     TagScript.type = 'text/javascript';
     TagScript.async = true;
-    TagScript.src = "/bin/"+App+".min.js";
+    TagScript.src = "/bin/"+App+".min.js"+"?"+Math.trunc(Math.random()*1000);
     var Head = document.head;
 
     var Insert = true;
