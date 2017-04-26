@@ -13,33 +13,33 @@ function accountingrep ()
     this.SetBorderSpacing (12);
     this.Rpc = new Gwt.Core.Rpc ("/accountingrep/");
     this.Records;
-    
+
     this.EnableMenu ();
     this.AddMenuItem (Gwt.Core.Contrib.Images + "appbar.printer.svg", "Imprimir", this.Print.bind(this));
     this.AddMenuItem (Gwt.Core.Contrib.Images + "appbar.power.svg", "Salir", function(){window.accountingrep.close(); window.gcontrol.open();}, Gwt.Gui.MENU_QUIT_APP);
-         
+
     this.layout = new Gwt.Gui.VBox ();
     this.SetLayout (this.layout);
-     
+
     this.ReportType = new Gwt.Gui.IconSelectBox (Gwt.Core.Contrib.Images+"appbar.notification.star.svg", "Tipo de Reporte", [{"Text": "Comprobante de Diario", "Value": "Daily"},]);
     this.layout.Add (this.ReportType);
-    
+
     this.labelDateBegin = new Gwt.Gui.StaticText ("Desde");
     this.labelDateBegin.SetExpand (true);
     this.layout.Add (this.labelDateBegin);
-    
+
     this.dateBegin = new Gwt.Gui.Date ("Inicio");
     this.dateBegin.Now ();
     this.layout.Add (this.dateBegin);
-    
+
     this.labelDateEnd = new Gwt.Gui.StaticText ("Hasta");
     this.labelDateBegin.SetExpand (true);
     this.layout.Add (this.labelDateEnd);
-    
+
     this.dateEnd = new Gwt.Gui.Date ("Final");
     this.dateEnd.Now ();
     this.layout.Add (this.dateEnd);
-    
+
     this.Report = null;
 
 }
@@ -57,12 +57,12 @@ accountingrep.prototype._App = function ()
 
     this.Report === null ? null : this.Report.close();
     this.layout._VBox();
-    
+
     this.labelDateBegin = null;
     this.dateBegin = null;
     this.labelDateEnd = null;
     this.dateEnd = null;
-    
+
     this.layout = null;
     this.Report = null;
 };
@@ -74,7 +74,7 @@ accountingrep.prototype.CreateData = function ()
         DateBegin: this.dateBegin.GetText (),
         DateEnd: this.dateEnd.GetText ()
     };
-    
+
     return Data;
 };
 
@@ -89,11 +89,12 @@ accountingrep.prototype.Print = function ()
 accountingrep.prototype.PrintResponse = function (Res)
 {
     var DisbVous = (Res.DisbVous instanceof Array) ? Res.DisbVous : [];
-    var Notes = (Res.Notes instanceof Array) ? Res.Notes : [];
-    var Registros = DisbVous.concat(Notes);
-    this.Records = this.SortData (Registros);
-    this.Report = Gwt.Core.Contrib.LoadDocument ("/documents/daily.html?records=%0".replace("%0", this.Records.length));
-    this.Report.addEventListener ("load", this.ReportLoad.bind (this));
+    console.log (DisbVous);
+    //var Notes = (Res.Notes instanceof Array) ? Res.Notes : [];
+    //var Registros = DisbVous.concat(Notes);
+    //this.Records = this.SortData (Registros);
+    //this.Report = Gwt.Core.Contrib.LoadDocument ("/documents/daily.html?records=%0".replace("%0", this.Records.length));
+    //this.Report.addEventListener ("load", this.ReportLoad.bind (this));
 };
 
 //report load
@@ -102,9 +103,9 @@ accountingrep.prototype.ReportLoad = function ()
     var doc = this.Report.contentWindow.document;
     //doc.getElementById ("Number").textContent = Gwt.Core.Contrib.ZFill(this.number.GetText(), 4);
     //doc.getElementById ("Date").textContent = this.date.GetText ();
-    
+
     var TotalDebit = 0;
-    var TotalCredit = 0; 
+    var TotalCredit = 0;
 
     for (var i=0; i < this.Records.length; i++)
     {
@@ -116,7 +117,7 @@ accountingrep.prototype.ReportLoad = function ()
         TotalDebit += Number (this.Records[i].Debit);
         TotalCredit += Number (this.Records[i].Credit);
     }
-    
+
     doc.getElementById ("EqSumDebit").textContent = Gwt.Core.Contrib.TextToMonetary(TotalDebit.toString());
     doc.getElementById ("EqSumCredit").textContent = Gwt.Core.Contrib.TextToMonetary(TotalCredit.toString());
 
@@ -229,7 +230,7 @@ return new function ()
             console.log ("%app yet opened".replace("%app", instance.__proto__.constructor.name));
         }
     };
-	
+
     this.close = function ()
     {
         if(instance !== undefined)

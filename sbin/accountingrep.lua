@@ -22,31 +22,31 @@ if Method == "Daily" then
     local DateBegin = Http.Request ("DateBegin");
     local DateEnd = Http.Request ("DateEnd");
 
-    local Res = {} 
+    local Res = {}
 
     local Q = Sql.Query;
-    
-    Q:New ([[SELECT "Number", "Date", "Code", "Name", "Partial", "Debit", "Credit" FROM "AccountingDisbVouAll" WHERE "Date">=?::DATE AND "Date"<=?::DATE ORDER BY "Number" ASC, "Code" ASC;]]);
+
+    Q:New ([[SELECT "Number", "Date", "Code", "Name", "Debit", "Credit" FROM "AccountingDisbVouAll" WHERE "Date">=?::DATE AND "Date"<=?::DATE ORDER BY "Number" ASC, "Code" ASC;]]);
     Q:SetString (DateBegin);
     Q:SetString (DateEnd);
     local R1 = db:query (Q.Stm);
     Res.DisbVous = R1;
 
-    Q:New ([[SELECT "Number", "Date", "Code", "Name", "Partial", "Debit", "Credit" FROM "AccountingNoteAll" WHERE "Date">=?::DATE AND "Date"<=?::DATE ORDER BY "Number" ASC, "Code" ASC;]]);
+    Q:New ([[SELECT "Number", "Date", "Code", "Name", "Debit", "Credit" FROM "AccountingNoteAll" WHERE "Date">=?::DATE AND "Date"<=?::DATE ORDER BY "Number" ASC, "Code" ASC;]]);
     Q:SetString (DateBegin);
     Q:SetString (DateEnd);
     local R2 = db:query (Q.Stm);
     Res.Notes = R2;
 
-    Q:New ([[SELECT "Number", "Date", "Code", "Name", "Partial", "Debit", "Credit" FROM "IncomeAll" WHERE "Date">=?::DATE AND "Date"<=?::DATE ORDER BY "Number" ASC, "Code" ASC;]]);
+    Q:New ([[SELECT "Number", "Date", "Code", "Name", "Debit", "Credit" FROM "IncomeAll" WHERE "Date">=?::DATE AND "Date"<=?::DATE ORDER BY "Number" ASC, "Code" ASC;]]);
     Q:SetString (DateBegin);
     Q:SetString (DateEnd);
     local R3 = db:query (Q.Stm);
     Res.Incomes = R3;
-    
+
     Http.Response (Res);
     return;
-end    
+end
 
 --[[
 if Method == "Insert" then
