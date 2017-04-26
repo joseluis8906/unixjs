@@ -45,7 +45,7 @@ end
 if Method == "AutoFill" then
     local Number = Http.Request ("Number");
     local Q = Sql.Query;
-    Q:New ([[SELECT "Number", "Place", "Date", "Holder", "Concept", "Bank", "Check", "CheckingAccount", "Amount", "Code", "Name", "Partial", "Debit", "Credit" FROM "Accounting"."DisbVouAll" WHERE "Number"=?;]]);
+    Q:New ([[SELECT "Number", "Place", "Date", "Holder", "Concept", "Bank", "Check", "CheckingAccount", "Amount", "Code", "Name", "Debit", "Credit" FROM "Accounting"."DisbVouAll" WHERE "Number"=?;]]);
     Q:SetNumber (Number);
     local R = db:query (Q.Stm);
     Http.Response (R);
@@ -92,9 +92,8 @@ if Method == "Insert" then
     local Records = Http.Request ("Records");
 
     for i, o in pairs(Records) do
-        Q:New ([[INSERT INTO "Accounting"."DisbVouRecord"("DisbVouId", "AccountId", "Partial", "Debit", "Credit")
-            SELECT "Accounting"."DisbVou"."Id", "Accounting"."Account"."Id", ?, ?, ? FROM "Accounting"."DisbVou" INNER JOIN "Accounting"."Account" ON "Accounting"."DisbVou"."Number"=? AND "Accounting"."Account"."Code"=?;]]);
-        Q:SetNumber (Records[i].Partial);
+        Q:New ([[INSERT INTO "Accounting"."DisbVouRecord"("DisbVouId", "AccountId", "Debit", "Credit")
+            SELECT "Accounting"."DisbVou"."Id", "Accounting"."Account"."Id", ?, ? FROM "Accounting"."DisbVou" INNER JOIN "Accounting"."Account" ON "Accounting"."DisbVou"."Number"=? AND "Accounting"."Account"."Code"=?;]]);
         Q:SetNumber (Records[i].Debit);
         Q:SetNumber (Records[i].Credit);
         Q:SetNumber (Records[i].Number);
@@ -164,9 +163,8 @@ if Method == "Update" then
     local Records = Http.Request ("Records");
 
     for i, o in pairs(Records) do
-        Q:New ([[INSERT INTO "Accounting"."DisbVouRecord"("DisbVouId", "AccountId", "Partial", "Debit", "Credit")
-            SELECT "Accounting"."DisbVou"."Id", "Accounting"."Account"."Id", ?, ?, ? FROM "Accounting"."DisbVou" INNER JOIN "Accounting"."Account" ON "Accounting"."DisbVou"."Number"=? AND "Accounting"."Account"."Code"=?;]]);
-        Q:SetNumber (Records[i].Partial);
+        Q:New ([[INSERT INTO "Accounting"."DisbVouRecord"("DisbVouId", "AccountId", Debit", "Credit")
+            SELECT "Accounting"."DisbVou"."Id", "Accounting"."Account"."Id", ?, ? FROM "Accounting"."DisbVou" INNER JOIN "Accounting"."Account" ON "Accounting"."DisbVou"."Number"=? AND "Accounting"."Account"."Code"=?;]]);
         Q:SetNumber (Records[i].Debit);
         Q:SetNumber (Records[i].Credit);
         Q:SetNumber (Records[i].Number);
