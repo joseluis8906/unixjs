@@ -15,7 +15,7 @@ function record_widget (Width, Heigth)
     this.code.SetWidth (120);
     this.name = new Gwt.Gui.StaticText ("Nombre");
     this.name.SetExpand (false);
-    this.name.SetWidth (this.GetWidth() - 480);
+    this.name.SetWidth (this.GetWidth() - 360);
     this.name.SetValign (Gwt.Gui.Contrib.Valign.Middle);
     this.debit = new Gwt.Gui.Entry ("Debe");
     this.debit.SetExpand (false);
