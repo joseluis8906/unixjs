@@ -155,7 +155,7 @@ if Method == "Update" then
 
     R, Err = db:query (Q.Stm);
     if not R then
-        Http.Response ({Error = "Error en delete records"});
+        Http.Response ({Error = "Error en delete records: "..Err});
         db:query ("ROLLBACK;");
         return;
     end
@@ -172,7 +172,7 @@ if Method == "Update" then
 
         R, Err = db:query (Q.Stm);
         if not R then
-            Http.Response ({Error = "Error en records rollback"});
+            Http.Response ({Error = "Error en records rollback :"..Err});
             db:query ("ROLLBACK;");
             return;
         end
