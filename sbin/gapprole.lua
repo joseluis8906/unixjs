@@ -22,12 +22,12 @@ local Method = Http.Request ("Method");
 if Method == "Select" then
     local Name = Http.Request ("Name");
     local Q = Sql.Query;
-    Q:New ([[SELECT "Name", "Label", "Image", "Group" FROM "AppRoleAll" WHERE "Name"=?;]]);
+    Q:New ([[SELECT "Name", "Label", "Image", "Group" FROM "Auth"."AppRoleAll" WHERE "Name"=?;]]);
     Q:SetString (Name);
     local R = db:query (Q.Stm);
     Http.Response (R);
     return;
-end    
+end
 
 --Insert
 if Method == "Insert" then
@@ -36,7 +36,7 @@ if Method == "Insert" then
     local Image = Http.Request ("Image");
     local Group = Http.Request ("Group");
     local Q = Sql.Query;
-    Q:New ([[INSERT INTO "AppRole"("Name", "Label", "Image", "GroupId") SELECT ?, ?, ?, "Id" FROM "AuthGroup" WHERE "AuthGroup"."Name"=?;]]);
+    Q:New ([[INSERT INTO "Auth"."AppRole"("Name", "Label", "Image", "GroupId") SELECT ?, ?, ?, "Id" FROM "Auth"."Group" WHERE "Auth"."Group"."Name"=?;]]);
     Q:SetString (Name);
     Q:SetString (Label);
     Q:SetString (Image);
@@ -48,7 +48,7 @@ if Method == "Insert" then
     end
     Http.Response (R);
     return;
-end 
+end
 
 
 --Update
@@ -58,7 +58,7 @@ if Method == "Update" then
     local Image = Http.Request ("Image");
     local Group = Http.Request ("Group");
     local Q = Sql.Query;
-    Q:New ([[UPDATE "AppRole" SET "Label"=?, "Image"=?, "GroupId"="AuthGroup"."Id" FROM (SELECT "Id" FROM "AuthGroup" WHERE "AuthGroup"."Name"=?) AS "AuthGroup" WHERE "AppRole"."Name"=?;]]);
+    Q:New ([[UPDATE "Auth"."AppRole" SET "Label"=?, "Image"=?, "GroupId"="Auth"."Group"."Id" FROM (SELECT "Id" FROM "Auth"."Group" WHERE "Auth"."Group"."Name"=?) AS "Auth"."Group" WHERE "Auth"."AppRole"."Name"=?;]]);
     Q:SetString (Label);
     Q:SetString (Image);
     Q:SetString (Group);
@@ -66,14 +66,14 @@ if Method == "Update" then
     local R = db:query (Q.Stm);
     Http.Response (R);
     return;
-end 
+end
 
 
 --Delete
 if Method == "Delete" then
     local Name = Http.Request ("Name");
     local Q = Sql.Query;
-    Q:New ([[DELETE FROM "AppRole" WHERE "Name"=?;]]);
+    Q:New ([[DELETE FROM "Auth"."AppRole" WHERE "Name"=?;]]);
     Q:SetString (Name);
     local R = db:query (Q.Stm);
     Http.Response (R);

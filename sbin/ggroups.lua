@@ -23,19 +23,19 @@ local Method = Http.Request ("Method");
 if Method == "Select" then
     local Name = Http.Request ("Name");
     local Q = Sql.Query;
-    Q:New ([[SELECT "Name" FROM "AuthGroup" WHERE "Name"=?;]]);
+    Q:New ([[SELECT "Name" FROM "Auth"."Group" WHERE "Name"=?;]]);
     Q:SetString (Name);
     local R = db:query (Q.Stm);
     Http.Response (R);
     return;
-end    
+end
 
 
 --insert
 if Method == "Insert" then
     local Name = Http.Request ("Name");
     local Q = Sql.Query;
-    Q:New ([[INSERT INTO "AuthGroup" ("Name") VALUES (?);]]);
+    Q:New ([[INSERT INTO "Auth"."Group" ("Name") VALUES (?);]]);
     Q:SetString (Name);
     local R, Err = db:query (Q.Stm);
     if not R then
@@ -51,7 +51,7 @@ end
 if Method == "Delete" then
     local Name = Http.Request ("Name");
     local Q = Sql.Query;
-    Q:New ([[DELETE FROM "AuthGroup" WHERE "Name"=?;]]);
+    Q:New ([[DELETE FROM "Auth"."Group" WHERE "Name"=?;]]);
     Q:SetString (Name);
     local R = db:query (Q.Stm);
     Http.Response (R);

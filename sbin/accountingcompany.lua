@@ -21,7 +21,7 @@ local Method = Http.Request ("Method");
 if Method == "Select" then
     local Nit = Http.Request ("Nit");
     local Q = Sql.Query;
-    Q:New ([[SELECT "Nit", "Name", "Phone", "Movil", "Address" FROM "AccountingCompany" WHERE "Nit"=?;]]);
+    Q:New ([[SELECT "Nit", "Name", "Phone", "Movil", "Address" FROM "Accounting"."Company" WHERE "Nit"=?;]]);
     Q:SetString (Code);
     local R = db:query (Q.Stm);
     Http.Response (R);
@@ -35,7 +35,7 @@ if Method == "Insert" then
     local Movil = Http.Request ("Movil");
     local Address = Http.Request ("Address");
     local Q = Sql.Query;
-    Q:New ([[INSERT INTO "AccountingCompany" ("Nit", "Name", "Phone", "Movil", "Address") VALUES (?, ?, ?, ?, ?)]]);
+    Q:New ([[INSERT INTO "Accounting"."Company" ("Nit", "Name", "Phone", "Movil", "Address") VALUES (?, ?, ?, ?, ?)]]);
     Q:SetString (Nit);
     Q:SetString (Name);
     Q:SetString (Phone);
@@ -58,7 +58,7 @@ if Method == "Update" then
     local Movil = Http.Request ("Movil");
     local Address = Http.Request ("Address");
     local Q = Sql.Query;
-    Q:New ([[UPDATE "AccountingCompany" SET "Nit"=?, "Name"=?, "Phone"=?, "Movil"=?, "Address"=? WHERE "Nit"=?;]]);
+    Q:New ([[UPDATE "Accounting"."Company" SET "Nit"=?, "Name"=?, "Phone"=?, "Movil"=?, "Address"=? WHERE "Nit"=?;]]);
     Q:SetString (Nit);
     Q:SetString (Name);
     Q:SetString (Phone);

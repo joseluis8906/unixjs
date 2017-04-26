@@ -1,4 +1,6 @@
-CREATE TABLE IF NOT EXISTS "AccountingCompany"
+CREATE SCHEMA IF NOT EXISTS "Accounting";
+
+CREATE TABLE IF NOT EXISTS "Accounting"."Company"
 (
     "Id" BIGSERIAL PRIMARY KEY,
     "Nit" VARCHAR (64) NOT NULL UNIQUE,
@@ -8,7 +10,7 @@ CREATE TABLE IF NOT EXISTS "AccountingCompany"
     "Address" VARCHAR (64)
 );
 
-CREATE TABLE IF NOT EXISTS "AccountingAccount"
+CREATE TABLE IF NOT EXISTS "Accounting"."Account"
 (
     "Id" BIGSERIAL PRIMARY KEY,
     "Code" VARCHAR(16) UNIQUE NOT NULL,
@@ -16,7 +18,7 @@ CREATE TABLE IF NOT EXISTS "AccountingAccount"
 );
 
 --disbursement vounchers--
-CREATE TABLE IF NOT EXISTS "AccountingDisbVou"
+CREATE TABLE IF NOT EXISTS "Accounting"."DisbVou"
 (
     "Id" BIGSERIAL PRIMARY KEY,
     "Number" BIGINT UNIQUE NOT NULL,
@@ -26,9 +28,9 @@ CREATE TABLE IF NOT EXISTS "AccountingDisbVou"
     "Concept" VARCHAR(256)
 );
 
-CREATE TABLE IF NOT EXISTS "AccountingDisbVouBank"
+CREATE TABLE IF NOT EXISTS "Accounting"."DisbVouBank"
 (
-    "AccountingDisbVouId" BIGSERIAL PRIMARY KEY NOT NULL REFERENCES "AccountingDisbVou" ("Id") ON UPDATE CASCADE ON DELETE CASCADE,
+    "DisbVouId" BIGSERIAL PRIMARY KEY NOT NULL REFERENCES "Accounting"."DisbVou" ("Id") ON UPDATE CASCADE ON DELETE CASCADE,
     "Bank" VARCHAR(32),
     "Check" VARCHAR(16),
     "CheckingAccount" VARCHAR(16),
@@ -37,18 +39,18 @@ CREATE TABLE IF NOT EXISTS "AccountingDisbVouBank"
 
 CREATE TABLE IF NOT EXISTS "AccountingDisbVouRecord"
 (
-    "AccountingDisbVouId" BIGSERIAL NOT NULL REFERENCES "AccountingDisbVou" ("Id") ON UPDATE CASCADE ON DELETE CASCADE,
-    "AccountingAccountId" BIGSERIAL NOT NULL REFERENCES "AccountingAccount" ("Id") ON UPDATE CASCADE ON DELETE CASCADE,
+    "DisbVouId" BIGSERIAL NOT NULL REFERENCES "Accounting"."DisbVou" ("Id") ON UPDATE CASCADE ON DELETE CASCADE,
+    "AccountId" BIGSERIAL NOT NULL REFERENCES "Accounting"."Account" ("Id") ON UPDATE CASCADE ON DELETE CASCADE,
     "Debit" BIGINT,
     "Credit" BIGINT,
-    PRIMARY KEY ("AccountingDisbVouId", "AccountingAccountId")
+    PRIMARY KEY ("DisbVouId", "AccountId")
 );
 
-CREATE VIEW "AccountingDisbVouAll" AS SELECT "Number", "Place", "Date", "Holder", "Concept", "Bank", "Check", "CheckingAccount", "Amount", "AccountingAccount"."Code", "AccountingAccount"."Name", "Debit", "Credit" FROM "AccountingDisbVou" INNER JOIN "AccountingDisbVouBank" ON "AccountingDisbVou"."Id"="AccountingDisbVouBank"."AccountingDisbVouId" INNER JOIN "AccountingDisbVouRecord" ON "AccountingDisbVou"."Id"="AccountingDisbVouRecord"."AccountingDisbVouId" INNER JOIN "AccountingAccount" ON "AccountingAccount"."Id"="AccountingDisbVouRecord"."AccountingAccountId";
+CREATE VIEW "Accounting"."DisbVouAll" AS SELECT "Number", "Place", "Date", "Holder", "Concept", "Bank", "Check", "CheckingAccount", "Amount", "Accounting"."Account"."Code", "Accounting"."Account"."Name", "Debit", "Credit" FROM "Accounting"."DisbVou" INNER JOIN "Accounting"."DisbVouBank" ON "Accounting"."DisbVou"."Id"="Accounting"."DisbVouBank"."DisbVouId" INNER JOIN "Accounting"."DisbVouRecord" ON "Accounting"."DisbVou"."Id"="Accounting"."DisbVouRecord"."DisbVouId" INNER JOIN "Accounting"."Account" ON "Accounting"."Account"."Id"="Accounting"."DisbVouRecord"."AccountId";
 
 
 --acounting note--
-CREATE TABLE IF NOT EXISTS "AccountingNote"
+CREATE TABLE IF NOT EXISTS "Accounting"."Note"
 (
     "Id" BIGSERIAL PRIMARY KEY,
     "Number" BIGINT UNIQUE NOT NULL,
@@ -56,21 +58,21 @@ CREATE TABLE IF NOT EXISTS "AccountingNote"
     "Concept" VARCHAR(256)
 );
 
-CREATE TABLE IF NOT EXISTS "AccountingNoteRecord"
+CREATE TABLE IF NOT EXISTS "Accounting"."NoteRecord"
 (
-    "AccountingNoteId" BIGSERIAL NOT NULL REFERENCES "AccountingNote" ("Id") ON UPDATE CASCADE ON DELETE CASCADE,
-    "AccountingAccountId" BIGSERIAL NOT NULL REFERENCES "AccountingAccount" ("Id") ON UPDATE CASCADE ON DELETE CASCADE,
+    "NoteId" BIGSERIAL NOT NULL REFERENCES "Accounting"."Note" ("Id") ON UPDATE CASCADE ON DELETE CASCADE,
+    "AccountId" BIGSERIAL NOT NULL REFERENCES "Accounting"."Account" ("Id") ON UPDATE CASCADE ON DELETE CASCADE,
     "Debit" BIGINT,
     "Credit" BIGINT,
-    PRIMARY KEY ("AccountingNoteId", "AccountingAccountId")
+    PRIMARY KEY ("NoteId", "AccountId")
 
 );
 
-CREATE VIEW "AccountingNoteAll" AS SELECT "Number", "Date", "Concept", "AccountingAccount"."Code", "AccountingAccount"."Name", "Debit", "Credit" FROM "AccountingNote" INNER JOIN "AccountingNoteRecord" ON "AccountingNote"."Id"="AccountingNoteRecord"."AccountingNoteId" INNER JOIN "AccountingAccount" ON "AccountingAccount"."Id"="AccountingNoteRecord"."AccountingAccountId";
+CREATE VIEW "Accounting"."NoteAll" AS SELECT "Number", "Date", "Concept", "Accounting"."Account"."Code", "Accounting"."Account"."Name", "Debit", "Credit" FROM "Accounting"."Note" INNER JOIN "Accounting"."NoteRecord" ON "Accounting"."Note"."Id"="Accounting"."NoteRecord"."NoteId" INNER JOIN "Accounting"."Account" ON "Accounting"."Account"."Id"="Accounting"."NoteRecord"."AccountId";
 
 
 --acounting income--
-CREATE TABLE IF NOT EXISTS "AccountingIncome"
+CREATE TABLE IF NOT EXISTS "Accounting"."Income"
 (
     "Id" BIGSERIAL PRIMARY KEY,
     "Number" BIGINT UNIQUE NOT NULL,
@@ -78,23 +80,23 @@ CREATE TABLE IF NOT EXISTS "AccountingIncome"
     "Concept" VARCHAR(256)
 );
 
-CREATE TABLE IF NOT EXISTS "AccountingIncomeRecord"
+CREATE TABLE IF NOT EXISTS "Accounting"."IncomeRecord"
 (
-    "AccountingIncomeId" BIGSERIAL NOT NULL REFERENCES "AccountingIncome" ("Id") ON UPDATE CASCADE ON DELETE CASCADE,
-    "AccountingAccountId" BIGSERIAL NOT NULL REFERENCES "AccountingAccount" ("Id") ON UPDATE CASCADE ON DELETE CASCADE,
+    "IncomeId" BIGSERIAL NOT NULL REFERENCES "Accounting"."Income" ("Id") ON UPDATE CASCADE ON DELETE CASCADE,
+    "AccountId" BIGSERIAL NOT NULL REFERENCES "Accounting"."Account" ("Id") ON UPDATE CASCADE ON DELETE CASCADE,
     "Debit" BIGINT,
     "Credit" BIGINT,
-    PRIMARY KEY ("AccountingIncomeId", "AccountingAccountId")
+    PRIMARY KEY ("IncomeId", "AccountId")
 
 );
 
-CREATE VIEW "AccountingIncomeAll" AS SELECT "Number", "Date", "Concept", "AccountingAccount"."Code", "AccountingAccount"."Name", "Debit", "Credit" FROM "AccountingIncome" INNER JOIN "AccountingIncomeRecord" ON "AccountingIncome"."Id"="AccountingIncomeRecord"."AccountingIncomeId" INNER JOIN "AccountingAccount" ON "AccountingAccount"."Id"="AccountingIncomeRecord"."AccountingAccountId";
+CREATE VIEW "Accounting"."IncomeAll" AS SELECT "Number", "Date", "Concept", "Accounting"."Account"."Code", "Accounting"."Account"."Name", "Debit", "Credit" FROM "Accounting"."Income" INNER JOIN "Accounting"."IncomeRecord" ON "Accounting"."Income"."Id"="Accounting"."IncomeRecord"."IncomeId" INNER JOIN "Accounting"."Account" ON "Accounting"."Account"."Id"="Accounting"."IncomeRecord"."AccountId";
 
 
-INSERT INTO "AuthGroup" ("Name") VALUES ('accounting');
-INSERT INTO "AppRole" ("Image", "Label", "Name", "GroupId") SELECT 'basket.svg', 'Cuentas', 'cuentas', "AuthGroup"."Id" AS "GroupId" FROM "AuthGroup" WHERE "AuthGroup"."Name"='accounting';
-INSERT INTO "AppRole" ("Image", "Label", "Name", "GroupId") SELECT 'stock_tasks.svg', 'Notas', 'accountingnotes', "AuthGroup"."Id" AS "GroupId" FROM "AuthGroup" WHERE "AuthGroup"."Name"='accounting';
-INSERT INTO "AppRole" ("Image", "Label", "Name", "GroupId") SELECT 'text-editor.svg', 'Cedeg', 'cedeg', "AuthGroup"."Id" AS "GroupId" FROM "AuthGroup" WHERE "AuthGroup"."Name"='accounting';
-INSERT INTO "AppRole" ("Image", "Label", "Name", "GroupId") SELECT 'hexedit.svg', 'Comping', 'comping', "AuthGroup"."Id" AS "GroupId" FROM "AuthGroup" WHERE "AuthGroup"."Name"='accounting';
-INSERT INTO "AppRole" ("Image", "Label", "Name", "GroupId") SELECT 'artha.svg', 'Reportes', 'accountingrep', "AuthGroup"."Id" AS "GroupId" FROM "AuthGroup" WHERE "AuthGroup"."Name"='accounting';
-INSERT INTO "AppRole" ("Image", "Label", "Name", "GroupId") SELECT 'hwinfo.svg', 'Info Empresa', 'accountingcompay', "AuthGroup"."Id" AS "GroupId" FROM "AuthGroup" WHERE "AuthGroup"."Name"='accounting';
+INSERT INTO "Auth"."Group" ("Name") VALUES ('accounting');
+INSERT INTO "AppRole" ("Image", "Label", "Name", "GroupId") SELECT 'basket.svg', 'Cuentas', 'cuentas', "Auth"."Group"."Id" AS "GroupId" FROM "Auth"."Group" WHERE "Auth"."Group"."Name"='accounting';
+INSERT INTO "AppRole" ("Image", "Label", "Name", "GroupId") SELECT 'stock_tasks.svg', 'Notas', 'accountingnotes', "Auth"."Group"."Id" AS "GroupId" FROM "Auth"."Group" WHERE "Auth"."Group"."Name"='accounting';
+INSERT INTO "AppRole" ("Image", "Label", "Name", "GroupId") SELECT 'text-editor.svg', 'Cedeg', 'cedeg', "Auth"."Group"."Id" AS "GroupId" FROM "Auth"."Group" WHERE "Auth"."Group"."Name"='accounting';
+INSERT INTO "AppRole" ("Image", "Label", "Name", "GroupId") SELECT 'hexedit.svg', 'Comping', 'comping', "Auth"."Group"."Id" AS "GroupId" FROM "Auth"."Group" WHERE "Auth"."Group"."Name"='accounting';
+INSERT INTO "AppRole" ("Image", "Label", "Name", "GroupId") SELECT 'artha.svg', 'Reportes', 'accountingrep', "Auth"."Group"."Id" AS "GroupId" FROM "Auth"."Group" WHERE "Auth"."Group"."Name"='accounting';
+INSERT INTO "AppRole" ("Image", "Label", "Name", "GroupId") SELECT 'hwinfo.svg', 'Info Empresa', 'accountingcompay', "Auth"."Group"."Id" AS "GroupId" FROM "Auth"."Group" WHERE "Auth"."Group"."Name"='accounting';

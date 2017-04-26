@@ -23,7 +23,7 @@ local Method = Http.Request ("Method");
 if Method == "CheckCode" then
     local Code = Http.Request ("Code");
     local Q = Sql.Query;
-    Q:New ([[SELECT "Name" FROM "AccountingAccount" WHERE "Code"=?;]]);
+    Q:New ([[SELECT "Name" FROM "Accounting"."Account" WHERE "Code"=?;]]);
     Q:SetString (Code);
     local R = db:query (Q.Stm);
     Http.Response (R);
@@ -34,7 +34,7 @@ end
 --NextNumber
 if Method == "NextNumber" then
     local Q = Sql.Query;
-    Q:New ([[SELECT "Number" FROM "AccountingDisbVou" ORDER BY "Number" DESC LIMIT 1;]]);
+    Q:New ([[SELECT "Number" FROM "Accounting"."DisbVou" ORDER BY "Number" DESC LIMIT 1;]]);
     local R = db:query (Q.Stm);
     Http.Response (R);
     return;
@@ -45,7 +45,7 @@ end
 if Method == "AutoFill" then
     local Number = Http.Request ("Number");
     local Q = Sql.Query;
-    Q:New ([[SELECT "Number", "Place", "Date", "Holder", "Concept", "Bank", "Check", "CheckingAccount", "Amount", "Code", "Name", "Partial", "Debit", "Credit" FROM "AccountingDisbVouAll" WHERE "Number"=?;]]);
+    Q:New ([[SELECT "Number", "Place", "Date", "Holder", "Concept", "Bank", "Check", "CheckingAccount", "Amount", "Code", "Name", "Partial", "Debit", "Credit" FROM "Accounting"."DisbVouAll" WHERE "Number"=?;]]);
     Q:SetNumber (Number);
     local R = db:query (Q.Stm);
     Http.Response (R);
@@ -68,9 +68,9 @@ if Method == "Insert" then
     local R, Err = db:query ("BEGIN;");
 
     local Q = Sql.Query;
-    Q:New ([[WITH "ins1" AS (INSERT INTO "AccountingDisbVou"("Number", "Place", "Date", "Holder", "Concept")
+    Q:New ([[WITH "ins1" AS (INSERT INTO "Accounting"."DisbVou"("Number", "Place", "Date", "Holder", "Concept")
         VALUES(?, ?, ?, ?, ?) RETURNING "Id")
-        INSERT INTO "AccountingDisbVouBank"("AccountingDisbVouId", "Bank", "Check", "CheckingAccount", "Amount")
+        INSERT INTO "Accounting"."DisbVouBank"("DisbVouId", "Bank", "Check", "CheckingAccount", "Amount")
         SELECT "Id", ?, ?, ?, ? FROM "ins1";]]);
     Q:SetNumber (Number);
     Q:SetString (Place);
@@ -92,8 +92,8 @@ if Method == "Insert" then
     local Records = Http.Request ("Records");
 
     for i, o in pairs(Records) do
-        Q:New ([[INSERT INTO "AccountingDisbVouRecord"("AccountingDisbVouId", "AccountingAccountId", "Partial", "Debit", "Credit")
-            SELECT "AccountingDisbVou"."Id", "AccountingAccount"."Id", ?, ?, ? FROM "AccountingDisbVou" INNER JOIN "AccountingAccount" ON "AccountingDisbVou"."Number"=? AND "AccountingAccount"."Code"=?;]]);
+        Q:New ([[INSERT INTO "Accounting"."DisbVouRecord"("DisbVouId", "AccountId", "Partial", "Debit", "Credit")
+            SELECT "Accounting"."DisbVou"."Id", "Accounting"."Account"."Id", ?, ?, ? FROM "Accounting"."DisbVou" INNER JOIN "Accounting"."Account" ON "Accounting"."DisbVou"."Number"=? AND "Accounting"."Account"."Code"=?;]]);
         Q:SetNumber (Records[i].Partial);
         Q:SetNumber (Records[i].Debit);
         Q:SetNumber (Records[i].Credit);
@@ -128,8 +128,8 @@ if Method == "Update" then
     local Amount = Http.Request ("Amount");
 
     local Q = Sql.Query;
-    Q:New ([[UPDATE "AccountingDisbVou" SET "Place"=?, "Date"=?, "Holder"=?, "Concept"=? WHERE "Number"=?;
-            UPDATE "AccountingDisbVouBank" SET "Bank"=?, "Check"=?, "CheckingAccount"=?, "Amount"=? FROM "AccountingDisbVou" WHERE  "AccountingDisbVouId"="AccountingDisbVou"."Id" AND "AccountingDisbVou"."Number"=?]]);
+    Q:New ([[UPDATE "Accounting"."DisbVou" SET "Place"=?, "Date"=?, "Holder"=?, "Concept"=? WHERE "Number"=?;
+            UPDATE "Accounting"."DisbVouBank" SET "Bank"=?, "Check"=?, "CheckingAccount"=?, "Amount"=? FROM "Accounting"."DisbVou" WHERE  "DisbVouId"="Accounting"."DisbVou"."Id" AND "Accounting"."DisbVou"."Number"=?]]);
 
     Q:SetString (Place);
     Q:SetString (Date);
@@ -151,7 +151,7 @@ if Method == "Update" then
         return;
     end
 
-    Q:New ([[DELETE FROM "AccountingDisbVouRecord" USING "AccountingDisbVou" WHERE "AccountingDisbVouId"="AccountingDisbVou"."Id" AND "Number"=?]]);
+    Q:New ([[DELETE FROM "Accounting"."DisbVouRecord" USING "Accounting"."DisbVou" WHERE "DisbVouId"="Accounting"."DisbVou"."Id" AND "Number"=?]]);
     Q:SetNumber (Number);
 
     R, Err = db:query (Q.Stm);
@@ -164,8 +164,8 @@ if Method == "Update" then
     local Records = Http.Request ("Records");
 
     for i, o in pairs(Records) do
-        Q:New ([[INSERT INTO "AccountingDisbVouRecord"("AccountingDisbVouId", "AccountingAccountId", "Partial", "Debit", "Credit")
-            SELECT "AccountingDisbVou"."Id", "AccountingAccount"."Id", ?, ?, ? FROM "AccountingDisbVou" INNER JOIN "AccountingAccount" ON "AccountingDisbVou"."Number"=? AND "AccountingAccount"."Code"=?;]]);
+        Q:New ([[INSERT INTO "Accounting"."DisbVouRecord"("DisbVouId", "AccountId", "Partial", "Debit", "Credit")
+            SELECT "Accounting"."DisbVou"."Id", "Accounting"."Account"."Id", ?, ?, ? FROM "Accounting"."DisbVou" INNER JOIN "Accounting"."Account" ON "Accounting"."DisbVou"."Number"=? AND "Accounting"."Account"."Code"=?;]]);
         Q:SetNumber (Records[i].Partial);
         Q:SetNumber (Records[i].Debit);
         Q:SetNumber (Records[i].Credit);
@@ -191,7 +191,7 @@ end
 if Method == "Delete" then
     local Number = Http.Request ("Number");
     local Q = Sql.Query;
-    Q:New ([[DELETE FROM "AccountingDisbVou" WHERE "Number"=?;]]);
+    Q:New ([[DELETE FROM "Accounting"."DisbVou" WHERE "Number"=?;]]);
     Q:SetNumber (Number);
     local R = db:query (Q.Stm);
     Http.Response (R);

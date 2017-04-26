@@ -23,7 +23,7 @@ local Method = Http.Request ("Method");
 --CheckCode
 if Method == "Select" then
     local Q = Sql.Query;
-    Q:New ([[SELECT "Name", "Label", "Image" FROM "AppRoleAll" WHERE "User"=?;]]);
+    Q:New ([[SELECT "Name", "Label", "Image" FROM "Auth"."AppRoleAll" WHERE "User"=?;]]);
     Q:SetString (Session.GetUser());
     local R = db:query (Q.Stm);
     Http.Response (R);

@@ -90,7 +90,7 @@ accountingrep.prototype.PrintResponse = function (Res)
 {
     var DisbVous = (Res.DisbVous instanceof Array) ? Res.DisbVous : [];
     var Accounts = (Res.Accounts instanceof Array) ? Res.Accounts : [];
-    console.log (Accounts);
+    
     //var Notes = (Res.Notes instanceof Array) ? Res.Notes : [];
     //var Registros = DisbVous.concat(Notes);
     //this.Records = this.SortData (Registros);

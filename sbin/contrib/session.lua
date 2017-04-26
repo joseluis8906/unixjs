@@ -38,7 +38,7 @@ if Method == "Start" then
     local UserName = Http.Request ("UserName");
     local Password = Http.Request ("Password");
     local Q = Sql.Query;
-    Q:New ([[SELECT "UserName", "Password" FROM "AuthUser" WHERE "UserName"=? LIMIT 1;]]);
+    Q:New ([[SELECT "UserName", "Password" FROM "Auth"."User" WHERE "UserName"=? LIMIT 1;]]);
     Q:SetString (UserName);
     local pgmoon = require ("pgmoon");
     local db = pgmoon.new(Sql.Conf);

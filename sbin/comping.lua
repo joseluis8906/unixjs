@@ -23,7 +23,7 @@ local Method = Http.Request ("Method");
 if Method == "CheckCode" then
     local Code = Http.Request ("Code");
     local Q = Sql.Query;
-    Q:New ([[SELECT "Name" FROM "AccountingAccount" WHERE "Code"=?;]]);
+    Q:New ([[SELECT "Name" FROM "Accounting"."Account" WHERE "Code"=?;]]);
     Q:SetString (Code);
     local R = db:query (Q.Stm);
     Http.Response (R);
@@ -34,7 +34,7 @@ end
 --NextNumber
 if Method == "NextNumber" then
     local Q = Sql.Query;
-    Q:New ([[SELECT "Number" FROM "AccountingIncome" ORDER BY "Number" DESC LIMIT 1;]]);
+    Q:New ([[SELECT "Number" FROM "Accounting"."Income" ORDER BY "Number" DESC LIMIT 1;]]);
     local R = db:query (Q.Stm);
     Http.Response (R);
     return;
@@ -45,7 +45,7 @@ end
 if Method == "AutoFill" then
     local Number = Http.Request ("Number");
     local Q = Sql.Query;
-    Q:New ([[SELECT "Number", "Date", "Concept", "Code", "Name", "Partial", "Debit", "Credit" FROM "AccountingIncomeAll" WHERE "Number"=?;]]);
+    Q:New ([[SELECT "Number", "Date", "Concept", "Code", "Name", "Partial", "Debit", "Credit" FROM "Accounting"."IncomeAll" WHERE "Number"=?;]]);
     Q:SetNumber (Number);
     local R = db:query (Q.Stm);
     Http.Response (R);
@@ -62,7 +62,7 @@ if Method == "Insert" then
     local R, Err = db:query ("BEGIN;");
 
     local Q = Sql.Query;
-    Q:New ([[INSERT INTO "AccountingIncome"("Number", "Date", "Concept") VALUES(?, ?, ?);]]);
+    Q:New ([[INSERT INTO "Accounting"."Income"("Number", "Date", "Concept") VALUES(?, ?, ?);]]);
     Q:SetNumber (Number);
     Q:SetString (Date);
     Q:SetString (Concept);
@@ -77,8 +77,8 @@ if Method == "Insert" then
     local Records = Http.Request ("Records");
 
     for i, o in pairs(Records) do
-        Q:New ([[INSERT INTO "AccountingIncomeRecord"("AccountingIncomeId", "AccountingAccountId", "Partial", "Debit", "Credit")
-            SELECT "AccountingIncome"."Id", "AccountingAccount"."Id", ?, ?, ? FROM "AccountingIncome" INNER JOIN "AccountingAccount" ON "AccountingIncome"."Number"=? AND "AccountingAccount"."Code"=?;]]);
+        Q:New ([[INSERT INTO "Accounting"."IncomeRecord"("IncomeId", "AccountId", "Partial", "Debit", "Credit")
+            SELECT "Accounting"."Income"."Id", "Accounting"."Account"."Id", ?, ?, ? FROM "Accounting"."Income" INNER JOIN "Accounting"."Account" ON "Accounting"."Income"."Number"=? AND "Accounting"."Account"."Code"=?;]]);
         Q:SetNumber (Records[i].Partial);
         Q:SetNumber (Records[i].Debit);
         Q:SetNumber (Records[i].Credit);
@@ -107,7 +107,7 @@ if Method == "Update" then
     local Concept = Http.Request ("Concept");
 
     local Q = Sql.Query;
-    Q:New ([[UPDATE "AccountingIncome" SET "Date"=?, "Concept"=? WHERE "Number"=?;]]);
+    Q:New ([[UPDATE "Accounting"."Income" SET "Date"=?, "Concept"=? WHERE "Number"=?;]]);
 
     Q:SetString (Date);
     Q:SetString (Concept);
@@ -121,7 +121,7 @@ if Method == "Update" then
         return;
     end
 
-    Q:New ([[DELETE FROM "AccountingIncomeRecord" USING "AccountingIncome" WHERE "AccountingIncomeId"="AccountingIncome"."Id" AND "Number"=?]]);
+    Q:New ([[DELETE FROM "Accounting"."IncomeRecord" USING "Accounting"."Income" WHERE "IncomeId"="Accounting"."Income"."Id" AND "Number"=?]]);
     Q:SetNumber (Number);
 
     R, Err = db:query (Q.Stm);
@@ -134,8 +134,8 @@ if Method == "Update" then
     local Records = Http.Request ("Records");
 
     for i, o in pairs(Records) do
-        Q:New ([[INSERT INTO "AccountingIncomeRecord"("AccountingIncomeId", "AccountingAccountId", "Partial", "Debit", "Credit")
-            SELECT "AccountingIncome"."Id", "AccountingAccount"."Id", ?, ?, ? FROM "AccountingIncome" INNER JOIN "AccountingAccount" ON "AccountingIncome"."Number"=? AND "AccountingAccount"."Code"=?;]]);
+        Q:New ([[INSERT INTO "Accounting"."IncomeRecord"("IncomeId", "AccountId", "Partial", "Debit", "Credit")
+            SELECT "Accounting"."Income"."Id", "Accounting"."Account"."Id", ?, ?, ? FROM "Accounting"."Income" INNER JOIN "Accounting"."Account" ON "Accounting"."Income"."Number"=? AND "Accounting"."Account"."Code"=?;]]);
         Q:SetNumber (Records[i].Partial);
         Q:SetNumber (Records[i].Debit);
         Q:SetNumber (Records[i].Credit);
@@ -161,7 +161,7 @@ end
 if Method == "Delete" then
     local Number = Http.Request ("Number");
     local Q = Sql.Query;
-    Q:New ([[DELETE FROM "AccountingIncome" WHERE "Number"=?;]]);
+    Q:New ([[DELETE FROM "Accounting"."Income" WHERE "Number"=?;]]);
     Q:SetNumber (Number);
     local R = db:query (Q.Stm);
     Http.Response (R);

@@ -26,25 +26,25 @@ if Method == "Daily" then
 
     local Q = Sql.Query;
 
-    Q:New ([[SELECT "Number", "Date", "Code", "Name", "Debit", "Credit" FROM "AccountingDisbVouAll" WHERE "Date">=?::DATE AND "Date"<=?::DATE ORDER BY "Number" ASC, "Code" ASC;]]);
+    Q:New ([[SELECT "Number", "Date", "Code", "Name", "Debit", "Credit" FROM "Accounting"."DisbVouAll" WHERE "Date">=?::DATE AND "Date"<=?::DATE ORDER BY "Number" ASC, "Code" ASC;]]);
     Q:SetString (DateBegin);
     Q:SetString (DateEnd);
     local R1 = db:query (Q.Stm);
     Res.DisbVous = R1;
 
-    Q:New ([[SELECT "Number", "Date", "Code", "Name", "Debit", "Credit" FROM "AccountingNoteAll" WHERE "Date">=?::DATE AND "Date"<=?::DATE ORDER BY "Number" ASC, "Code" ASC;]]);
+    Q:New ([[SELECT "Number", "Date", "Code", "Name", "Debit", "Credit" FROM "Accounting"."NoteAll" WHERE "Date">=?::DATE AND "Date"<=?::DATE ORDER BY "Number" ASC, "Code" ASC;]]);
     Q:SetString (DateBegin);
     Q:SetString (DateEnd);
     local R2 = db:query (Q.Stm);
     Res.Notes = R2;
 
-    Q:New ([[SELECT "Number", "Date", "Code", "Name", "Debit", "Credit" FROM "IncomeAll" WHERE "Date">=?::DATE AND "Date"<=?::DATE ORDER BY "Number" ASC, "Code" ASC;]]);
+    Q:New ([[SELECT "Number", "Date", "Code", "Name", "Debit", "Credit" FROM "Accounting"."IncomeAll" WHERE "Date">=?::DATE AND "Date"<=?::DATE ORDER BY "Number" ASC, "Code" ASC;]]);
     Q:SetString (DateBegin);
     Q:SetString (DateEnd);
     local R3 = db:query (Q.Stm);
     Res.Incomes = R3;
 
-    Q:New ([[SELECT "Code", "Name" FROM "AccountingAccount" WHERE char_length("Code")=4 ORDER BY "Code" ASC;]]);
+    Q:New ([[SELECT "Code", "Name" FROM "Accounting"."Account" WHERE char_length("Code")=4 ORDER BY "Code" ASC;]]);
     local R4 = db:query (Q.Stm);
     Res.Accounts = R4;
 

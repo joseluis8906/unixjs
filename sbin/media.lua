@@ -62,12 +62,12 @@ local Method = Http.Request ("Method");
 if Method == "Select" then
     local UserName = Http.Request ("UserName");
     local Q = Sql.Query;
-    Q:New ([[SELECT "Name", "Type", "FileName" FROM "Media" INNER JOIN "AuthUser" ON "AuthUser"."Id"="Media"."UserId" AND "AuthUser"."UserName"=?;]]);
+    Q:New ([[SELECT "Name", "Type", "FileName" FROM "public"."Media" INNER JOIN "Auth"."User" ON "Auth"."User"."Id"="Media"."UserId" AND "Auth"."User"."UserName"=?;]]);
     Q:SetString (UserName);
     local R = db:query (Q.Stm);
     Http.Response (R);
     return;
-end    
+end
 
 --insert
 if Method == "Insert" then
@@ -76,7 +76,7 @@ if Method == "Insert" then
     local Name = GenUid(UserName.."-"..FileName);
     local Type = Http.Request ("Type");
     local Q = Sql.Query;
-    Q:New ([[INSERT INTO "Media" ("Name", "Type", "FileName", "UserId") SELECT ?, ?, ?, "Id" FROM "AuthUser" WHERE "AuthUser"."UserName"=?;]]);
+    Q:New ([[INSERT INTO "public"."Media" ("Name", "Type", "FileName", "UserId") SELECT ?, ?, ?, "Id" FROM "Auth"."User" WHERE "Auth"."User"."UserName"=?;]]);
     Q:SetString (Name);
     Q:SetString (Type);
     Q:SetString (FileName);
@@ -97,7 +97,7 @@ if Method == "Update" then
     local Name = Http.Request ("Name");
     local Type = Http.Request ("Type");
     local Q = Sql.Query;
-    Q:New ([[UPDATE "Media" SET "UserId"="User"."Id" FROM (SELECT "Id" FROM "AuthUser" WHERE "UserName"=?) AS "User" WHERE "Name"=? AND "Type"=?;]]);
+    Q:New ([[UPDATE "public"."Media" SET "UserId"="User"."Id" FROM (SELECT "Id" FROM "Auth"."User" WHERE "UserName"=?) AS "User" WHERE "Name"=? AND "Type"=?;]]);
     Q:SetString (UserName);
     Q:SetString (Name);
     Q:SetString (Type);
@@ -112,7 +112,7 @@ if Method == "Delete" then
     local Name = Http.Request ("Name");
     local Type = Http.Request ("Type");
     local Q = Sql.Query;
-    Q:New ([[DELETE FROM "Media" WHERE "Name"=? AND "Type"=?;]]);
+    Q:New ([[DELETE FROM "public"."Media" WHERE "Name"=? AND "Type"=?;]]);
     Q:SetString (Name);
     Q:SetString (Type);
     local R, Err = db:query (Q.Stm);
@@ -130,7 +130,7 @@ if Method == "Delete" then
     elseif FindExt(VideosExt, Type) then
         os.remove(Subpath.."/videos/"..Name.."."..Type);
     else
-    
+
     end
 
     Http.Response (R);

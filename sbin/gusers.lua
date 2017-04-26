@@ -24,12 +24,12 @@ local Method = Http.Request ("Method");
 if Method == "Select" then
     local UserName = Http.Request ("UserName");
     local Q = Sql.Query;
-    Q:New ([[SELECT "DocumentType", "DocumentNum", "Country", "Name", "LastName", "AvatarName", "AvatarType", "Phone", "Email", "Address" FROM "AuthUserAll" WHERE "UserName"=?;]]);
+    Q:New ([[SELECT "DocumentType", "DocumentNum", "Country", "Name", "LastName", "AvatarName", "AvatarType", "Phone", "Email", "Address" FROM "Auth"."UserAll" WHERE "UserName"=?;]]);
     Q:SetString (UserName);
     local R = db:query (Q.Stm);
     Http.Response (R);
     return;
-end    
+end
 
 
 --insert
@@ -48,10 +48,10 @@ if Method == "Insert" then
     local AvatarType = Http.Request ("AvatarType");
     local R, Err = db:query ([[BEGIN;]]);
     local Q = Sql.Query;
-    Q:New ([[WITH "Ins1" AS (INSERT INTO "AuthUser"("UserName", "Password") VALUES(?, ?) RETURNING "Id" AS "UserId"),
-        "Ins2" AS (INSERT INTO "AuthUserBasicInfo" ("UserId", "DocumentType", "DocumentNum", "Country", "Name", "LastName")
+    Q:New ([[WITH "Ins1" AS (INSERT INTO "Auth"."User"("UserName", "Password") VALUES(?, ?) RETURNING "Id" AS "UserId"),
+        "Ins2" AS (INSERT INTO "Auth"."UserBasicInfo" ("UserId", "DocumentType", "DocumentNum", "Country", "Name", "LastName")
         SELECT "UserId", ?, ?, ?, ?, ? FROM "Ins1" RETURNING "UserId"),
-        "Ins3" AS (INSERT INTO "AuthUserComplementaryInfo" ("UserId", "Avatar", "Phone", "Email", "Address") 
+        "Ins3" AS (INSERT INTO "Auth"."UserComplementaryInfo" ("UserId", "Avatar", "Phone", "Email", "Address")
         SELECT "Ins1"."UserId", "Media"."Id", ?, ?, ? FROM "Ins1" INNER JOIN "Media" ON "Media"."Name"=? AND "Media"."Type"=? RETURNING "UserId")
         UPDATE "Media" SET "UserId"="Ins1"."UserId" FROM (SELECT "UserId" FROM "Ins1") AS "Ins1" WHERE "Media"."Name"=? AND "Media"."Type"=?;]]);
     Q:SetString (UserName);
@@ -97,12 +97,12 @@ if Method == "Update" then
     local R, Err = db:query ([[BEGIN;]]);
     local Q = Sql.Query;
     if Password == "" then
-        Q:New ([[WITH "Udt1" AS (UPDATE "AuthUserBasicInfo" SET "DocumentType"=?, "DocumentNum"=?, "Country"=?, "Name"=?, "LastName"=? FROM (SELECT "Id" FROM "AuthUser" WHERE "UserName"=?) AS "User" WHERE "AuthUserBasicInfo"."UserId"="User"."Id" RETURNING "User"."Id" AS "UserId")
-            UPDATE "AuthUserComplementaryInfo" SET "Avatar"="All"."Id", "Phone"=?, "Email"=?, "Address"=? FROM (SELECT "Udt1"."UserId", "Id", "Name", "Type" FROM "Media" INNER JOIN "Udt2" ON "Name"=? AND "Type"=?) AS "All" WHERE "AuthUserComplementaryInfo"."UserId"="All"."UserId";]]);
+        Q:New ([[WITH "Udt1" AS (UPDATE "Auth"."UserBasicInfo" SET "DocumentType"=?, "DocumentNum"=?, "Country"=?, "Name"=?, "LastName"=? FROM (SELECT "Id" FROM "Auth"."User" WHERE "UserName"=?) AS "User" WHERE "Auth"."UserBasicInfo"."UserId"="User"."Id" RETURNING "User"."Id" AS "UserId")
+            UPDATE "Auth"."UserComplementaryInfo" SET "Avatar"="All"."Id", "Phone"=?, "Email"=?, "Address"=? FROM (SELECT "Udt1"."UserId", "Id", "Name", "Type" FROM "Media" INNER JOIN "Udt2" ON "Name"=? AND "Type"=?) AS "All" WHERE "Auth"."UserComplementaryInfo"."UserId"="All"."UserId";]]);
     else
-        Q:New ([[WITH "Udt1" AS (UPDATE "AuthUser" SET "Password"=? WHERE "UserName"=? RETURNING "Id" AS "UserId"),
-            "Udt2" AS (UPDATE "AuthUserBasicInfo" SET "DocumentType"=?, "DocumentNum"=?, "Country"=?, "Name"=?, "LastName"=? FROM (SELECT "UserId" FROM "Udt1") AS "Udt1" WHERE "AuthUserBasicInfo"."UserId"="Udt1"."UserId" RETURNING "Udt1"."UserId" AS "UserId")
-            UPDATE "AuthUserComplementaryInfo" SET "Avatar"="All"."Id", "Phone"=?, "Email"=?, "Address"=? FROM (SELECT "Udt2"."UserId", "Id", "Name", "Type" FROM "Media" INNER JOIN "Udt2" ON "Name"=? AND "Type"=?) AS "All" WHERE "AuthUserComplementaryInfo"."UserId"="All"."UserId";]]);
+        Q:New ([[WITH "Udt1" AS (UPDATE "Auth"."User" SET "Password"=? WHERE "UserName"=? RETURNING "Id" AS "UserId"),
+            "Udt2" AS (UPDATE "Auth"."UserBasicInfo" SET "DocumentType"=?, "DocumentNum"=?, "Country"=?, "Name"=?, "LastName"=? FROM (SELECT "UserId" FROM "Udt1") AS "Udt1" WHERE "Auth"."UserBasicInfo"."UserId"="Udt1"."UserId" RETURNING "Udt1"."UserId" AS "UserId")
+            UPDATE "Auth"."UserComplementaryInfo" SET "Avatar"="All"."Id", "Phone"=?, "Email"=?, "Address"=? FROM (SELECT "Udt2"."UserId", "Id", "Name", "Type" FROM "Media" INNER JOIN "Udt2" ON "Name"=? AND "Type"=?) AS "All" WHERE "Auth"."UserComplementaryInfo"."UserId"="All"."UserId";]]);
         Q:SetString (Password);
     end
     Q:SetString (UserName);
@@ -132,7 +132,7 @@ end
 if Method == "Delete" then
     local UserName = Http.Request ("UserName");
     local Q = Sql.Query;
-    Q:New ([[DELETE FROM "AuthUser" WHERE "UserName"=?;]]);
+    Q:New ([[DELETE FROM "Auth"."User" WHERE "UserName"=?;]]);
     Q:SetString (UserName);
     local R = db:query (Q.Stm);
     Http.Response (R);

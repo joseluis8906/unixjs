@@ -21,18 +21,18 @@ local Method = Http.Request ("Method");
 if Method == "Select" then
     local Code = Http.Request ("Code");
     local Q = Sql.Query;
-    Q:New ([[SELECT "Name" FROM "AccountingAccount" WHERE "Code"=?;]]);
+    Q:New ([[SELECT "Name" FROM "Accounting"."Account" WHERE "Code"=?;]]);
     Q:SetString (Code);
     local R = db:query (Q.Stm);
     Http.Response (R);
     return;
-end    
+end
 
 if Method == "Insert" then
     local Code = Http.Request ("Code");
     local Name = Http.Request ("Name");
     local Q = Sql.Query;
-    Q:New ([[INSERT INTO "AccountingAccount" ("Code", "Name") VALUES (?, ?)]]);
+    Q:New ([[INSERT INTO "Accounting"."Account" ("Code", "Name") VALUES (?, ?)]]);
     Q:SetString (Code);
     Q:SetString (Name);
     local R, Err = db:query (Q.Stm);
@@ -48,7 +48,7 @@ if Method == "Update" then
     local Code = Http.Request ("Code");
     local Name = Http.Request ("Name");
     local Q = Sql.Query;
-    Q:New ([[UPDATE "AccountingAccount" SET "Name"=? WHERE "Code"=?;]]);
+    Q:New ([[UPDATE "Accounting"."Account" SET "Name"=? WHERE "Code"=?;]]);
     Q:SetString (Name);
     Q:SetString (Code);
     local R = db:query (Q.Stm);
@@ -59,7 +59,7 @@ end
 if Method == "Delete" then
     local Code = Http.Request ("Code");
     local Q = Sql.Query;
-    Q:New ([[DELETE FROM "AccountingAccount" WHERE "Code"=?;]]);
+    Q:New ([[DELETE FROM "Accounting"."Account" WHERE "Code"=?;]]);
     Q:SetString (Code);
     local R = db:query (Q.Stm);
     Http.Response (R);
