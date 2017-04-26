@@ -44,7 +44,7 @@ if Method == "Daily" then
     local R3 = db:query (Q.Stm);
     Res.Incomes = R3;
 
-    Q:New ([[SELECT "Code", "Name" FROM "AccountingAccount" WHERE char_length("Code")==4 ORDER BY "Code" DESC;]]);
+    Q:New ([[SELECT "Code", "Name" FROM "AccountingAccount" WHERE char_length("Code")=4 ORDER BY "Code" ASC;]]);
     local R4 = db:query (Q.Stm);
     Res.Accounts = R4;
 
