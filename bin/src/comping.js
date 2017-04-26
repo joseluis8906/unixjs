@@ -348,7 +348,6 @@ comping.prototype.AutoFill = function (Res)
         {
             this.records[i].code.SetText (Res[i].Code);
             this.records[i].name.SetText (Res[i].Name);
-            this.records[i].partial.SetText ((Res[i].Partial === 0 ? "" : Res[i].Partial));
             this.records[i].debit.SetText ((Res[i].Debit === 0 ? "" : Res[i].Debit));
             this.records[i].credit.SetText ((Res[i].Credit === 0 ? "" : Res[i].Credit));
         }
