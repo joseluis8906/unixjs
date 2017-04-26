@@ -77,9 +77,8 @@ if Method == "Insert" then
     local Records = Http.Request ("Records");
 
     for i, o in pairs(Records) do
-        Q:New ([[INSERT INTO "Accounting"."NoteRecord"("NoteId", "AccountId", "Partial", "Debit", "Credit")
+        Q:New ([[INSERT INTO "Accounting"."NoteRecord"("NoteId", "AccountId", "Debit", "Credit")
             SELECT "Accounting"."Note"."Id", "Accounting"."Account"."Id", ?, ?, ? FROM "Accounting"."Note" INNER JOIN "Accounting"."Account" ON "Accounting"."Note"."Number"=? AND "Accounting"."Account"."Code"=?;]]);
-        Q:SetNumber (Records[i].Partial);
         Q:SetNumber (Records[i].Debit);
         Q:SetNumber (Records[i].Credit);
         Q:SetNumber (Records[i].Number);
@@ -134,9 +133,8 @@ if Method == "Update" then
     local Records = Http.Request ("Records");
 
     for i, o in pairs(Records) do
-        Q:New ([[INSERT INTO "Accounting"."NoteRecord"("NoteId", "AccountId", "Partial", "Debit", "Credit")
+        Q:New ([[INSERT INTO "Accounting"."NoteRecord"("NoteId", "AccountId", "Debit", "Credit")
             SELECT "Accounting"."Note"."Id", "Accounting"."Account"."Id", ?, ?, ? FROM "Accounting"."Note" INNER JOIN "Accounting"."Account" ON "Accounting"."Note"."Number"=? AND "Accounting"."Account"."Code"=?;]]);
-        Q:SetNumber (Records[i].Partial);
         Q:SetNumber (Records[i].Debit);
         Q:SetNumber (Records[i].Credit);
         Q:SetNumber (Records[i].Number);
