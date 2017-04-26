@@ -45,7 +45,7 @@ end
 if Method == "AutoFill" then
     local Number = Http.Request ("Number");
     local Q = Sql.Query;
-    Q:New ([[SELECT "Number", "Date", "Concept", "Code", "Name", "Partial", "Debit", "Credit" FROM "Accounting"."IncomeAll" WHERE "Number"=?;]]);
+    Q:New ([[SELECT "Number", "Date", "Concept", "Code", "Name", "Debit", "Credit" FROM "Accounting"."IncomeAll" WHERE "Number"=?;]]);
     Q:SetNumber (Number);
     local R = db:query (Q.Stm);
     Http.Response (R);
@@ -77,9 +77,8 @@ if Method == "Insert" then
     local Records = Http.Request ("Records");
 
     for i, o in pairs(Records) do
-        Q:New ([[INSERT INTO "Accounting"."IncomeRecord"("IncomeId", "AccountId", "Partial", "Debit", "Credit")
-            SELECT "Accounting"."Income"."Id", "Accounting"."Account"."Id", ?, ?, ? FROM "Accounting"."Income" INNER JOIN "Accounting"."Account" ON "Accounting"."Income"."Number"=? AND "Accounting"."Account"."Code"=?;]]);
-        Q:SetNumber (Records[i].Partial);
+        Q:New ([[INSERT INTO "Accounting"."IncomeRecord"("IncomeId", "AccountId", "Debit", "Credit")
+            SELECT "Accounting"."Income"."Id", "Accounting"."Account"."Id", ?, ? FROM "Accounting"."Income" INNER JOIN "Accounting"."Account" ON "Accounting"."Income"."Number"=? AND "Accounting"."Account"."Code"=?;]]);
         Q:SetNumber (Records[i].Debit);
         Q:SetNumber (Records[i].Credit);
         Q:SetNumber (Records[i].Number);
@@ -134,9 +133,8 @@ if Method == "Update" then
     local Records = Http.Request ("Records");
 
     for i, o in pairs(Records) do
-        Q:New ([[INSERT INTO "Accounting"."IncomeRecord"("IncomeId", "AccountId", "Partial", "Debit", "Credit")
-            SELECT "Accounting"."Income"."Id", "Accounting"."Account"."Id", ?, ?, ? FROM "Accounting"."Income" INNER JOIN "Accounting"."Account" ON "Accounting"."Income"."Number"=? AND "Accounting"."Account"."Code"=?;]]);
-        Q:SetNumber (Records[i].Partial);
+        Q:New ([[INSERT INTO "Accounting"."IncomeRecord"("IncomeId", "AccountId", "Debit", "Credit")
+            SELECT "Accounting"."Income"."Id", "Accounting"."Account"."Id", ?, ? FROM "Accounting"."Income" INNER JOIN "Accounting"."Account" ON "Accounting"."Income"."Number"=? AND "Accounting"."Account"."Code"=?;]]);
         Q:SetNumber (Records[i].Debit);
         Q:SetNumber (Records[i].Credit);
         Q:SetNumber (Records[i].Number);

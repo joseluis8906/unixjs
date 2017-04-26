@@ -17,22 +17,19 @@ function record_widget (Width, Heigth)
     this.name.SetExpand (false);
     this.name.SetWidth (this.GetWidth() - 480);
     this.name.SetValign (Gwt.Gui.Contrib.Valign.Middle);
-    this.partial = new Gwt.Gui.Entry ("Parcial");
-    this.partial.SetExpand (false);
-    this.partial.SetWidth (120);
-    this.partial.ChangeToMonetary();
     this.debit = new Gwt.Gui.Entry ("Debe");
     this.debit.SetExpand (false);
     this.debit.SetWidth (120);
     this.debit.ChangeToMonetary();
+    this.debit.TextAlign (Gwt.Gui.Contrib.TextAlign.Right);
     this.credit = new Gwt.Gui.Entry ("Haber");
     this.credit.SetExpand (false);
     this.credit.SetWidth (120);
     this.credit.ChangeToMonetary();
+    this.credit.TextAlign (Gwt.Gui.Contrib.TextAlign.Right);
 
     this.Add (this.code);
     this.Add (this.name);
-    this.Add (this.partial);
     this.Add (this.debit);
     this.Add (this.credit);
 
@@ -47,13 +44,11 @@ record_widget.prototype._record_widget = function ()
 {
     this.code._Entry();
     this.name._StaticText();
-    this.partial._Entry();
     this.debit._Entry();
     this.credit._Entry();
 
     this.code = null;
     this.name = null;
-    this.partial = null;
     this.debit = null;
     this.credit = null;
 };
@@ -63,7 +58,6 @@ record_widget.prototype.Reset = function ()
 {
     this.code.Reset ();
     this.name.SetText ("Nombre");
-    this.partial.Reset ();
     this.debit.Reset ();
     this.credit.Reset ();
 };
@@ -189,7 +183,6 @@ comping.prototype.CreateData = function ()
         if (this.records[i].code.GetText() !== "")
         {
             Data.Records.push({
-                Partial: (this.records[i].partial.GetText () === "") ? 0 : this.records[i].partial.GetText (),
                 Debit: (this.records[i].debit.GetText () === "") ? 0 : this.records[i].debit.GetText (),
                 Credit: (this.records[i].credit.GetText() === "") ? 0 : this.records[i].credit.GetText(),
                 Number: this.number.GetText (),
@@ -287,7 +280,7 @@ comping.prototype.ReportLoad = function ()
             Records.push({
                 "Code": this.records[i].code.GetText (),
                 "Name": this.records[i].name.GetText (),
-                "Partial": Gwt.Core.Contrib.TextToMonetary (this.records[i].partial.GetText ()),
+                "Partial": Gwt.Core.Contrib.TextToMonetary (""),
                 "Debit": Gwt.Core.Contrib.TextToMonetary (this.records[i].debit.GetText ()),
                 "Credit": Gwt.Core.Contrib.TextToMonetary (this.records[i].credit.GetText())
             });
