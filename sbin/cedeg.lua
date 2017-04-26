@@ -163,7 +163,7 @@ if Method == "Update" then
     local Records = Http.Request ("Records");
 
     for i, o in pairs(Records) do
-        Q:New ([[INSERT INTO "Accounting"."DisbVouRecord"("DisbVouId", "AccountId", Debit", "Credit")
+        Q:New ([[INSERT INTO "Accounting"."DisbVouRecord"("DisbVouId", "AccountId", "Debit", "Credit")
             SELECT "Accounting"."DisbVou"."Id", "Accounting"."Account"."Id", ?, ? FROM "Accounting"."DisbVou" INNER JOIN "Accounting"."Account" ON "Accounting"."DisbVou"."Number"=? AND "Accounting"."Account"."Code"=?;]]);
         Q:SetNumber (Records[i].Debit);
         Q:SetNumber (Records[i].Credit);
