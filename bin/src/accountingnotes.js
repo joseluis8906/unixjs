@@ -9,33 +9,30 @@ function record_widget (Width, Heigth)
     this.SetSize (Width, Heigth);
     this.SetClassName ("record_widget");
     this.Rpc = new Gwt.Core.Rpc ("/accountingnotes/");
-    
+
     this.code = new Gwt.Gui.Entry ("Código");
     this.code.SetExpand (false);
     this.code.SetWidth (120);
     this.name = new Gwt.Gui.StaticText ("Nombre");
     this.name.SetExpand (false);
-    this.name.SetWidth (this.GetWidth() - 480);
+    this.name.SetWidth (this.GetWidth() - 360);
     this.name.SetValign (Gwt.Gui.Contrib.Valign.Middle);
-    this.partial = new Gwt.Gui.Entry ("Parcial");
-    this.partial.SetExpand (false);
-    this.partial.SetWidth (120);
-    this.partial.ChangeToMonetary();
     this.debit = new Gwt.Gui.Entry ("Debe");
     this.debit.SetExpand (false);
     this.debit.SetWidth (120);
     this.debit.ChangeToMonetary();
+    this.debit.TextAlign (Gwt.Gui.Contrib.TextAlign.Right)
     this.credit = new Gwt.Gui.Entry ("Haber");
     this.credit.SetExpand (false);
     this.credit.SetWidth (120);
     this.credit.ChangeToMonetary();
-        
+    this.credit.TextAlign (Gwt.Gui.Contrib.TextAlign.Right)
+
     this.Add (this.code);
     this.Add (this.name);
-    this.Add (this.partial);
     this.Add (this.debit);
     this.Add (this.credit);
-    
+
     this.code.AddEvent (Gwt.Gui.Event.Keyboard.KeyPress, this.check_code.bind(this));
 }
 
@@ -47,23 +44,20 @@ record_widget.prototype._record_widget = function ()
 {
     this.code._Entry();
     this.name._StaticText();
-    this.partial._Entry();
     this.debit._Entry();
     this.credit._Entry();
-        
-    this.code = null;    
-    this.name = null;    
-    this.partial = null;
+
+    this.code = null;
+    this.name = null;
     this.debit = null;
     this.credit = null;
 };
-    
+
 //reset
 record_widget.prototype.Reset = function ()
 {
     this.code.Reset ();
     this.name.SetText ("Nombre");
-    this.partial.Reset ();
     this.debit.Reset ();
     this.credit.Reset ();
 };
@@ -100,17 +94,17 @@ function accountingnotes()
     this.SetPosition (Gwt.Gui.WIN_POS_CENTER);
     this.SetBorderSpacing (12);
     this.Rpc = new Gwt.Core.Rpc ("/accountingnotes/");
-    
+
     this.EnableMenu ();
     this.AddMenuItem (Gwt.Core.Contrib.Images + "appbar.cabinet.in.svg", "Guardar", this.Insert.bind(this));
     this.AddMenuItem (Gwt.Core.Contrib.Images + "appbar.refresh.svg", "Actualizar", this.Update.bind(this));
     this.AddMenuItem (Gwt.Core.Contrib.Images + "appbar.delete.svg", "Eliminar", this.Delete.bind(this));
     this.AddMenuItem (Gwt.Core.Contrib.Images + "appbar.printer.svg", "Imprimir", this.Print.bind(this));
     this.AddMenuItem (Gwt.Core.Contrib.Images + "appbar.power.svg", "Salir", function(){window.accountingnotes.close(); window.gcontrol.open();}, Gwt.Gui.MENU_QUIT_APP);
-         
+
     this.layout = new Gwt.Gui.VBox ();
     this.SetLayout (this.layout);
-     
+
     this.slider = new Gwt.Gui.Slider (5);
     this.slider.SetSize (this.layout.GetWidth (), this.layout.GetHeight ());
     this.slider.Setup ();
@@ -121,7 +115,7 @@ function accountingnotes()
     this.date.Now ();
     this.concept = new Gwt.Gui.Text ("Concepto");
     this.Report = null;
-    
+
     this.records = [];
     for (var i = 0; i <= 45; i++)
     {
@@ -176,12 +170,12 @@ accountingnotes.prototype._App = function ()
     this.slider._Slider ();
     this.Report === null ? null : this.Report.close ();
     this.layout._VBox ();
-    
+
     this.number = null;
     this.date = null;
     this.concept = null;
     this.records = null;
-    this.slider = null;    
+    this.slider = null;
     this.layout = null;
     this.Report = null;
 };
@@ -193,7 +187,7 @@ accountingnotes.prototype.CreateData = function ()
         Date: this.date.GetText (),
         Concept: this.concept.GetText ()
     };
-    
+
     Data.Records = [];
 
     for (var i=0; i < this.records.length; i++)
@@ -201,7 +195,6 @@ accountingnotes.prototype.CreateData = function ()
         if (this.records[i].code.GetText() !== "")
         {
             Data.Records.push({
-                Partial: (this.records[i].partial.GetText () === "") ? 0 : this.records[i].partial.GetText (),
                 Debit: (this.records[i].debit.GetText () === "") ? 0 : this.records[i].debit.GetText (),
                 Credit: (this.records[i].credit.GetText() === "") ? 0 : this.records[i].credit.GetText(),
                 Number: this.number.GetText (),
@@ -285,7 +278,7 @@ accountingnotes.prototype.ReportLoad = function ()
     doc.getElementById ("Number").textContent = Gwt.Core.Contrib.ZFill(this.number.GetText(), 4);
     doc.getElementById ("Date").textContent = this.date.GetText ();
     doc.getElementById ("Concept").textContent = this.concept.GetText ();
-    
+
     var TotalDebit = 0;
     var TotalCredit = 0;
 
@@ -299,13 +292,13 @@ accountingnotes.prototype.ReportLoad = function ()
             Records.push({
                 "Code": this.records[i].code.GetText (),
                 "Name": this.records[i].name.GetText (),
-                "Partial": Gwt.Core.Contrib.TextToMonetary (this.records[i].partial.GetText ()),
+                "Partial": Gwt.Core.Contrib.TextToMonetary (""),
                 "Debit": Gwt.Core.Contrib.TextToMonetary (this.records[i].debit.GetText ()),
                 "Credit": Gwt.Core.Contrib.TextToMonetary (this.records[i].credit.GetText())
             });
         }
     }
-    
+
     var SortedRecords = this.SortData (Records);
 
     for (var i=0; i < SortedRecords.length; i++)
@@ -316,10 +309,10 @@ accountingnotes.prototype.ReportLoad = function ()
         doc.getElementById ("Debit"+i).textContent = (SortedRecords[i].Debit  === "$0") ? "" : SortedRecords[i].Debit;
         doc.getElementById ("Credit"+i).textContent = (SortedRecords[i].Credit === "$0") ? "" : SortedRecords[i].Credit;
     }
-    
+
     doc.getElementById ("EqSumDebit").textContent = Gwt.Core.Contrib.TextToMonetary(TotalDebit.toString());
     doc.getElementById ("EqSumCredit").textContent = Gwt.Core.Contrib.TextToMonetary(TotalCredit.toString());
-    
+
     doc = undefined;
     this.Report = null;
     this.Reset ();
@@ -367,7 +360,6 @@ accountingnotes.prototype.AutoFill = function (Res)
         {
             this.records[i].code.SetText (Res[i].Code);
             this.records[i].name.SetText (Res[i].Name);
-            this.records[i].partial.SetText ((Res[i].Partial === 0 ? "" : Res[i].Partial));
             this.records[i].debit.SetText ((Res[i].Debit === 0 ? "" : Res[i].Debit));
             this.records[i].credit.SetText ((Res[i].Credit === 0 ? "" : Res[i].Credit));
         }
@@ -388,7 +380,7 @@ accountingnotes.prototype.Reset = function ()
     this.number.SetText ("");
     this.date.Now ();
     this.concept.SetText ("");
-    
+
     for(var i = 0; i < this.records.length; i++)
     {
         this.records[i].Reset ();
@@ -455,7 +447,7 @@ return new function ()
             console.log ("%app yet opened".replace("%app", instance.__proto__.constructor.name));
         }
     };
-	
+
     this.close = function ()
     {
         if(instance !== undefined)
