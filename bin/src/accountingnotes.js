@@ -88,7 +88,7 @@ record_widget.prototype.autocomplete = function (Res)
 //equal sums widget
 function equal_sums_widget (Width, Heigth)
 {
-    Gwt.Gui.VBox.call (this, 0);
+    Gwt.Gui.Frame.call (this, 0);
     this.SetSize (Width, 64);
     this.SetClassName ("equal_sums_widget");
     this.SetAlignment (Gwt.Gui.ALIGN_CENTER);
@@ -140,7 +140,7 @@ function equal_sums_widget (Width, Heigth)
     this.Add (this.Row2);
 }
 
-equal_sums_widget.prototype = new Gwt.Gui.HBox ();
+equal_sums_widget.prototype = new Gwt.Gui.Frame ();
 equal_sums_widget.prototype.constructor = equal_sums_widget;
 
 equal_sums_widget.prototype.set_debit = function (value)
