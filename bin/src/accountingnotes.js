@@ -88,7 +88,7 @@ record_widget.prototype.autocomplete = function (Res)
 //equal sums widget
 function equal_sums_widget (Width, Heigth)
 {
-    Gwt.Gui.Frame.call (this, 0);
+    Gwt.Gui.VBox.call (this, 0);
     this.SetSize (Width, 64);
     this.SetClassName ("equal_sums_widget");
 
@@ -109,29 +109,31 @@ function equal_sums_widget (Width, Heigth)
     this.credit.TextAlign (Gwt.Gui.Contrib.TextAlign.Right);
 
     this.Row1 = new Gwt.Gui.HBox (0);
+    this.Row1.SetExpand (false);
     this.Row1.SetSize (Width, 32);
     this.Row1.Add (this.label1);
     this.Row1.Add (this.debit);
     this.Row1.Add (this.credit);
     this.Add (this.Row1);
 
-    this.label2 = new Gwt.Gui.StaticText ("");
+    this.label2 = new Gwt.Gui.StaticText (" ");
     this.label2.SetExpand (false);
     this.label2.SetWidth (this.GetWidth() - 240);
     this.label2.SetValign (Gwt.Gui.Contrib.Valign.Middle);
     this.label2.TextAlign (Gwt.Gui.Contrib.TextAlign.Right);
-    this.dif_debit = new Gwt.Gui.Entry ("");
+    this.dif_debit = new Gwt.Gui.Entry (" ");
     this.dif_debit.SetExpand (false);
     this.dif_debit.SetWidth (120);
     this.dif_debit.ChangeToMonetary();
     this.dif_debit.TextAlign (Gwt.Gui.Contrib.TextAlign.Right);
-    this.dif_credit = new Gwt.Gui.Entry ("");
+    this.dif_credit = new Gwt.Gui.Entry (" ");
     this.dif_credit.SetExpand (false);
     this.dif_credit.SetWidth (120);
     this.dif_credit.ChangeToMonetary();
     this.dif_credit.TextAlign (Gwt.Gui.Contrib.TextAlign.Right);
 
     this.Row2 = new Gwt.Gui.HBox (0);
+    this.Row2.SetExpand (false);
     this.Row2.SetSize (Width, 32);
     this.Row2.Add (this.label2);
     this.Row2.Add (this.dif_debit);
