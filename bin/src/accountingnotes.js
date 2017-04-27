@@ -206,7 +206,7 @@ function accountingnotes()
 {
     Gwt.Gui.Window.call (this, "Nota Contable");
 
-    this.SetSize (840, 508);
+    this.SetSize (840, 524);
     this.SetPosition (Gwt.Gui.WIN_POS_CENTER);
     this.SetBorderSpacing (12);
     this.Rpc = new Gwt.Core.Rpc ("/accountingnotes/");
@@ -222,7 +222,7 @@ function accountingnotes()
     this.SetLayout (this.layout);
 
     this.slider = new Gwt.Gui.Slider (5);
-    this.slider.SetSize (this.layout.GetWidth (), this.layout.GetHeight ()-48);
+    this.slider.SetSize (this.layout.GetWidth (), this.layout.GetHeight()-64);
     this.slider.Setup ();
     this.layout.Add (this.slider);
 
