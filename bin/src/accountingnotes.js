@@ -110,7 +110,7 @@ function equal_sums_widget (Width, Heigth)
 
     this.Row1 = new Gwt.Gui.HBox (0);
     this.Row1.SetExpand (false);
-    this.Row1.SetSize (Width, 32);
+    this.Row1.SetSize (Width, 24);
     this.Row1.Add (this.label1);
     this.Row1.Add (this.debit);
     this.Row1.Add (this.credit);
@@ -134,7 +134,7 @@ function equal_sums_widget (Width, Heigth)
 
     this.Row2 = new Gwt.Gui.HBox (0);
     this.Row2.SetExpand (false);
-    this.Row2.SetSize (Width, 32);
+    this.Row2.SetSize (Width, 24);
     this.Row2.Add (this.label2);
     this.Row2.Add (this.dif_debit);
     this.Row2.Add (this.dif_credit);
