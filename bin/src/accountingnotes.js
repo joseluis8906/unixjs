@@ -107,8 +107,7 @@ function equal_sums_widget (Width, Heigth)
     this.credit.ChangeToMonetary();
     this.credit.TextAlign (Gwt.Gui.Contrib.TextAlign.Right)
 
-    this.Add (this.code);
-    this.Add (this.name);
+    this.Add (this.label);
     this.Add (this.debit);
     this.Add (this.credit);
 }
