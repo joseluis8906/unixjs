@@ -126,6 +126,8 @@ equal_sums_widget.prototype.set_debit = function (value)
     {
         this.debit.SetText (value);
     }
+
+    this.verify_equality ();
 }
 
 equal_sums_widget.prototype.set_credit = function (value)
@@ -138,8 +140,28 @@ equal_sums_widget.prototype.set_credit = function (value)
     {
       this.credit.SetText (value);
     }
+
+    this.verify_equality ();
 }
 
+equal_sums_widget.prototype.verify_equality = function ()
+{
+    var debit = Number(this.debit.GetText ());
+    var credit = Number(this.credit.GetText ());
+    if (debit < credit)
+    {
+        this.debit.SetColor (new Gwt.Gui.Contrib.Color (Gwt.Gui.Contrib.Colors.Red));
+    }
+    else if (debit > credit)
+    {
+        this.credit.SetColor (new Gwt.Gui.Contrib.Color (Gwt.Gui.Contrib.Colors.Red));
+    }
+    else
+    {
+        this.debit.SetColor (new Gwt.Gui.Contrib.Color (Gwt.Gui.Contrib.Colors.Azure));
+        this.credit.SetColor (new Gwt.Gui.Contrib.Color (Gwt.Gui.Contrib.Colors.Azure));
+    }
+}
 
 //accountingnotes
 function accountingnotes()
