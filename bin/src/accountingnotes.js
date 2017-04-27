@@ -93,9 +93,9 @@ function equal_sums_widget (Width, Heigth)
     this.SetClassName ("equal_sums_widget");
 
     this.label = new Gwt.Gui.StaticText ("Sumas Iguales");
-    this.name.SetExpand (false);
-    this.name.SetWidth (this.GetWidth() - 240);
-    this.name.SetValign (Gwt.Gui.Contrib.Valign.Middle);
+    this.label.SetExpand (false);
+    this.label.SetWidth (this.GetWidth() - 240);
+    this.label.SetValign (Gwt.Gui.Contrib.Valign.Middle);
     this.debit = new Gwt.Gui.Entry ("Debe");
     this.debit.SetExpand (false);
     this.debit.SetWidth (120);
