@@ -21,12 +21,12 @@ function record_widget (Width, Heigth)
     this.debit.SetExpand (false);
     this.debit.SetWidth (120);
     this.debit.ChangeToMonetary();
-    this.debit.TextAlign (Gwt.Gui.Contrib.TextAlign.Right)
+    this.debit.TextAlign (Gwt.Gui.Contrib.TextAlign.Right);
     this.credit = new Gwt.Gui.Entry ("Haber");
     this.credit.SetExpand (false);
     this.credit.SetWidth (120);
     this.credit.ChangeToMonetary();
-    this.credit.TextAlign (Gwt.Gui.Contrib.TextAlign.Right)
+    this.credit.TextAlign (Gwt.Gui.Contrib.TextAlign.Right);
 
     this.Add (this.code);
     this.Add (this.name);
@@ -96,16 +96,17 @@ function equal_sums_widget (Width, Heigth)
     this.label.SetExpand (false);
     this.label.SetWidth (this.GetWidth() - 240);
     this.label.SetValign (Gwt.Gui.Contrib.Valign.Middle);
+    this.label.TextAlign (Gwt.Gui.Contrib.TextAlign.Right);
     this.debit = new Gwt.Gui.Entry ("Debe");
     this.debit.SetExpand (false);
     this.debit.SetWidth (120);
     this.debit.ChangeToMonetary();
-    this.debit.TextAlign (Gwt.Gui.Contrib.TextAlign.Right)
+    this.debit.TextAlign (Gwt.Gui.Contrib.TextAlign.Right);
     this.credit = new Gwt.Gui.Entry ("Haber");
     this.credit.SetExpand (false);
     this.credit.SetWidth (120);
     this.credit.ChangeToMonetary();
-    this.credit.TextAlign (Gwt.Gui.Contrib.TextAlign.Right)
+    this.credit.TextAlign (Gwt.Gui.Contrib.TextAlign.Right);
 
     this.Add (this.label);
     this.Add (this.debit);
