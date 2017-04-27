@@ -122,7 +122,7 @@ equal_sums_widget.prototype.set_debit = function (value)
 
 equal_sums_widget.prototype.set_credit = function (value)
 {
-    this.debit.SetText (value);
+    this.credit.SetText (value);
 }
 
 
