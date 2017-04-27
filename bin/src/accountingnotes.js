@@ -452,6 +452,9 @@ accountingnotes.prototype.AutoFill = function (Res)
     {
         this.Reset ();
     }
+
+    this.ChangeDebit ();
+    this.ChangeCredit ();
 };
 
 //reset
