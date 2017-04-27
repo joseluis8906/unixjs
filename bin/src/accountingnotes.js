@@ -141,7 +141,7 @@ function equal_sums_widget (Width, Heigth)
     this.Add (this.Row2);
 }
 
-equal_sums_widget.prototype = new Gwt.Gui.Frame ();
+equal_sums_widget.prototype = new Gwt.Gui.VBox ();
 equal_sums_widget.prototype.constructor = equal_sums_widget;
 
 equal_sums_widget.prototype.set_debit = function (value)
