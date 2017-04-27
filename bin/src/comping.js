@@ -85,12 +85,135 @@ record_widget.prototype.autocomplete = function (Res)
 };
 
 
+//equal sums widget
+function equal_sums_widget (Width, Heigth)
+{
+    Gwt.Gui.VBox.call (this, 0);
+    this.SetSize (Width, Heigth);
+    this.SetClassName ("equal_sums_widget");
+
+    this.label1 = new Gwt.Gui.StaticText ("Sumas Iguales");
+    this.label1.SetExpand (false);
+    this.label1.SetWidth (this.GetWidth() - 240);
+    this.label1.SetValign (Gwt.Gui.Contrib.Valign.Top);
+    this.label1.TextAlign (Gwt.Gui.Contrib.TextAlign.Right);
+    this.debit = new Gwt.Gui.Entry ("Debe");
+    this.debit.SetExpand (false);
+    this.debit.SetWidth (120);
+    this.debit.ChangeToMonetary();
+    this.debit.TextAlign (Gwt.Gui.Contrib.TextAlign.Right);
+    this.debit.SetValign (Gwt.Gui.Contrib.Valign.Top);
+    this.credit = new Gwt.Gui.Entry ("Haber");
+    this.credit.SetExpand (false);
+    this.credit.SetWidth (120);
+    this.credit.ChangeToMonetary();
+    this.credit.TextAlign (Gwt.Gui.Contrib.TextAlign.Right);
+    this.credit.SetValign (Gwt.Gui.Contrib.Valign.Top);
+
+    this.Row1 = new Gwt.Gui.HBox (0);
+    this.Row1.SetExpand (false);
+    this.Row1.SetSize (Width, 24);
+    this.Row1.Add (this.label1);
+    this.Row1.Add (this.debit);
+    this.Row1.Add (this.credit);
+    this.Add (this.Row1);
+
+    this.label2 = new Gwt.Gui.StaticText (" ");
+    this.label2.SetExpand (false);
+    this.label2.SetWidth (this.GetWidth() - 240);
+    this.label2.SetValign (Gwt.Gui.Contrib.Valign.Top);
+    this.label2.TextAlign (Gwt.Gui.Contrib.TextAlign.Right);
+    this.dif_debit = new Gwt.Gui.Entry (" ");
+    this.dif_debit.SetExpand (false);
+    this.dif_debit.SetWidth (120);
+    this.dif_debit.ChangeToMonetary();
+    this.dif_debit.TextAlign (Gwt.Gui.Contrib.TextAlign.Right);
+    this.dif_debit.SetValign (Gwt.Gui.Contrib.Valign.Top);
+    this.dif_credit = new Gwt.Gui.Entry (" ");
+    this.dif_credit.SetExpand (false);
+    this.dif_credit.SetWidth (120);
+    this.dif_credit.ChangeToMonetary();
+    this.dif_credit.TextAlign (Gwt.Gui.Contrib.TextAlign.Right);
+    this.dif_credit.SetValign (Gwt.Gui.Contrib.Valign.Top);
+
+    this.Row2 = new Gwt.Gui.HBox (0);
+    this.Row2.SetExpand (false);
+    this.Row2.SetSize (Width, 24);
+    this.Row2.Add (this.label2);
+    this.Row2.Add (this.dif_debit);
+    this.Row2.Add (this.dif_credit);
+    this.Add (this.Row2);
+}
+
+equal_sums_widget.prototype = new Gwt.Gui.VBox ();
+equal_sums_widget.prototype.constructor = equal_sums_widget;
+
+equal_sums_widget.prototype.set_debit = function (value)
+{
+    if (value === 0)
+    {
+        this.debit.SetText ("Debe");
+    }
+    else
+    {
+        this.debit.SetText (value);
+    }
+
+    this.verify_equality ();
+}
+
+equal_sums_widget.prototype.set_credit = function (value)
+{
+    if (value === 0)
+    {
+      this.credit.SetText ("Haber");
+    }
+    else
+    {
+      this.credit.SetText (value);
+    }
+
+    this.verify_equality ();
+}
+
+equal_sums_widget.prototype.verify_equality = function ()
+{
+    var debit = Number(this.debit.GetText ());
+    var credit = Number(this.credit.GetText ());
+
+    if (debit < credit)
+    {
+        this.debit.SetColor (new Gwt.Gui.Contrib.Color (Gwt.Gui.Contrib.Colors.Red));
+        this.credit.SetColor (new Gwt.Gui.Contrib.Color (Gwt.Gui.Contrib.Colors.Azure));
+        this.label2.SetText ("Faltante");
+        this.dif_credit.SetText ("");
+        this.dif_debit.SetText (credit-debit);
+    }
+    else if (debit > credit)
+    {
+        this.debit.SetColor (new Gwt.Gui.Contrib.Color (Gwt.Gui.Contrib.Colors.Azure));
+        this.credit.SetColor (new Gwt.Gui.Contrib.Color (Gwt.Gui.Contrib.Colors.Red));
+        this.label2.SetText ("Faltante");
+        this.dif_debit.SetText ("");
+        this.dif_credit.SetText (debit-credit);
+    }
+    else
+    {
+        this.debit.SetColor (new Gwt.Gui.Contrib.Color (Gwt.Gui.Contrib.Colors.Azure));
+        this.credit.SetColor (new Gwt.Gui.Contrib.Color (Gwt.Gui.Contrib.Colors.Azure));
+        this.label2.SetText ("");
+        this.dif_debit.SetText ("");
+        this.dif_credit.SetText ("");
+    }
+}
+
+
 //constructor
 function comping ()
 {
     Gwt.Gui.Window.call (this, "Comprobante De Ingreso");
 
-    this.SetSize (840, 460);
+    this.SetSize (840, 524);
     this.SetPosition (Gwt.Gui.WIN_POS_CENTER);
     this.SetBorderSpacing (12);
     this.Rpc = new Gwt.Core.Rpc ("/comping/");
@@ -106,9 +229,12 @@ function comping ()
     this.SetLayout (this.layout);
 
     this.slider = new Gwt.Gui.Slider (5);
-    this.slider.SetSize (this.layout.GetWidth (), this.layout.GetHeight ());
+    this.slider.SetSize (this.layout.GetWidth (), this.layout.GetHeight ()-64);
     this.slider.Setup ();
     this.layout.Add (this.slider);
+
+    this.equal_sums = new equal_sums_widget (this.layout.GetWidth (), 48);
+    this.layout.Add (this.equal_sums);
 
     this.number = new Gwt.Gui.Entry ("Número");
     this.date = new Gwt.Gui.Date ("Creación");
@@ -120,6 +246,8 @@ function comping ()
     for (var i = 0; i <= 15; i++)
     {
         this.records[i] = new record_widget (this.slider.GetWidth (), 24);
+        this.records[i].debit.AddEvent (Gwt.Gui.Event.Form.Change, this.ChangeDebit.bind(this));
+        this.records[i].credit.AddEvent (Gwt.Gui.Event.Form.Change, this.ChangeCredit.bind(this));
     }
 
     this.slider.AddSlotWidget (0, this.number);
@@ -167,6 +295,26 @@ comping.prototype._App = function ()
     this.layout = null;
     this.Report = null;
 };
+
+comping.prototype.ChangeDebit = function ()
+{
+    var Sum = 0;
+    for(var i = 0; i < this.records.length; i++)
+    {
+        Sum += Number(this.records[i].debit.GetText ());
+    }
+    this.equal_sums.set_debit (Sum);
+}
+
+comping.prototype.ChangeCredit = function ()
+{
+    var Sum = 0;
+    for(var i = 0; i < this.records.length; i++)
+    {
+        Sum += Number(this.records[i].credit.GetText ());
+    }
+    this.equal_sums.set_credit (Sum);
+}
 
 comping.prototype.CreateData = function ()
 {
@@ -360,6 +508,9 @@ comping.prototype.AutoFill = function (Res)
     {
         this.Reset ();
     }
+
+    this.ChangeDebit ();
+    this.ChangeCredit ();
 };
 
 //reset
