@@ -117,12 +117,26 @@ equal_sums_widget.prototype.constructor = equal_sums_widget;
 
 equal_sums_widget.prototype.set_debit = function (value)
 {
-    this.debit.SetText (value);
+    if (value === 0)
+    {
+        this.debit.SetText ("Debe");
+    }
+    else
+    {
+        this.debit.SetText (value);
+    }
 }
 
 equal_sums_widget.prototype.set_credit = function (value)
 {
-    this.credit.SetText (value);
+    if (value === 0)
+    {
+      this.credit.SetText ("Haber");
+    }
+    else
+    {
+      this.credit.SetText (value);
+    }
 }
 
 
