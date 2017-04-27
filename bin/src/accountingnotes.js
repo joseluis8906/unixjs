@@ -115,6 +115,16 @@ function equal_sums_widget (Width, Heigth)
 equal_sums_widget.prototype = new Gwt.Gui.HBox ();
 equal_sums_widget.prototype.constructor = equal_sums_widget;
 
+equal_sums_widget.prototype.set_debit = function (value)
+{
+    this.debit.SetText (value);
+}
+
+equal_sums_widget.prototype.set_credit = function (value)
+{
+    this.debit.SetText (value);
+}
+
 
 //accountingnotes
 function accountingnotes()
@@ -154,6 +164,8 @@ function accountingnotes()
     for (var i = 0; i <= 45; i++)
     {
         this.records[i] = new record_widget (this.slider.GetWidth (), 24);
+        this.records[i].debit.AddEvent (Gwt.Gui.Event.Form.Change, this.ChangeDebit.bind(this));
+        this.records[i].credit.AddEvent (Gwt.Gui.Event.Form.Change, this.ChangeCredit.bind(this));
     }
 
     this.slider.AddSlotWidget (0, this.number);
@@ -213,6 +225,16 @@ accountingnotes.prototype._App = function ()
     this.layout = null;
     this.Report = null;
 };
+
+accountingnotes.prototype.ChangeDebit = function ()
+{
+  console.log ("llamada debit");
+}
+
+accountingnotes.prototype.ChangeCredit = function ()
+{
+  console.log ("llamada credit");
+}
 
 accountingnotes.prototype.CreateData = function ()
 {
