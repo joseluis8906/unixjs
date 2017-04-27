@@ -88,29 +88,55 @@ record_widget.prototype.autocomplete = function (Res)
 //equal sums widget
 function equal_sums_widget (Width, Heigth)
 {
-    Gwt.Gui.HBox.call (this, 0);
-    this.SetSize (Width, Heigth);
+    Gwt.Gui.VBox.call (this, 0);
+    this.SetSize (Width, 64);
     this.SetClassName ("equal_sums_widget");
 
-    this.label = new Gwt.Gui.StaticText ("Sumas Iguales");
-    this.label.SetExpand (false);
-    this.label.SetWidth (this.GetWidth() - 240);
-    this.label.SetValign (Gwt.Gui.Contrib.Valign.Middle);
-    this.label.TextAlign (Gwt.Gui.Contrib.TextAlign.Right);
-    this.debit = new Gwt.Gui.StaticText ("Debe");
+    this.label1 = new Gwt.Gui.StaticText ("Sumas Iguales");
+    this.label1.SetExpand (false);
+    this.label1.SetWidth (this.GetWidth() - 240);
+    this.label1.SetValign (Gwt.Gui.Contrib.Valign.Middle);
+    this.label1.TextAlign (Gwt.Gui.Contrib.TextAlign.Right);
+    this.debit = new Gwt.Gui.Entry ("Debe");
     this.debit.SetExpand (false);
     this.debit.SetWidth (120);
     this.debit.ChangeToMonetary();
     this.debit.TextAlign (Gwt.Gui.Contrib.TextAlign.Right);
-    this.credit = new Gwt.Gui.StaticText ("Haber");
+    this.credit = new Gwt.Gui.Entry ("Haber");
     this.credit.SetExpand (false);
     this.credit.SetWidth (120);
     this.credit.ChangeToMonetary();
     this.credit.TextAlign (Gwt.Gui.Contrib.TextAlign.Right);
 
-    this.Add (this.label);
-    this.Add (this.debit);
-    this.Add (this.credit);
+    this.Row1 = new Gwt.Gui.HBox (0);
+    this.Row1.SetSize (Width, 32);
+    this.Row1.Add (this.label1);
+    this.Row1.Add (this.debit);
+    this.Row1.Add (this.credit);
+    this.Add (this.Row1);
+
+    this.label2 = new Gwt.Gui.StaticText ("");
+    this.label2.SetExpand (false);
+    this.label2.SetWidth (this.GetWidth() - 240);
+    this.label2.SetValign (Gwt.Gui.Contrib.Valign.Middle);
+    this.label2.TextAlign (Gwt.Gui.Contrib.TextAlign.Right);
+    this.dif_debit = new Gwt.Gui.Entry ("");
+    this.dif_debit.SetExpand (false);
+    this.dif_debit.SetWidth (120);
+    this.dif_debit.ChangeToMonetary();
+    this.dif_debit.TextAlign (Gwt.Gui.Contrib.TextAlign.Right);
+    this.dif_credit = new Gwt.Gui.Entry ("");
+    this.dif_credit.SetExpand (false);
+    this.dif_credit.SetWidth (120);
+    this.dif_credit.ChangeToMonetary();
+    this.dif_credit.TextAlign (Gwt.Gui.Contrib.TextAlign.Right);
+
+    this.Row2 = new Gwt.Gui.HBox (0);
+    this.Row2.SetSize (Width, 32);
+    this.Row2.Add (this.label2);
+    this.Row2.Add (this.dif_debit);
+    this.Row2.Add (this.dif_credit);
+    this.Add (this.Row2);
 }
 
 equal_sums_widget.prototype = new Gwt.Gui.HBox ();
@@ -148,18 +174,28 @@ equal_sums_widget.prototype.verify_equality = function ()
 {
     var debit = Number(this.debit.GetText ());
     var credit = Number(this.credit.GetText ());
+
     if (debit < credit)
     {
         this.debit.SetColor (new Gwt.Gui.Contrib.Color (Gwt.Gui.Contrib.Colors.Red));
+        this.label2.SetText ("Faltante");
+        this.dif_credit.SetText ("");
+        this.dif_debit.SetText (credit-debit);
     }
     else if (debit > credit)
     {
         this.credit.SetColor (new Gwt.Gui.Contrib.Color (Gwt.Gui.Contrib.Colors.Red));
+        this.label2.SetText ("Faltante");
+        this.dif_debit.SetText ("");
+        this.dif_credit.SetText (debit-credit);
     }
     else
     {
         this.debit.SetColor (new Gwt.Gui.Contrib.Color (Gwt.Gui.Contrib.Colors.Azure));
         this.credit.SetColor (new Gwt.Gui.Contrib.Color (Gwt.Gui.Contrib.Colors.Azure));
+        this.label2.SetText ("");
+        this.dif_debit.SetText ("");
+        this.dif_credit.SetText ("");
     }
 }
 
@@ -168,7 +204,7 @@ function accountingnotes()
 {
     Gwt.Gui.Window.call (this, "Nota Contable");
 
-    this.SetSize (840, 508);
+    this.SetSize (840, 524);
     this.SetPosition (Gwt.Gui.WIN_POS_CENTER);
     this.SetBorderSpacing (12);
     this.Rpc = new Gwt.Core.Rpc ("/accountingnotes/");
@@ -184,11 +220,11 @@ function accountingnotes()
     this.SetLayout (this.layout);
 
     this.slider = new Gwt.Gui.Slider (5);
-    this.slider.SetSize (this.layout.GetWidth (), this.layout.GetHeight ()-48);
+    this.slider.SetSize (this.layout.GetWidth (), this.layout.GetHeight ()-64);
     this.slider.Setup ();
     this.layout.Add (this.slider);
 
-    this.equal_sums = new equal_sums_widget (this.layout.GetWidth (), 48);
+    this.equal_sums = new equal_sums_widget (this.layout.GetWidth (), 64);
     this.layout.Add (this.equal_sums);
 
     this.number = new Gwt.Gui.Entry ("Número");
