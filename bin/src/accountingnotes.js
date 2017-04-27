@@ -89,7 +89,7 @@ record_widget.prototype.autocomplete = function (Res)
 function equal_sums_widget (Width, Heigth)
 {
     Gwt.Gui.VBox.call (this, 0);
-    this.SetSize (Width, 64);
+    this.SetSize (Width, Heigth);
     this.SetClassName ("equal_sums_widget");
 
     this.label1 = new Gwt.Gui.StaticText ("Sumas Iguales");
