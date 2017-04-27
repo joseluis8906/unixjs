@@ -121,18 +121,20 @@ function equal_sums_widget (Width, Heigth)
     this.label2 = new Gwt.Gui.StaticText (" ");
     this.label2.SetExpand (false);
     this.label2.SetWidth (this.GetWidth() - 240);
-    this.label2.SetValign (Gwt.Gui.Contrib.Valign.Bottom);
+    this.label2.SetValign (Gwt.Gui.Contrib.Valign.Top);
     this.label2.TextAlign (Gwt.Gui.Contrib.TextAlign.Right);
     this.dif_debit = new Gwt.Gui.Entry (" ");
     this.dif_debit.SetExpand (false);
     this.dif_debit.SetWidth (120);
     this.dif_debit.ChangeToMonetary();
     this.dif_debit.TextAlign (Gwt.Gui.Contrib.TextAlign.Right);
+    this.dif_debit.SetValign (Gwt.Gui.Contrib.Valign.Top);
     this.dif_credit = new Gwt.Gui.Entry (" ");
     this.dif_credit.SetExpand (false);
     this.dif_credit.SetWidth (120);
     this.dif_credit.ChangeToMonetary();
     this.dif_credit.TextAlign (Gwt.Gui.Contrib.TextAlign.Right);
+    this.dif_credit.SetValign (Gwt.Gui.Contrib.Valign.Top);
 
     this.Row2 = new Gwt.Gui.HBox (0);
     this.Row2.SetExpand (false);
