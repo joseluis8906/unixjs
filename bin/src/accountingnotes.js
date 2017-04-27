@@ -86,11 +86,11 @@ record_widget.prototype.autocomplete = function (Res)
 
 
 //equal sums widget
-function equals_sums_widget (Width, Heigth)
+function equal_sums_widget (Width, Heigth)
 {
     Gwt.Gui.HBox.call (this, 0);
     this.SetSize (Width, Heigth);
-    this.SetClassName ("record_widget");
+    this.SetClassName ("equal_sums_widget");
 
     this.label = new Gwt.Gui.StaticText ("Sumas Iguales");
     this.name.SetExpand (false);
@@ -139,7 +139,7 @@ function accountingnotes()
     this.slider.Setup ();
     this.layout.Add (this.slider);
 
-    this.equal_sums = new equal_sums (this.layout.GetWidth (), 48);
+    this.equal_sums = new equal_sums_widget (this.layout.GetWidth (), 48);
     this.layout.Add (this.equal_sums);
 
     this.number = new Gwt.Gui.Entry ("Número");
