@@ -91,7 +91,6 @@ function equal_sums_widget (Width, Heigth)
     Gwt.Gui.Frame.call (this, 0);
     this.SetSize (Width, 64);
     this.SetClassName ("equal_sums_widget");
-    this.SetAlignment (Gwt.Gui.ALIGN_CENTER);
 
     this.label1 = new Gwt.Gui.StaticText ("Sumas Iguales");
     this.label1.SetExpand (false);
