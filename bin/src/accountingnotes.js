@@ -206,7 +206,7 @@ function accountingnotes()
 {
     Gwt.Gui.Window.call (this, "Nota Contable");
 
-    this.SetSize (840, 524);
+    this.SetSize (840, 532);
     this.SetPosition (Gwt.Gui.WIN_POS_CENTER);
     this.SetBorderSpacing (12);
     this.Rpc = new Gwt.Core.Rpc ("/accountingnotes/");
