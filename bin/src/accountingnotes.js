@@ -102,6 +102,7 @@ function equal_sums_widget (Width, Heigth)
     this.debit.SetWidth (120);
     this.debit.ChangeToMonetary();
     this.debit.TextAlign (Gwt.Gui.Contrib.TextAlign.Right);
+    this.debit.SetValign (Gwt.Gui.Contrib.Valign.Middle);
     this.credit = new Gwt.Gui.Entry ("Haber");
     this.credit.SetExpand (false);
     this.credit.SetWidth (120);
