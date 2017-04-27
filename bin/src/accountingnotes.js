@@ -180,12 +180,14 @@ equal_sums_widget.prototype.verify_equality = function ()
     if (debit < credit)
     {
         this.debit.SetColor (new Gwt.Gui.Contrib.Color (Gwt.Gui.Contrib.Colors.Red));
+        this.credit.SetColor (new Gwt.Gui.Contrib.Color (Gwt.Gui.Contrib.Colors.Azure));
         this.label2.SetText ("Faltante");
         this.dif_credit.SetText ("");
         this.dif_debit.SetText (credit-debit);
     }
     else if (debit > credit)
     {
+        this.debit.SetColor (new Gwt.Gui.Contrib.Color (Gwt.Gui.Contrib.Colors.Azure));
         this.credit.SetColor (new Gwt.Gui.Contrib.Color (Gwt.Gui.Contrib.Colors.Red));
         this.label2.SetText ("Faltante");
         this.dif_debit.SetText ("");
