@@ -228,7 +228,12 @@ accountingnotes.prototype._App = function ()
 
 accountingnotes.prototype.ChangeDebit = function ()
 {
-  console.log ("llamada debit");
+    var Sum = 0;
+    for(var i = 0; i < this.records.length; i++)
+    {
+        Sum += Number(this.records[i].debit.GetText ());
+    }
+    this.equal_sums.set_debit (Sum);
 }
 
 accountingnotes.prototype.ChangeCredit = function ()
