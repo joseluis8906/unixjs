@@ -113,6 +113,9 @@ function equal_sums_widget (Width, Heigth)
     this.Add (this.credit);
 }
 
+equal_sums_widget.prototype = new Gwt.Gui.HBox ();
+equal_sums_widget.prototype.constructor = equal_sums_widget;
+
 
 //accountingnotes
 function accountingnotes()
