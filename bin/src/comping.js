@@ -579,7 +579,6 @@ return new function ()
         {
             instance = new comping();
             instance.Open ();
-            Gwt.Core.Contrib.SetActiveApp (window.comping);
         }
         else
         {
