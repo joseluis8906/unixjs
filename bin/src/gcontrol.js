@@ -132,8 +132,8 @@ return new function ()
             if (instance === undefined)
             {
                 instance = new gcontrol ();
-                instance.CloseApps ();
                 instance.Open ();
+                instance.CloseApps ();
             }
             else
             {
@@ -146,7 +146,6 @@ return new function ()
 	{
             if (instance !== undefined)
             {
-                instance.CloseApps ();
                 instance.Close();
                 instance = undefined;
             }
