@@ -18,7 +18,7 @@ function gcompany()
 
     //this.title_label.SetWidth ();
     this.nit = new Gwt.Gui.Entry ("Nit");
-    this.code.AddEvent (Gwt.Gui.Event.Keyboard.KeyUp, this.Select.bind(this));
+    this.nit.AddEvent (Gwt.Gui.Event.Keyboard.KeyUp, this.Select.bind(this));
     this.name = new Gwt.Gui.Entry ("Nombre");
     this.phone = new Gwt.Gui.Entry ("Teléfono");
     this.movil = new Gwt.Gui.Entry ("Celular");
