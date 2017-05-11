@@ -117,7 +117,10 @@ gcontrol.prototype.CloseApps = function ()
 {
     for (var i = 0; i < this.Apps.length; i++)
     {
-        console.log(this.Apps[i]);
+        if(this.Apps[i] !== undefined && this.Apps[i] !== null)
+        {
+            this.Apps[i].close ();
+        }
     }
 }
 
