@@ -56,6 +56,7 @@ gpanel.prototype._App = function ()
 
 gpanel.prototype.CloseApps = function ()
 {
+    console.log ("aquí");
     for (var i = 0; i < Gwt.Core.Apps.length; i++)
     {
         if(Gwt.Core.Apps[i] !== undefined && Gwt.Core.Apps[i] !== null)
@@ -84,8 +85,8 @@ return new function ()
     {
         if (instance !== undefined)
         {
-            instance.Close ();
             instance.CloseApps ();
+            instance.Close ();
             instance = undefined;
         }
     }
