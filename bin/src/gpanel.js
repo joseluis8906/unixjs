@@ -56,14 +56,12 @@ gpanel.prototype._App = function ()
 
 gpanel.prototype.CloseApps = function ()
 {
-    console.log ("aquí");
     for (var i = 0; i < Gwt.Core.Apps.length; i++)
     {
         if(Gwt.Core.Apps[i] !== undefined && Gwt.Core.Apps[i] !== null)
         {
-            Gwt.Core.Apps[i].close ();
+            eval(Gwt.Core.Apps[i]).close ();
         }
-        console.log (Gwt.Core.Apps[i]);
     }
 }
 

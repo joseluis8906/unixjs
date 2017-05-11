@@ -81,7 +81,7 @@ gcontrol.prototype.SelectResponse = function (Res)
           this.Row5.Add (this.Icons[i]);
         }
         this.LoadApp (Res[i].Name);
-        Gwt.Core.Apps.push (eval ("window."+Res[i].Name));
+        Gwt.Core.Apps.push ("window."+Res[i].Name);
     }
     console.log(Gwt.Core.Apps);
 }
@@ -119,7 +119,7 @@ gcontrol.prototype.CloseApps = function ()
     {
         if(Gwt.Core.Apps[i] !== undefined && Gwt.Core.Apps[i] !== null)
         {
-            Gwt.Core.Apps[i].close ();
+            eval(Gwt.Core.Apps[i]).close ();
         }
     }
 }
