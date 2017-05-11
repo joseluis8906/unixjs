@@ -57,10 +57,10 @@ gcontrol.prototype._App = function ()
 
 gcontrol.prototype.SelectResponse = function (Res)
 {
+    console.log (Gwt.Core.Apps);
     for (var i = 0; i < Gwt.Core.Apps.lengh; i++)
     {
         Gwt.Core.Apps.pop ();
-        console.log ("pop");
     }
 
     for (var i = 0; i < Res.length; i++)
