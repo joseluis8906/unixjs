@@ -14,7 +14,6 @@ function gcontrol ()
     this.Row4 = new Gwt.Gui.HBox(8);
     this.Row5 = new Gwt.Gui.HBox(8);
     this.Icons = [];
-    this.Apps = [];
 
     this.DisableTitleBar ();
     this.SetSize (544, 544);
@@ -52,13 +51,13 @@ gcontrol.prototype._App = function ()
 
     this.Layout = null;
     this.Icons  = null;
-    this.Apps = null;
 }
 
 
 
 gcontrol.prototype.SelectResponse = function (Res)
 {
+    Gwt.Core.Apps = [];
     for (var i = 0; i < Res.length; i++)
     {
         this.Icons.push (new Gwt.Gui.IconDesktop (Gwt.Core.Contrib.Images+Res[i].Image, Res[i].Label, Res[i].Name));
@@ -83,7 +82,7 @@ gcontrol.prototype.SelectResponse = function (Res)
           this.Row5.Add (this.Icons[i]);
         }
         this.LoadApp (Res[i].Name);
-        this.Apps.push (eval ("window."+Res[i].Name));
+        Gwt.Core.Apps.push (eval ("window."+Res[i].Name));
     }
 }
 
@@ -119,7 +118,7 @@ gcontrol.prototype.CloseApps = function ()
     {
         if(this.Apps[i] !== undefined && this.Apps[i] !== null)
         {
-            this.Apps[i].close ();
+            Gwt.Core.Apps[i].close ();
         }
     }
 }
