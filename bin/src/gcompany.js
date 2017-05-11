@@ -3,7 +3,7 @@ gcompany = (function ()
 var instance;
 
 
-function accountingcompany()
+function gcompany()
 {
     Gwt.Gui.Window.call (this, "Información de la Empresa");
     this.SetSize (512, 256);
@@ -34,10 +34,10 @@ function accountingcompany()
     this.layout.Add (this.address);
 }
 
-accountingcompany.prototype = new Gwt.Gui.Window ();
-accountingcompany.prototype.constructor = accountingcompany;
+gcompany.prototype = new Gwt.Gui.Window ();
+gcompany.prototype.constructor = gcompany;
 
-accountingcompany.prototype._App = function ()
+gcompany.prototype._App = function ()
 {
     this.nit._Entry ();
     this.name._Entry ();
@@ -54,7 +54,7 @@ accountingcompany.prototype._App = function ()
     this.layout = null;
 }
 
-accountingcompany.prototype.Select = function (Event)
+gcompany.prototype.Select = function (Event)
 {
     if(Event.keyCode === Gwt.Gui.Event.Keyboard.KeyCodes.Enter)
     {
@@ -62,7 +62,7 @@ accountingcompany.prototype.Select = function (Event)
     }
 };
 
-accountingcompany.prototype.SelectResponse = function (Res)
+gcompany.prototype.SelectResponse = function (Res)
 {
     if (Res.length > 0)
     {
@@ -77,7 +77,7 @@ accountingcompany.prototype.SelectResponse = function (Res)
     }
 };
 
-accountingcompany.prototype.Insert = function (Event)
+gcompany.prototype.Insert = function (Event)
 {
     this.Rpc.Send (
     {
@@ -92,7 +92,7 @@ accountingcompany.prototype.Insert = function (Event)
     this.InsertResponse.bind(this));
 };
 
-accountingcompany.prototype.InsertResponse = function (Res)
+gcompany.prototype.InsertResponse = function (Res)
 {
     if (Res.affected_rows === 1)
     {
@@ -100,7 +100,7 @@ accountingcompany.prototype.InsertResponse = function (Res)
     }
 };
 
-accountingcompany.prototype.Update = function (Event)
+gcompany.prototype.Update = function (Event)
 {
     this.Rpc.Send (
     {
@@ -115,7 +115,7 @@ accountingcompany.prototype.Update = function (Event)
     this.UpdateResponse.bind(this));
 };
 
-accountingcompany.prototype.UpdateResponse = function (Res)
+gcompany.prototype.UpdateResponse = function (Res)
 {
     if (Res.affected_rows === 1)
     {
@@ -123,7 +123,7 @@ accountingcompany.prototype.UpdateResponse = function (Res)
     }
 };
 
-accountingcompany.prototype.Reset = function ()
+gcompany.prototype.Reset = function ()
 {
     this.nit.SetText ("");
     this.name.SetText ("");
@@ -138,7 +138,7 @@ return new function ()
     {
         if(instance === undefined)
         {
-            instance = new accountingcompany();
+            instance = new gcompany();
             instance.Open ();
         }
         else
