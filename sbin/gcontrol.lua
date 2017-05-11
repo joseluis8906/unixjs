@@ -9,7 +9,7 @@ local Sql = require ("contrib/sql");
 
 local Pass = Session.LoginRequired ();
 if not Pass then
-    Http.Response ({Result = "Login required"});
+    Http.Response ({Result = 0, Error = "Login required"});
     return;
 end
 
