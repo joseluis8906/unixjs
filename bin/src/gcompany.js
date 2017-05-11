@@ -1,15 +1,15 @@
-gcompany = (function ()
+accountingcompany = (function ()
 {
 var instance;
 
 
-function gcompany()
+function accountingcompany()
 {
     Gwt.Gui.Window.call (this, "Información de la Empresa");
     this.SetSize (512, 256);
     this.SetPosition (Gwt.Gui.WIN_POS_CENTER);
     this.SetBorderSpacing (12);
-    this.Rpc = new Gwt.Core.Rpc ("/gcompany/");
+    this.Rpc = new Gwt.Core.Rpc ("/accountingcompany/");
 
     this.EnableMenu ();
     this.AddMenuItem (Gwt.Core.Contrib.Images + "appbar.cabinet.in.svg", "Guardar", this.Insert.bind(this));
@@ -34,10 +34,10 @@ function gcompany()
     this.layout.Add (this.address);
 }
 
-gcompany.prototype = new Gwt.Gui.Window ();
-gcompany.prototype.constructor = gcompany;
+accountingcompany.prototype = new Gwt.Gui.Window ();
+accountingcompany.prototype.constructor = accountingcompany;
 
-gcompany.prototype._App = function ()
+accountingcompany.prototype._App = function ()
 {
     this.nit._Entry ();
     this.name._Entry ();
@@ -54,7 +54,7 @@ gcompany.prototype._App = function ()
     this.layout = null;
 }
 
-gcompany.prototype.Select = function (Event)
+accountingcompany.prototype.Select = function (Event)
 {
     if(Event.keyCode === Gwt.Gui.Event.Keyboard.KeyCodes.Enter)
     {
@@ -62,7 +62,7 @@ gcompany.prototype.Select = function (Event)
     }
 };
 
-gcompany.prototype.SelectResponse = function (Res)
+accountingcompany.prototype.SelectResponse = function (Res)
 {
     if (Res.length > 0)
     {
@@ -77,7 +77,7 @@ gcompany.prototype.SelectResponse = function (Res)
     }
 };
 
-gcompany.prototype.Insert = function (Event)
+accountingcompany.prototype.Insert = function (Event)
 {
     this.Rpc.Send (
     {
@@ -92,7 +92,7 @@ gcompany.prototype.Insert = function (Event)
     this.InsertResponse.bind(this));
 };
 
-gcompany.prototype.InsertResponse = function (Res)
+accountingcompany.prototype.InsertResponse = function (Res)
 {
     if (Res.affected_rows === 1)
     {
@@ -100,7 +100,7 @@ gcompany.prototype.InsertResponse = function (Res)
     }
 };
 
-gcompany.prototype.Update = function (Event)
+accountingcompany.prototype.Update = function (Event)
 {
     this.Rpc.Send (
     {
@@ -115,7 +115,7 @@ gcompany.prototype.Update = function (Event)
     this.UpdateResponse.bind(this));
 };
 
-gcompany.prototype.UpdateResponse = function (Res)
+accountingcompany.prototype.UpdateResponse = function (Res)
 {
     if (Res.affected_rows === 1)
     {
@@ -123,7 +123,7 @@ gcompany.prototype.UpdateResponse = function (Res)
     }
 };
 
-gcompany.prototype.Reset = function ()
+accountingcompany.prototype.Reset = function ()
 {
     this.nit.SetText ("");
     this.name.SetText ("");
@@ -138,7 +138,7 @@ return new function ()
     {
         if(instance === undefined)
         {
-            instance = new gcompany();
+            instance = new accountingcompany();
             instance.Open ();
         }
         else
