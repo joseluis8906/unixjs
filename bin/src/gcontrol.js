@@ -88,7 +88,6 @@ gcontrol.prototype.SelectResponse = function (Res)
 }
 
 
-
 gcontrol.prototype.LoadApp = function (App)
 {
     var TagScript = document.createElement('script');
@@ -118,7 +117,7 @@ gcontrol.prototype.CloseApps = function ()
 {
     for (var i = 0; i < this.Apps.length; i++)
     {
-        this.Apps[i].close ();
+        console.log(this.Apps[i]);
     }
 }
 
