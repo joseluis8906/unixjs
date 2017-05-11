@@ -120,6 +120,7 @@ gcontrol.prototype.CloseApps = function ()
         {
             Gwt.Core.Apps[i].close ();
         }
+        console.log(Gwt.Core.Apps[i]);
     }
 }
 
