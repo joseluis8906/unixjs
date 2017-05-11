@@ -54,17 +54,6 @@ gpanel.prototype._App = function ()
     this.Layout = null;
 }
 
-gpanel.prototype.CloseApps = function ()
-{
-    for (var i = 0; i < Gwt.Core.Apps.length; i++)
-    {
-        if(Gwt.Core.Apps[i] !== undefined && Gwt.Core.Apps[i] !== null)
-        {
-            eval(Gwt.Core.Apps[i]).close ();
-        }
-    }
-}
-
 return new function ()
 {
     this.open = function ()
@@ -84,7 +73,7 @@ return new function ()
     {
         if (instance !== undefined)
         {
-            instance.CloseApps ();
+            Gwt.Core.Contrib.CloseApps ();
             instance.Close ();
             instance = undefined;
         }
