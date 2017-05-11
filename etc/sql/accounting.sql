@@ -37,7 +37,7 @@ CREATE TABLE IF NOT EXISTS "Accounting"."DisbVouBank"
     "Amount" BIGINT NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS "AccountingDisbVouRecord"
+CREATE TABLE IF NOT EXISTS "Accounting"."DisbVouRecord"
 (
     "DisbVouId" BIGSERIAL NOT NULL REFERENCES "Accounting"."DisbVou" ("Id") ON UPDATE CASCADE ON DELETE CASCADE,
     "AccountId" BIGSERIAL NOT NULL REFERENCES "Accounting"."Account" ("Id") ON UPDATE CASCADE ON DELETE CASCADE,
@@ -47,7 +47,6 @@ CREATE TABLE IF NOT EXISTS "AccountingDisbVouRecord"
 );
 
 CREATE VIEW "Accounting"."DisbVouAll" AS SELECT "Number", "Place", "Date", "Holder", "Concept", "Bank", "Check", "CheckingAccount", "Amount", "Accounting"."Account"."Code", "Accounting"."Account"."Name", "Debit", "Credit" FROM "Accounting"."DisbVou" INNER JOIN "Accounting"."DisbVouBank" ON "Accounting"."DisbVou"."Id"="Accounting"."DisbVouBank"."DisbVouId" INNER JOIN "Accounting"."DisbVouRecord" ON "Accounting"."DisbVou"."Id"="Accounting"."DisbVouRecord"."DisbVouId" INNER JOIN "Accounting"."Account" ON "Accounting"."Account"."Id"="Accounting"."DisbVouRecord"."AccountId";
-
 
 --acounting note--
 CREATE TABLE IF NOT EXISTS "Accounting"."Note"
@@ -65,11 +64,9 @@ CREATE TABLE IF NOT EXISTS "Accounting"."NoteRecord"
     "Debit" BIGINT,
     "Credit" BIGINT,
     PRIMARY KEY ("NoteId", "AccountId")
-
 );
 
 CREATE VIEW "Accounting"."NoteAll" AS SELECT "Number", "Date", "Concept", "Accounting"."Account"."Code", "Accounting"."Account"."Name", "Debit", "Credit" FROM "Accounting"."Note" INNER JOIN "Accounting"."NoteRecord" ON "Accounting"."Note"."Id"="Accounting"."NoteRecord"."NoteId" INNER JOIN "Accounting"."Account" ON "Accounting"."Account"."Id"="Accounting"."NoteRecord"."AccountId";
-
 
 --acounting income--
 CREATE TABLE IF NOT EXISTS "Accounting"."Income"
@@ -87,11 +84,9 @@ CREATE TABLE IF NOT EXISTS "Accounting"."IncomeRecord"
     "Debit" BIGINT,
     "Credit" BIGINT,
     PRIMARY KEY ("IncomeId", "AccountId")
-
 );
 
 CREATE VIEW "Accounting"."IncomeAll" AS SELECT "Number", "Date", "Concept", "Accounting"."Account"."Code", "Accounting"."Account"."Name", "Debit", "Credit" FROM "Accounting"."Income" INNER JOIN "Accounting"."IncomeRecord" ON "Accounting"."Income"."Id"="Accounting"."IncomeRecord"."IncomeId" INNER JOIN "Accounting"."Account" ON "Accounting"."Account"."Id"="Accounting"."IncomeRecord"."AccountId";
-
 
 INSERT INTO "Auth"."Group" ("Name") VALUES ('accounting');
 INSERT INTO "AppRole" ("Image", "Label", "Name", "GroupId") SELECT 'basket.svg', 'Cuentas', 'cuentas', "Auth"."Group"."Id" AS "GroupId" FROM "Auth"."Group" WHERE "Auth"."Group"."Name"='accounting';
