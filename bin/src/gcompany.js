@@ -1,4 +1,4 @@
-accountingcompany = (function ()
+gcompany = (function ()
 {
 var instance;
 
