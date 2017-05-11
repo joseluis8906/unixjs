@@ -628,7 +628,6 @@ return new function ()
         {
             instance = new cedeg();
             instance.Open ();
-            Gwt.Core.Contrib.SetActiveApp (window.cedeg);
         }
         else
         {
@@ -642,7 +641,6 @@ return new function ()
         {
             instance.Close();
             instance = undefined;
-            Gwt.Core.Contrib.RemoveActiveApp ();
         }
     }
 }

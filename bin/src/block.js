@@ -1,5 +1,5 @@
 block = (function ()
-{ 
+{
 var instance;
 
 function block ()
@@ -11,15 +11,15 @@ function block ()
     this.date = null;
     this.unlock_button = new Gwt.Gui.Button (Gwt.Core.Contrib.Images+"document-decrypt.svg", "Entrar");
     this.layout = new Gwt.Gui.VBox();
-    
+
     this.SetSize (250,330);
     this.SetPosition (Gwt.Gui.WIN_POS_CENTER);
     this.SetBorderSpacing (12);
     this.DisableMenu ();
-    
+
     this.layout.SetAlignment(Gwt.Gui.ALIGN_CENTER);
     this.SetLayout (this.layout);
-	
+
     var date = new Date ();
 
     var days = [ 'Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sáb'];
@@ -30,11 +30,11 @@ function block ()
     this.date.TextAlign ("center");
 
     this.unlock_button.SetWidth (78);
-    
+
     this.layout.Add(this.clock);
     this.layout.Add(this.date);
     this.layout.Add(this.unlock_button);
-    	
+
     this.unlock_button.AddEvent (Gwt.Gui.Event.Mouse.Click, this.unlock.bind(this));
 }
 
@@ -47,7 +47,7 @@ block.prototype._App = function ()
     this.date._StaticText ();
     this.unlock_button._Button ();
     this.layout._VBox ();
-    
+
     this.clock = null;
     this.date = null;
     this.unlock_button = null;
@@ -58,7 +58,7 @@ block.prototype.unlock = function ()
 {
     Gwt.Core.UnlockSession();
 }
-	
+
 return new function ()
 {
     this.open = function ()
@@ -73,15 +73,15 @@ return new function ()
             console.log ("%app open".replace ("%app", instance.__proto__.constructor.name));
         }
     }
-	
+
     this.close = function ()
     {
         if (instance !== undefined)
         {
             instance.Close ();
             instance = undefined;
-        } 
+        }
     }
 }
-	
+
 })();

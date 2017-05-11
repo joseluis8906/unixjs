@@ -140,7 +140,6 @@ return new function ()
         {
             instance = new accountingcompany();
             instance.Open ();
-            Gwt.Core.Contrib.SetActiveApp (window.accountingcompany);
         }
         else
         {
@@ -154,7 +153,6 @@ return new function ()
         {
             instance.Close();
             instance = undefined;
-            Gwt.Core.Contrib.RemoveActiveApp ();
         }
     };
 };

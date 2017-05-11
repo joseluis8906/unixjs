@@ -90,7 +90,7 @@ accountingrep.prototype.PrintResponse = function (Res)
 {
     var DisbVous = (Res.DisbVous instanceof Array) ? Res.DisbVous : [];
     var Accounts = (Res.Accounts instanceof Array) ? Res.Accounts : [];
-    
+
     //var Notes = (Res.Notes instanceof Array) ? Res.Notes : [];
     //var Registros = DisbVous.concat(Notes);
     //this.Records = this.SortData (Registros);
@@ -224,7 +224,6 @@ return new function ()
         {
             instance = new accountingrep();
             instance.Open ();
-            Gwt.Core.Contrib.SetActiveApp (window.accountingrep);
         }
         else
         {
@@ -238,7 +237,6 @@ return new function ()
         {
             instance.Close();
             instance = undefined;
-            Gwt.Core.Contrib.RemoveActiveApp ();
         }
     };
 };

@@ -590,7 +590,6 @@ return new function ()
         {
             instance = new accountingnotes();
             instance.Open ();
-            Gwt.Core.Contrib.SetActiveApp (window.accountingnotes);
         }
         else
         {
@@ -604,7 +603,6 @@ return new function ()
         {
             instance.Close();
             instance = undefined;
-            Gwt.Core.Contrib.RemoveActiveApp ();
         }
     };
 };

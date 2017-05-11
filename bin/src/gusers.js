@@ -2,25 +2,25 @@ gusers = ( function ()
 {
 var instance;
 
-function gusers () 
+function gusers ()
 {
     Gwt.Gui.Window.call (this, "Usuarios");
-	
+
     this.SetSize (320, 548);
     this.SetPosition (Gwt.Gui.WIN_POS_CENTER);
     this.SetBorderSpacing (12);
     this.Rpc = new Gwt.Core.Rpc ("/gusers/");
-   
+
     this.EnableMenu ();
     this.AddMenuItem (Gwt.Core.Contrib.Images + "appbar.cabinet.in.svg", "Guardar", this.Insert.bind(this));
     this.AddMenuItem (Gwt.Core.Contrib.Images + "appbar.refresh.svg", "Actualizar", this.Update.bind(this));
     this.AddMenuItem (Gwt.Core.Contrib.Images + "appbar.delete.svg", "Eliminar", this.Delete.bind(this));
     this.AddMenuItem (Gwt.Core.Contrib.Images + "appbar.power.svg", "Salir", function(){window.gusers.close(); window.gcontrol.open();}, Gwt.Gui.MENU_QUIT_APP);
-    
+
     this.Layout = new Gwt.Gui.VBox ();
     this.Layout.SetAlignment(Gwt.Gui.ALIGN_CENTER);
     this.SetLayout (this.Layout);
-    
+
     this.Avatar = new Gwt.Gui.Avatar ("Avatar", "jpg", 480, 480, this.Upload.bind(this));
     this.Avatar.SetSizeEditor (this.GetAvailableWidth(), this.GetAvailableHeight());
     this.Title = new Gwt.Gui.StaticText ("Datos:");
@@ -36,7 +36,7 @@ function gusers ()
     this.Phone = new Gwt.Gui.IconEntry(Gwt.Core.Contrib.Images+"appbar.phone.svg", "Teléfono");
     this.Email = new Gwt.Gui.IconEntry(Gwt.Core.Contrib.Images+"appbar.at.svg", "Correo Electrónico");
     this.Address = new Gwt.Gui.IconEntry(Gwt.Core.Contrib.Images+"appbar.home.location.round.svg", "Dirección de Residencia");
-        
+
     this.Layout.Add (this.Avatar);
     this.Layout.Add (this.Title);
     this.Layout.Add (this.UserName);
@@ -49,7 +49,7 @@ function gusers ()
     this.Layout.Add (this.Phone);
     this.Layout.Add (this.Email);
     this.Layout.Add (this.Address);
-    
+
     this.UserName.SetTabIndex(1);
     this.Password.SetTabIndex(2);
     this.DocType.SetTabIndex(3);
@@ -60,9 +60,9 @@ function gusers ()
     this.Phone.SetTabIndex(8);
     this.Email.SetTabIndex(9);
     this.Address.SetTabIndex(10);
-    
+
     this.Add (this.Avatar.GetEditor ());
-    
+
     this.UserName.AddEvent (Gwt.Gui.Event.Keyboard.KeyUp, this.Select.bind(this));
 }
 
@@ -84,7 +84,7 @@ gusers.prototype._App = function ()
     this.Email._IconEntry ();
     this.Address._IconEntry ();
     this.Layout._VBox ();
-    
+
     this.Avatar = null;
     this.Title = null;
     this.UserName = null;
@@ -171,7 +171,7 @@ gusers.prototype.Insert = function ()
         AvatarName: this.Avatar.GetName (),
         AvatarType: this.Avatar.GetType ()
     };
-    
+
     this.Rpc.Send (Data, this.InsertResponse.bind(this));
 };
 
@@ -190,7 +190,7 @@ gusers.prototype.InsertResponse = function (Res)
 };
 
 gusers.prototype.Update = function ()
-{   
+{
     var MediaRpc = new Gwt.Core.Rpc("/media/");
     MediaRpc.Send({Method: "Update", UserName: this.UserName.GetText(), Name: this.Avatar.GetName(), Type: this.Avatar.GetType()}, this.UpdateData.bind(this));
 };
@@ -214,7 +214,7 @@ gusers.prototype.UpdateData = function (Res)
             AvatarName: this.Avatar.GetName (),
             AvatarType: this.Avatar.GetType ()
         };
-    
+
         this.Rpc.Send (Data, this.UpdateResponse.bind(this));
     }
 };
@@ -277,23 +277,20 @@ return new function ()
         {
             instance = new gusers ();
             instance.Open ();
-            Gwt.Core.Contrib.SetActiveApp (window.gusers);
         }
         else
         {
             console.log ("%app open".replace ("%app", instance.__proto__.constructor.name));
         }
     };
-		
+
     this.close = function ()
     {
         if (instance !== undefined)
         {
             instance.Close ();
             instance = undefined;
-            Gwt.Core.Contrib.RemoveActiveApp ();
-        } 
+        }
     };
 };
 })();
-

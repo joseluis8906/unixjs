@@ -593,7 +593,6 @@ return new function ()
         {
             instance.Close();
             instance = undefined;
-            Gwt.Core.Contrib.RemoveActiveApp ();
         }
     };
 };

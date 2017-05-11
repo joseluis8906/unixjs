@@ -14,6 +14,7 @@ function gcontrol ()
     this.Row4 = new Gwt.Gui.HBox(8);
     this.Row5 = new Gwt.Gui.HBox(8);
     this.Icons = [];
+    this.Apps = [];
 
     this.DisableTitleBar ();
     this.SetSize (544, 544);
@@ -51,6 +52,7 @@ gcontrol.prototype._App = function ()
 
     this.Layout = null;
     this.Icons  = null;
+    this.Apps = null;
 }
 
 
@@ -81,6 +83,7 @@ gcontrol.prototype.SelectResponse = function (Res)
           this.Row5.Add (this.Icons[i]);
         }
         this.LoadApp (Res[i].Name);
+        this.Apps.push (eval ("window."+Res[i].Name));
     }
 }
 
@@ -111,6 +114,14 @@ gcontrol.prototype.LoadApp = function (App)
 }
 
 
+gcontrol.prototype.CloseApps = function ()
+{
+    for (var i = 0; i < this.Apps.length; i++)
+    {
+        this.Apps[i].close ();
+    }
+}
+
 
 return new function ()
 {
@@ -119,8 +130,8 @@ return new function ()
             if (instance === undefined)
             {
                 instance = new gcontrol ();
+                instance.CloseApps ();
                 instance.Open ();
-                Gwt.Core.Contrib.SetActiveApp (window.gcontrol);
             }
             else
             {
@@ -133,9 +144,9 @@ return new function ()
 	{
             if (instance !== undefined)
             {
+                instance.CloseApps ();
                 instance.Close();
                 instance = undefined;
-                Gwt.Core.Contrib.RemoveActiveApp ();
             }
 	};
 };
