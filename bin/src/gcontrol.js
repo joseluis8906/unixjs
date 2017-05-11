@@ -57,6 +57,11 @@ gcontrol.prototype._App = function ()
 
 gcontrol.prototype.SelectResponse = function (Res)
 {
+    for (var i = 0; i < Gwt.Core.Apps.lengh; i++)
+    {
+        Gwt.Core.Apps.pop ();
+    }
+
     for (var i = 0; i < Res.length; i++)
     {
         this.Icons.push (new Gwt.Gui.IconDesktop (Gwt.Core.Contrib.Images+Res[i].Image, Res[i].Label, Res[i].Name));
