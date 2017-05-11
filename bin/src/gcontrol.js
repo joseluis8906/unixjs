@@ -57,7 +57,7 @@ gcontrol.prototype._App = function ()
 
 gcontrol.prototype.SelectResponse = function (Res)
 {
-    for (var i = 0; i < Gwt.Core.Apps.lenght; i++)
+    for (var i = 0; i < Gwt.Core.Apps.length; i++)
     {
         Gwt.Core.Apps.pop ();
     }
