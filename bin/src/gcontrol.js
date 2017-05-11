@@ -114,9 +114,9 @@ gcontrol.prototype.LoadApp = function (App)
 
 gcontrol.prototype.CloseApps = function ()
 {
-    for (var i = 0; i < this.Apps.length; i++)
+    for (var i = 0; i < Gwt.Core.Apps.length; i++)
     {
-        if(this.Apps[i] !== undefined && this.Apps[i] !== null)
+        if(Gwt.Core.Apps[i] !== undefined && Gwt.Core.Apps[i] !== null)
         {
             Gwt.Core.Apps[i].close ();
         }

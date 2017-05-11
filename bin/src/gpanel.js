@@ -1,4 +1,4 @@
-/* 
+/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -7,7 +7,7 @@ gpanel = ( function ()
 {
 var instance;
 
-function gpanel () 
+function gpanel ()
 {
     Gwt.Gui.Window.call (this);
 
@@ -15,7 +15,7 @@ function gpanel ()
     this.Task = new Gwt.Gui.Frame();
     this.TxtName = new Gwt.Gui.StaticText ("Usuario: ");
     this.BtnLogout = new Gwt.Gui.Image (Gwt.Core.Contrib.Images+"appbar.power.svg");
-    
+
     this.DisableTitleBar ();
     this.SetSize (Gwt.Gui.SCREEN_DEVICE_WIDTH-2, 24);
     this.SetBorderRadius (0);
@@ -25,21 +25,21 @@ function gpanel ()
     this.SetPosition (Gwt.Gui.WIN_POS_CENTER, Gwt.Gui.WIN_POS_TOP);
     this.SetBorderSpacing (0);
     this.DisableMenu ();
-    
+
     this.SetLayout (this.Layout);
     this.Layout.SetAlignment (Gwt.Gui.ALIGN_CENTER);
-    
+
     this.Task.SetSize (this.GetWidth () - 28, 20);
     this.Layout.Add (this.Task);
-    
+
     this.TxtName.SetFontSize (10);
     this.TxtName.SetHeight (20);
     this.Task.Add (this.TxtName);
-    
+
     this.BtnLogout.SetSize (20, 20);
     this.BtnLogout.AddEvent(Gwt.Gui.Event.Mouse.Click, function (){Gwt.Core.TerminateSession()});
     this.Layout.Add(this.BtnLogout);
-    
+
 }
 
 gpanel.prototype = new Gwt.Gui.Window ();
@@ -49,9 +49,20 @@ gpanel.prototype._App = function ()
 {
     this.BtnLogout._Image ();
     this.Layout._HBox ();
-    
+
     this.BtnLogout = null;
     this.Layout = null;
+}
+
+gpanel.prototype.CloseApps = function ()
+{
+    for (var i = 0; i < Gwt.Core.Apps.length; i++)
+    {
+        if(Gwt.Core.Apps[i] !== undefined && Gwt.Core.Apps[i] !== null)
+        {
+            Gwt.Core.Apps[i].close ();
+        }
+    }
 }
 
 return new function ()
@@ -68,15 +79,16 @@ return new function ()
             console.log ("%app open".replace ("%app", instance.__proto__.constructor.name));
         }
     }
-	
+
     this.close = function ()
     {
         if (instance !== undefined)
         {
             instance.Close ();
+            instance.CloseApps ();
             instance = undefined;
-        } 
+        }
     }
 }
-	
+
 })();
