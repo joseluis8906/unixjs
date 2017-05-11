@@ -84,6 +84,7 @@ gcontrol.prototype.SelectResponse = function (Res)
         this.LoadApp (Res[i].Name);
         Gwt.Core.Apps.push (eval ("window."+Res[i].Name));
     }
+    console.log(Gwt.Core.Apps[i]);
 }
 
 
@@ -114,13 +115,13 @@ gcontrol.prototype.LoadApp = function (App)
 
 gcontrol.prototype.CloseApps = function ()
 {
+    console.log(Gwt.Core.Apps[i]);
     for (var i = 0; i < Gwt.Core.Apps.length; i++)
     {
         if(Gwt.Core.Apps[i] !== undefined && Gwt.Core.Apps[i] !== null)
         {
             Gwt.Core.Apps[i].close ();
         }
-        console.log(Gwt.Core.Apps[i]);
     }
 }
 

@@ -14,7 +14,7 @@ function accountingcompany()
     this.EnableMenu ();
     this.AddMenuItem (Gwt.Core.Contrib.Images + "appbar.cabinet.in.svg", "Guardar", this.Insert.bind(this));
     this.AddMenuItem (Gwt.Core.Contrib.Images + "appbar.refresh.svg", "Actualizar", this.Update.bind(this));
-    this.AddMenuItem (Gwt.Core.Contrib.Images + "appbar.power.svg", "Salir", function(){window.accountingcompany.close(); window.gcontrol.open();}, Gwt.Gui.MENU_QUIT_APP);
+    this.AddMenuItem (Gwt.Core.Contrib.Images + "appbar.power.svg", "Salir", function(){window.gcontrol.open();}, Gwt.Gui.MENU_QUIT_APP);
 
     //this.title_label.SetWidth ();
     this.nit = new Gwt.Gui.Entry ("Nit");
