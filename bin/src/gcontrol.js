@@ -60,8 +60,6 @@ gcontrol.prototype._App = function ()
     this.Icons  = null;
 }
 
-
-
 gcontrol.prototype.SelectResponse = function (Res)
 {
     window.Gwt.Core.Apps = [];
