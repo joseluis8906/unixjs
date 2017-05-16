@@ -207,6 +207,16 @@ equal_sums_widget.prototype.verify_equality = function ()
     }
 }
 
+//reset
+equal_sums_widget.prototype.reset = function ()
+{
+    this.debit.SetText ("Debe");
+    this.credit.SetText ("Haber");
+    this.dif_debit.SetText ("");
+    this.dif_credit.SetText ("");
+    this.label2.SetText ("");
+}
+
 
 //cedeg constructor
 function cedeg()
@@ -453,6 +463,8 @@ cedeg.prototype.Reset = function ()
     {
         this.records[i].Reset ();
     }
+
+    this.equal_sums.Reset ();
 };
 
 //CheckNumber
