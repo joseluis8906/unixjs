@@ -208,7 +208,7 @@ equal_sums_widget.prototype.verify_equality = function ()
 }
 
 //reset
-equal_sums_widget.prototype.reset = function ()
+equal_sums_widget.prototype.Reset = function ()
 {
     this.debit.SetText ("Debe");
     this.credit.SetText ("Haber");
