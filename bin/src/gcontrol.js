@@ -38,6 +38,10 @@ function gcontrol ()
     {
         this.Rpc.Send({Method: "Select"}, this.SelectResponse.bind(this));
     }
+    else
+    {
+        this.LoadIconApps ();
+    }
 }
 
 gcontrol.prototype = new Gwt.Gui.Window ();
@@ -63,34 +67,42 @@ gcontrol.prototype.SelectResponse = function (Res)
     window.Gwt.Core.Apps = [];
     for (var i = 0; i < Res.length; i++)
     {
-        this.Icons.push (new Gwt.Gui.IconDesktop (Gwt.Core.Contrib.Images+Res[i].Image, Res[i].Label, Res[i].Name));
+        this.LoadScriptApp (Res[i].Name);
+        window.Gwt.Core.Apps.push (Res[i]);
+    }
+    this.LoadIconApps ();
+}
+
+gcontrol.prototype.LoadIconApps = function ()
+{
+    for (var i = 0; i < window.Gwt.Core.Apps.length; i++)
+    {
+        var App = window.Gwt.Core.Apps[i];
+        this.Icons.push (new Gwt.Gui.IconDesktop (Gwt.Core.Contrib.Images+App[i].Image, App[i].Label, App[i].Name));
         if (i<5)
         {
-          this.Row1.Add (this.Icons[i]);
+            this.Row1.Add (this.Icons[i]);
         }
         else if (i >= 5 && i < 10)
         {
-          this.Row2.Add (this.Icons[i]);
+            this.Row2.Add (this.Icons[i]);
         }
         else if (i >= 10 && i < 15)
         {
-          this.Row3.Add (this.Icons[i]);
+            this.Row3.Add (this.Icons[i]);
         }
         else if (i >= 15 && i < 20)
         {
-          this.Row4.Add (this.Icons[i]);
+            this.Row4.Add (this.Icons[i]);
         }
         else if (i >= 20 && i < 25)
         {
-          this.Row5.Add (this.Icons[i]);
+            this.Row5.Add (this.Icons[i]);
         }
-        this.LoadApp (Res[i].Name);
-        Gwt.Core.Apps.push ("window."+Res[i].Name);
     }
 }
 
-
-gcontrol.prototype.LoadApp = function (App)
+gcontrol.prototype.LoadScriptApp = function (App)
 {
     var TagScript = document.createElement('script');
     TagScript.type = 'text/javascript';
