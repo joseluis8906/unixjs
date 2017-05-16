@@ -423,7 +423,7 @@ comping.prototype.Print = function (Res)
 //report load
 comping.prototype.ReportLoad = function ()
 {
-    var doc = this.Report.contentWindow.document;
+    var doc = this.Report.document;
     doc.getElementById ("Number").textContent = Gwt.Core.Contrib.ZFill(this.number.GetText(), 4);
     doc.getElementById ("Date").textContent = this.date.GetText ();
     doc.getElementById ("Concept").textContent = this.concept.GetText ();
