@@ -78,7 +78,7 @@ gcontrol.prototype.LoadIconApps = function ()
     for (var i = 0; i < window.Gwt.Core.Apps.length; i++)
     {
         var App = window.Gwt.Core.Apps[i];
-        this.Icons.push (new Gwt.Gui.IconDesktop (Gwt.Core.Contrib.Images+App[i].Image, App[i].Label, App[i].Name));
+        this.Icons.push (new Gwt.Gui.IconDesktop (Gwt.Core.Contrib.Images+App.Image, App.Label, App.Name));
         if (i<5)
         {
             this.Row1.Add (this.Icons[i]);
