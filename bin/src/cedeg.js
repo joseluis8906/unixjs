@@ -524,7 +524,7 @@ cedeg.prototype.NextNumber = function (Res)
 //report load
 cedeg.prototype.ReportLoad = function ()
 {
-    var doc = this.Report.contentWindow.document;
+    var doc = this.Report.document;//this.Report.contentWindow.document;
     doc.getElementById ("Number").textContent = Gwt.Core.Contrib.ZFill(this.number.GetText(), 4);
     doc.getElementById ("Place").textContent = this.place.GetText()+", "+this.date.GetText ();
     doc.getElementById ("Holder").textContent = this.holder.GetText ();
