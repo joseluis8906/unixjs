@@ -148,6 +148,7 @@ function equal_sums_widget (Width, Heigth)
 equal_sums_widget.prototype = new Gwt.Gui.VBox ();
 equal_sums_widget.prototype.constructor = equal_sums_widget;
 
+//set_debit
 equal_sums_widget.prototype.set_debit = function (value)
 {
     if (value === 0)
@@ -162,6 +163,7 @@ equal_sums_widget.prototype.set_debit = function (value)
     this.verify_equality ();
 }
 
+//set_credit
 equal_sums_widget.prototype.set_credit = function (value)
 {
     if (value === 0)
@@ -176,6 +178,7 @@ equal_sums_widget.prototype.set_credit = function (value)
     this.verify_equality ();
 }
 
+//verify_equality
 equal_sums_widget.prototype.verify_equality = function ()
 {
     var debit = Number(this.debit.GetText ());
@@ -205,6 +208,16 @@ equal_sums_widget.prototype.verify_equality = function ()
         this.dif_debit.SetText ("");
         this.dif_credit.SetText ("");
     }
+}
+
+//reset
+equal_sums_widget.prototype.Reset = function ()
+{
+    this.debit.SetText ("Debe");
+    this.credit.SetText ("Haber");
+    this.dif_debit.SetText ("");
+    this.dif_credit.SetText ("");
+    this.label2.SetText ("");
 }
 
 
@@ -524,6 +537,8 @@ comping.prototype.Reset = function ()
     {
         this.records[i].Reset ();
     }
+
+    this.equal_sums.Reset ();
 };
 
 //sort data
