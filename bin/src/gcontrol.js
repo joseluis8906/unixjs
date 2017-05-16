@@ -34,7 +34,10 @@ function gcontrol ()
     this.Layout.Add (this.Row4);
     this.Layout.Add (this.Row5);
 
-    this.Rpc.Send({Method: "Select"}, this.SelectResponse.bind(this));
+    if (window.Gwt.Core.Apps.length === 0)
+    {
+        this.Rpc.Send({Method: "Select"}, this.SelectResponse.bind(this));
+    }
 }
 
 gcontrol.prototype = new Gwt.Gui.Window ();
@@ -92,6 +95,9 @@ gcontrol.prototype.LoadApp = function (App)
     var TagScript = document.createElement('script');
     TagScript.type = 'text/javascript';
     TagScript.async = true;
+    TagScript.onload = function() {
+        console.log ("Script loaded and ready");
+    };
     TagScript.src = "/bin/"+App+".min.js"+"?"+Math.trunc(Math.random()*1000);
     var Head = document.head;
 
