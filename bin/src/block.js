@@ -4,7 +4,7 @@ var instance;
 
 function block ()
 {
-    Gwt.Gui.Window.call (this, "Sessión Terminada");
+    Gwt.Gui.Window.call (this, "Iniciar Sessión");
 
     //instance props
     this.clock = new Gwt.Gui.Clock ();

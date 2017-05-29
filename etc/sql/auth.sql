@@ -11,6 +11,18 @@ CREATE TABLE IF NOT EXISTS "Auth"."User"
     "Password" VARCHAR(256) NOT NULL
 );
 
+/*Media*/
+CREATE TABLE IF NOT EXISTS "public"."Media"
+(
+    "Id" BIGSERIAL PRIMARY KEY,
+    "Name" VARCHAR(256) NOT NULL,
+    "Type" VARCHAR(8) NOT NULL,
+    "FileName" VARCHAR(256) NOT NULL,
+    "UserId" BIGINT NOT NULL REFERENCES "Auth"."User" ("Id") ON UPDATE CASCADE ON DELETE CASCADE,
+    UNIQUE ("Name", "Type")
+);
+
+
 CREATE TABLE IF NOT EXISTS "Auth"."UserBasicInfo"
 (
     "UserId" BIGINT PRIMARY KEY NOT NULL REFERENCES "Auth"."User" ("Id") ON UPDATE CASCADE ON DELETE CASCADE,
@@ -63,16 +75,6 @@ CREATE TABLE IF NOT EXISTS "Auth"."AppRole"
 
 CREATE VIEW "Auth"."AppRoleAll" AS SELECT "UserName" AS "User", "Image", "Label", "AppRole"."Name" AS "Name", "Auth"."UserGroupAll"."GroupName" AS "Group" FROM "Auth"."AppRole" INNER JOIN "Auth"."UserGroupAll" ON "Auth"."AppRole"."GroupId"="Auth"."UserGroupAll"."GroupId" ORDER BY "Label";
 
-/*Media*/
-CREATE TABLE IF NOT EXISTS "public"."Media"
-(
-    "Id" BIGSERIAL PRIMARY KEY,
-    "Name" VARCHAR(256) NOT NULL,
-    "Type" VARCHAR(8) NOT NULL,
-    "FileName" VARCHAR(256) NOT NULL,
-    "UserId" BIGINT NOT NULL REFERENCES "Auth"."User" ("Id") ON UPDATE CASCADE ON DELETE CASCADE,
-    UNIQUE ("Name", "Type")
-);
 
 WITH "Ins1" AS (INSERT INTO "Auth"."User"("UserName", "Password") VALUES('root', 'sha256$18ac3e7d43f01689$d50f9743790e7e0ff4cd2dd09ff2e316ae5f8def526da0ee8910db4e941e285b') RETURNING "Id" AS "UserId"), "Ins2" AS (INSERT INTO "Auth"."UserBasicInfo"("UserId", "DocumentType", "DocumentNum", "Country", "Name", "LastName") SELECT "UserId", 'XX', 'XXXXXXXXXX', 'XXXXXX', 'XXX', 'XXX' FROM "Ins1" RETURNING "UserId") INSERT INTO "Auth"."UserComplementaryInfo"("UserId", "Phone", "Email", "Address") SELECT "UserId", 'XXX', 'XXX', 'XXX' FROM "Ins1";
 

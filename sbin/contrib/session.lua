@@ -55,7 +55,8 @@ if Method == "Start" then
     end
     db:keepalive();
     local Session = require ("resty.session").start();
-    Session.cookie.lifetime = 60;
+    --Session.cookie.lifetime = 60;
+    Session.cookie.persistent = true;
     Session.data.uid = UserName;
     Session:save ();
     Http.Response ({Result = 1});
@@ -69,8 +70,8 @@ if Method == "Renew" then
         Http.Response ({Result = 0});
         return false;
     end
-    Session.cookie.lifetime = 60;
-    Session:save ();
+    --Session.cookie.lifetime = 60;
+    --Session:save ();
     Http.Response ({Result = 1});
     return;
 end
@@ -90,8 +91,8 @@ function LoginRequired ()
     if not Session.data.uid then
         return false;
     end
-    Session.cookie.lifetime = 60;
-    Session:save ();
+    --Session.cookie.lifetime = 60;
+    --Session:save ();
     return true;
 end
 
