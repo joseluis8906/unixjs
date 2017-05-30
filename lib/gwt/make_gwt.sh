@@ -39,6 +39,7 @@ cat gui/icon_desktop.js >> gwt.js
 cat gui/icon_entry.js >> gwt.js
 cat gui/icon_select_box.js >> gwt.js
 cat gui/date.js >> gwt.js
+cat gui/time.js >> gwt.js
 cat gui/knob_three_levels.js >> gwt.js
 
 

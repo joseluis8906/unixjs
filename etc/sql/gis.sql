@@ -39,6 +39,7 @@ CREATE TABLE IF NOT EXISTS "Gis"."EnvaseGeneralidades"
 CREATE TABLE IF NOT EXISTS "Gis"."Produccion1"
 (
     "EnvaseId" BIGINT PRIMARY KEY NOT NULL REFERENCES "Gis"."Envase" ("Id") ON UPDATE CASCADE ON DELETE CASCADE,
+    "Producto" VARCHAR(128),
     "FechaFabricacion" DATE,
     "FechaVencimiento" DATE,
     "Lote" VARCHAR(16),
