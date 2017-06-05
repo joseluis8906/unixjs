@@ -28,6 +28,15 @@ if Method == "Select" then
     return;
 end
 
+if Method == "SelectBase" then
+    local Q = Sql.Query;
+    Q:New ([[SELECT "Code", "Name" FROM "Accounting"."Account" WHERE char_length("Code")=4 ORDER BY "Code" ASC;]]);
+    local R, Err = db:query (Q.Stm);
+    ngx.log(ngx.ERR, Err)
+    Http.Response (R);
+    return;
+end
+
 if Method == "Insert" then
     local Code = Http.Request ("Code");
     local Name = Http.Request ("Name");

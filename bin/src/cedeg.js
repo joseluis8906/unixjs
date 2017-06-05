@@ -442,6 +442,14 @@ cedeg.prototype.DeleteResponse = function (Res)
 //print
 cedeg.prototype.Print = function (Res)
 {
+    this.Accounts = new Gwt.Core.Rpc ("/cuentas/");
+    this.Accounts.Send ({Method: 'SelectBase'}, this.LoadDocument.bind(this));
+};
+
+//LoadDocument
+cedeg.prototype.LoadDocument = function (Res)
+{
+    this.BaseAccounts = Res;
     this.Report = Gwt.Core.Contrib.LoadDocument ("/documents/cedeg.html");
     this.Report.addEventListener ("load", this.ReportLoad.bind (this));
 };
@@ -555,7 +563,6 @@ cedeg.prototype.ReportLoad = function ()
             Records.push({
                 "Code": this.records[i].code.GetText (),
                 "Name": this.records[i].name.GetText (),
-                "Partial": Gwt.Core.Contrib.TextToMonetary (""),
                 "Debit": Gwt.Core.Contrib.TextToMonetary (this.records[i].debit.GetText ()),
                 "Credit": Gwt.Core.Contrib.TextToMonetary (this.records[i].credit.GetText())
             });
@@ -590,7 +597,10 @@ cedeg.prototype.ReportLoad = function ()
 //sort data
 cedeg.prototype.SortData = function (Res)
 {
+    var BaseDebits = [];
     var Debits = [];
+
+    var BaseCredits = [];
     var Credits = [];
 
     var Sorted = [];
@@ -609,22 +619,47 @@ cedeg.prototype.SortData = function (Res)
 
     for (var i = 0; i < Debits.length; i++)
     {
-        for (var j = 0; j < Res.length; j++)
+        for (var j = 0; j < this.BaseAccounts.length; j++)
         {
-            if (Res[j].Code.startsWith(Debits[i].Code))
+            if (Debits[i].Code.startsWith(this.BaseAccounts[j].Code))
             {
-                Sorted.push (Res[j]);
+                BaseDebits.push (this.BaseAccounts[j]);
             }
         }
     }
 
     for (var i = 0; i < Credits.length; i++)
     {
-        for (var j = 0; j < Res.length; j++)
+        for (var j = 0; j < this.BaseAccounts.length; j++)
         {
-            if (Res[j].Code.startsWith(Credits[i].Code))
+            if (Credits[i].Code.startsWith(this.BaseAccounts[j].Code))
             {
-                Sorted.push (Res[j]);
+                BaseCredits.push (this.BaseAccounts[j]);
+            }
+        }
+    }
+
+
+    for (var i = 0; i < Debits.length; i++)
+    {
+        for(var j = 0; j < BaseDebits.length; j++)
+        {
+            if (Debits[i].Code.startsWith(BaseDebits[j].Code))
+            {
+                BaseDebits[j].Debit = Debits[i].Debit;
+                Debits[i].Partial = Debits[i].Debit;
+                Debits[i].Debit = '';
+            }
+        }
+    }
+
+    for (var i = 0; i < Debits.length; i++)
+    {
+        for(var j = 0; j < BaseDebits.length; j++)
+        {
+            if (Debits[i].Code.startsWith(BaseDebits[j].Code))
+            {
+                Sorted.push(Debits[j]);
             }
         }
     }
