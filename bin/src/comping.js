@@ -251,9 +251,12 @@ function comping ()
 
     this.number = new Gwt.Gui.Entry ("Número");
     this.date = new Gwt.Gui.Date ("Creación");
+    this.date.SetWidth (256);
     this.date.Now ();
     this.concept = new Gwt.Gui.Text ("Concepto");
     this.Report = null;
+    this.Accounts = null;
+    this.Accounts = new Gwt.Core.Rpc ("/cuentas/");
 
     this.records = [];
     for (var i = 0; i <= 15; i++)
@@ -280,6 +283,7 @@ function comping ()
     }
 
     this.number.AddEvent (Gwt.Gui.Event.Keyboard.KeyPress, this.CheckNumber.bind(this));
+    this.Accounts.Send ({Method: 'SelectBase'}, this.LoadAccounts.bind(this));
 }
 
 comping.prototype = new Gwt.Gui.Window ();
@@ -307,8 +311,16 @@ comping.prototype._App = function ()
     this.slider = null;
     this.layout = null;
     this.Report = null;
+    this.Accounts = null;
 };
 
+//Load accounts
+comping.prototype.LoadAccounts = function (Res)
+{
+    this.Accounts = Res;
+};
+
+//Change debit
 comping.prototype.ChangeDebit = function ()
 {
     var Sum = 0;
@@ -319,6 +331,7 @@ comping.prototype.ChangeDebit = function ()
     this.equal_sums.set_debit (Sum);
 }
 
+//Change credit
 comping.prototype.ChangeCredit = function ()
 {
     var Sum = 0;
@@ -329,6 +342,7 @@ comping.prototype.ChangeCredit = function ()
     this.equal_sums.set_credit (Sum);
 }
 
+//create data
 comping.prototype.CreateData = function ()
 {
     var Data = {
@@ -416,6 +430,8 @@ comping.prototype.Print = function (Res)
             Records += 1;
         }
     }
+
+    Records += 5;
     this.Report = Gwt.Core.Contrib.LoadDocument ("/documents/comping.html?records=%0".replace("%0", Records));
     this.Report.addEventListener ("load", this.ReportLoad.bind (this));
 };
@@ -442,8 +458,8 @@ comping.prototype.ReportLoad = function ()
                 "Code": this.records[i].code.GetText (),
                 "Name": this.records[i].name.GetText (),
                 "Partial": Gwt.Core.Contrib.TextToMonetary (""),
-                "Debit": Gwt.Core.Contrib.TextToMonetary (this.records[i].debit.GetText ()),
-                "Credit": Gwt.Core.Contrib.TextToMonetary (this.records[i].credit.GetText())
+                "Debit": this.records[i].debit.GetText (),
+                "Credit": this.records[i].credit.GetText()
             });
         }
     }
@@ -454,13 +470,13 @@ comping.prototype.ReportLoad = function ()
     {
         doc.getElementById ("Code"+i).textContent = SortedRecords[i].Code;
         doc.getElementById ("Name"+i).textContent = SortedRecords[i].Name;
-        doc.getElementById ("Partial"+i).textContent = (SortedRecords[i].Partial === "$0") ? "" : SortedRecords[i].Partial;
-        doc.getElementById ("Debit"+i).textContent = (SortedRecords[i].Debit  === "$0") ? "" : SortedRecords[i].Debit;
-        doc.getElementById ("Credit"+i).textContent = (SortedRecords[i].Credit === "$0") ? "" : SortedRecords[i].Credit;
+        doc.getElementById ("Partial"+i).textContent = (SortedRecords[i].Partial === 0) ? "" : Gwt.Core.Contrib.TextToMonetary (String(SortedRecords[i].Partial));
+        doc.getElementById ("Debit"+i).textContent = (SortedRecords[i].Debit  === 0) ? "" : Gwt.Core.Contrib.TextToMonetary (String(SortedRecords[i].Debit));
+        doc.getElementById ("Credit"+i).textContent = (SortedRecords[i].Credit === 0) ? "" : Gwt.Core.Contrib.TextToMonetary (String(SortedRecords[i].Credit));
     }
 
-    doc.getElementById ("EqSumDebit").textContent = Gwt.Core.Contrib.TextToMonetary(TotalDebit.toString());
-    doc.getElementById ("EqSumCredit").textContent = Gwt.Core.Contrib.TextToMonetary(TotalCredit.toString());
+    doc.getElementById ("EqSumDebit").textContent = Gwt.Core.Contrib.TextToMonetary(String(TotalDebit));
+    doc.getElementById ("EqSumCredit").textContent = Gwt.Core.Contrib.TextToMonetary(String(TotalCredit));
 
     doc = undefined;
     this.Report = null;
@@ -542,49 +558,100 @@ comping.prototype.Reset = function ()
 };
 
 //sort data
-comping.prototype.SortData = function (Res)
+comping.prototype.SortData = function (Records)
 {
+    var BaseDebits = [];
+    var BaseCredits = [];
     var Debits = [];
     var Credits = [];
 
-    var Sorted = [];
-
-    for (var i = 0; i < Res.length; i++)
+    for (var i = 0; i < Records.length; i++)
     {
-        if (Number(Res[i].Debit) !== 0)
+        if (Number(Records[i].Debit) !== 0)
         {
-            Debits.push (Res[i]);
+            Debits.push (Records[i]);
         }
-        else if (Number(Res[i].Credit) !== 0)
+        else if (Number(Records[i].Credit) !== 0)
         {
-            Credits.push (Res[i]);
+            Credits.push (Records[i]);
         }
     }
 
     for (var i = 0; i < Debits.length; i++)
     {
-        for (var j = 0; j < Res.length; j++)
+        for (var j = 0; j < this.Accounts.length; j++)
         {
-            if (Res[j].Code.startsWith(Debits[i].Code))
+            this.Accounts[j].Debit = 0;
+            this.Accounts[j].Credit = 0;
+            this.Accounts[j].Partial = 0;
+
+            if(Debits[i].Code.startsWith(this.Accounts[j].Code))
             {
-                Sorted.push (Res[j]);
+                if (BaseDebits.indexOf(this.Accounts[j]) < 0)
+                {
+                    BaseDebits.push (this.Accounts[j]);
+                }
             }
         }
     }
 
     for (var i = 0; i < Credits.length; i++)
     {
-        for (var j = 0; j < Res.length; j++)
+        for (var j = 0; j < this.Accounts.length; j++)
         {
-            if (Res[j].Code.startsWith(Credits[i].Code))
+            this.Accounts[j].Debit = 0;
+            this.Accounts[j].Credit = 0;
+            this.Accounts[j].Partial = 0;
+
+            if(Credits[i].Code.startsWith(this.Accounts[j].Code))
             {
-                Sorted.push (Res[j]);
+                if (BaseCredits.indexOf(this.Accounts[j]) < 0)
+                {
+                    BaseCredits.push (this.Accounts[j]);
+                }
             }
         }
     }
 
+    for (var i = 0; i < Debits.length; i++)
+    {
+        for(var j = 0; j < BaseDebits.length; j++)
+        {
+            if (Debits[i].Code.startsWith(BaseDebits[j].Code))
+            {
+                BaseDebits[j].Debit = BaseDebits[j].Debit + Number(Debits[i].Debit);
+                Debits[i].Partial = Debits[i].Debit;
+                Debits[i].Debit = 0;
+            }
+        }
+    }
+
+    for (var i = 0; i < Credits.length; i++)
+    {
+        for(var j = 0; j < BaseCredits.length; j++)
+        {
+            if (Credits[i].Code.startsWith(BaseCredits[j].Code))
+            {
+                BaseCredits[j].Credit = BaseCredits[j].Credit + Number(Credits[i].Credit);
+                Credits[i].Partial = Credits[i].Credit;
+                Credits[i].Credit = 0;
+            }
+        }
+    }
+
+    Sorted = [];
+
+    Debits = BaseDebits.concat (Debits);
+    Debits = Debits.sortByKey ('Code')
+
+    Credits = BaseCredits.concat (Credits);
+    Credits = Credits.sortByKey ('Code');
+
+    Sorted = Sorted.concat(Debits).concat(Credits);
+
     return Sorted;
 };
+
 
 return new function ()
 {

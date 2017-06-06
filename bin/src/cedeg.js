@@ -245,6 +245,7 @@ function cedeg()
     this.number = new Gwt.Gui.Entry ("Número");
     this.place = new Gwt.Gui.Entry ("Lugar");
     this.date = new Gwt.Gui.Date ("Creación");
+    this.date.SetWidth (256);
     this.date.Now ();
     this.holder = new Gwt.Gui.Entry ("A Favor De");
     this.amount = new Gwt.Gui.Entry ("Valor");
