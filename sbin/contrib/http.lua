@@ -1,5 +1,6 @@
 local cjson = require ("cjson");
 
+[[--
 function Request (Name)
     ngx.req.read_body();
     local Args, Err = ngx.req.get_post_args();
@@ -11,8 +12,13 @@ function Request (Name)
         end
     end
 end
+--]]
 
-
+function Request ()
+    ngx.req.read_body();
+    local Data, Err = ngx.req.get_body_data();
+    return cjson.decode (Data);
+end
 
 function Response (Arg)
     ngx.header.content_type = "application/json; charset=utf-8";
@@ -23,6 +29,5 @@ function Response (Arg)
         return false;
     end
 end
-
 
 return {Request = Request, Response = Response}
