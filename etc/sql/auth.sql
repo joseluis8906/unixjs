@@ -7,17 +7,17 @@ CREATE SCHEMA IF NOT EXISTS "Auth";
 CREATE TABLE IF NOT EXISTS "Auth"."User"
 (
     "Id" BIGSERIAL PRIMARY KEY,
-    "UserName" VARCHAR(32) UNIQUE NOT NULL,
-    "Password" VARCHAR(256) NOT NULL
+    "UserName" TEXT UNIQUE NOT NULL,
+    "Password" TEXT NOT NULL
 );
 
 /*Media*/
 CREATE TABLE IF NOT EXISTS "public"."Media"
 (
     "Id" BIGSERIAL PRIMARY KEY,
-    "Name" VARCHAR(256) NOT NULL,
-    "Type" VARCHAR(8) NOT NULL,
-    "FileName" VARCHAR(256) NOT NULL,
+    "Name" TEXT NOT NULL,
+    "Type" TEXT NOT NULL,
+    "FileName" TEXT NOT NULL,
     "UserId" BIGINT NOT NULL REFERENCES "Auth"."User" ("Id") ON UPDATE CASCADE ON DELETE CASCADE,
     UNIQUE ("Name", "Type")
 );
@@ -26,21 +26,21 @@ CREATE TABLE IF NOT EXISTS "public"."Media"
 CREATE TABLE IF NOT EXISTS "Auth"."UserBasicInfo"
 (
     "UserId" BIGINT PRIMARY KEY NOT NULL REFERENCES "Auth"."User" ("Id") ON UPDATE CASCADE ON DELETE CASCADE,
-    "DocumentType" VARCHAR(8) NOT NULL,
-    "DocumentNum" VARCHAR(16) NOT NULL,
-    "Country" VARCHAR(64) NOT NULL,
-    "Name" VARCHAR(64) NOT NULL,
-    "LastName" VARCHAR(64) NOT NULL,
+    "DocumentType" TEXT,
+    "DocumentNum" TEXT,
+    "Country" TEXT,
+    "Name" TEXT,
+    "LastName" TEXT,
     UNIQUE ("DocumentType", "DocumentNum", "Country")
 );
 
 CREATE TABLE IF NOT EXISTS "Auth"."UserComplementaryInfo"
 (
     "UserId" BIGINT PRIMARY KEY NOT NULL REFERENCES "Auth"."User" ("Id") ON UPDATE CASCADE ON DELETE CASCADE,
-    "Avatar" BIGINT REFERENCES "Media" ("Id") UNIQUE,
-    "Phone" VARCHAR(24),
-    "Email" VARCHAR(64),
-    "Address" VARCHAR(64)
+    "Avatar" BIGINT REFERENCES "Media" ("Id"),
+    "Phone" TEXT,
+    "Email" TEXT,
+    "Address" TEXT
 );
 
 CREATE VIEW "Auth"."UserAll" AS SELECT "UserName", "Password", "DocumentType", "DocumentNum", "Country", "Auth"."UserBasicInfo"."Name" AS "Name", "LastName", "Media"."Name" AS "AvatarName", "Media"."Type" AS "AvatarType", "Phone", "Email", "Address" FROM "Auth"."User" INNER JOIN "Auth"."UserBasicInfo" ON "Auth"."User"."Id" = "Auth"."UserBasicInfo"."UserId" INNER JOIN "Auth"."UserComplementaryInfo" ON "Auth"."User"."Id" = "Auth"."UserComplementaryInfo"."UserId" INNER JOIN "Media" ON "Media"."Id" = "Auth"."UserComplementaryInfo"."Avatar";
@@ -49,7 +49,7 @@ CREATE VIEW "Auth"."UserAll" AS SELECT "UserName", "Password", "DocumentType", "
 CREATE TABLE IF NOT EXISTS "Auth"."Group"
 (
     "Id" BIGSERIAL PRIMARY KEY,
-    "Name" VARCHAR(32) UNIQUE NOT NULL
+    "Name" TEXT UNIQUE NOT NULL
 );
 
 /*authusergroup*/
@@ -67,9 +67,9 @@ CREATE VIEW "Auth"."UserGroupAll" AS SELECT "Auth"."User"."Id" AS "UserId", "Aut
 CREATE TABLE IF NOT EXISTS "Auth"."AppRole"
 (
     "Id" BIGSERIAL PRIMARY KEY,
-    "Image" VARCHAR(32) NOT NULL,
-    "Label" VARCHAR(16) NOT NULL,
-    "Name"  VARCHAR(16) UNIQUE NOT NULL,
+    "Image" TEXT NOT NULL,
+    "Label" TEXT NOT NULL,
+    "Name"  TEXT UNIQUE NOT NULL,
     "GroupId" BIGINT NOT NULL REFERENCES "Auth"."Group" ("Id") ON UPDATE CASCADE ON DELETE CASCADE
 );
 

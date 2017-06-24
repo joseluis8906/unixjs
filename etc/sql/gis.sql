@@ -1,15 +1,15 @@
-CREATE SCHEMA IF NOT EXISTS "Gis";
+﻿CREATE SCHEMA IF NOT EXISTS "Gis";
 
 CREATE TABLE IF NOT EXISTS "Gis"."Envase"
 (
     "Id" BIGSERIAL PRIMARY KEY,
-    "Numero" INTEGER NOT NULL UNIQUE,
-    "NumeroInterno" INTEGER UNIQUE,
-    "Propietario" VARCHAR(128),
-    "Material" VARCHAR(64),
+    "Numero" TEXT NOT NULL UNIQUE,
+    "NumeroInterno" TEXT UNIQUE,
+    "Material" TEXT,
     "Capacidad" DECIMAL,
-    "ClaseProducto" VARCHAR(64),
-    "NormaTecnica" VARCHAR(64)
+    "ClaseProducto" TEXT,
+    "NormaTecnica" TEXT,
+    "Propietario" TEXT
 );
 
 CREATE TABLE IF NOT EXISTS "Gis"."EnvaseComplementaryInfo"
@@ -18,31 +18,30 @@ CREATE TABLE IF NOT EXISTS "Gis"."EnvaseComplementaryInfo"
     "Presion" DECIMAL,
     "AlturaConValvula" DECIMAL,
     "PesoConValvula" DECIMAL,
-    "Valvula" BOOLEAN,
-    "TipoValvula" VARCHAR(64),
-    "AcabadoColor" VARCHAR(128)
+    "Valvula" TEXT,
+    "TipoValvula" TEXT,
+    "AcabadoColor" TEXT
 );
 
 CREATE TABLE IF NOT EXISTS "Gis"."EnvaseGeneralidades"
 (
     "EnvaseId" BIGINT PRIMARY KEY NOT NULL REFERENCES "Gis"."Envase" ("Id") ON UPDATE CASCADE ON DELETE CASCADE,
-    "Proveedor" VARCHAR(128),
+    "Proveedor" TEXT,
     "FechaCompra" DATE,
-    "Garantia" BOOLEAN,
+    "Garantia" TEXT,
     "FechaFabricacion" DATE,
-    "PruebaHidrostatica" BOOLEAN,
-    "Alquilado" BOOLEAN,
+    "PruebaHidrostatica" TEXT,
+    "Alquilado" TEXT,
     "FechaAlquiler" DATE,
-    "Observaciones" VARCHAR(512)
+    "Observaciones" TEXT
 );
 
 CREATE TABLE IF NOT EXISTS "Gis"."Produccion1"
 (
     "EnvaseId" BIGINT PRIMARY KEY NOT NULL REFERENCES "Gis"."Envase" ("Id") ON UPDATE CASCADE ON DELETE CASCADE,
-    "Producto" VARCHAR(128),
     "FechaFabricacion" DATE,
     "FechaVencimiento" DATE,
-    "Lote" VARCHAR(16),
+    "Lote" TEXT,
     "Cantidad" DECIMAL,
     "HoraInicial" TIME
 );
@@ -51,19 +50,19 @@ CREATE TABLE IF NOT EXISTS "Gis"."Produccion2"
 (
     "EnvaseId" BIGINT PRIMARY KEY NOT NULL REFERENCES "Gis"."Envase" ("Id") ON UPDATE CASCADE ON DELETE CASCADE,
     "HoraFinal" TIME,
-    "Turno" VARCHAR(16),
-    "Observaciones" VARCHAR(512),
+    "Turno" TEXT,
+    "Observaciones" TEXT,
     "PurezaFinal" DECIMAL,
     "PresionFinal" DECIMAL
 );
 
 CREATE TABLE IF NOT EXISTS "Gis"."Cliente"
 (
-    "Id" BIGSERIAL PRIMARY KEY,
-    "NitCC" VARCHAR(32),
-    "Nombre" VARCHAR(128),
-    "Direccion" VARCHAR(128),
-    "Telefono" VARCHAR(16)
+    "Id" BIGSERIAL PRIMARY KEY NOT NULL,
+    "NitCC" TEXT,
+    "Nombre" TEXT,
+    "Direccion" TEXT,
+    "Telefono" TEXT
 );
 
 CREATE TABLE IF NOT EXISTS "Gis"."Remision"
@@ -78,6 +77,6 @@ CREATE TABLE IF NOT EXISTS "Gis"."RemisionRecord"
 (
     "RemisionId" BIGINT PRIMARY KEY NOT NULL REFERENCES "Gis"."Remision" ("Id") ON UPDATE CASCADE ON DELETE CASCADE,
     "EnvaseId" BIGINT NOT NULL REFERENCES "Gis"."Envase" ("Id") ON UPDATE CASCADE ON DELETE CASCADE,
-    "Entra" INTEGER,
-    "Sale" INTEGER
+    "Entra" Date,
+    "Sale" Date
 );

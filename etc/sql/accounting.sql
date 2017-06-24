@@ -3,18 +3,18 @@ CREATE SCHEMA IF NOT EXISTS "Accounting";
 CREATE TABLE IF NOT EXISTS "Accounting"."Company"
 (
     "Id" BIGSERIAL PRIMARY KEY,
-    "Nit" VARCHAR (64) NOT NULL UNIQUE,
-    "Name" VARCHAR (128) NOT NULL,
-    "Phone" VARCHAR (16),
-    "Movil" VARCHAR (16),
-    "Address" VARCHAR (64)
+    "Nit" TEXT NOT NULL UNIQUE,
+    "Name" TEXT NOT NULL,
+    "Phone" TEXT,
+    "Movil" TEXT,
+    "Address" TEXT
 );
 
 CREATE TABLE IF NOT EXISTS "Accounting"."Account"
 (
     "Id" BIGSERIAL PRIMARY KEY,
-    "Code" VARCHAR(16) UNIQUE NOT NULL,
-    "Name" VARCHAR(128) NOT NULL
+    "Code" TEXT UNIQUE NOT NULL,
+    "Name" TEXT NOT NULL
 );
 
 --disbursement vounchers--
@@ -22,25 +22,25 @@ CREATE TABLE IF NOT EXISTS "Accounting"."DisbVou"
 (
     "Id" BIGSERIAL PRIMARY KEY,
     "Number" BIGINT UNIQUE NOT NULL,
-    "Place" VARCHAR(32),
+    "Place" TEXT,
     "Date"  DATE,
-    "Holder" VARCHAR(64),
-    "Concept" VARCHAR(256)
+    "Holder" TEXT,
+    "Concept" TEXT
 );
 
 CREATE TABLE IF NOT EXISTS "Accounting"."DisbVouBank"
 (
-    "DisbVouId" BIGSERIAL PRIMARY KEY NOT NULL REFERENCES "Accounting"."DisbVou" ("Id") ON UPDATE CASCADE ON DELETE CASCADE,
-    "Bank" VARCHAR(32),
-    "Check" VARCHAR(16),
-    "CheckingAccount" VARCHAR(16),
-    "Amount" BIGINT NOT NULL
+    "DisbVouId" BIGSERIAL PRIMARY KEY REFERENCES "Accounting"."DisbVou" ("Id") ON UPDATE CASCADE ON DELETE CASCADE,
+    "Bank" TEXT,
+    "Check" TEXT,
+    "CheckingAccount" TEXT,
+    "Amount" BIGINT
 );
 
 CREATE TABLE IF NOT EXISTS "Accounting"."DisbVouRecord"
 (
-    "DisbVouId" BIGSERIAL NOT NULL REFERENCES "Accounting"."DisbVou" ("Id") ON UPDATE CASCADE ON DELETE CASCADE,
-    "AccountId" BIGSERIAL NOT NULL REFERENCES "Accounting"."Account" ("Id") ON UPDATE CASCADE ON DELETE CASCADE,
+    "DisbVouId" BIGSERIAL REFERENCES "Accounting"."DisbVou" ("Id") ON UPDATE CASCADE ON DELETE CASCADE,
+    "AccountId" BIGSERIAL REFERENCES "Accounting"."Account" ("Id") ON UPDATE CASCADE ON DELETE CASCADE,
     "Debit" BIGINT,
     "Credit" BIGINT,
     PRIMARY KEY ("DisbVouId", "AccountId")
@@ -54,13 +54,13 @@ CREATE TABLE IF NOT EXISTS "Accounting"."Note"
     "Id" BIGSERIAL PRIMARY KEY,
     "Number" BIGINT UNIQUE NOT NULL,
     "Date" DATE,
-    "Concept" VARCHAR(256)
+    "Concept" TEXT
 );
 
 CREATE TABLE IF NOT EXISTS "Accounting"."NoteRecord"
 (
-    "NoteId" BIGSERIAL NOT NULL REFERENCES "Accounting"."Note" ("Id") ON UPDATE CASCADE ON DELETE CASCADE,
-    "AccountId" BIGSERIAL NOT NULL REFERENCES "Accounting"."Account" ("Id") ON UPDATE CASCADE ON DELETE CASCADE,
+    "NoteId" BIGSERIAL REFERENCES "Accounting"."Note" ("Id") ON UPDATE CASCADE ON DELETE CASCADE,
+    "AccountId" BIGSERIAL REFERENCES "Accounting"."Account" ("Id") ON UPDATE CASCADE ON DELETE CASCADE,
     "Debit" BIGINT,
     "Credit" BIGINT,
     PRIMARY KEY ("NoteId", "AccountId")
@@ -74,13 +74,13 @@ CREATE TABLE IF NOT EXISTS "Accounting"."Income"
     "Id" BIGSERIAL PRIMARY KEY,
     "Number" BIGINT UNIQUE NOT NULL,
     "Date" DATE,
-    "Concept" VARCHAR(256)
+    "Concept" TEXT
 );
 
 CREATE TABLE IF NOT EXISTS "Accounting"."IncomeRecord"
 (
-    "IncomeId" BIGSERIAL NOT NULL REFERENCES "Accounting"."Income" ("Id") ON UPDATE CASCADE ON DELETE CASCADE,
-    "AccountId" BIGSERIAL NOT NULL REFERENCES "Accounting"."Account" ("Id") ON UPDATE CASCADE ON DELETE CASCADE,
+    "IncomeId" BIGSERIAL REFERENCES "Accounting"."Income" ("Id") ON UPDATE CASCADE ON DELETE CASCADE,
+    "AccountId" BIGSERIAL REFERENCES "Accounting"."Account" ("Id") ON UPDATE CASCADE ON DELETE CASCADE,
     "Debit" BIGINT,
     "Credit" BIGINT,
     PRIMARY KEY ("IncomeId", "AccountId")
