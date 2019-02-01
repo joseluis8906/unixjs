@@ -1,0 +1,23 @@
+{
+  "name": "unixjs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "Jose Luis Cáceres Escudero",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/joseluis8906/unixjs.git"
+  },
+  "bugs": {
+    "url": "https://github.com/joseluis8906/unixjs/issues"
+  },
+  "homepage": "https://github.com/joseluis8906/unixjs#readme",
+  "dependencies": {
+    "express": "^4.16.4"
+  }
+}
