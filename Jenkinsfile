@@ -13,7 +13,7 @@ pipeline {
     }
     stage ("Run") {
       steps {
-        sh "npm run serve"
+        sh "npm run serve&"
         input message: "Finished using the web site? (Click \"Proceed\" to continue)"
       }
     }
