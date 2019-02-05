@@ -68,7 +68,7 @@ function mmone ()
 {
     Gwt.Gui.Window.call (this, "Colas Con Un Servidor");
 	
-    this.SetSize (715, 480);
+    this.SetSize (715, 540);
     this.SetPosition (Gwt.Gui.WIN_POS_CENTER);
 
     this.layout = new Gwt.Gui.VBox ();
@@ -111,10 +111,10 @@ function mmone ()
     this.slot0_row2 = new Gwt.Gui.HBox(48);
     this.slider.AddSlotWidget(0, this.slot0_row2);
     
-    this.inputs1 = new inputs(new Gwt.Gui.IconEntry (Gwt.Core.Contrib.Images+"appbar.group.svg", "Número de clientes"), new Gwt.Gui.IconEntry (Gwt.Core.Contrib.Images+"appbar.timer.svg", "Tiempo"), new Gwt.Gui.SelectBox ("En", [{"text": "Minutos", "value": "mins"}, {"text": "Horas", "value": "hrs"}]));
+    this.inputs1 = new inputs(new Gwt.Gui.IconEntry (Gwt.Core.Contrib.Images+"appbar.group.svg", "Número de clientes"), new Gwt.Gui.IconEntry (Gwt.Core.Contrib.Images+"appbar.timer.svg", "Tiempo"), new Gwt.Gui.SelectBox ("En", [{"Text": "Minutos", "Value": "mins"}, {"Text": "Horas", "Value": "hrs"}]));
     this.slot0_row2.Add (this.inputs1);
     
-    this.inputs2 = new inputs(new Gwt.Gui.IconEntry (Gwt.Core.Contrib.Images+"appbar.group.svg", "Número de clientes"), new Gwt.Gui.IconEntry (Gwt.Core.Contrib.Images+"appbar.timer.svg", "Tiempo"), new Gwt.Gui.SelectBox ("En", [{"text": "Minutos", "value": "mins"}, {"text": "Horas", "value": "hrs"}]));
+    this.inputs2 = new inputs(new Gwt.Gui.IconEntry (Gwt.Core.Contrib.Images+"appbar.group.svg", "Número de clientes"), new Gwt.Gui.IconEntry (Gwt.Core.Contrib.Images+"appbar.timer.svg", "Tiempo"), new Gwt.Gui.SelectBox ("En", [{"Text": "Minutos", "Value": "mins"}, {"Text": "Horas", "Value": "hrs"}]));
     this.slot0_row2.Add (this.inputs2);
         
     this.frameAux = new Gwt.Gui.Frame ();
@@ -232,7 +232,7 @@ mmone.prototype.calc = function ()
     var lambda = 0;
     var numclient1 = this.inputs1.client.Control.GetText ();
     var time1 = this.inputs1.time.Control.GetText ();
-    var type_time1 = this.inputs1.type_time.GetValue ();
+    var type_time1 = this.inputs1.type_time.GetText ();
     
     if(type_time1 === "mins")
     {
@@ -246,7 +246,7 @@ mmone.prototype.calc = function ()
     var miu = 0;
     var numclient2 = this.inputs2.client.Control.GetText ();
     var time2 = this.inputs2.time.Control.GetText ();
-    var type_time2 = this.inputs2.type_time.GetValue ();
+    var type_time2 = this.inputs2.type_time.GetText ();
     
     if(type_time2 === "mins")
     {
