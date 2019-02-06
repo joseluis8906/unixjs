@@ -8,7 +8,7 @@ const Session = require("./sbin/contrib/Session");
 const GControl = require("./sbin/GControl");
 
 app.use(express.json());
-app.get("/", (req, res) => res.send("Unixjs"));
+app.get("/", (req, res) => res.redirect("/unixjs.html"));
 
 app.all("/session/", (req, res) => new Session(req, res));
 app.all("/gcontrol/", (req, res) => new GControl(req, res));
