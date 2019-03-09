@@ -13,7 +13,7 @@ function gpanel ()
 
     this.Layout = new Gwt.Gui.HBox(5);
     this.Task = new Gwt.Gui.Frame();
-    this.TxtName = new Gwt.Gui.StaticText ("Usuario: ");
+    this.TxtName = new Gwt.Gui.StaticText ("Usuario: " + sessionStorage.getItem("user"));
     this.BtnLogout = new Gwt.Gui.Image (Gwt.Core.Contrib.Images+"appbar.power.svg");
 
     this.DisableTitleBar ();

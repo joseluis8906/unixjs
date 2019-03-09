@@ -9,18 +9,21 @@ function gencryptor ()
     this.SetSize (480, 450);
     this.SetPosition (Gwt.Gui.WIN_POS_CENTER);
 
+    this.EnableMenu ();
+    this.AddMenuItem (Gwt.Core.Contrib.Images + "appbar.power.svg", "Salir", function(){window.gcontrol.open();}, Gwt.Gui.MENU_QUIT_APP);
+
     this.layout = new Gwt.Gui.VBox ();
     this.layout.SetAlignment(Gwt.Gui.ALIGN_CENTER);
-    this.Add (this.layout);
+    this.SetLayout (this.layout);
     this.SetBorderSpacing (12);
 
     //this.ent_clav_cifr = new Gwt.Gui.IconEntry(Gwt.Core.Contrib.Frontend+Gwt.Core.Contrib.Images+"appbar.notification.svg", "Clave De Cifrado");
     //this.ent_clav_cifr.SetMaxLength (16);
     this.lbl_source = new Gwt.Gui.StaticText ("Texto Fuente:");
-    this.txt_source = new Gwt.Gui.Text ("Texto:");
-    this.sel_enc_dec = new Gwt.Gui.IconSelectBox (Gwt.Core.Contrib.Frontend+Gwt.Core.Contrib.Images+"appbar.notification.star.svg", "Acción", [{"text": "Cifrar Texto", "value": "cifrar"}, {"text": "Descifrar Texto", "value": "descifrar"}]);
+    this.txt_source = new Gwt.Gui.Text ("escriba el texto original |");
+    this.sel_enc_dec = new Gwt.Gui.IconSelectBox (Gwt.Core.Contrib.Images+"appbar.notification.star.svg", "Acción", [{"Text": "Cifrar Texto", "Value": "cifrar"}, {"Text": "Descifrar Texto", "Value": "descifrar"}]);
     this.lbl_result = new Gwt.Gui.StaticText ("Texto Resultante:");
-    this.txt_result = new Gwt.Gui.Text ("Texto:");
+    this.txt_result = new Gwt.Gui.Text ("|");
     this.btn_action = new Gwt.Gui.Button (Gwt.Core.Contrib.Images+"appbar.arrow.right.svg", "Cifrar/Descifrar");
     this.btn_action.SetWidth (145);
     this.btn_action.AddEvent(Gwt.Gui.Event.Mouse.Click, this.action_calback.bind(this));
@@ -39,7 +42,7 @@ gencryptor.prototype.constructor = gencryptor;
 
 gencryptor.prototype.action_calback = function ()
 {
-    var option = this.sel_enc_dec.GetValue ();
+    var option = this.sel_enc_dec.GetText ();
     if (option === "cifrar")
     {
         this.encrypt ();

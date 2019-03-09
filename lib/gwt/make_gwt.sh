@@ -61,8 +61,8 @@ cat graphic/svg/arc.js >> gwt.js
 
 
 #compile and mimic
-yuicompressor.sh gwt.js
+#yuicompressor.sh gwt.js
 
-mv gwt.min.js ../
+#mv gwt.min.js ../
 
 echo "gwt.js maked"
