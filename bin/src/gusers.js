@@ -6,7 +6,7 @@ function gusers ()
 {
     Gwt.Gui.Window.call (this, "Usuarios");
 
-    this.SetSize (320, 548);
+    this.SetSize (320, 480);
     this.SetPosition (Gwt.Gui.WIN_POS_CENTER);
     this.SetBorderSpacing (12);
     this.Rpc = new Gwt.Core.Rpc ("/gusers/");
@@ -49,6 +49,7 @@ function gusers ()
     this.Layout.Add (this.Phone);
     this.Layout.Add (this.Email);
     this.Layout.Add (this.Address);
+    this.Layout.SetScrollable();
 
     this.UserName.SetTabIndex(1);
     this.Password.SetTabIndex(2);
@@ -61,7 +62,7 @@ function gusers ()
     this.Email.SetTabIndex(9);
     this.Address.SetTabIndex(10);
 
-    this.Add (this.Avatar.GetEditor ());
+    this.Add(this.Avatar.GetEditor());
 
     this.UserName.AddEvent (Gwt.Gui.Event.Keyboard.KeyUp, this.Select.bind(this));
 }

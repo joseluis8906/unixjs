@@ -12,11 +12,10 @@ function gcontrol ()
     this.Row2 = new Gwt.Gui.HBox(8);
     this.Row3 = new Gwt.Gui.HBox(8);
     this.Row4 = new Gwt.Gui.HBox(8);
-    this.Row5 = new Gwt.Gui.HBox(8);
     this.Icons = [];
 
     this.DisableTitleBar ();
-    this.SetSize (544, 544);
+    this.SetSize (544, 480);
     this.SetPosition (Gwt.Gui.WIN_POS_CENTER);
     this.SetBorderSpacing (12);
 
@@ -27,12 +26,10 @@ function gcontrol ()
     this.Row2.SetAlignment (Gwt.Gui.ALIGN_TOP);
     this.Row3.SetAlignment (Gwt.Gui.ALIGN_TOP);
     this.Row4.SetAlignment (Gwt.Gui.ALIGN_TOP);
-    this.Row5.SetAlignment (Gwt.Gui.ALIGN_TOP);
     this.Layout.Add (this.Row1);
     this.Layout.Add (this.Row2);
     this.Layout.Add (this.Row3);
     this.Layout.Add (this.Row4);
-    this.Layout.Add (this.Row5);
 
     if (window.Gwt.Core.Apps.length === 0)
     {
@@ -92,10 +89,6 @@ gcontrol.prototype.LoadIconApps = function ()
         else if (i >= 15 && i < 20)
         {
             this.Row4.Add (this.Icons[i]);
-        }
-        else if (i >= 20 && i < 25)
-        {
-            this.Row5.Add (this.Icons[i]);
         }
     }
 }
