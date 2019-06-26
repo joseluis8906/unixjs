@@ -48,7 +48,7 @@ function test ()
 	this.buttonoff.SetPosition (25, 25);
 	
 	this.Add (this.file1);
-    this.Add (this.buttonoff);
+  this.Add (this.buttonoff);
 	
 	/*this.graphic.Add (this.rect1);
 	this.graphic.Add (this.circle1);
@@ -65,7 +65,6 @@ test.prototype.send = function ()
 {
 	var data = {"user_info": {"document": "1098671330", "document_type": "c.c"}, "userfile": this.file1.GetData ()};
 	new Gwt.Core.Request ("/backend/upload_file/", this.response.bind (this), data);
-	
 }
 
 test.prototype.response = function (data)
