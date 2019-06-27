@@ -24,18 +24,18 @@ function gusers ()
     this.Avatar = new Gwt.Gui.Avatar ("Avatar", "jpg", 480, 480, this.Upload.bind(this));
     this.Avatar.SetSizeEditor (this.GetAvailableWidth(), this.GetAvailableHeight());
     this.Title = new Gwt.Gui.StaticText ("Datos:");
-    this.UserName = new Gwt.Gui.IconEntry(Gwt.Core.Contrib.Images+"appbar.user.tie.svg", "Usuario");
-    this.Password = new Gwt.Gui.IconEntry(Gwt.Core.Contrib.Images+"appbar.lock.svg", "Contraseña");
+    this.UserName = new Gwt.Gui.IconEntry(Gwt.Core.Contrib.Images + "appbar.user.tie.svg", "Usuario");
+    this.Password = new Gwt.Gui.IconEntry(Gwt.Core.Contrib.Images + "appbar.lock.svg", "Contraseña");
     this.Password.ChangeToPassword ();
     this.Password.SetMaxLength(4);
-    this.DocType = new Gwt.Gui.IconSelectBox (Gwt.Core.Contrib.Images+"appbar.notification.star.svg", "Tipo de Documento", [{"Text": "Tarjeta de Identidad", "Value": "T.I"}, {"Text": "Cédula de Ciudadanía", "Value": "C.C"}, {"Text": "Registro Civil", "Value": "R.C"}, {"Text": "Cédula Extranjera", "Value": "C.E"}, {"Text": "Pasaporte", "Value": "PS"}, {"Text": "Libreta Militar", "Value": "L.M"}]);
-    this.DocNum = new Gwt.Gui.IconEntry(Gwt.Core.Contrib.Images+"appbar.notification.svg", "Número de Documento");
-    this.Country = new Gwt.Gui.IconSelectBox (Gwt.Core.Contrib.Images+"appbar.globe.svg", "País", Gwt.Core.Contrib.COUNTRIES_ISO);
-    this.Name = new Gwt.Gui.IconEntry(Gwt.Core.Contrib.Images+"appbar.user.svg", "Nombre");
-    this.LastName = new Gwt.Gui.IconEntry(Gwt.Core.Contrib.Images+"appbar.user.add.svg", "Apellidos");
-    this.Phone = new Gwt.Gui.IconEntry(Gwt.Core.Contrib.Images+"appbar.phone.svg", "Teléfono");
-    this.Email = new Gwt.Gui.IconEntry(Gwt.Core.Contrib.Images+"appbar.at.svg", "Correo Electrónico");
-    this.Address = new Gwt.Gui.IconEntry(Gwt.Core.Contrib.Images+"appbar.home.location.round.svg", "Dirección de Residencia");
+    this.DocType = new Gwt.Gui.IconSelectBox (Gwt.Core.Contrib.Images + "appbar.notification.star.svg", "Tipo de Documento", [{"Text": "Tarjeta de Identidad", "Value": "T.I"}, {"Text": "Cédula de Ciudadanía", "Value": "C.C"}, {"Text": "Registro Civil", "Value": "R.C"}, {"Text": "Cédula Extranjera", "Value": "C.E"}, {"Text": "Pasaporte", "Value": "PS"}, {"Text": "Libreta Militar", "Value": "L.M"}]);
+    this.DocNum = new Gwt.Gui.IconEntry(Gwt.Core.Contrib.Images + "appbar.notification.svg", "Número de Documento");
+    this.Country = new Gwt.Gui.IconSelectBox (Gwt.Core.Contrib.Images + "appbar.globe.svg", "País", Gwt.Core.Contrib.COUNTRIES_ISO);
+    this.Name = new Gwt.Gui.IconEntry(Gwt.Core.Contrib.Images + "appbar.user.svg", "Nombre");
+    this.LastName = new Gwt.Gui.IconEntry(Gwt.Core.Contrib.Images + "appbar.user.add.svg", "Apellidos");
+    this.Phone = new Gwt.Gui.IconEntry(Gwt.Core.Contrib.Images + "appbar.phone.svg", "Teléfono");
+    this.Email = new Gwt.Gui.IconEntry(Gwt.Core.Contrib.Images + "appbar.at.svg", "Correo Electrónico");
+    this.Address = new Gwt.Gui.IconEntry(Gwt.Core.Contrib.Images + "appbar.home.location.round.svg", "Dirección de Residencia");
 
     this.Layout.Add (this.Avatar);
     this.Layout.Add (this.Title);

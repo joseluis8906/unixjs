@@ -14,10 +14,9 @@ module.exports = class GControl {
     return res.json([
       {Name: "giscuvi", Type: "GUI", Label: "Giscuvi", Image: "basket.svg"},
       {Name: "gusers", Type: "GUI", Label: "Usuarios", Image: "user.png"},
-      //{Name: "mmone", Type: "GUI", Label: "MMone", Image: "terminal.png"},
       {Name: "gencryptor", Type: "GUI", Label: "Encryptor", Image: "hexedit.svg"},
       {Name: "domotictrl", Type: "GUI", Label: "Domotic", Image: "hwinfo.svg"},
-      {Name: "test", Type: "CLI"}
+      {Name: "test", Type: "GUI", Label: "Test", Image: "artha.svg"}
     ]);
   }
 }
